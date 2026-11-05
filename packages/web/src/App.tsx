@@ -6,6 +6,7 @@ import {
   type CanvasLike,
   type GameProfile,
   type PolicyDecision,
+  type RightsRecord,
   type RuntimeAdapter,
   type RuntimeStatus
 } from "@rgme/core";
@@ -17,6 +18,7 @@ import { ControllerHUD } from "./components/ControllerHUD";
 import { useKeyboardInput } from "./hooks/useKeyboardInput";
 import { hashFile } from "./lib/hash";
 import { buildProfileFromFile } from "./lib/profile";
+import { DEMO_PROFILE, DEMO_RIGHTS } from "./samples/demo";
 
 export type AdapterFactory = (canvas: CanvasLike | null) => RuntimeAdapter;
 const defaultFactory: AdapterFactory = (canvas) => new MockRuntimeAdapter(canvas ?? undefined);
@@ -58,23 +60,32 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
 
   useKeyboardInput(press, profile?.input, status.state === "RUNNING");
 
+  const activate = useCallback(async (p: GameProfile, rights: RightsRecord | undefined) => {
+    const record = rights ?? unknownRightsRecord(p.id);
+    setProfile(p);
+    setDecisions({
+      private_execution: engine.evaluateAction(record, { action: "private_execution" }),
+      binary_redistribution: engine.evaluateAction(record, { action: "binary_redistribution" })
+    });
+    setHasSave(false);
+    await adapterRef.current?.loadGame(p);
+  }, []);
+
+  const loadDemo = useCallback(async () => {
+    setInfo({ name: DEMO_PROFILE.media[0]!.filename, size: 0, sha256: DEMO_PROFILE.media[0]!.sha256, status: "Identified" });
+    await activate(DEMO_PROFILE, DEMO_RIGHTS);
+    adapterRef.current?.start();
+  }, [activate]);
+
   const onFile = useCallback(
     async (file: File) => {
       setInfo({ name: file.name, size: file.size, status: "Analyzing" });
       const sha256 = await hashFile(file);
       // No bundled hash registry in the browser yet: unrecognized => Unknown (local play only).
       setInfo({ name: file.name, size: file.size, sha256, status: "Unknown" });
-      const p = buildProfileFromFile(file.name, sha256);
-      const record = unknownRightsRecord(p.id);
-      setProfile(p);
-      setDecisions({
-        private_execution: engine.evaluateAction(record, { action: "private_execution" }),
-        binary_redistribution: engine.evaluateAction(record, { action: "binary_redistribution" })
-      });
-      setHasSave(false);
-      await adapterRef.current?.loadGame(p);
+      await activate(buildProfileFromFile(file.name, sha256), undefined);
     },
-    []
+    [activate]
   );
 
   const state = status.state;
@@ -95,6 +106,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       <main className="grid gap-4 p-4 flex-1 md:grid-cols-[320px_1fr]">
         <div className="flex flex-col gap-4">
           <Dropzone info={info} onFile={onFile} />
+          <button className="rgme-btn" onClick={() => void loadDemo()} data-testid="load-demo">Load demo profile</button>
           <GameProfileInspector profile={profile} decisions={decisions} />
           <section className="rgme-panel">
             <div className="flex gap-2">

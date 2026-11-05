@@ -121,7 +121,7 @@
       "estimatedEffort": "2",
       "dependsOn": ["CLI-001", "UI-001"],
       "type": "testing",
-      "passes": false
+      "passes": true
     }
   ]
 }
