@@ -31,12 +31,15 @@ import {
   type RuntimeStatus,
   ArchiveOrgConnector,
   type RetroGameMetadata,
-  type RetroGameVersion
+  type RetroGameVersion,
+  KickstartRomStore
 } from "@rgme/core";
 import { Header } from "./components/Header";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette";
 import { KeyboardShortcutsModal } from "./components/KeyboardShortcutsModal";
 import { CloudStreamModal } from "./components/CloudStreamModal";
+import { KickstartModal } from "./components/KickstartModal";
+import { CoreTelemetryHUD } from "./components/CoreTelemetryHUD";
 import { parseM3u } from "./lib/m3u";
 import { Dropzone, type DroppedInfo } from "./components/Dropzone";
 import { GameProfileInspector } from "./components/GameProfileInspector";
@@ -121,6 +124,17 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const [driveSoundEnabled, setDriveSoundEnabled] = useState(true);
   const library = useMemo(() => new GameLibraryStore(), []);
   const saves = useMemo(() => new SaveStateManager(IndexedDbSaveStore.available() ? new IndexedDbSaveStore() : new MemorySaveStore()), []);
+  const kickstartStore = useMemo(() => new KickstartRomStore(), []);
+  const [romModalOpen, setRomModalOpen] = useState(false);
+  const [activeRomName, setActiveRomName] = useState<string>("AROS 68k (Built-in)");
+  const activeRomBytesRef = useRef<Uint8Array | undefined>(undefined);
+
+  useEffect(() => {
+    void kickstartStore.getActiveRom().then((r) => {
+      setActiveRomName(r.meta.name);
+      activeRomBytesRef.current = r.bytes;
+    });
+  }, [kickstartStore]);
 
   const unloadGame = useCallback(() => {
     if (adapterRef.current) {
@@ -216,7 +230,9 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       const canvas = canvasRef.current;
       let a: RuntimeAdapter;
       if (p.platform === "amiga") {
-        a = kind === "mock" ? createAdapter(canvas as unknown as CanvasLike) : createRuntime(kind, canvas, { media: mediaRegistry });
+        a = kind === "mock"
+          ? createAdapter(canvas as unknown as CanvasLike)
+          : createRuntime(kind, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
       } else {
         a = createPlatformAdapter(p.platform, (canvas ?? undefined) as unknown as CanvasLike | undefined, createPlatformAudio(p.platform, createBrowserAudioContext));
       }
@@ -642,6 +658,13 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         run: () => void switchRuntime("wasm")
       },
       {
+        id: "kickstart-roms",
+        category: "Runtime",
+        title: "Kickstart ROM Settings",
+        detail: "Inspect or configure Amiga Kickstart ROMs (AROS or BYOR)",
+        run: () => setRomModalOpen(true)
+      },
+      {
         id: "toggle-crt",
         category: "Display",
         title: crt ? "Disable CRT Shader" : "Enable CRT Shader",
@@ -715,6 +738,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   ]);
 
   const state = status.state;
+  const frame = status.frame;
   const canExport = decisions?.binary_redistribution.decision === "allow";
   const exportReason = useMemo(
     () =>
@@ -811,6 +835,13 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           )}
           <div className="mt-2 w-full rgme-controls-container">
             <RuntimeSwitch kind={runtimeKind} onChange={(k) => void switchRuntime(k)} disabledWasmReason={profile && profile.platform !== "amiga" ? "The WASM core runtime is Amiga-only." : undefined} />
+            <CoreTelemetryHUD
+              runtimeKind={runtimeKind}
+              state={state}
+              frame={frame}
+              activeRomName={activeRomName}
+              onOpenRomSettings={() => setRomModalOpen(true)}
+            />
           </div>
           {runtimeError && <p role="alert" className="text-sm mt-2 w-full rgme-controls-container" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
           <div className="flex flex-wrap gap-2 mt-3 w-full rgme-controls-container">
@@ -870,6 +901,20 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
       <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
       <CloudStreamModal open={cloudOpen} onClose={() => setCloudOpen(false)} onMountMedia={onStreamMedia} />
+      <KickstartModal
+        open={romModalOpen}
+        onClose={() => setRomModalOpen(false)}
+        store={kickstartStore}
+        onRomChanged={(meta) => {
+          setActiveRomName(meta.name);
+          void kickstartStore.getActiveRom().then((r) => {
+            activeRomBytesRef.current = r.bytes;
+            if (runtimeKindRef.current === "wasm" && profile) {
+              void activate(profile, rightsRecord);
+            }
+          });
+        }}
+      />
 
       {/* Master Reset Layover Button (bottom right) */}
       <button

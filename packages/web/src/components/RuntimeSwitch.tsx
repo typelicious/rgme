@@ -40,7 +40,7 @@ export function RuntimeSwitch({
         })}
       </div>
       <span style={{ color: "var(--rgme-fg-secondary)" }} data-testid="runtime-note">
-        {kind === "wasm" ? "reference core (timing/integration test, not an emulator)" : kind === "m68k" ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga" : "mock test-pattern runtime"}
+        {kind === "wasm" ? "WebAssembly Amiga 68000 reference core (OCS/ECS + AROS Kickstart; timing/integration test, not an emulator)" : kind === "m68k" ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga" : "mock test-pattern runtime"}
       </span>
     </div>
   );

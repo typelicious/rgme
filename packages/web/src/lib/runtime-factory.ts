@@ -1,5 +1,5 @@
 import {
-  ChiptunePlayer, M68kBootAdapter, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader,
+  ChiptunePlayer, M68kBootAdapter, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader, wasmAmigaCoreLoader,
   type CanvasLike, type Media, type RuntimeAdapter, type WasmCanvasLike, type WasmCoreLoader
 } from "@rgme/core";
 
@@ -27,6 +27,7 @@ export interface RuntimeFactoryOptions {
   /** Override the loader entirely (tests). */
   loader?: WasmCoreLoader;
   media?: MediaRegistry;
+  kickstartRom?: Uint8Array;
 }
 
 /**
@@ -42,7 +43,7 @@ export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | nul
     const media = opts.media ?? new MediaRegistry();
     return new M68kBootAdapter({ mediaProvider: media.provider, canvas: (canvas ?? undefined) as unknown as CanvasLike | undefined });
   }
-  const loader = opts.loader ?? (opts.coreUrl ? urlLoader(opts.coreUrl) : referenceCoreLoader());
+  const loader = opts.loader ?? (opts.coreUrl ? urlLoader(opts.coreUrl) : wasmAmigaCoreLoader({ kickstartRom: opts.kickstartRom }));
   const media = opts.media ?? new MediaRegistry();
   return new WasmAmigaAdapter({ loader, mediaProvider: media.provider, canvas: (canvas ?? undefined) as unknown as WasmCanvasLike | undefined });
 }

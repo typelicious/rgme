@@ -1,13 +1,22 @@
 import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { buildPlayerSource } from "../../scripts/build-player.mjs";
 import { PLAYER_JS } from "../export/player-bundle.generated.js";
 import { buildExport, bytesToBase64, evaluateExportGate, sha256Hex, toYaml, freewareEntryToProfile, freewareEntryToRights, matrixRecordToRights, unknownRightsRecord, type FreewareEntry } from "../index.js";
 
-const entries = JSON.parse(readFileSync(resolve(process.cwd(), "../../concept/fixtures/freeware-games.json"), "utf8")) as FreewareEntry[];
+function getFixturePath(rel: string): string {
+  const p1 = fileURLToPath(new URL(`../../../../concept/fixtures/${rel}`, import.meta.url));
+  if (existsSync(p1)) return p1;
+  const p2 = resolve(process.cwd(), `concept/fixtures/${rel}`);
+  if (existsSync(p2)) return p2;
+  return resolve(process.cwd(), `../../concept/fixtures/${rel}`);
+}
+
+const entries = JSON.parse(readFileSync(getFixturePath("freeware-games.json"), "utf8")) as FreewareEntry[];
 const sceneEntry = entries.find((e) => e.id === "rgme-scene-intro")!;
-const adf = new Uint8Array(readFileSync(resolve(process.cwd(), "../../concept/fixtures/rgme-scene-intro.adf")));
+const adf = new Uint8Array(readFileSync(getFixturePath("rgme-scene-intro.adf")));
 
 function restricted(id: string, title: string) {
   const profile = freewareEntryToProfile({ ...sceneEntry, id, canonical_title: title, filename: `${id}.adf`, sha256: "c".repeat(64) });

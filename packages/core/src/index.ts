@@ -22,3 +22,4 @@ export * from "./archive/archive-connector.js";
 export * from "./archive/archive-source-store.js";
 export * from "./archive/archive-metadata-parser.js";
 export * from "./archive/archive-bookmark-store.js";
+export * from "./rom/kickstart-rom-store.js";

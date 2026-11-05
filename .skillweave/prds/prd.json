@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.8.0",
-  "status": "in_progress",
+  "version": "0.9.0",
+  "status": "completed",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 8 (Rich Library Overhaul, Archive.org Source Management & Steam/YouTube Retro Hub)",
+  "milestone": "Milestone 9 (WebAssembly Amiga Hardware Core, Kickstart ROM Management & Direct Disk Execution)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -581,6 +581,66 @@
       "priority": "high",
       "estimatedEffort": "3",
       "dependsOn": ["M8-CARDS-001"],
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M9-WASM-001",
+      "title": "Production-Grade WebAssembly Amiga Hardware Core & Direct Execution",
+      "description": "Full WebAssembly Core implementing the RGME WASM Core Contract with 68000 CPU instructions, OCS/ECS Custom Chips, 320x256 PAL frame generation, and ADF sector loading.",
+      "acceptanceCriteria": [
+        "Contract exports: rgme_init, rgme_alloc, rgme_load_media, rgme_run_frame, rgme_framebuffer_ptr, rgme_framebuffer_width, rgme_framebuffer_height, rgme_set_input, rgme_reset, rgme_cycle_counter, rgme_audio_ptr, rgme_audio_samples",
+        "PAL 50Hz cycle budget accounting (141,875 cycles/frame)",
+        "320x256 PAL frame rendering with dynamic Copper synchronization",
+        "Save state serialization and restoration"
+      ],
+      "priority": "critical",
+      "estimatedEffort": "3",
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M9-KICKSTART-001",
+      "title": "Kickstart ROM Manager with Open AROS Compatibility & BYOR Injection",
+      "description": "Seamless Kickstart ROM store with built-in open-source AROS fallback and BYOR support for authentic Commodore ROMs.",
+      "acceptanceCriteria": [
+        "KickstartRomStore managing ROM bytes with IndexedDB persistence",
+        "Built-in open AROS 68k minimal Kickstart ROM",
+        "BYOR support with SHA-256 fingerprinting for Kickstart 1.2, 1.3, 2.04, 3.1"
+      ],
+      "priority": "critical",
+      "estimatedEffort": "2",
+      "dependsOn": ["M9-WASM-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M9-AUDIO-001",
+      "title": "Paula DMA Web Audio Streaming & Dynamic Mixing",
+      "description": "Web Audio streamer reading 16-bit PCM samples from WASM core and playing smoothly without underruns or buzzing.",
+      "acceptanceCriteria": [
+        "WasmAudioStreamer queueing and playing 44.1kHz stereo audio",
+        "Volume control and mute support",
+        "Zero buzzing or freeze sounds on stop or reset"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M9-WASM-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M9-UI-001",
+      "title": "Core Telemetry HUD & Kickstart ROM Settings Modal",
+      "description": "Diagnostic HUD and ROM configuration modal for the RGME web interface.",
+      "acceptanceCriteria": [
+        "CoreTelemetryHUD showing core kind, state, frame count, and active ROM",
+        "KickstartModal for inspecting, selecting, and dropping custom ROM files",
+        "Seamless integration with RuntimeSwitch and 1-click execution"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M9-KICKSTART-001", "M9-AUDIO-001"],
       "type": "ui",
       "passes": true
     }

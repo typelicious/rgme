@@ -5,6 +5,7 @@ build/
 coverage/
 .turbo/
 *.log
+*.tsbuildinfo
 
 # OS & Editor
 .DS_Store
