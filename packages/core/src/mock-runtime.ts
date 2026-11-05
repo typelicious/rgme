@@ -1,7 +1,7 @@
 import type { DisplayProfile, GameProfile, InputMapping, Media } from "./profile.js";
 import { drawSceneIntro } from "./scene-intro.js";
 import type { AudioSink } from "./chiptune.js";
-import type { RuntimeAdapter, RuntimeCapabilities, RuntimeState, RuntimeStatus, SaveStateMeta } from "./runtime.js";
+import type { RuntimeAdapter, RuntimeCapabilities, RuntimeSnapshot, RuntimeState, RuntimeStatus, SaveStateMeta } from "./runtime.js";
 
 /** Minimal 2D context surface used by the mock (satisfied by CanvasRenderingContext2D). */
 export interface Canvas2DLike {
@@ -208,6 +208,34 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   private clearTimer() {
     if (this.timer !== undefined) clearInterval(this.timer);
     this.timer = undefined;
+  }
+
+  exportSnapshot(): RuntimeSnapshot {
+    if (!this.profile || this._state === "UNLOADED" || this._state === "STOPPED") throw new Error(`Cannot snapshot while ${this._state}`);
+    return {
+      version: 1,
+      adapterId: "mock",
+      profileId: this.profile.id,
+      frame: this.frame,
+      inputs: [...this.pressed].sort(),
+      media: this.media.map((x) => ({ ...x })),
+      display: this.display ? { ...this.display } : undefined,
+      state: this._state
+    };
+  }
+
+  importSnapshot(s: RuntimeSnapshot): void {
+    if (!this.profile || this._state === "UNLOADED" || this._state === "STOPPED") throw new Error(`Cannot restore snapshot while ${this._state}`);
+    if (s.version !== 1) throw new Error(`Unsupported snapshot version ${String(s.version)}`);
+    if (s.adapterId !== "mock") throw new Error(`Snapshot belongs to adapter "${s.adapterId}"`);
+    if (s.profileId !== this.profile.id) throw new Error(`Snapshot is for "${s.profileId}", loaded game is "${this.profile.id}"`);
+    this.frame = s.frame;
+    this.pressed = new Set(s.inputs);
+    this.media = s.media.map((x) => ({ ...x }));
+    if (s.display) this.display = { ...s.display };
+    this.pulseDisk();
+    this.draw();
+    this.emit();
   }
 
   setMuted(muted: boolean) {

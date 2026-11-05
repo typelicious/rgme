@@ -5,7 +5,18 @@ const DIRS = [
   { id: "down", label: "▼", col: 2, row: 3 }
 ] as const;
 
-export function ControllerHUD({ active, press }: { active: ReadonlySet<string>; press: (action: string, down: boolean) => void }) {
+export function ControllerHUD({
+  active,
+  press,
+  physical,
+  gamepadName
+}: {
+  active: ReadonlySet<string>;
+  press: (action: string, down: boolean) => void;
+  /** Amiga actions currently held on a real gamepad (shown as an extra ring). */
+  physical?: ReadonlySet<string>;
+  gamepadName?: string;
+}) {
   const key = (id: string, label: string, aria: string) => (
     <button
       key={id}
@@ -13,6 +24,8 @@ export function ControllerHUD({ active, press }: { active: ReadonlySet<string>; 
       aria-label={aria}
       data-testid={`hud-${id}`}
       data-active={active.has(id)}
+      data-physical={physical?.has(id) ?? false}
+      style={physical?.has(id) ? { boxShadow: "0 0 0 2px var(--rgme-accent-phosphor-green)" } : undefined}
       className="rgme-hud-key"
       onPointerDown={() => press(id, true)}
       onPointerUp={() => press(id, false)}
@@ -32,6 +45,7 @@ export function ControllerHUD({ active, press }: { active: ReadonlySet<string>; 
         {key("fire", "1", "fire")}
         {key("fire2", "2", "fire 2")}
       </div>
+      {gamepadName && <span className="text-sm" data-testid="hud-gamepad" style={{ color: "var(--rgme-accent-phosphor-green)" }}>🎮 {gamepadName}</span>}
     </div>
   );
 }

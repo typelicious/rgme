@@ -1,21 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import { computeIntegerScale } from "../lib/scale";
+import { CrtShaderCanvas } from "./CrtShaderCanvas";
+import { isWebGLAvailable } from "../lib/crt/shader";
+import type { CrtParams } from "../lib/crt/presets";
 
 export function Viewport({
   crt,
+  crtParams,
   onToggleCrt,
   onCanvas
 }: {
   crt: boolean;
+  crtParams?: CrtParams;
   onToggleCrt: () => void;
   onCanvas: (canvas: HTMLCanvasElement) => void;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const [el, setEl] = useState<HTMLCanvasElement | null>(null);
+  const [fallback, setFallback] = useState(() => !isWebGLAvailable());
   const [size, setSize] = useState(() => computeIntegerScale(640, 480));
 
   useEffect(() => {
-    if (canvas.current) onCanvas(canvas.current);
+    if (canvas.current) {
+      setEl(canvas.current);
+      onCanvas(canvas.current);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,7 +55,8 @@ export function Viewport({
             aria-label="Amiga display, PAL 4:3"
             style={{ width: "100%", height: "100%", imageRendering: "pixelated", display: "block" }}
           />
-          {crt && <div className="rgme-crt" data-testid="crt-overlay" />}
+          {crt && crtParams && !fallback && <CrtShaderCanvas source={el} params={crtParams} enabled onFallback={() => setFallback(true)} />}
+          {crt && (fallback || !crtParams) && <div className="rgme-crt" data-testid="crt-overlay" />}
         </div>
       </div>
       <div className="flex items-center gap-2 mt-2 text-sm" style={{ color: "var(--rgme-fg-secondary)" }}>

@@ -24,6 +24,18 @@ export interface RuntimeStatus {
   diskActivity: boolean;
 }
 
+/** JSON-serializable runtime state used by the save-state engine. */
+export interface RuntimeSnapshot {
+  version: 1;
+  adapterId: string;
+  profileId: string;
+  frame: number;
+  inputs: string[];
+  media: Media[];
+  display?: DisplayProfile;
+  state: RuntimeState;
+}
+
 /** The ONLY surface the UI and profiles may use to reach an emulator. */
 export interface RuntimeAdapter {
   readonly state: RuntimeState;
@@ -40,6 +52,9 @@ export interface RuntimeAdapter {
   insertMedia(media: Media): void;
   /** Host input (semantic Amiga joystick actions). */
   pressInput(action: string, down: boolean): void;
+  /** Optional: full-state snapshot for the persistent save-state engine. */
+  exportSnapshot?(): RuntimeSnapshot;
+  importSnapshot?(snapshot: RuntimeSnapshot): void;
   /** Optional: adapters with audio support honour this. */
   setMuted?(muted: boolean): void;
   onStatus(listener: (s: RuntimeStatus) => void): () => void;

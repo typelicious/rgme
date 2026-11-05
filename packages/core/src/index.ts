@@ -7,3 +7,5 @@ export * from "./mock-runtime.js";
 export * from "./freeware.js";
 export * from "./scene-intro.js";
 export * from "./chiptune.js";
+export * from "./adf/index.js";
+export * from "./drive/index.js";
