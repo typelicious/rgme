@@ -88,7 +88,7 @@ export function freewareEntryToRights(e: FreewareEntry, now = "2026-11-05T00:00:
   };
 }
 
-const KINDS = ["adf", "d64", "t64", "g64", "st", "msa", "rom", "bin", "md", "sfc", "smc", "nes", "img", "iso"];
+const KINDS = ["adf", "ipf", "dms", "d64", "t64", "g64", "st", "msa", "rom", "bin", "md", "sfc", "smc", "nes", "img", "iso"];
 function mediaKind(filename: string): string {
   const ext = filename.split(".").pop()?.toLowerCase() ?? "";
   return KINDS.includes(ext) ? ext : "bin";
@@ -195,7 +195,7 @@ export function createClassicMultiDiskProfile(classic: FreewareClassic): GamePro
       sha256: d.sha256
     })),
     runtime: { preferredAdapter: "mock" },
-    launch: { bootMediaId: "disk-1", autoStart: false },
+    launch: { bootMediaId: "disk-1", autoStart: true },
     input: DEFAULT_INPUT_MAPPING,
     display: { ...DEFAULT_DISPLAY_PROFILE, crt: true },
     rights: { recordId: `rights:${classic.id}` }

@@ -296,14 +296,24 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     setActiveDemo("demo");
     setInfo({ name: DEMO_PROFILE.media[0]!.filename, size: 0, sha256: DEMO_PROFILE.media[0]!.sha256, status: "Identified" });
     await activate(DEMO_PROFILE, DEMO_RIGHTS);
-    adapterRef.current?.start();
+    if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+      adapterRef.current.start();
+    }
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [activate]);
 
   const loadGuru = useCallback(async () => {
     setActiveDemo("guru");
     setInfo({ name: GURU_PROFILE.media[0]!.filename, size: 512, sha256: GURU_PROFILE.media[0]!.sha256, status: "Identified" });
     await activate(GURU_PROFILE, undefined);
-    adapterRef.current?.start();
+    if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+      adapterRef.current.start();
+    }
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [activate]);
 
   const remember = useCallback(
@@ -332,7 +342,12 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       remember(rec.sha256, new Uint8Array(rec.data));
       setInfo({ name: m.filename, size: rec.size, sha256: rec.sha256, status: rec.rightsStatus === "unknown" ? "Unknown" : "Identified" });
       await activate(rec.profile, rec.rights);
-      adapterRef.current?.start();
+      if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+        adapterRef.current.start();
+      }
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     },
     [activate, remember]
   );
@@ -456,10 +471,20 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         sha256: classic.disks[0]!.sha256,
         status: "Identified"
       });
+      for (const disk of p.media) {
+        if (!mediaRegistry.has(disk.sha256)) {
+          mediaRegistry.provider(disk);
+        }
+      }
       await activate(p, undefined);
-      adapterRef.current?.start();
+      if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+        adapterRef.current.start();
+      }
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     },
-    [activate]
+    [activate, mediaRegistry]
   );
 
   const onStreamMedia = useCallback(
@@ -486,7 +511,12 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         floppy.recalibrate(0);
         floppy.pulseActivity(0, "read", 400);
       }
-      adapterRef.current?.start();
+      if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+        adapterRef.current.start();
+      }
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     },
     [activate, floppy, remember]
   );
@@ -513,6 +543,9 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
       adapterRef.current.start();
     }
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [onFile]);
 
   const loadFixture = useCallback(
@@ -522,6 +555,9 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       await onFile(new File([await res.arrayBuffer()], filename));
       if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
         adapterRef.current.start();
+      }
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
     [onFile]

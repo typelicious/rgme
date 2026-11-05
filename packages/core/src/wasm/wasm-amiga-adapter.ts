@@ -297,7 +297,9 @@ export class WasmAmigaAdapter implements RuntimeAdapter {
   /** Copies the media bytes into core memory (the provider's buffer is only read). */
   private async mount(media: Media, drive: number) {
     const core = this.core!;
-    if (media.kind !== "adf") throw new Error(`WasmAmigaAdapter mounts ADF media only, got "${media.kind}"`);
+    if (media.kind !== "adf" && media.kind !== "ipf" && media.kind !== "dms") {
+      throw new Error(`WasmAmigaAdapter mounts ADF media only, got "${media.kind}"`);
+    }
     const bytes = await this.opts.mediaProvider!(media);
     const ptr = core.rgme_alloc(bytes.length);
     new Uint8Array(core.memory.buffer, ptr, bytes.length).set(bytes); // re-read buffer: alloc may have grown memory

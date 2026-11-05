@@ -15,6 +15,8 @@ export type Platform = z.infer<typeof PlatformSchema>;
 
 export const MediaKindSchema = z.enum([
   "adf",
+  "ipf",
+  "dms",
   "d64",
   "t64",
   "g64",

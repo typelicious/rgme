@@ -187,6 +187,7 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
     }
     const isScene = Boolean(profile.id?.includes("scene") || profile.title?.toLowerCase().includes("scene"));
     this.scene = isScene ? "scene" : "boing";
+    this.initBricks();
   }
 
   private initBricks() {
@@ -253,8 +254,10 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
       this.bootblockLoaded = true;
       this.bootPhase = 1;
 
-      // Extract Game Title if present in first sectors or ASCII scan
-      this.gameTitle = this.extractDiskTitle(dest, len) ?? (isDos ? "AMIGA DOS DISK" : "CUSTOM BOOT DISK");
+      // Extract Game Title only if not already established by profile
+      if (!this.gameTitle || this.gameTitle === "COMMODORE AMIGA 500" || this.gameTitle === "AMIGA DOS DISK") {
+        this.gameTitle = (this.extractDiskTitle(dest, len) ?? (isDos ? "AMIGA DOS DISK" : "CUSTOM BOOT DISK")).toUpperCase();
+      }
 
       // Load bootblock into Chip RAM at 0x020000 (standard Amiga bootblock load address)
       this.u8.set(bootBytes, CHIP_RAM_OFFSET + 0x20000);
@@ -280,7 +283,7 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
       if (c !== undefined && c >= 32 && c <= 126) {
         curr += String.fromCharCode(c);
       } else {
-        if (curr.length >= 5 && !curr.startsWith("http") && !curr.includes("Copyright") && !curr.includes("DOS")) {
+        if (curr.length >= 5 && !curr.startsWith("http") && !curr.includes("Copyright") && !curr.includes("DOS") && !curr.startsWith("Disk ")) {
           candidates.push(curr.trim());
         }
         curr = "";

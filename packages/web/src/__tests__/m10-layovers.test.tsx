@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
-import { MockRuntimeAdapter, DEMO_PROFILE, DEMO_RIGHTS, FREEWARE_CLASSICS, createClassicMultiDiskProfile } from "@rgme/core";
+import { MockRuntimeAdapter, FREEWARE_CLASSICS, createClassicMultiDiskProfile } from "@rgme/core";
+import { DEMO_PROFILE, DEMO_RIGHTS } from "../samples/demo";
 import { App } from "../App";
 import { MediaRegistry, createRuntime } from "../lib/runtime-factory";
 
@@ -11,7 +12,7 @@ afterEach(() => {
 describe("Milestone 10: Layovers, Centered Layout & WASM Core Resilience", () => {
   it("M10-WASM-001: MediaRegistry provides bootable synthetic ADF for unmounted disks without throwing", async () => {
     const registry = new MediaRegistry(true);
-    const bootMedia = { id: "disk1", sha256: "ba55000000000000000000000000000000000000000000000000000000000001", filename: "Beneath a Steel Sky (Disk 1 of 15).adf" };
+    const bootMedia = { id: "disk1", kind: "adf" as const, sha256: "ba55000000000000000000000000000000000000000000000000000000000001", filename: "Beneath a Steel Sky (Disk 1 of 15).adf" };
     
     // Should NOT throw "No bytes registered"
     const bytes = await registry.provider(bootMedia);

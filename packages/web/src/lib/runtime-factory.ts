@@ -19,7 +19,8 @@ export function generateBootableAdfFallback(media: { filename?: string; label?: 
   d.set(code, 12);
 
   // Write title/label string into the bootblock
-  const title = (media.label ?? media.filename ?? "AMIGA GAME DISK").slice(0, 32);
+  const rawTitle = media.filename ? media.filename.replace(/\.[^/.]+$/, "") : (media.label ?? "AMIGA GAME DISK");
+  const title = rawTitle.slice(0, 32);
   for (let i = 0; i < title.length; i++) {
     d[32 + i] = title.charCodeAt(i);
   }
