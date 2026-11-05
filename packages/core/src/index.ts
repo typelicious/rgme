@@ -9,3 +9,6 @@ export * from "./scene-intro.js";
 export * from "./chiptune.js";
 export * from "./adf/index.js";
 export * from "./drive/index.js";
+export * from "./wasm/index.js";
+export * from "./platforms/index.js";
+export * from "./export/index.js";

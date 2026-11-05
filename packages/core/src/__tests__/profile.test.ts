@@ -9,11 +9,17 @@ describe("GameProfile schema", () => {
   it("rejects wrong schema version", () => {
     expect(safeParseGameProfile({ ...sampleProfile(), schema: "rgme.game/v0.1" }).success).toBe(false);
   });
-  it("rejects unsupported machine values", () => {
+  it("rejects invalid machine values", () => {
     const p = sampleProfile();
-    expect(safeParseGameProfile({ ...p, machine: { ...p.machine, model: "A1200" } }).success).toBe(false);
-    expect(safeParseGameProfile({ ...p, machine: { ...p.machine, chipset: "AGA" } }).success).toBe(false);
+    expect(safeParseGameProfile({ ...p, machine: { ...p.machine, model: "" } }).success).toBe(false);
     expect(safeParseGameProfile({ ...p, machine: { ...p.machine, video: "SECAM" } }).success).toBe(false);
+  });
+  it("accepts multi-platform profiles and rejects unknown platforms/media kinds", () => {
+    const p = sampleProfile();
+    const c64 = { ...p, platform: "c64", machine: { model: "C64C", video: "PAL" }, media: [{ ...p.media[0], kind: "d64" }] };
+    expect(safeParseGameProfile(c64).success).toBe(true);
+    expect(safeParseGameProfile({ ...p, platform: "zx81" }).success).toBe(false);
+    expect(safeParseGameProfile({ ...p, media: [{ ...p.media[0], kind: "wav" }] }).success).toBe(false);
   });
   it("rejects bad sha256", () => {
     const p = sampleProfile();
