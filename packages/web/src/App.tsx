@@ -112,10 +112,10 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     return () => { off(); floppySynth.dispose(); floppy.dispose(); };
   }, [floppy, floppySynth]);
   const isCustomFactory = createAdapter !== defaultFactory;
-  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "wasm";
+  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "puae";
   const mediaRegistry = useMemo(() => new MediaRegistry(true), []);
   const bytesBySha = useRef(new Map<string, Uint8Array>());
-  const adapterKey = useRef(initialKind === "wasm" ? "amiga:wasm" : "amiga:mock");
+  const adapterKey = useRef(initialKind === "mock" ? "amiga:mock" : "amiga:puae");
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const runtimeKindRef = useRef<RuntimeKind>(initialKind);
   const [runtimeKind, setRuntimeKindState] = useState<RuntimeKind>(initialKind);
@@ -210,6 +210,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
       disposeRuntime(adapterRef.current);
       adapterRef.current = a;
+      adapterKey.current = `amiga:${runtimeKindRef.current}`;
       unsub.current?.();
       unsub.current = a.onStatus(setStatus);
       setAdapter(a);

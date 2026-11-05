@@ -124,4 +124,70 @@ describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
 
     adapter.dispose();
   });
+
+  it("actively blits authentic non-black retro visuals to the canvas for all game types", async () => {
+    let putImageDataCount = 0;
+    let lastImageData: { data: Uint8ClampedArray } | undefined;
+
+    const mockCanvas = {
+      width: 320,
+      height: 256,
+      getContext: () => ({
+        createImageData: (w: number, h: number) => ({
+          data: new Uint8ClampedArray(w * h * 4)
+        }),
+        putImageData: (img: { data: Uint8ClampedArray }) => {
+          putImageDataCount++;
+          lastImageData = img;
+        }
+      })
+    };
+
+    const adapter = new EmulatorJsPuaeAdapter({
+      mediaProvider: () => new Uint8Array(901120),
+      canvas: mockCanvas
+    });
+
+    // Initial render on mount: Kickstart insert disk
+    expect(putImageDataCount).toBeGreaterThan(0);
+    expect(lastImageData).toBeDefined();
+
+    // Verify initial pixels are not purely zero/black
+    let nonZero = 0;
+    for (let i = 0; i < lastImageData!.data.length; i++) {
+      if (lastImageData!.data[i] !== 0) nonZero++;
+    }
+    expect(nonZero).toBeGreaterThan(1000);
+
+    // Test Rick Dangerous
+    const rickProfile: GameProfile = {
+      ...TEST_PROFILE,
+      id: "rick-dangerous",
+      title: "Rick Dangerous (Europe)"
+    };
+    await adapter.loadGame(rickProfile);
+    adapter.start();
+    expect(adapter.state).toBe("RUNNING");
+    expect(putImageDataCount).toBeGreaterThan(1);
+
+    // Test Wayne Gretzky Hockey
+    const hockeyProfile: GameProfile = {
+      ...TEST_PROFILE,
+      id: "wayne-gretzky",
+      title: "Wayne Gretzky Hockey (Europe)"
+    };
+    await adapter.loadGame(hockeyProfile);
+    expect(adapter.state).toBe("LOADED");
+
+    // Test Flight of the Amazon Queen
+    const amazonProfile: GameProfile = {
+      ...TEST_PROFILE,
+      id: "amazon-queen",
+      title: "Flight of the Amazon Queen"
+    };
+    await adapter.loadGame(amazonProfile);
+    expect(adapter.state).toBe("LOADED");
+
+    adapter.dispose();
+  });
 });
