@@ -1,6 +1,8 @@
 {
   "name": "@rgme/core",
   "version": "0.2.0",
+  "license": "MIT",
+  "author": "typelicious",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

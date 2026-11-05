@@ -1,0 +1,37 @@
+MIT License
+
+Copyright (c) 2026 typelicious (André Lange)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+### Third-Party Intellectual Property & Game Assets Clarification
+
+1. **Engine Code vs. Game Content:**
+   The MIT License applies strictly to the Retro Game Modernization Engine (RGME)
+   source code, schemas, tools, and documentation created for this project.
+   RGME does not claim ownership of, nor does this license grant rights to,
+   any proprietary retro game ROMs, disk images (ADF, D64, etc.), Kickstart
+   firmware, trademarks, or copyrighted artwork/audio belonging to third parties.
+
+2. **Synthetic Demonstration Assets:**
+   Synthetic demonstration media created specifically for RGME (including
+   `concept/fixtures/rgme-scene-intro.adf`) are dedicated to the public domain
+   under the Creative Commons CC0 1.0 Universal Public Domain Dedication.

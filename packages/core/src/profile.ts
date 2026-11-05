@@ -2,22 +2,51 @@ import { z } from "zod";
 
 export const GAME_PROFILE_SCHEMA = "rgme.game/v0.2" as const;
 
+export const PlatformSchema = z.enum([
+  "amiga",
+  "c64",
+  "atari_st",
+  "dos",
+  "megadrive",
+  "snes",
+  "nes"
+]);
+export type Platform = z.infer<typeof PlatformSchema>;
+
+export const MediaKindSchema = z.enum([
+  "adf",
+  "d64",
+  "t64",
+  "g64",
+  "st",
+  "msa",
+  "rom",
+  "bin",
+  "md",
+  "sfc",
+  "smc",
+  "nes",
+  "img",
+  "iso"
+]);
+export type MediaKind = z.infer<typeof MediaKindSchema>;
+
 const sha256 = z.string().regex(/^[0-9a-fA-F]{64}$/, "SHA-256 must be 64 hex characters");
 
 export const MachineConfigSchema = z
   .object({
-    model: z.enum(["A500", "A600"]),
-    chipset: z.enum(["OCS", "ECS"]),
-    video: z.enum(["PAL", "NTSC"]),
-    ram: z.object({ chipKb: z.number().int().positive(), fastKb: z.number().int().min(0) }).strict(),
+    model: z.string().min(1),
+    chipset: z.string().optional(),
+    video: z.enum(["PAL", "NTSC"]).default("PAL"),
+    ram: z.object({ chipKb: z.number().int().positive(), fastKb: z.number().int().min(0) }).partial().optional(),
     kickstart: z.string().optional()
   })
-  .strict();
+  .passthrough();
 
 export const MediaSchema = z
   .object({
     id: z.string().min(1),
-    kind: z.literal("adf"),
+    kind: MediaKindSchema,
     filename: z.string().min(1),
     label: z.string().optional(),
     sha256
@@ -48,7 +77,7 @@ export const GameProfileSchema = z
     schema: z.literal(GAME_PROFILE_SCHEMA),
     id: z.string().min(1),
     title: z.string().min(1),
-    platform: z.literal("amiga"),
+    platform: PlatformSchema.default("amiga"),
     machine: MachineConfigSchema,
     media: z.array(MediaSchema).min(1),
     runtime: z

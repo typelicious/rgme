@@ -2,6 +2,8 @@
   "name": "@rgme/web",
   "version": "0.2.0",
   "private": true,
+  "license": "MIT",
+  "author": "typelicious",
   "type": "module",
   "scripts": {
     "dev": "vite",
