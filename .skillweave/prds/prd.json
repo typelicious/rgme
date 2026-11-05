@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.5.0",
-  "status": "completed",
+  "version": "0.6.0",
+  "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 5 (Amiga Engine Completeness, Real IPF/MOD, M3U In-Memory Swapper & Impeccable UX)",
+  "milestone": "Milestone 6 (Monitor Height Containment, Guru Meditation, Demo Lifecycle Unload & Interactive Playability)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -407,6 +407,69 @@
       "estimatedEffort": "3",
       "dependsOn": ["MOD-EXT-001", "BEZEL-001"],
       "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M6-MONITOR-001",
+      "title": "Monitor Bezel Viewport Height-Bound Scaling",
+      "description": "Constrain monitor bezel to available viewport height on wide displays so controls are never pushed below the fold.",
+      "acceptanceCriteria": [
+        "Viewport container clamped to max-height: min(68vh, 640px) and max-width: min(100%, 840px)",
+        "Controls toolbar remains fully visible without scrolling on 768p, 1080p and ultrawide screens",
+        "Preserves exact 4:3 monitor CRT geometry"
+      ],
+      "priority": "high",
+      "estimatedEffort": "1",
+      "dependsOn": ["UX-PRO-MAX-001"],
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M6-LIFECYCLE-001",
+      "title": "Demo & Game Lifecycle Unload and State Reset",
+      "description": "Provide clean Unload / Eject capability for all demos, games, and tracker tunes, stopping loops, silencing audio, and clearing drives.",
+      "acceptanceCriteria": [
+        "unloadGame() stops emulation and audio loop, resets FloppyController, sets status to UNLOADED",
+        "Dedicated Load / Unload toggle buttons for Scene Demo, C64, Mega Drive, and Guru Meditation",
+        "Global Unload / Eject button in the primary emulation toolbar",
+        "Clears screen back to clean retro black"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M6-MONITOR-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M6-GURU-001",
+      "title": "Authentic Commodore Amiga Guru Meditation Error Screen",
+      "description": "Implement the legendary Amiga Guru Meditation screen with flashing red border, Topáz monospace failure code, and mouse-click reboot.",
+      "acceptanceCriteria": [
+        "Deep black background with pulsating red border flashing at 1.0 Hz",
+        "Centred Topáz monospace text: Software Failure #00000004.00004845",
+        "Left mouse click or spacebar reboots with drive seek audio and screen flash",
+        "Launcher button and Command Palette entry"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M6-LIFECYCLE-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M6-PLAYABLE-001",
+      "title": "Interactive Playable Retro Engine for Showcase Games",
+      "description": "Replace static SMPTE color test bars with an interactive Commodore Amiga Boing Ball experience with physics, steering, and stereo bounce sound.",
+      "acceptanceCriteria": [
+        "Renders 3D checkered Boing Ball with rotation and drop shadow",
+        "Keyboard arrow and gamepad steering with wall bounce physics",
+        "Synthesized stereo audio sound on collision",
+        "Clear distinction between interactive showcase simulation and custom ADF drops"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M6-GURU-001"],
+      "type": "feature",
       "passes": true
     }
   ]

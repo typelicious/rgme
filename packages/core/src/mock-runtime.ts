@@ -1,5 +1,7 @@
 import type { DisplayProfile, GameProfile, InputMapping, Media } from "./profile.js";
 import { drawSceneIntro } from "./scene-intro.js";
+import { drawGuruMeditation } from "./guru-meditation.js";
+import { createInitialBoingState, drawBoingScene, updateBoingPhysics, type BoingState } from "./boing-ball.js";
 import type { AudioSink } from "./chiptune.js";
 import type { RuntimeAdapter, RuntimeCapabilities, RuntimeSnapshot, RuntimeState, RuntimeStatus, SaveStateMeta } from "./runtime.js";
 
@@ -47,6 +49,7 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   private media: Media[] = [];
 
   private scene = "pattern";
+  private boingState: BoingState = createInitialBoingState();
 
   /** `audio` is optional: when present it follows the lifecycle (start/pause/stop) and carries the soundtrack. */
   constructor(
@@ -91,7 +94,16 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   async loadGame(profile: GameProfile): Promise<void> {
     this.clearTimer();
     this.profile = profile;
-    this.scene = String(profile.runtime.options?.scene ?? "pattern");
+    this.scene = String(
+      profile.runtime.options?.scene ??
+        (profile.id.startsWith("classic-") ||
+        profile.id === "lure-of-the-temptress" ||
+        profile.id === "beneath-a-steel-sky" ||
+        profile.id === "flight-of-the-amazon-queen"
+          ? "boing"
+          : "pattern")
+    );
+    this.boingState = createInitialBoingState();
     this.audio?.stop();
     this.media = [...profile.media];
     this.mapping = profile.input;
@@ -142,6 +154,9 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   tick() {
     if (this._state !== "RUNNING") return;
     this.frame++;
+    if (this.scene === "boing") {
+      this.boingState = updateBoingPhysics(this.boingState, this.pressed, PAL_LORES.width, PAL_LORES.height);
+    }
     this.draw();
     this.emit();
   }
@@ -242,12 +257,21 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
     this.audio?.setMuted(muted);
   }
 
-  /** Renders the selected scene: the demo-scene intro, or PAL colour bars with animated raster lines. */
+  /** Renders the selected scene: the demo-scene intro, Guru Meditation, Boing Ball retro engine, or PAL colour bars. */
   private draw() {
     const ctx = this.canvas?.getContext("2d");
     if (!ctx) return;
     if (this.scene === "intro") {
       drawSceneIntro(ctx, this.frame);
+      this.drawOverlay(ctx);
+      return;
+    }
+    if (this.scene === "guru") {
+      drawGuruMeditation(ctx, PAL_LORES.width, PAL_LORES.height, this.frame);
+      return;
+    }
+    if (this.scene === "boing") {
+      drawBoingScene(ctx, PAL_LORES.width, PAL_LORES.height, this.boingState, this.profile?.title, this.pressed);
       this.drawOverlay(ctx);
       return;
     }

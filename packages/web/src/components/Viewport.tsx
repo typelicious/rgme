@@ -45,7 +45,7 @@ export function Viewport({
   }, []);
 
   return (
-    <div>
+    <div className="rgme-viewport-container w-full flex flex-col items-center">
       {bezel ? <Commodore1084sBezel>      <div
         ref={box}
         data-testid="viewport"

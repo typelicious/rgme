@@ -7,6 +7,7 @@ import {
   type FreewareClassic,
   DEFAULT_INPUT_MAPPING,
   DEFAULT_DISPLAY_PROFILE,
+  GURU_PROFILE,
   identifyImage,
   ChiptunePlayer,
   FloppyController,
@@ -79,6 +80,9 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const [status, setStatus] = useState<RuntimeStatus>(INITIAL);
   const [info, setInfo] = useState<DroppedInfo>();
   const [profile, setProfile] = useState<GameProfile>();
+  const profileRef = useRef<GameProfile | undefined>(undefined);
+  profileRef.current = profile;
+  const [activeDemo, setActiveDemo] = useState<"demo" | "scene" | "c64" | "md" | "guru" | "classic" | null>(null);
   const [decisions, setDecisions] = useState<{ private_execution: PolicyDecision; binary_redistribution: PolicyDecision }>();
   const [crt, setCrt] = useState(false);
   const [inputs, setInputs] = useState<ReadonlySet<string>>(new Set());
@@ -112,6 +116,49 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const library = useMemo(() => new GameLibraryStore(), []);
   const saves = useMemo(() => new SaveStateManager(IndexedDbSaveStore.available() ? new IndexedDbSaveStore() : new MemorySaveStore()), []);
 
+  const unloadGame = useCallback(() => {
+    if (adapterRef.current) {
+      try {
+        adapterRef.current.pause();
+        adapterRef.current.reset();
+      } catch {
+        /* ignore */
+      }
+      disposeRuntime(adapterRef.current);
+      const canvas = canvasRef.current;
+      const a = createAdapter(canvas as unknown as CanvasLike);
+      adapterRef.current = a;
+      adapterKey.current = "amiga:mock";
+      unsub.current?.();
+      unsub.current = a.onStatus(setStatus);
+      setAdapter(a);
+    }
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      if (ctx) {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }
+    }
+    floppy.eject(0);
+    floppy.eject(1);
+    floppy.eject(2);
+    floppy.eject(3);
+    floppy.setMotor(0, false);
+    floppy.setMotor(1, false);
+    floppy.setMotor(2, false);
+    floppy.setMotor(3, false);
+    setModBytes(undefined);
+    setStatus(INITIAL);
+    setProfile(undefined);
+    setRightsRecord(undefined);
+    setInfo(undefined);
+    setDecisions(undefined);
+    setRuntimeError(undefined);
+    setHasSave(false);
+    setActiveDemo(null);
+  }, [createAdapter, floppy]);
+
   const onCanvas = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (adapterRef.current) return;
@@ -121,8 +168,16 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       setCanvasEl(canvas);
       unsub.current = a.onStatus(setStatus);
       setAdapter(a);
+
+      canvas.addEventListener("click", () => {
+        if (profileRef.current?.id === "amiga-guru-meditation") {
+          floppy.recalibrate(0);
+          floppy.pulseActivity(0, "read", 300);
+          unloadGame();
+        }
+      });
     },
-    [createAdapter]
+    [createAdapter, floppy, unloadGame]
   );
 
   // Stop the runtime (timers, audio) when the app unmounts.
@@ -201,8 +256,16 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   }, [floppy, ensureAdapter]);
 
   const loadDemo = useCallback(async () => {
+    setActiveDemo("demo");
     setInfo({ name: DEMO_PROFILE.media[0]!.filename, size: 0, sha256: DEMO_PROFILE.media[0]!.sha256, status: "Identified" });
     await activate(DEMO_PROFILE, DEMO_RIGHTS);
+    adapterRef.current?.start();
+  }, [activate]);
+
+  const loadGuru = useCallback(async () => {
+    setActiveDemo("guru");
+    setInfo({ name: GURU_PROFILE.media[0]!.filename, size: 512, sha256: GURU_PROFILE.media[0]!.sha256, status: "Identified" });
+    await activate(GURU_PROFILE, undefined);
     adapterRef.current?.start();
   }, [activate]);
 
@@ -342,6 +405,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
 
   const onLaunchClassic = useCallback(
     async (classic: FreewareClassic) => {
+      setActiveDemo("classic");
       const p = createClassicMultiDiskProfile(classic);
       setInfo({
         name: classic.disks[0]!.filename,
@@ -361,6 +425,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   }, []);
 
   const loadScene = useCallback(async () => {
+    setActiveDemo("scene");
     const res = await fetch(sceneIntroUrl);
     const file = new File([await res.arrayBuffer()], "rgme-scene-intro.adf");
     const id = await onFile(file);
@@ -368,7 +433,8 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   }, [onFile]);
 
   const loadFixture = useCallback(
-    async (url: string, filename: string) => {
+    async (url: string, filename: string, demoKind?: "c64" | "md") => {
+      if (demoKind) setActiveDemo(demoKind);
       const res = await fetch(url);
       const id = await onFile(new File([await res.arrayBuffer()], filename));
       if (id) adapterRef.current?.start();
@@ -404,11 +470,16 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       } else if (e.key === "?" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
         setShortcutsOpen((o) => !o);
+      } else if (e.key === " " && profileRef.current?.id === "amiga-guru-meditation") {
+        e.preventDefault();
+        floppy.recalibrate(0);
+        floppy.pulseActivity(0, "read", 300);
+        unloadGame();
       }
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, []);
+  }, [floppy, unloadGame]);
 
   const paletteActions = useMemo<PaletteAction[]>(() => {
     const actions: PaletteAction[] = [
@@ -471,6 +542,21 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         detail: `${classic.disks.length} disks • ${classic.developer} (${classic.year})`,
         run: () => void onLaunchClassic(classic)
       })),
+      {
+        id: "load-guru",
+        category: "Game",
+        title: "Load Guru Meditation",
+        detail: "Authentic Amiga Software Failure #00000004.00004845#",
+        run: () => void loadGuru()
+      },
+      {
+        id: "unload-game",
+        category: "Game",
+        title: "Unload Game / Eject Media",
+        detail: "Halt emulation loop, eject disks, and silence audio",
+        shortcut: "⏏",
+        run: () => unloadGame()
+      },
       {
         id: "switch-runtime-mock",
         category: "Runtime",
@@ -553,9 +639,11 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   }, [
     adapter,
     loadDemo,
+    loadGuru,
     loadScene,
     loadFixture,
     onLaunchClassic,
+    unloadGame,
     switchRuntime,
     crt,
     muted,
@@ -594,11 +682,47 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       <main className="grid gap-4 p-4 flex-1 md:grid-cols-[320px_1fr]">
         <div className="flex flex-col gap-4">
           <Dropzone info={info} onFile={onFile} />
-          <button className="rgme-btn" onClick={() => void loadDemo()} data-testid="load-demo">Load demo profile</button>
-          <button className="rgme-btn" onClick={() => void loadScene()} data-testid="load-scene">Load Scene Demo</button>
+          <div className="flex gap-2">
+            <button className="rgme-btn flex-1" onClick={() => void loadDemo()} data-testid="load-demo">
+              {activeDemo === "demo" ? "● Demo Profile" : "Load demo profile"}
+            </button>
+            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-demo" disabled={activeDemo !== "demo"}>
+              Unload
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button className="rgme-btn flex-1" onClick={() => void loadScene()} data-testid="load-scene">
+              {activeDemo === "scene" ? "● Scene Demo" : "Load Scene Demo"}
+            </button>
+            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-scene" disabled={activeDemo !== "scene"}>
+              Unload
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button className="rgme-btn flex-1" onClick={() => void loadGuru()} data-testid="load-guru">
+              {activeDemo === "guru" ? "● Guru Meditation" : "Load Guru Meditation"}
+            </button>
+            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-guru" disabled={activeDemo !== "guru"}>
+              Unload
+            </button>
+          </div>
           <FloppyDrives controller={floppy} discs={profile ? profile.media.map((m) => ({ id: m.id, label: m.label ?? m.filename, sha256: m.sha256 })) : []} onSwap={(drive, discId) => { const m = profile?.media.find((x) => x.id === discId); if (m) adapter?.insertMedia(m); void drive; }} />
-          <button className="rgme-btn" onClick={() => void loadFixture(c64DemoUrl, "rgme-c64-demo.d64")} data-testid="load-c64">Load C64 Demo</button>
-          <button className="rgme-btn" onClick={() => void loadFixture(mdDemoUrl, "rgme-md-demo.md")} data-testid="load-md">Load Mega Drive Demo</button>
+          <div className="flex gap-2">
+            <button className="rgme-btn flex-1" onClick={() => void loadFixture(c64DemoUrl, "rgme-c64-demo.d64", "c64")} data-testid="load-c64">
+              {activeDemo === "c64" ? "● C64 Demo" : "Load C64 Demo"}
+            </button>
+            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-c64" disabled={activeDemo !== "c64"}>
+              Unload
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button className="rgme-btn flex-1" onClick={() => void loadFixture(mdDemoUrl, "rgme-md-demo.md", "md")} data-testid="load-md">
+              {activeDemo === "md" ? "● Mega Drive Demo" : "Load Mega Drive Demo"}
+            </button>
+            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-md" disabled={activeDemo !== "md"}>
+              Unload
+            </button>
+          </div>
           {discs.length > 1 && <DiskSwapper swapper={swapper} discs={discs} currentIndex={diskIdx} label={profile?.title} onChange={setDiskIdx} />}
           <GameProfileInspector profile={profile} decisions={decisions} />
           <section className="rgme-panel">
@@ -614,33 +738,39 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
             {exportReason && <p id="export-reason" className="text-sm mt-2" style={{ color: "var(--rgme-fg-secondary)" }} data-testid="export-reason">{exportReason}</p>}
           </section>
         </div>
-        <div>
+        <div className="flex flex-col items-center w-full">
           <Viewport bezel crt={crt} crtParams={crtParams} onToggleCrt={() => setCrt((c) => !c)} onCanvas={onCanvas} />
           {crt && (
-            <div className="mt-2">
+            <div className="mt-2 w-full max-w-[820px]">
               <CrtControls presetId={crtId} params={crtParams} onPreset={(id) => { setCrtId(id); setCrtParams(getCrtPreset(id).params); }} onParams={setCrtParams} />
             </div>
           )}
-          <div className="mt-2">
+          <div className="mt-2 w-full max-w-[820px]">
             <RuntimeSwitch kind={runtimeKind} onChange={(k) => void switchRuntime(k)} disabledWasmReason={profile && profile.platform !== "amiga" ? "The WASM core runtime is Amiga-only." : undefined} />
           </div>
-          {runtimeError && <p role="alert" className="text-sm mt-2" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
-          <div className="flex flex-wrap gap-2 mt-3">
+          {runtimeError && <p role="alert" className="text-sm mt-2 w-full max-w-[820px]" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
+          <div className="flex flex-wrap gap-2 mt-3 w-full max-w-[820px]">
             <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
             <button className="rgme-btn" disabled={state !== "RUNNING"} data-testid="btn-pause" onClick={() => adapter?.pause()}>Pause</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.reset()}>Reset</button>
+            <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-unload" onClick={unloadGame} title="Eject media and stop emulation">⏏ Unload</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => { adapter?.saveState(0); setHasSave(true); }}>Save</button>
             <button className="rgme-btn" disabled={!profile} data-testid="saves-btn" onClick={() => setSavesOpen(true)}>Saves…</button>
             <button className="rgme-btn" aria-pressed={muted} data-testid="mute-btn" onClick={() => { adapter?.setMuted?.(!muted); floppySynth.setMuted(!muted); setMuted(!muted); }}>{muted ? "Unmute" : "Mute"}</button>
             <button className="rgme-btn" disabled={!hasSave || state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.loadState(0)}>Load</button>
           </div>
-          <ControllerHUD active={inputs} press={press} physical={gp.physical} gamepadName={gp.connected ? gp.name : undefined} />
-          <button className="rgme-btn mt-2" data-testid="remap-btn" onClick={() => setRemapOpen(true)}>Gamepad mapping…</button>
+          <div className="w-full max-w-[820px]">
+            <ControllerHUD active={inputs} press={press} physical={gp.physical} gamepadName={gp.connected ? gp.name : undefined} />
+            <button className="rgme-btn mt-2" data-testid="remap-btn" onClick={() => setRemapOpen(true)}>Gamepad mapping…</button>
+          </div>
         </div>
       </main>
       <section className="p-4" aria-label="Tracker player">
         <h2 className="text-lg mb-2">ProTracker Player</h2>
-        <button className="rgme-btn mb-2" onClick={() => void loadDemoMod()} data-testid="load-mod">Load demo tune</button>
+        <div className="flex gap-2 mb-2">
+          <button className="rgme-btn" onClick={() => void loadDemoMod()} data-testid="load-mod">Load demo tune</button>
+          <button className="rgme-btn" onClick={() => setModBytes(undefined)} data-testid="unload-mod" disabled={!modBytes}>Unload tune</button>
+        </div>
         <ModPlayerPanel bytes={modBytes} title={modBytes ? "RGME demo tune" : undefined} />
       </section>
       <section className="p-4" aria-label="Chain of title">

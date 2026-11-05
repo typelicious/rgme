@@ -103,6 +103,10 @@ export class FloppyController {
     return media;
   }
 
+  ejectDisk(drive: number): FloppyMedia | undefined {
+    return this.eject(drive);
+  }
+
   setMotor(drive: number, on: boolean) {
     assertDrive(drive);
     const s = this.drives[drive]!;

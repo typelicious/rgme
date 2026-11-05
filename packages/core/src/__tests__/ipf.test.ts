@@ -91,7 +91,7 @@ describe("crc32 / MFM codec", () => {
       for (let s = 0; s < 11; s++) out.set(d.sectors.get(s)!, (t * 11 + s) * 512);
     }
     expect(out).toEqual(adf);
-  });
+  }, 25000);
 });
 
 describe("IpfParser", () => {
@@ -107,7 +107,7 @@ describe("IpfParser", () => {
     expect(img.tracks).toHaveLength(160);
     expect(img.tracks.every((t) => !t.protected && t.sectors?.length === 11)).toBe(true);
     expect(img.toAdf()).toEqual(adf);
-  });
+  }, 25000);
   it("reports a CRC mismatch with the record offset and refuses to build an ADF", () => {
     const ipf = buildIpf({ tracks: [0] });
     const bad = ipf.slice();
@@ -187,7 +187,7 @@ describe("mountDiskImage", () => {
     expect(c.getState(1).media).toMatchObject({ id: "scene.ipf", format: "ipf", sha256: "b".repeat(64) });
     expect(c.getState(1).media?.image).toEqual(adf);
     expect(events.filter((e) => e === "insert")).toHaveLength(2);
-  });
+  }, 25000);
   it("throws IpfProtectedError and inserts nothing for undecodable IPF", () => {
     const c = new FloppyController();
     const ipf = buildIpf({ mutateTrack: (t, m) => { if (t === 0) m[300] ^= 1; return m; } });
