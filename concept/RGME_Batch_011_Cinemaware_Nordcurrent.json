@@ -1,0 +1,350 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "011",
+  "generated_at": "2026-10-28",
+  "family": "Cinemaware → Starbreeze → Nordcurrent",
+  "records": [
+    {
+      "title": "Defender of the Crown",
+      "library_matches": [
+        "Defender Of The Crown (CDTV).lha",
+        "Defender Of The Crown (NTSC).lha",
+        "Defender Of The Crown.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "notes": [
+        "Nordcurrent announced Defender as the first Cinemaware property it intended to remaster after the 2024 acquisition; Defender of the Crown: The Legend Returns launched in August 2026."
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Wings",
+      "library_matches": [
+        "Wings.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Rocket Ranger",
+      "library_matches": [
+        "Rocket Ranger (Censored).lha",
+        "Rocket Ranger (NTSC).lha",
+        "Rocket Ranger.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "It Came from the Desert",
+      "library_matches": [
+        "It Came From The Desert.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "It Came from the Desert II: Antheads",
+      "library_matches": [
+        "It Came From The Desert 2.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Lords of the Rising Sun",
+      "library_matches": [
+        "Lords Of The Rising Sun (NTSC).lha",
+        "Lords Of The Rising Sun.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "The King of Chicago",
+      "library_matches": [
+        "King Of Chicago.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "S.D.I.",
+      "library_matches": [
+        "SDI (Cinemaware) (NTSC).lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "TV Sports: Football",
+      "library_matches": [
+        "TV Sports Football.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [
+        "Generic sports subject matter does not remove possible historical league/team/player/branding layers; exact original assets and proposed reuse need component review."
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "TV Sports: Basketball",
+      "library_matches": [
+        "TV Sports Basketball.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [
+        "Generic sports subject matter does not remove possible historical league/team/player/branding layers; exact original assets and proposed reuse need component review."
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "TV Sports: Boxing",
+      "library_matches": [
+        "TV Sports Boxing.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [
+        "Generic sports subject matter does not remove possible historical league/team/player/branding layers; exact original assets and proposed reuse need component review."
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "TV Sports: Baseball",
+      "library_matches": [
+        "TV Sports Baseball.lha"
+      ],
+      "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+      "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+      "confidence": "very-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "notes": [
+        "Generic sports subject matter does not remove possible historical league/team/player/branding layers; exact original assets and proposed reuse need component review."
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Spirit of Excalibur",
+      "library_matches": [
+        "Spirit Of Excalibur (NTSC).lha",
+        "Spirit Of Excalibur.lha"
+      ],
+      "licensing_route": "Cinemaware-adjacent / title-specific research required",
+      "current_rights_assessment": "Associated with Cinemaware history, but not in the explicit 2016 acquisition list used as primary family evidence; dedicated title-level evidence required.",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "notes": [
+        "Not included in the explicit 2016 Starbreeze Cinemaware IP list used for this batch; do not infer Nordcurrent ownership without further evidence."
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    }
+  ],
+  "key_findings": [
+    "Starbreeze announced in 2016 that it acquired IP rights to the entire Cinemaware library, explicitly listing 14 game IPs plus the Cinemaware brand and stating that brands, websites, existing products and licenses were included.",
+    "Nordcurrent announced in February 2024 that it acquired the Cinemaware catalog from Starbreeze.",
+    "Nordcurrent stated in 2024 that Defender of the Crown would be the first property it planned to remaster.",
+    "Defender of the Crown: The Legend Returns launched in August 2026 through Nordcurrent Labs, proving active exploitation of at least that franchise.",
+    "The explicit acquisition lists provide unusually strong transaction evidence compared with many earlier batches.",
+    "Titles historically associated with Cinemaware but absent from the explicit transaction list must not be silently folded into the Nordcurrent ownership assertion.",
+    "This batch supports adding Transaction Scope Evidence and Explicit Asset Lists to the Rights Graph."
+  ],
+  "architecture_finding": {
+    "name": "Transaction Scope Evidence",
+    "fields": [
+      "transaction_id",
+      "seller",
+      "buyer",
+      "effective_date",
+      "explicitly_included_assets",
+      "explicitly_excluded_assets",
+      "rights_language",
+      "licenses_included",
+      "source_evidence_ids",
+      "confidence"
+    ],
+    "rule": "An explicit asset schedule/list in a transaction outranks inference from brand, publisher or corporate succession."
+  },
+  "candidate_notes": {
+    "best_clear_route": [
+      "Wings",
+      "Rocket Ranger",
+      "It Came from the Desert",
+      "Lords of the Rising Sun",
+      "S.D.I."
+    ],
+    "active_hot_ip": [
+      "Defender of the Crown"
+    ],
+    "reason": "Clear ownership route plus strong Amiga recognition; non-Defender titles may offer better pilot feasibility if not currently under active development."
+  }
+}

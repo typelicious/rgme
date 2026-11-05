@@ -1,0 +1,35 @@
+{
+  "sequenceId": "rgme-milestone-1-execution",
+  "taskAssignments": [
+    {
+      "taskId": "ARCH-001",
+      "requiredCapabilities": ["monorepo-setup", "typescript-tooling", "pnpm-workspaces"],
+      "recommendedAgentProfile": "system-architect"
+    },
+    {
+      "taskId": "CORE-001",
+      "requiredCapabilities": ["zod-schema-design", "domain-modeling", "policy-engine"],
+      "recommendedAgentProfile": "domain-specialist"
+    },
+    {
+      "taskId": "CORE-002",
+      "requiredCapabilities": ["adapter-pattern", "canvas-api", "state-machine"],
+      "recommendedAgentProfile": "runtime-engineer"
+    },
+    {
+      "taskId": "CLI-001",
+      "requiredCapabilities": ["node-cli", "streaming-crypto", "file-scanner"],
+      "recommendedAgentProfile": "cli-engineer"
+    },
+    {
+      "taskId": "UI-001",
+      "requiredCapabilities": ["react", "vite", "tailwind-css", "canvas-viewport", "retro-design"],
+      "recommendedAgentProfile": "frontend-specialist"
+    },
+    {
+      "taskId": "INTEG-001",
+      "requiredCapabilities": ["e2e-testing", "integration-verification", "vitest"],
+      "recommendedAgentProfile": "quality-engineer"
+    }
+  ]
+}

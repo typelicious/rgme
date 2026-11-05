@@ -1,0 +1,843 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "010",
+  "generated_at": "2026-10-28",
+  "family": "Bitmap Brothers / Sensible Software / Codemasters",
+  "records": [
+    {
+      "title": "Xenon",
+      "library_matches": [
+        "Xenon (Arcadia).lha",
+        "Xenon.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Xenon 2: Megablast",
+      "library_matches": [
+        "Xenon 2 (1 Disk).lha",
+        "Xenon 2 (2 Disk).lha",
+        "Xenon 2 (CDTV).lha",
+        "Xenon 2 (Demo).lha",
+        "Xenon 2 (NTSC).lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Speedball",
+      "library_matches": [
+        "Speedball (NTSC).lha",
+        "Speedball.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Speedball 2: Brutal Deluxe",
+      "library_matches": [
+        "Speedball 2 (NTSC).lha",
+        "Speedball 2.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Gods",
+      "library_matches": [
+        "Gods (Demo).lha",
+        "Gods (NTSC).lha",
+        "Gods.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "The Chaos Engine",
+      "library_matches": [
+        "Chaos Engine (Demo).lha",
+        "Chaos Engine.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "The Chaos Engine 2",
+      "library_matches": [
+        "Chaos Engine 2.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Cadaver",
+      "library_matches": [
+        "Cadaver (Demo).lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Cadaver: The Payoff",
+      "library_matches": [
+        "Cadaver & The Payoff.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Magic Pockets",
+      "library_matches": [
+        "Magic Pockets (Demo).lha",
+        "Magic Pockets (NTSC).lha",
+        "Magic Pockets.lha"
+      ],
+      "licensing_route": "Rebellion Developments",
+      "current_rights_assessment": "Strong current portfolio/IP route: Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Sensible Soccer",
+      "library_matches": [
+        "Sensible Soccer (1MB).lha",
+        "Sensible Soccer (512k).lha",
+        "Sensible Soccer Bulldog Blighty.lha",
+        "Sensible Soccer European Champions (1MB).lha",
+        "Sensible Soccer European Champions (512k).lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "club, league, player-name, badge and kit data may create separate football-data/trademark/likeness layers depending on release and proposed reuse"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Sensible Soccer 1992-94",
+      "library_matches": [
+        "Sensible Soccer 1992-94 (1MB).lha",
+        "Sensible Soccer 1992-94 (512k).lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "club, league, player-name, badge and kit data may create separate football-data/trademark/likeness layers depending on release and proposed reuse"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Sensible Soccer International Edition",
+      "library_matches": [
+        "Sensible Soccer International Edition (1MB).lha",
+        "Sensible Soccer International Edition (512k).lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "club, league, player-name, badge and kit data may create separate football-data/trademark/likeness layers depending on release and proposed reuse"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Sensible World of Soccer",
+      "library_matches": [
+        "Sensible World Of Soccer.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "club, league, player-name, badge and kit data may create separate football-data/trademark/likeness layers depending on release and proposed reuse"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Cannon Fodder",
+      "library_matches": [
+        "Cannon Fodder (DE).lha",
+        "Cannon Fodder (FR).lha",
+        "Cannon Fodder (IT).lha",
+        "Cannon Fodder New Campaign.lha",
+        "Cannon Fodder Plus.lha",
+        "Cannon Fodder.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Cannon Fodder 2",
+      "library_matches": [
+        "Cannon Fodder 2 (DE).lha",
+        "Cannon Fodder 2 (FR).lha",
+        "Cannon Fodder 2 Alien Levels.lha",
+        "Cannon Fodder 2.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Mega Lo Mania",
+      "library_matches": [
+        "Mega Lo Mania (DE).lha",
+        "Mega Lo Mania (FR).lha",
+        "Mega Lo Mania.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Wizkid",
+      "library_matches": [
+        "Wizkid.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Sensible Golf",
+      "library_matches": [
+        "Sensible Golf.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "International 3D Tennis",
+      "library_matches": [
+        "International 3D Tennis.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts",
+      "current_rights_assessment": "Strong Sensible Software → Codemasters route; EA acquired Codemasters in 2021, but title/component scope remains release-specific",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "BMX Simulator",
+      "library_matches": [
+        "BMX Simulator.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Treasure Island Dizzy",
+      "library_matches": [
+        "Treasure Island Dizzy.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Fantasy World Dizzy",
+      "library_matches": [
+        "Fantasy World Dizzy.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Magicland Dizzy",
+      "library_matches": [
+        "Magicland Dizzy.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Dizzy: Prince of the Yolkfolk",
+      "library_matches": [
+        "Dizzy Prince Of The Yolkfolk.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Spellbound Dizzy",
+      "library_matches": [
+        "Spellbound Dizzy.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Bubble Dizzy",
+      "library_matches": [
+        "Bubble Dizzy.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Fast Food",
+      "library_matches": [
+        "Fast Food DizzyCollection.lha",
+        "Fast Food.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Kwik Snax",
+      "library_matches": [
+        "Kwik Snax.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Seymour",
+      "library_matches": [
+        "Seymour Goes To Hollywood.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Slightly Magic",
+      "library_matches": [
+        "Slightly Magic.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "CJ's Elephant Antics",
+      "library_matches": [
+        "CJ's Elephant Antics.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Big Nose",
+      "library_matches": [
+        "Big Nose - The Caveman.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "MiG-29 Soviet Fighter",
+      "library_matches": [
+        "MiG 29 Soviet Fighter.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft designation/branding requires use-specific external-rights review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Micro Machines",
+      "library_matches": [
+        "Micro Machines.lha"
+      ],
+      "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+      "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+      "confidence": "medium-high",
+      "rights_class": "D/E",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "Micro Machines is a separate toy/brand licensing layer; software publisher succession alone is insufficient"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    }
+  ],
+  "key_findings": [
+    "Rebellion acquired The Bitmap Brothers brand and entire portfolio in 2019, creating an unusually strong modern licensing route for Speedball, Xenon, The Chaos Engine, Gods and related titles.",
+    "Rebellion actively released a new Speedball in 2026, so Speedball is currently exploited IP rather than dormant abandonware.",
+    "Sensible Software's key rights route runs through Codemasters; Jon Hare has publicly described Sensible Soccer as owned by Codemasters, and current trademark evidence places SENSIBLE with Electronic Arts.",
+    "EA completed its acquisition of Codemasters in 2021; this creates a strong corporate/licensing route but does not eliminate release/component-level verification.",
+    "Football games require separate data/trademark/likeness analysis if historic team/player identities are reused publicly.",
+    "Codemasters' own historical catalogue can include third-party brands such as Micro Machines, which must be modeled as separate rights layers.",
+    "This batch suggests a Licensing Feasibility Score distinct from legal confidence: a title can have very clear rights yet be a poor licensing target because it is actively exploited."
+  ],
+  "architecture_finding": {
+    "name": "Licensing Feasibility Score",
+    "dimensions": [
+      "rights_clarity",
+      "licensing_route_clarity",
+      "current_commercial_activity",
+      "external_license_complexity",
+      "rightsholder_size",
+      "catalogue_fit",
+      "technical_demo_value",
+      "brand_risk"
+    ],
+    "separate_from": "legal_confidence",
+    "reason": "High-confidence ownership and high probability of obtaining a practical RGME license are different things."
+  }
+}

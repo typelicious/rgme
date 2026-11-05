@@ -1,0 +1,141 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "001",
+  "generated_at": "2026-10-28",
+  "records": [
+    {
+      "canonical_id": "battle-isle",
+      "canonical_title": "Battle Isle",
+      "library_matches": [
+        "Battle Isle (Data Disks).lha",
+        "Battle Isle.lha"
+      ],
+      "original_developer": "Blue Byte Software GmbH",
+      "original_publishers": [
+        "Blue Byte Software GmbH",
+        "Ubi Soft Entertainment Software (some territories)"
+      ],
+      "release_year": 1991,
+      "current_rights_holder_assessment": "Ubisoft / Blue Byte lineage",
+      "holder_confidence": "high",
+      "commercial_status": "actively commercially exploited",
+      "current_distribution": [
+        "Ubisoft Store: Battle Isle Platinum"
+      ],
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "licensing_lead": "Ubisoft",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Ubisoft documents its 2001 acquisition of Blue Byte and identifies Battle Isle as a Blue Byte series.",
+        "Ubisoft currently markets Battle Isle Platinum.",
+        "Exact Amiga archive/release hashes remain to be verified."
+      ],
+      "evidence_urls": [
+        "https://www.ubisoft.com/en-us/games/battle-isle-platinum",
+        "https://staticctf.ubisoft.com/8aefmxkxpxwl/1j7txOvc9AbSeGfZBghy8N/060db83e9d5b75bac64339405e3442af/RA_2001-2002_UK.PDF",
+        "https://www.mobygames.com/game/5812/battle-isle/releases/"
+      ]
+    },
+    {
+      "canonical_id": "oil-imperium",
+      "canonical_title": "Oil Imperium",
+      "aliases": [
+        "Black Gold"
+      ],
+      "library_matches": [
+        "Oil Imperium.lha",
+        "Oil Imperium (DE).lha",
+        "Black Gold (Reline).lha"
+      ],
+      "original_developer": "reLINE Software",
+      "original_publishers": [
+        "reLINE Software",
+        "Rainbow Arts"
+      ],
+      "release_year": 1989,
+      "current_rights_holder_assessment": "Archangels Studio / Oliver Maslo is a plausible licensing lead; chain of title for the 1989 Amiga work is not verified",
+      "holder_confidence": "medium-low",
+      "commercial_status": "historical IP with current Oil Imperium-branded web presence",
+      "rights_class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "licensing_lead": "Archangels Studio / Oil Empire web presence — verify chain before relying on it",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_pending_chain_of_title",
+        "browser_hosting": "deny_pending_chain_of_title",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_pending_license",
+        "commercial_use": "deny_pending_license"
+      },
+      "notes": [
+        "Historical sources identify reLINE Software and the 1989 release.",
+        "A secondary source says current rights are held by Archangel Studios.",
+        "Current oilempire.com/oilimperium.de imprint identifies archangels studio / Oliver Maslo and asserts copyright in the current service.",
+        "This does not prove ownership of every 1989 component.",
+        "Potentially attractive RGME licensing target."
+      ],
+      "evidence_urls": [
+        "https://www.oilempire.com/impress/en",
+        "https://wall-jump.com/de/nachgebohrt/",
+        "https://c64-spielefuehrer.c64-wiki.de/wiki/Oil_Imperium"
+      ]
+    },
+    {
+      "canonical_id": "zak-mckracken",
+      "canonical_title": "Zak McKracken and the Alien Mindbenders",
+      "library_matches": [
+        "Zak McKracken (FR).lha",
+        "Zak McKracken (IT).lha",
+        "Zak McKracken.lha",
+        "Zak McKracken (DE).lha"
+      ],
+      "original_developer": "Lucasfilm Games",
+      "original_publishers": [
+        "Lucasfilm Games / Lucasfilm Ltd."
+      ],
+      "release_year": 1988,
+      "current_rights_holder_assessment": "Lucasfilm / Disney",
+      "holder_confidence": "high",
+      "commercial_status": "actively commercially exploited",
+      "current_distribution": [
+        "GOG",
+        "Steam"
+      ],
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "licensing_lead": "Lucasfilm / Disney",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Steam currently lists Lucasfilm Games as developer and Lucasfilm, Disney as publishers.",
+        "GOG currently lists Lucasfilm / Disney.",
+        "Commercial versions use ScummVM; this proves modern runtime viability, not permission to redistribute the Amiga version.",
+        "Exact hashes are needed to distinguish library language releases."
+      ],
+      "evidence_urls": [
+        "https://store.steampowered.com/app/559070/Zak_McKracken_and_the_Alien_Mindbenders/",
+        "https://www.gog.com/en/game/zak_mckracken_and_the_alien_mindbenders"
+      ]
+    }
+  ]
+}

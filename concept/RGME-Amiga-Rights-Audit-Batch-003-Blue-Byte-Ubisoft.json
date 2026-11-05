@@ -1,0 +1,302 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "003",
+  "generated_at": "2026-10-28",
+  "family": "Blue Byte / Ubisoft",
+  "records": [
+    {
+      "title": "Battle Isle",
+      "library_matches": [
+        "Battle Isle (Data Disks).lha",
+        "Battle Isle.lha"
+      ],
+      "historical": "Blue Byte; 1991",
+      "current_rights_assessment": "Ubisoft / Blue Byte lineage",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Ubisoft acquired Blue Byte in 2001.",
+        "Ubisoft currently sells Battle Isle Platinum.",
+        "Active commercial exploitation; direct Ubisoft licensing route."
+      ]
+    },
+    {
+      "title": "The Settlers",
+      "library_matches": [
+        "Settlers (FR).lha",
+        "Settlers.lha"
+      ],
+      "historical": "Blue Byte; 1993 Amiga original",
+      "current_rights_assessment": "Ubisoft",
+      "confidence": "verified/high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Ubisoft currently operates The Settlers franchise and sells modern entries.",
+        "Strong direct corporate/IP continuity; unsuitable for bundled RGME binary without permission.",
+        "Excellent BYOG technical showcase."
+      ]
+    },
+    {
+      "title": "Great Courts 2",
+      "library_matches": [
+        "Great Courts 2 (512k).lha",
+        "Great Courts 2.lha"
+      ],
+      "historical": "Blue Byte / Ubisoft publishing lineage; tennis title",
+      "current_rights_assessment": "Ubisoft/Blue Byte lineage likely, exact title-specific rights scope should be verified",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Blue Byte catalogue title; library contains standard and 512k variants.",
+        "Treat title-specific assets and third-party names/licences separately."
+      ]
+    },
+    {
+      "title": "Pro Tennis Tour 2",
+      "library_matches": [
+        "Pro Tennis Tour 2 (512k).lha",
+        "Pro Tennis Tour 2.lha"
+      ],
+      "historical": "Blue Byte-era tennis title; known as Great Courts 2 in some markets",
+      "current_rights_assessment": "Ubisoft/Blue Byte lineage likely; edition/title mapping requires hash/release verification",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Potential regional/title alias relationship with Great Courts 2.",
+        "Do not merge records until exact release identity is verified."
+      ]
+    },
+    {
+      "title": "Tom and the Ghost",
+      "library_matches": [
+        "Tom And The Ghost.lha"
+      ],
+      "historical": "Blue Byte published; development/underlying authorship may be separate",
+      "current_rights_assessment": "Current holder not proven solely by Blue Byte acquisition",
+      "confidence": "medium-low",
+      "rights_class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Publisher succession is not sufficient proof of ownership of all game components.",
+        "Good candidate for author/developer-chain research."
+      ]
+    },
+    {
+      "title": "Atomino",
+      "library_matches": [
+        "Atomino (DE).lha",
+        "Atomino (NTSC).lha",
+        "Atomino.lha"
+      ],
+      "historical": "Published by Psygnosis in some markets; Blue Byte involvement varies by release",
+      "current_rights_assessment": "Do not assign to Ubisoft as a single rights chain",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Library includes standard/NTSC variants.",
+        "Requires release-specific publisher/developer and rights analysis; publisher family shortcut rejected."
+      ]
+    },
+    {
+      "title": "Yo! Joe!",
+      "library_matches": [
+        "Yo Joe(Demo).lha",
+        "Yo Joe.lha"
+      ],
+      "historical": "Scipio / Play Byte; Blue Byte publishing association",
+      "current_rights_assessment": "Current rights holder unresolved",
+      "confidence": "medium-low",
+      "rights_class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Demo and likely full version present in library.",
+        "Potential smaller-rightsholder outreach case; do not infer Ubisoft ownership from publishing relationship."
+      ]
+    },
+    {
+      "title": "Historyline 1914-1918",
+      "library_matches": [
+        "Historyline (DE).lha",
+        "Historyline (FR).lha",
+        "Historyline.lha"
+      ],
+      "historical": "Blue Byte-associated catalogue; title-specific development/publishing history",
+      "current_rights_assessment": "Title-specific chain requires verification",
+      "confidence": "low",
+      "rights_class": "E",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Presence confirmed in local listing; requires dedicated title audit."
+      ]
+    },
+    {
+      "title": "Apidya",
+      "library_matches": [
+        "Apidya (Audios).lha",
+        "Apidya (Kaiko).lha"
+      ],
+      "historical": "Blue Byte-associated catalogue; title-specific development/publishing history",
+      "current_rights_assessment": "Title-specific chain requires verification",
+      "confidence": "low",
+      "rights_class": "E",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Presence confirmed in local listing; requires dedicated title audit."
+      ]
+    },
+    {
+      "title": "Amberstar",
+      "library_matches": [
+        "Amberstar (DE).lha",
+        "Amberstar (Fast) (DE).lha",
+        "Amberstar (Fast).lha",
+        "Amberstar.lha"
+      ],
+      "historical": "Blue Byte-associated catalogue; title-specific development/publishing history",
+      "current_rights_assessment": "Title-specific chain requires verification",
+      "confidence": "low",
+      "rights_class": "E",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Presence confirmed in local listing; requires dedicated title audit."
+      ]
+    },
+    {
+      "title": "Ambermoon",
+      "library_matches": [
+        "Ambermoon (DE).lha",
+        "Ambermoon.lha"
+      ],
+      "historical": "Blue Byte-associated catalogue; title-specific development/publishing history",
+      "current_rights_assessment": "Title-specific chain requires verification",
+      "confidence": "low",
+      "rights_class": "E",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title_specific_permission",
+        "browser_hosting": "deny_without_title_specific_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Presence confirmed in local listing; requires dedicated title audit."
+      ]
+    }
+  ],
+  "method_note": "Blue Byte acquisition by Ubisoft is strong corporate evidence, but titles merely published by Blue Byte are not automatically assigned to Ubisoft. Title-specific code/art/music/trademark rights remain separate.",
+  "key_findings": [
+    "Ubisoft's acquisition of Blue Byte establishes a strong successor route for core Blue Byte-owned IP.",
+    "Battle Isle and The Settlers are actively exploited Ubisoft IP and remain Class D.",
+    "Regional title aliases such as Pro Tennis Tour 2 / Great Courts 2 require release/hash verification before records are merged.",
+    "Blue Byte publishing credit alone is insufficient to establish ownership for titles developed or owned by third parties."
+  ]
+}

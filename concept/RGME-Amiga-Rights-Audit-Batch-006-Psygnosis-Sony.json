@@ -1,0 +1,941 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "006",
+  "generated_at": "2026-10-28",
+  "family": "Psygnosis / Sony Interactive Entertainment",
+  "records": [
+    {
+      "title": "Shadow of the Beast",
+      "library_matches": [
+        "Shadow Of The Beast (Demo).lha",
+        "Shadow Of The Beast.lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Sony Interactive Entertainment currently publishes the 2016 Shadow of the Beast reimagining.",
+        "PlayStation legal text identifies Shadow of the Beast as a Sony trademark.",
+        "Original Amiga release/component rights should still be checked before any binary/remaster distribution."
+      ]
+    },
+    {
+      "title": "Shadow of the Beast II",
+      "library_matches": [
+        "Shadow Of The Beast 2 (Demo).lha",
+        "Shadow Of The Beast 2 (NTSC).lha",
+        "Shadow Of The Beast 2.lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Sony Interactive Entertainment currently publishes the 2016 Shadow of the Beast reimagining.",
+        "PlayStation legal text identifies Shadow of the Beast as a Sony trademark.",
+        "Original Amiga release/component rights should still be checked before any binary/remaster distribution."
+      ]
+    },
+    {
+      "title": "Shadow of the Beast III",
+      "library_matches": [
+        "Shadow Of The Beast 3 (NTSC).lha",
+        "Shadow Of The Beast 3.lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Sony Interactive Entertainment currently publishes the 2016 Shadow of the Beast reimagining.",
+        "PlayStation legal text identifies Shadow of the Beast as a Sony trademark.",
+        "Original Amiga release/component rights should still be checked before any binary/remaster distribution."
+      ]
+    },
+    {
+      "title": "Lemmings",
+      "library_matches": [
+        "Lemmings (CDTV).lha",
+        "Lemmings (Demo).lha",
+        "Lemmings (Image) (AltLevels).lha",
+        "Lemmings (Image) (NTSC).lha",
+        "Lemmings (Image).lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Original Amiga Lemmings was developed by DMA Design and published by Psygnosis.",
+        "Current trademark evidence lists Sony Interactive Entertainment Europe Limited as owner.",
+        "Exient describes Lemmings as Sony IP and currently publishes the mobile title under license.",
+        "Original game binary/data remains proprietary."
+      ]
+    },
+    {
+      "title": "Oh No! More Lemmings",
+      "library_matches": [
+        "Oh No More Lemmings (NTSC).lha",
+        "Oh No More Lemmings.lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Original Amiga Lemmings was developed by DMA Design and published by Psygnosis.",
+        "Current trademark evidence lists Sony Interactive Entertainment Europe Limited as owner.",
+        "Exient describes Lemmings as Sony IP and currently publishes the mobile title under license.",
+        "Original game binary/data remains proprietary."
+      ]
+    },
+    {
+      "title": "Holiday Lemmings",
+      "library_matches": [
+        "Lemmings - Holiday (Demo).lha",
+        "Lemmings - Holiday 1993.lha",
+        "Lemmings - Holiday 1994.lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Original Amiga Lemmings was developed by DMA Design and published by Psygnosis.",
+        "Current trademark evidence lists Sony Interactive Entertainment Europe Limited as owner.",
+        "Exient describes Lemmings as Sony IP and currently publishes the mobile title under license.",
+        "Original game binary/data remains proprietary."
+      ]
+    },
+    {
+      "title": "New Year Lemmings",
+      "library_matches": [
+        "Lemmings - New Year 9192.lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Original Amiga Lemmings was developed by DMA Design and published by Psygnosis.",
+        "Current trademark evidence lists Sony Interactive Entertainment Europe Limited as owner.",
+        "Exient describes Lemmings as Sony IP and currently publishes the mobile title under license.",
+        "Original game binary/data remains proprietary."
+      ]
+    },
+    {
+      "title": "Lemmings 2: The Tribes",
+      "library_matches": [
+        "Lemmings 2 (1MB) (NTSC).lha",
+        "Lemmings 2 (1MB).lha",
+        "Lemmings 2 (512k) (NTSC).lha",
+        "Lemmings 2 (512k).lha",
+        "Lemmings 2 (Demo).lha"
+      ],
+      "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Original Amiga Lemmings was developed by DMA Design and published by Psygnosis.",
+        "Current trademark evidence lists Sony Interactive Entertainment Europe Limited as owner.",
+        "Exient describes Lemmings as Sony IP and currently publishes the mobile title under license.",
+        "Original game binary/data remains proprietary."
+      ]
+    },
+    {
+      "title": "Awesome",
+      "library_matches": [
+        "Awesome.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Agony",
+      "library_matches": [
+        "Agony (Demo).lha",
+        "Agony (NTSC).lha",
+        "Agony.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Armour-Geddon",
+      "library_matches": [
+        "Armour Geddon (NTSC).lha",
+        "Armour Geddon 2.lha",
+        "Armour Geddon.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Baal",
+      "library_matches": [
+        "Baal.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Barbarian (Psygnosis)",
+      "library_matches": [
+        "Barbarian (Psygnosis).lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Barbarian II (Psygnosis)",
+      "library_matches": [
+        "Barbarian2 (Psygnosis).lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Blood Money",
+      "library_matches": [
+        "Blood Money.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Brat",
+      "library_matches": [
+        "Brat.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Carthage",
+      "library_matches": [
+        "Carthage (NTSC).lha",
+        "Carthage.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "The Killing Game Show",
+      "library_matches": [
+        "Killing Game Show.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Leander",
+      "library_matches": [
+        "Leander (NTSC).lha",
+        "Leander.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Menace",
+      "library_matches": [
+        "Menace.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Nitro",
+      "library_matches": [
+        "Nitro (NTSC).lha",
+        "Nitro Boost Challenge.lha",
+        "Nitro.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Obitus",
+      "library_matches": [
+        "Obitus.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Ork",
+      "library_matches": [
+        "Ork (Demo).lha",
+        "Ork (NTSC).lha",
+        "Ork Attack The Return.lha",
+        "Ork.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Puggsy",
+      "library_matches": [
+        "Puggsy.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Walker",
+      "library_matches": [
+        "Walker Crunched (DE).lha",
+        "Walker Crunched (No Speech) (DE).lha",
+        "Walker Crunched (No Speech).lha",
+        "Walker Crunched.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Amnios",
+      "library_matches": [
+        "Amnios.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Aquaventura",
+      "library_matches": [
+        "Aquaventura (NTSC).lha",
+        "Aquaventura.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Bill's Tomato Game",
+      "library_matches": [
+        "Bills Tomato Game.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Hired Guns",
+      "library_matches": [
+        "Hired Guns (1MB).lha",
+        "Hired Guns (512k).lha",
+        "Hired Guns (Demo) (1MB).lha",
+        "Hired Guns (Demo) (512k).lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Perihelion",
+      "library_matches": [
+        "Perihelion.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Infestation",
+      "library_matches": [
+        "Infestation.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Deep Space",
+      "library_matches": [
+        "Deep Space.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Obliterator",
+      "library_matches": [
+        "Obliterator.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical Psygnosis relationship is strong.",
+        "Sony acquired Psygnosis, but title-specific ownership of code, art, music and trademark must not be inferred solely from acquisition."
+      ]
+    },
+    {
+      "title": "Brian the Lion",
+      "library_matches": [
+        "Brian The Lion.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Second Samurai",
+      "library_matches": [
+        "Second Samurai.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    },
+    {
+      "title": "Wiz 'n' Liz",
+      "library_matches": [
+        "Wiz'N'Liz.lha"
+      ],
+      "current_rights_assessment": "Psygnosis-published/developed relationship; current IP chain requires title-specific research",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_title-specific permission",
+        "browser_hosting": "deny_without_title-specific permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Historical publishing credit is insufficient to establish current ownership.",
+        "Developer/creator contracts and later transfers should be researched separately."
+      ]
+    }
+  ],
+  "correction_log": [
+    {
+      "claim": "Exient acquired the Lemmings IP from Sony",
+      "status": "retracted_not_supported",
+      "corrected_claim": "Sony Interactive Entertainment Europe remains evidenced as trademark owner; Exient is a current licensee/publisher for Lemmings mobile.",
+      "reason": "Primary/stronger evidence contradicted the preliminary hypothesis."
+    }
+  ],
+  "key_findings": [
+    "Shadow of the Beast has a strong current Sony rights route: Sony Interactive Entertainment publishes the 2016 reimagining and asserts trademark rights.",
+    "Lemmings also has a strong Sony rights route. Exient currently publishes the mobile game under license; it should not be modeled as owner based on current evidence.",
+    "Psygnosis/Sony corporate succession is research evidence, not automatic proof that Sony owns every game Psygnosis ever published.",
+    "Titles developed by third parties but published by Psygnosis require separate chain-of-title research.",
+    "RGME should add explicit claim lifecycle states so retracted/superseded rights hypotheses remain auditable rather than silently overwritten."
+  ],
+  "evidence_urls": [
+    "https://store.playstation.com/en-us/concept/204156/",
+    "https://exient.com/2019/12/12/exient-publishing-operation-grows/",
+    "https://exient.com/2021/08/25/lemmings-doc-30th-anniversary-press/",
+    "https://exient.com/2026/09/08/lemmings-season-100/",
+    "https://trademarks.justia.com/741/15/lemmings-74115666.html",
+    "https://www.sony.com/en/SonyInfo/IR/library/ar/ar_sony_1996.pdf"
+  ]
+}

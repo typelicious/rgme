@@ -1,0 +1,127 @@
+{
+  "projectName": "Retro Game Modernization Engine (RGME)",
+  "version": "0.2.0",
+  "status": "ready",
+  "methodology": "ralph",
+  "autonomy_policy": "medium",
+  "session_schedule": "batch",
+  "execution_recommendation": {
+    "mode": "standard",
+    "suggested_workflow": "ralph_attended",
+    "complexity": "medium",
+    "estimated_duration_hours": 3,
+    "target_milestone": "Milestone 1 (Foundation & Demonstrator Slice)"
+  },
+  "tasks": [
+    {
+      "id": "ARCH-001",
+      "title": "Initialize Monorepo, Build Tooling and CI Baseline",
+      "description": "Establish the TypeScript monorepo structure with @rgme/core, @rgme/cli, and @rgme/web packages using pnpm workspaces and Vitest.",
+      "acceptanceCriteria": [
+        "Monorepo root configured with pnpm-workspace.yaml or npm workspaces",
+        "Packages @rgme/core, @rgme/cli, @rgme/web initialized with TypeScript configs",
+        "pnpm build (or npm run build) compiles all packages with 0 errors",
+        "pnpm test runs Vitest across all workspace packages and passes"
+      ],
+      "priority": "high",
+      "estimatedEffort": "1",
+      "dependsOn": [],
+      "type": "infrastructure",
+      "passes": false
+    },
+    {
+      "id": "CORE-001",
+      "title": "Implement GameProfile and Rights Intelligence Domain Schemas",
+      "description": "Create strict Zod schemas and TypeScript types for GameProfile v0.2, Rights Record, and the Rights Policy Engine in @rgme/core.",
+      "acceptanceCriteria": [
+        "Zod schemas and types for GameProfile, MachineConfig (A500/A600, OCS/ECS, PAL/NTSC), InputMapping, DisplayProfile",
+        "RightsRecord and EvidenceStore schemas reflecting the RGME Rights Matrix format",
+        "RightsPolicyEngine.evaluateAction() enforces the golden rule: Unknown rights never become permission by inference",
+        "Comprehensive unit tests in @rgme/core verifying valid/invalid profiles and policy decisions (allow, local_only, deny)"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["ARCH-001"],
+      "type": "schema",
+      "passes": false,
+      "boundaries": [
+        {
+          "kind": "storage",
+          "data_contract": {
+            "artifact": "GameProfile JSON/YAML",
+            "versioning": "schema rgme.game/v0.2",
+            "producer": "@rgme/cli",
+            "consumer": "@rgme/web",
+            "compatibility": "backward compatible"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CORE-002",
+      "title": "Implement RuntimeAdapter Contract and MockRuntimeAdapter",
+      "description": "Define the generic RuntimeAdapter interface in @rgme/core and implement MockRuntimeAdapter for headless and browser testing.",
+      "acceptanceCriteria": [
+        "RuntimeAdapter interface cleanly isolates emulator internals from game profiles and UI",
+        "Methods: identifyCapabilities, loadGame, start, pause, reset, saveState, loadState, setInputMapping, setDisplayProfile, insertMedia",
+        "MockRuntimeAdapter implements the interface, generates test pattern video frames on HTML5 Canvas, and manages mock save-states",
+        "Unit tests in @rgme/core verifying adapter state transitions (UNLOADED -> LOADED -> RUNNING -> PAUSED -> STOPPED)"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["CORE-001"],
+      "type": "architecture",
+      "passes": false
+    },
+    {
+      "id": "CLI-001",
+      "title": "Implement Local File Ingestion and Rights Resolver in @rgme/cli",
+      "description": "Build the CLI command to scan directories for Amiga ADF disk images, compute SHA-256 hashes, and match against rights records.",
+      "acceptanceCriteria": [
+        "CLI command 'rgme scan <directory>' recursively discovers .adf files without modifying them",
+        "Streaming SHA-256 calculation for low memory overhead",
+        "Resolver matches hash/metadata against Rights Matrix dataset and outputs formatted table",
+        "Generates declarative GameProfile YAML file for identified titles",
+        "Unit and fixture tests verifying scanner output against sample ADF hashes"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["CORE-001"],
+      "type": "feature",
+      "passes": false
+    },
+    {
+      "id": "UI-001",
+      "title": "Build Web Player Shell with Design System and Viewport in @rgme/web",
+      "description": "Create the modern web interface using Vite, React, and the RGME design tokens with Amiga heritage accents and CRT simulation.",
+      "acceptanceCriteria": [
+        "Design tokens from .skillweave/design/rgme-design-system.md implemented in CSS/Tailwind",
+        "Drag-and-drop ADF file ingestion zone with client-side SHA-256 hash calculation",
+        "GameProfile inspector component showing machine specs, chipset, and color-coded Rights badge",
+        "Canvas viewport component with 4:3 PAL aspect-ratio preservation and togglable CRT scanline shader",
+        "Virtual gamepad HUD with Amiga joystick/button mapping indicators"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["CORE-001", "CORE-002"],
+      "type": "ui",
+      "passes": false
+    },
+    {
+      "id": "INTEG-001",
+      "title": "End-to-End M1 Demonstrator Integration and Verification",
+      "description": "Integrate @rgme/web with MockRuntimeAdapter and sample profiles, verify full ingestion-to-launch flow, and enforce test gates.",
+      "acceptanceCriteria": [
+        "Web shell launches mock game on canvas upon loading profile or dropping demo ADF",
+        "Rights policy correctly blocks unauthorized actions and displays badge",
+        "Keyboard controls translate to Amiga joystick inputs with visual feedback in HUD",
+        "Full test suite across monorepo passes with zero errors and test report generated"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["CLI-001", "UI-001"],
+      "type": "testing",
+      "passes": false
+    }
+  ]
+}

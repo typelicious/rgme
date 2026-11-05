@@ -1,0 +1,164 @@
+{
+  "schema": "rgme.concept/v0.2",
+  "title": "Retro Game Modernization Engine",
+  "version": "0.2",
+  "date": "2026-10-28",
+  "vision": "A local-first, browser-first modernization and preservation engine that keeps original games immutable while applying reproducible runtime profiles, controls, display treatments, research evidence, patches and optional enhancement packages.",
+  "principles": [
+    "original-content-immutable",
+    "engine-content-separation",
+    "local-first",
+    "browser-first-not-browser-only",
+    "game-profile-central-abstraction",
+    "runtime-adapter-isolation",
+    "evidence-before-ai-claims",
+    "rights-by-component-and-action",
+    "no-abandonware-assumption",
+    "reproducible-modernization"
+  ],
+  "modernization_modes": [
+    "authentic",
+    "crt",
+    "enhanced-retro",
+    "modern",
+    "remastered"
+  ],
+  "architecture": {
+    "layers": [
+      "library-and-identity",
+      "rights-intelligence",
+      "game-profile",
+      "runtime-adapters",
+      "modern-experience",
+      "research-workbench",
+      "enhancement-packages",
+      "web-desktop-cli"
+    ],
+    "mvp_runtime": "EmulatorJS/libretro/PUAE",
+    "research_runtime_candidate": "Copperline",
+    "static_analysis": "Ghidra",
+    "agentic_re_orchestration": "REA",
+    "registry": "SQLite",
+    "profiles": "YAML/JSON"
+  },
+  "rights_intelligence": {
+    "pipeline": [
+      "scan",
+      "identify",
+      "normalize",
+      "resolve-rights",
+      "collect-evidence",
+      "classify-actions",
+      "policy-decision"
+    ],
+    "classes": {
+      "A": "verified-public-domain",
+      "B": "open-licensed",
+      "C": "explicit-freeware-or-redistribution-permission",
+      "D": "copyrighted-identifiable-rights-path",
+      "E": "unknown-research-required"
+    },
+    "actions": [
+      "private_execution",
+      "binary_redistribution",
+      "reverse_engineering",
+      "patch_distribution",
+      "browser_hosting",
+      "modification",
+      "remaster_distribution",
+      "commercial_use"
+    ],
+    "component_scope": [
+      "code",
+      "graphics",
+      "music",
+      "audio",
+      "text",
+      "manuals",
+      "box_art",
+      "trademarks"
+    ],
+    "policy": "Never infer permission from age, abandonware labels, publisher disappearance, or file possession."
+  },
+  "library_baseline": {
+    "source": "amiga600-game-list.txt",
+    "listed_files": 2992,
+    "canonical_groups_heuristic": 2369,
+    "seed_green_candidates": [
+      "Beneath a Steel Sky",
+      "Lure of the Temptress",
+      "Flight of the Amazon Queen"
+    ]
+  },
+  "repo": {
+    "apps": [
+      "web",
+      "cli"
+    ],
+    "packages": [
+      "core",
+      "runtime/adapter-api",
+      "runtime/emulatorjs",
+      "runtime/puae",
+      "runtime/copperline",
+      "input",
+      "display",
+      "ingestion",
+      "identity",
+      "rights",
+      "evidence",
+      "research",
+      "enhancements"
+    ],
+    "schemas": [
+      "game-profile.schema.json",
+      "rights-record.schema.json",
+      "enhancement.schema.json",
+      "evidence.schema.json"
+    ],
+    "directories": [
+      "profiles",
+      "rights",
+      "tools/ghidra",
+      "docs",
+      "examples"
+    ]
+  },
+  "mvp": {
+    "target": "Amiga 500/600 PAL local content",
+    "success": "One legally usable local game launched unmodified in a modern browser with modern controller and selectable display profile, with a machine-readable rights record and evidence provenance.",
+    "non_goals": [
+      "mass decompilation",
+      "automatic remastering",
+      "hosting copyrighted commercial game binaries",
+      "claiming scaled 16:9 as true widescreen"
+    ]
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "runtime-and-profile-mvp"
+    },
+    {
+      "id": 2,
+      "name": "library-identity-rights"
+    },
+    {
+      "id": 3,
+      "name": "research-workbench"
+    },
+    {
+      "id": 4,
+      "name": "ai-assisted-game-archaeology"
+    },
+    {
+      "id": 5,
+      "name": "enhancement-sdk"
+    },
+    {
+      "id": 6,
+      "name": "multi-platform"
+    }
+  ],
+  "next_artifact": "MVP Technical Specification / PRD v0.2"
+}

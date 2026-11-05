@@ -1,0 +1,881 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "008",
+  "generated_at": "2026-10-28",
+  "family": "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft",
+  "records": [
+    {
+      "title": "King's Quest I",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Kings Quest (Enhanced).lha",
+        "Kings Quest.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "King's Quest II",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Kings Quest 2.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "King's Quest III",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Kings Quest 3.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "King's Quest IV",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Kings Quest 4.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "King's Quest V",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Kings Quest 5 (DE).lha",
+        "Kings Quest 5 (IT).lha",
+        "Kings Quest 5.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "King's Quest VI",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Kings Quest 6 (DE).lha",
+        "Kings Quest 6 (FR).lha",
+        "Kings Quest 6.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Space Quest I",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Space Quest (Enhanced).lha",
+        "Space Quest (NTSC).lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Space Quest II",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Space Quest 2.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Space Quest III",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Space Quest 3 (DE).lha",
+        "Space Quest 3.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Space Quest IV",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Space Quest 4 (DE).lha",
+        "Space Quest 4 (NTSC).lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Leisure Suit Larry 1",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Leisure Suit Larry (Enhanced).lha",
+        "Leisure Suit Larry.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Leisure Suit Larry 2",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Leisure Suit Larry 2.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Leisure Suit Larry 3",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Leisure Suit Larry 3.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Leisure Suit Larry 5",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Leisure Suit Larry 5 (DE).lha",
+        "Leisure Suit Larry 5.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Police Quest I",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Police Quest (NTSC).lha",
+        "Police Quest.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Police Quest II",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Police Quest 2.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Police Quest III",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Police Quest 3 (DE).lha",
+        "Police Quest 3 (NTSC).lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Quest for Glory / Hero's Quest",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Quest For Glory 2.lha",
+        "Quest For Glory.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Strong current Activision/Sierra catalogue succession route under Microsoft ownership; title/component rights remain release-specific",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "The Colonel's Bequest",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Colonels Bequest.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Conquests of Camelot",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Conquests Of Camelot.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Conquests of the Longbow",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Conquests Of The Longbow.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Gold Rush!",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Gold Rush.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Manhunter",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Manhunter 2 (NTSC).lha",
+        "Manhunter.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Codename: Iceman",
+      "family": "Sierra On-Line / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Code Name Iceman.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Rise of the Dragon",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Rise Of The Dragon (DE).lha",
+        "Rise Of The Dragon.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Heart of China",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Heart Of China (DE).lha",
+        "Heart Of China.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "The Adventures of Willy Beamish",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Adventures Of Willy Beamish.lha"
+      ],
+      "execution_note": "ScummVM-supported family / verify exact Amiga release support",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Red Baron",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Red Baron (DE).lha",
+        "Red Baron.lha"
+      ],
+      "execution_note": "native Amiga / PUAE primary",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "A-10 Tank Killer",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "A10 Tank Killer (2 Disk).lha",
+        "A10 Tank Killer (3 Disk).lha"
+      ],
+      "execution_note": "native Amiga / PUAE primary",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Stellar 7",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Stellar 7 (DE).lha",
+        "Stellar 7 (NTSC).lha"
+      ],
+      "execution_note": "native Amiga / PUAE primary",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "Nova 9",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "Nova 9.lha"
+      ],
+      "execution_note": "native Amiga / PUAE primary",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    },
+    {
+      "title": "B-17 Flying Fortress",
+      "family": "Dynamix / Sierra / Activision Blizzard / Microsoft",
+      "library_matches": [
+        "B17 Flying Fortress (Demo).lha",
+        "B17 Flying Fortress.lha"
+      ],
+      "execution_note": "native Amiga / PUAE primary",
+      "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "engine_runtime_with_user_data": "candidate",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Corporate ownership of Activision Blizzard by Microsoft is not itself a title-level IP assignment.",
+        "ScummVM compatibility, where applicable, does not grant rights to redistribute proprietary game data."
+      ]
+    }
+  ],
+  "key_findings": [
+    "Microsoft completed its acquisition of Activision Blizzard on 2023-10-13, placing the Activision/Sierra corporate catalogue inside Microsoft ownership.",
+    "Corporate succession is strong evidence for a licensing route but is not equivalent to proof of every title-level or component-level right.",
+    "Many Sierra AGI/SCI adventures are supported by ScummVM, making this family an excellent second large engine-aware BYOG corpus after Lucasfilm.",
+    "ScummVM runtime licensing and Sierra game-data rights must remain separate.",
+    "Dynamix requires its own title/runtime grouping even though its later corporate history runs through Sierra.",
+    "RGME should model an IP steward/licensing route separately from corporate parent ownership."
+  ],
+  "architecture_finding": {
+    "new_relation": "CORPORATE_PARENT_OF",
+    "recommended_separation": [
+      "OWNS_IP",
+      "OWNS_TRADEMARK",
+      "LICENSES_IP",
+      "CORPORATE_PARENT_OF",
+      "PUBLISHES",
+      "DISTRIBUTES"
+    ],
+    "new_field": "licensing_route_or_ip_steward",
+    "reason": "The company controlling a corporate group is not necessarily the legal entity directly holding each historical copyright or trademark."
+  }
+}

@@ -1,0 +1,48 @@
+version: "1.0"
+sequence_id: "rgme-milestone-1-execution"
+project: "Retro Game Modernization Engine (RGME)"
+methodology: "ralph"
+autonomy_policy: "medium"
+session_schedule: "batch"
+target_budget: "15 USD (Claude Cloud)"
+
+execution_envelope:
+  max_iterations_per_task: 3
+  stop_on_gate_failure: true
+  evidence_required: true
+
+batches:
+  - id: "batch-01-scaffold"
+    name: "Monorepo Scaffold & Infrastructure"
+    tasks: ["ARCH-001"]
+    parallel: false
+    gate:
+      command: "pnpm build && pnpm test"
+      expected: "clean build and test run"
+
+  - id: "batch-02-core-domain"
+    name: "Domain Schemas & Runtime Abstraction"
+    tasks: ["CORE-001", "CORE-002"]
+    parallel: true
+    depends_on: ["batch-01-scaffold"]
+    gate:
+      command: "pnpm --filter @rgme/core test"
+      expected: "100% test pass on schemas, rights policy, and mock adapter"
+
+  - id: "batch-03-cli-and-ui"
+    name: "CLI Ingestion & Web UI Shell"
+    tasks: ["CLI-001", "UI-001"]
+    parallel: true
+    depends_on: ["batch-02-core-domain"]
+    gate:
+      command: "pnpm --filter @rgme/cli test && pnpm --filter @rgme/web build"
+      expected: "CLI scanner tests pass and Web Vite build succeeds"
+
+  - id: "batch-04-integration"
+    name: "E2E Verification & Demonstrator"
+    tasks: ["INTEG-001"]
+    parallel: false
+    depends_on: ["batch-03-cli-and-ui"]
+    gate:
+      command: "pnpm test && pnpm build"
+      expected: "Full monorepo integration passes with zero warnings/errors"

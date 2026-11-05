@@ -1,0 +1,284 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "002",
+  "generated_at": "2026-10-28",
+  "family": "reLINE / Rainbow Arts",
+  "records": [
+    {
+      "title": "Fate: Gates of Dawn",
+      "library_matches": [
+        "Fate Gates Of Dawn (DE).lha",
+        "Fate Gates Of Dawn (Uncensored).lha",
+        "Fate Gates Of Dawn.lha"
+      ],
+      "historical": "reLINE Software; 1991",
+      "rights_status": "freeware_permission_reported_not_primary_verified",
+      "class": "C?",
+      "opportunity": "GREEN_PENDING_PRIMARY_EVIDENCE",
+      "confidence": "medium",
+      "lead": "Creator/rightsholder permission reportedly granted; locate original statement",
+      "notes": [
+        "Multiple sources state freeware with creator permission.",
+        "WHDLoad documents English v1.6 and German v1.4/v1.7.",
+        "Do not promote to verified redistribution permission until original grant/scope is recovered."
+      ]
+    },
+    {
+      "title": "Legend of Faerghail",
+      "library_matches": [
+        "Legend Of Faerghail (DE).lha",
+        "Legend Of Faerghail (NTSC).lha",
+        "Legend Of Faerghail.lha"
+      ],
+      "historical": "Electronic Design Hannover; reLINE/Rainbow Arts publishing",
+      "rights_status": "chain_fragmented_research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "medium-low",
+      "lead": "reLINE/Electronic Design contributors + successor catalogue research",
+      "notes": [
+        "Different territories used reLINE and Rainbow Arts publishers.",
+        "Publisher history alone does not establish current game copyright ownership."
+      ]
+    },
+    {
+      "title": "Crystal Hammer",
+      "library_matches": [
+        "Crystal Hammer (v1).lha",
+        "Crystal Hammer (v2).lha"
+      ],
+      "historical": "reLINE",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "low",
+      "lead": "reLINE rights chain",
+      "notes": [
+        "Two local variants v1/v2 found."
+      ]
+    },
+    {
+      "title": "Dyter-07",
+      "library_matches": [
+        "Dyter 07.lha"
+      ],
+      "historical": "reLINE",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "low",
+      "lead": "reLINE rights chain"
+    },
+    {
+      "title": "Hard 'n' Heavy",
+      "library_matches": [
+        "Hard'N'Heavy 2.lha"
+      ],
+      "historical": "reLINE",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "low",
+      "lead": "reLINE rights chain"
+    },
+    {
+      "title": "Hollywood Poker / Pro",
+      "library_matches": [
+        "Hollywood Poker Pro.lha",
+        "Hollywood Poker.lha"
+      ],
+      "historical": "reLINE/Golden Games lineage",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "medium-low",
+      "lead": "Golden Games/reLINE/Dieter Eckhardt lineage",
+      "notes": [
+        "reLINE label was reportedly reactivated in 2012 for a new Hollywood Poker version, making this lineage especially worth tracing."
+      ]
+    },
+    {
+      "title": "Amegas",
+      "library_matches": [
+        "Amegas.lha"
+      ],
+      "historical": "reLINE",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "low",
+      "lead": "reLINE rights chain"
+    },
+    {
+      "title": "Window Wizard",
+      "library_matches": [
+        "Window Wizard.lha"
+      ],
+      "historical": "reLINE",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "low",
+      "lead": "reLINE rights chain"
+    },
+    {
+      "title": "Western Games",
+      "library_matches": [
+        "Western Games.lha"
+      ],
+      "historical": "reLINE-associated catalogue",
+      "rights_status": "research_required",
+      "class": "E",
+      "opportunity": "LIGHT_GREEN",
+      "confidence": "low",
+      "lead": "reLINE/Golden Games chain"
+    },
+    {
+      "title": "The Great Giana Sisters",
+      "library_matches": [
+        "Great Giana Sisters.lha"
+      ],
+      "historical": "Time Warp / Rainbow Arts",
+      "rights_status": "separate_ip_chain_not_assumed_ziggurat",
+      "class": "D/E",
+      "opportunity": "YELLOW",
+      "confidence": "medium",
+      "lead": "Giana IP successor lineage",
+      "notes": [
+        "Do not infer ownership from Ziggurat's acquisition of 80+ Rainbow Arts titles; acquired catalogue was selective."
+      ]
+    },
+    {
+      "title": "Katakis",
+      "library_matches": [
+        "Katakis (1 Disk).lha",
+        "Katakis (2 Disk).lha"
+      ],
+      "historical": "Rainbow Arts / Factor 5 lineage",
+      "rights_status": "separate_factor5_ip_chain",
+      "class": "D",
+      "opportunity": "YELLOW",
+      "confidence": "medium",
+      "lead": "Factor 5 / current licensing representatives",
+      "notes": [
+        "Treat separately from generic Rainbow Arts catalogue."
+      ]
+    },
+    {
+      "title": "Denaris",
+      "library_matches": [
+        "Denarisa (1 Disk).lha",
+        "Denarisa (2 Disk).lha"
+      ],
+      "historical": "Rainbow Arts / Factor 5 lineage",
+      "rights_status": "separate_factor5_ip_chain",
+      "class": "D",
+      "opportunity": "YELLOW",
+      "confidence": "medium",
+      "lead": "Factor 5 / current licensing representatives"
+    },
+    {
+      "title": "Turrican series",
+      "library_matches": [
+        "Turrican (CDTV).lha",
+        "Turrican (Demo).lha",
+        "Turrican (NTSC).lha",
+        "Turrican 2 (CDTV).lha",
+        "Turrican 2 (Demo).lha",
+        "Turrican 2.lha",
+        "Turrican 3 (Demo).lha",
+        "Turrican 3.lha",
+        "Turrican.lha"
+      ],
+      "historical": "Rainbow Arts / Factor 5",
+      "rights_status": "active_commercial_ip",
+      "class": "D",
+      "opportunity": "YELLOW",
+      "confidence": "high",
+      "lead": "Factor 5 / ININ licensing route",
+      "notes": [
+        "Modern official Turrican Flashback/Anthology releases confirm active exploitation.",
+        "Do not fold Turrican into Ziggurat Rainbow Arts acquisition without title-specific evidence."
+      ]
+    },
+    {
+      "title": "Mad TV",
+      "library_matches": [
+        "Mad TV (DE).lha",
+        "Mad TV (FR).lha",
+        "Mad TV.lha"
+      ],
+      "historical": "Rainbow Arts; Ralph Stock",
+      "rights_status": "freeware_reported_scope_unverified",
+      "class": "C?",
+      "opportunity": "GREEN_PENDING_PRIMARY_EVIDENCE",
+      "confidence": "medium",
+      "lead": "Ralph Stock / current successor/licensor research",
+      "notes": [
+        "Contemporary reporting states Mad TV was freeware from 2001.",
+        "Need original freeware grant and exact platform/scope before public RGME bundling."
+      ]
+    },
+    {
+      "title": "Logical",
+      "library_matches": [
+        "Logical (CDTV).lha",
+        "Logical.lha"
+      ],
+      "historical": "Rainbow Arts",
+      "rights_status": "ziggurat_acquired_catalogue_title",
+      "class": "D",
+      "opportunity": "YELLOW",
+      "confidence": "high",
+      "lead": "Ziggurat Interactive",
+      "notes": [
+        "Ziggurat acquisition announcement explicitly names Logical."
+      ]
+    },
+    {
+      "title": "M.U.D.S.",
+      "library_matches": [
+        "MUDS.lha"
+      ],
+      "historical": "Rainbow Arts",
+      "rights_status": "ziggurat_acquired_catalogue_title",
+      "class": "D",
+      "opportunity": "YELLOW",
+      "confidence": "high",
+      "lead": "Ziggurat Interactive",
+      "notes": [
+        "Ziggurat acquisition announcement explicitly names M.U.D.S."
+      ]
+    },
+    {
+      "title": "Bad Cat",
+      "library_matches": [
+        "Bad Cat.lha"
+      ],
+      "historical": "Rainbow Arts",
+      "rights_status": "rainbow_arts_catalogue_membership_not_enough",
+      "class": "E",
+      "opportunity": "YELLOW",
+      "confidence": "low",
+      "lead": "Check Ziggurat acquisition schedule/title-specific ownership"
+    },
+    {
+      "title": "Grand Monster Slam",
+      "library_matches": [
+        "Grand Monster Slam.lha"
+      ],
+      "historical": "Rainbow Arts",
+      "rights_status": "rainbow_arts_catalogue_membership_not_enough",
+      "class": "E",
+      "opportunity": "YELLOW",
+      "confidence": "low",
+      "lead": "Check Ziggurat acquisition schedule/title-specific ownership"
+    }
+  ],
+  "key_findings": [
+    "Ziggurat publicly announced acquisition of more than 80 Rainbow Arts titles and explicitly named Logical, X-Out, Lollypop and M.U.D.S.; this must not be generalized to every Rainbow Arts title.",
+    "X-Out is now actively remade by Ziggurat/ININ and Ziggurat asserts copyright/trademark in the current release.",
+    "Turrican remains a separate active rights chain associated with Factor 5 and official modern collections.",
+    "Fate: Gates of Dawn and Mad TV have substantial secondary evidence of freeware releases, but primary permission evidence/scope should be recovered before RGME bundles original binaries."
+  ]
+}

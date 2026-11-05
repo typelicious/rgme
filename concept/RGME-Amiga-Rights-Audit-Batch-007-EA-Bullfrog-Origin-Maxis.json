@@ -1,0 +1,696 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "007",
+  "generated_at": "2026-10-28",
+  "family": "Electronic Arts / Bullfrog / Origin Systems / Maxis",
+  "records": [
+    {
+      "title": "Populous",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Populous ( Data Disks).lha",
+        "Populous (NTSC).lha",
+        "Populous.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently has official product pages for the classic Bullfrog title."
+      ]
+    },
+    {
+      "title": "Populous II",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Populous 2 & Challenge Games.lha",
+        "Populous 2.lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Populous Data Disks",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Populous ( Data Disks).lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Populous World Editor",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Populous World Editor.lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Powermonger",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Powermonger WW1 Edition.lha",
+        "Powermonger.lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Syndicate",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Syndicate (DE).lha",
+        "Syndicate.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently has official product pages for the classic Bullfrog title."
+      ]
+    },
+    {
+      "title": "Syndicate: American Revolt",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Syndicate American Revolt.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Theme Park",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Theme Park Mystery (NTSC).lha",
+        "Theme Park Mystery.lha",
+        "Theme Park.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Flood",
+      "family": "Bullfrog / EA",
+      "library_matches": [
+        "Flood.lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Ultima III",
+      "family": "Origin Systems / EA",
+      "library_matches": [
+        "Ultima 3.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently sells the relevant Origin franchise/classic titles in its own catalog."
+      ]
+    },
+    {
+      "title": "Ultima IV",
+      "family": "Origin Systems / EA",
+      "library_matches": [
+        "Ultima 4 (NTSC).lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently sells the relevant Origin franchise/classic titles in its own catalog."
+      ]
+    },
+    {
+      "title": "Ultima V",
+      "family": "Origin Systems / EA",
+      "library_matches": [
+        "Ultima 5.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently sells the relevant Origin franchise/classic titles in its own catalog."
+      ]
+    },
+    {
+      "title": "Ultima VI",
+      "family": "Origin Systems / EA",
+      "library_matches": [
+        "Ultima 6.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently sells the relevant Origin franchise/classic titles in its own catalog."
+      ]
+    },
+    {
+      "title": "Wing Commander",
+      "family": "Origin Systems / EA",
+      "library_matches": [
+        "Wing Commander (DE).lha",
+        "Wing Commander.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "EA currently sells the relevant Origin franchise/classic titles in its own catalog."
+      ]
+    },
+    {
+      "title": "Space Rogue",
+      "family": "Origin Systems / EA",
+      "library_matches": [
+        "Space Rogue.lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "SimCity",
+      "family": "Maxis / EA",
+      "library_matches": [
+        "Sim City (512k).lha",
+        "Sim City (CDTV).lha",
+        "Sim City (NTSC).lha",
+        "Sim City.lha"
+      ],
+      "current_rights_assessment": "Strong Electronic Arts current rights/distribution route",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Maxis officially states it became part of EA in 1997; EA continues active SimCity exploitation."
+      ]
+    },
+    {
+      "title": "SimAnt",
+      "family": "Maxis / EA",
+      "library_matches": [
+        "Sim Ant (HiRes) (DE).lha",
+        "Sim Ant (HiRes) (FR).lha",
+        "Sim Ant (HiRes).lha",
+        "Sim Ant (LoRes) (DE).lha",
+        "Sim Ant (LoRes) (FR).lha",
+        "Sim Ant (LoRes).lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "SimEarth",
+      "family": "Maxis / EA",
+      "library_matches": [
+        "Sim Earth (HiRes) (DE).lha",
+        "Sim Earth (HiRes) (FR).lha",
+        "Sim Earth (HiRes).lha",
+        "Sim Earth (LoRes) (DE).lha",
+        "Sim Earth (LoRes) (FR).lha",
+        "Sim Earth (LoRes).lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "SimLife",
+      "family": "Maxis / EA",
+      "library_matches": [
+        "Sim Life (DE).lha",
+        "Sim Life.lha"
+      ],
+      "current_rights_assessment": "Strong EA corporate-successor route; title-specific component ownership/licensing still requires verification",
+      "confidence": "medium-high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Archon",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Archon (NTSC).lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Budokan",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Budokan.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "F/A-18 Interceptor",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "FA18 Interceptor.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Ferrari Formula One",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Ferrari Formula One.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Ferrari name/marks create an external licensed-IP layer independent from software copyright."
+      ]
+    },
+    {
+      "title": "Marble Madness",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Marble Madness.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "One on One",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "One On One (NTSC).lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": [
+        "Player likeness/name rights may create additional licensed-IP layers."
+      ]
+    },
+    {
+      "title": "Starflight",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Starflight.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Zany Golf",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Zany Golf (NTSC).lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "688 Attack Sub",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "688 Attack Sub.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    },
+    {
+      "title": "Chuck Yeager",
+      "family": "Electronic Arts publishing catalogue / title-specific",
+      "library_matches": [
+        "Chuck Yeagers Advanced Flight Trainer 2.lha"
+      ],
+      "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+      "confidence": "medium-low",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/ORANGE",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      },
+      "notes": []
+    }
+  ],
+  "key_findings": [
+    "EA has strong present-day exploitation evidence for major Bullfrog, Origin and Maxis properties, including Populous, Syndicate, Ultima, Wing Commander and SimCity.",
+    "Maxis' official EA history states that Maxis became part of Electronic Arts in 1997.",
+    "Current EA and authorized-store catalogues materially strengthen the current-rights route for actively sold classics but do not prove every component right in every Amiga release.",
+    "Historical EA publication alone does not establish current ownership of third-party-developed titles.",
+    "Licensed names, likenesses and brands such as Ferrari or named athletes must be modeled as additional rights layers.",
+    "Electronic Arts itself completed a take-private acquisition by PIF, Silver Lake and Affinity Partners on 2026-08-04; this changes EA's ownership structure, not automatically the title-level rights model."
+  ]
+}

@@ -1,0 +1,648 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "009",
+  "generated_at": "2026-10-28",
+  "family": "MicroProse / Spectrum HoloByte / split successor chains",
+  "records": [
+    {
+      "title": "Civilization",
+      "library_matches": [
+        "Civilization (CD).lha",
+        "Civilization (DE).lha",
+        "Civilization.lha"
+      ],
+      "licensing_route": "2K / Firaxis / Take-Two",
+      "current_rights_assessment": "Strong current Take-Two/2K franchise route; historical Amiga release remains separately rights-bearing",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Railroad Tycoon",
+      "library_matches": [
+        "Railroad Tycoon (DE).lha",
+        "Railroad Tycoon (FR).lha",
+        "Railroad Tycoon.lha"
+      ],
+      "licensing_route": "2K / Firaxis / Take-Two",
+      "current_rights_assessment": "Strong current Take-Two/2K franchise route; historical Amiga release remains separately rights-bearing",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Pirates!",
+      "library_matches": [
+        "Pirates.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Gunship",
+      "library_matches": [
+        "Gunship (NTSC).lha",
+        "Gunship.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Gunship 2000",
+      "library_matches": [
+        "Gunship 2000.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "M1 Tank Platoon",
+      "library_matches": [
+        "M1 Tank Platoon.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "F-19 Stealth Fighter",
+      "library_matches": [
+        "F19 Stealth Fighter (NTSC).lha",
+        "F19 Stealth Fighter.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "F-117A Nighthawk",
+      "library_matches": [
+        "F117A NightHawk Stealth Fighter.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Silent Service",
+      "library_matches": [
+        "Silent Service.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Silent Service II",
+      "library_matches": [
+        "Silent Service 2 (NTSC).lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Red Storm Rising",
+      "library_matches": [
+        "Red Storm Rising.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Airborne Ranger",
+      "library_matches": [
+        "Airborne Ranger.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Covert Action",
+      "library_matches": [
+        "Covert Action (DE).lha",
+        "Covert Action.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Kennedy Approach",
+      "library_matches": [
+        "Kennedy Approach.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Formula One Grand Prix",
+      "library_matches": [
+        "Formula One Grand Prix (3 Disk).lha",
+        "Formula One Grand Prix (4 Disk).lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "Formula One/F1 branding and motorsport marks are a separate external-license layer"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "MicroProse Golf",
+      "library_matches": [
+        "Micro Prose Golf.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Harpoon",
+      "library_matches": [
+        "Harpoon & Battleset 1.lha",
+        "Harpoon & Battleset 2.lha",
+        "Harpoon & Battleset 3.lha",
+        "Harpoon & Battleset 4.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Midwinter",
+      "library_matches": [
+        "Midwinter (DE).lha",
+        "Midwinter (FR).lha",
+        "Midwinter.lha"
+      ],
+      "licensing_route": "Firebird/Rainbird → historical MicroProse; current chain unresolved",
+      "current_rights_assessment": "Historical label acquisition is relevant but insufficient to prove current title ownership",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Midwinter II: Flames of Freedom",
+      "library_matches": [
+        "Midwinter 2 (DE).lha",
+        "Midwinter 2 (FR).lha",
+        "Midwinter 2.lha"
+      ],
+      "licensing_route": "Firebird/Rainbird → historical MicroProse; current chain unresolved",
+      "current_rights_assessment": "Historical label acquisition is relevant but insufficient to prove current title ownership",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW/LIGHT_GREEN",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "UFO: Enemy Unknown",
+      "library_matches": [
+        "UFO Enemy Unknown.lha"
+      ],
+      "licensing_route": "Historical MicroProse catalogue; split successor rights",
+      "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "B-17 Flying Fortress",
+      "library_matches": [
+        "B17 Flying Fortress (Demo).lha",
+        "B17 Flying Fortress.lha"
+      ],
+      "licensing_route": "Current MicroProse Software Pty Ltd",
+      "current_rights_assessment": "Strong current MicroProse stewardship/exploitation route for B-17 heritage; exact original-release component rights still need verification",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Falcon",
+      "library_matches": [
+        "Falcon (CDTV).lha",
+        "Falcon (NTSC).lha",
+        "Falcon.lha"
+      ],
+      "licensing_route": "Spectrum HoloByte historical chain; title-specific current owner unresolved",
+      "current_rights_assessment": "Corporate history is relevant but current title ownership needs dedicated evidence",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Falcon Mission Disk",
+      "library_matches": [
+        "Falcon (Mission Disks) (NTSC).lha",
+        "Falcon (Mission Disks).lha"
+      ],
+      "licensing_route": "Spectrum HoloByte historical chain; title-specific current owner unresolved",
+      "current_rights_assessment": "Corporate history is relevant but current title ownership needs dedicated evidence",
+      "confidence": "medium",
+      "rights_class": "E/D",
+      "opportunity": "YELLOW",
+      "external_rights_layers": [
+        "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Tetris (Spectrum HoloByte)",
+      "library_matches": [
+        "Tetris (Infogrames).lha",
+        "Tetris (Mirrorsoft).lha",
+        "Tetris Pro.lha"
+      ],
+      "licensing_route": "Tetris franchise rights require separate current-rightsholder analysis",
+      "current_rights_assessment": "Spectrum HoloByte's historical publication does not establish current Tetris ownership",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "external_rights_layers": [
+        "Tetris franchise/trademark/trade-dress rights are separate from historical software publishing rights"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Super Tetris",
+      "library_matches": [
+        "Super Tetris.lha"
+      ],
+      "licensing_route": "Tetris franchise rights require separate current-rightsholder analysis",
+      "current_rights_assessment": "Spectrum HoloByte's historical publication does not establish current Tetris ownership",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "external_rights_layers": [
+        "Tetris franchise/trademark/trade-dress rights are separate from historical software publishing rights"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Welltris",
+      "library_matches": [
+        "Welltris.lha"
+      ],
+      "licensing_route": "Tetris franchise rights require separate current-rightsholder analysis",
+      "current_rights_assessment": "Spectrum HoloByte's historical publication does not establish current Tetris ownership",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "external_rights_layers": [
+        "Tetris franchise/trademark/trade-dress rights are separate from historical software publishing rights"
+      ],
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_permission",
+        "browser_hosting": "deny_without_permission",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    }
+  ],
+  "key_findings": [
+    "The historical MicroProse catalogue cannot be mapped to a single present-day rightsholder.",
+    "Civilization is an actively exploited 2K/Firaxis/Take-Two franchise in 2026 and must not be assigned to the revived MicroProse merely because MicroProse published the 1991 original.",
+    "Current MicroProse Software Pty Ltd actively exploits B-17 Flying Fortress heritage.",
+    "Historical MicroProse passed through Spectrum HoloByte, Hasbro Interactive and Infogrames/Atari, but individual IPs were subsequently split, transferred or separately licensed.",
+    "Spectrum HoloByte's historical Tetris publication does not imply ownership of the Tetris franchise today.",
+    "RGME Rights Intelligence needs a temporal rights graph."
+  ],
+  "architecture_finding": {
+    "name": "Temporal Rights Graph",
+    "recommended_fields": [
+      "valid_from",
+      "valid_to",
+      "transaction_date",
+      "source_entity",
+      "target_entity",
+      "rights_scope",
+      "territory",
+      "platform_scope",
+      "evidence_ids"
+    ],
+    "rule": "Never infer current ownership merely by traversing an unqualified historical corporate chain."
+  }
+}

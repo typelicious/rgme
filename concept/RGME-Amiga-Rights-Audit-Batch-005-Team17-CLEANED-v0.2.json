@@ -1,0 +1,427 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.2-cleaned",
+  "batch": "005",
+  "generated_at": "2026-10-28",
+  "family": "Team17 / classic Amiga catalogue",
+  "records": [
+    {
+      "title": "Worms",
+      "library_matches": [
+        "Worms (1MB).lha",
+        "Worms (2MB).lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 active IP/current franchise evidence",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Alien Breed",
+      "library_matches": [
+        "Alien Breed - Story.lha",
+        "Alien Breed.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 active IP/current franchise evidence",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Alien Breed Special Edition",
+      "library_matches": [
+        "Alien Breed - Special Edition.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 active IP/current franchise evidence",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Alien Breed 2",
+      "library_matches": [
+        "Alien Breed 2.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 active IP/current franchise evidence",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Alien Breed: Tower Assault",
+      "library_matches": [
+        "Alien Breed - Tower Assault (11).lha",
+        "Alien Breed - Tower Assault.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 active IP/current franchise evidence",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Project-X",
+      "library_matches": [
+        "Project X (Bonus Level).lha",
+        "Project X SE.lha",
+        "Project X v2.lha",
+        "Project X.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Superfrog",
+      "library_matches": [
+        "Superfrog (Demo) (AmigaAction).lha",
+        "Superfrog (Demo) (CUAmiga).lha",
+        "Superfrog (Demo) (TheOne).lha",
+        "Superfrog.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Body Blows",
+      "library_matches": [
+        "Body Blows.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Body Blows Galactic",
+      "library_matches": [
+        "Body Blows Galactic.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Assassin",
+      "library_matches": [
+        "Assassin.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Assassin Special Edition",
+      "library_matches": [
+        "Assassin - Special Edition.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Overdrive",
+      "library_matches": [
+        "Overdrive (Team17).lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Full Contact",
+      "library_matches": [
+        "Full Contact.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Arcade Pool",
+      "library_matches": [
+        "Arcade Pool.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "ATR: All Terrain Racing",
+      "library_matches": [
+        "All Terrain Racing.lha",
+        "All Terrain Racing - Xmas(Demo).lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "Qwak",
+      "library_matches": [
+        "Qwak.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    },
+    {
+      "title": "F17 Challenge",
+      "library_matches": [
+        "F17 Challenge.lha"
+      ],
+      "historical_relationship": "Team17-developed/published or Team17-associated Amiga catalogue",
+      "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "binary_redistribution": "deny_without_license",
+        "browser_hosting": "deny_without_license",
+        "reverse_engineering": "review",
+        "patch_distribution": "review",
+        "modification": "review",
+        "derivative_distribution": "deny_without_license",
+        "commercial_use": "deny_without_license"
+      }
+    }
+  ],
+  "key_findings": [
+    "Team17's official history identifies Alien Breed, Superfrog, Project X and ATR among its classic catalogue and Worms as its defining long-running franchise.",
+    "Team17 is actively exploiting Alien Breed in 2026 through the announced Alien Breed 35th Anniversary Collection.",
+    "The 2026 Alien Breed collection explicitly combines original-format preservation with modern controls and archival material, validating RGME's modernization pattern as a current commercial category.",
+    "Team17's own corporate reporting distinguishes first-party owned IP from third-party publishing IP; therefore historical Team17 publication alone must not automatically imply current ownership.",
+    "Worms and Alien Breed should be treated as active commercial IP; older Team17-associated titles require title-specific ownership confirmation before stronger claims."
+  ],
+  "cleaned_at": "2026-10-28",
+  "correction_log": [
+    {
+      "record": "Assassin",
+      "old_match_count": 2,
+      "new_match_count": 1,
+      "removed_false_positives": [
+        "Trained Assassin.lha"
+      ],
+      "reason": "Removed Trained Assassin.lha; title is not Team17 Assassin."
+    },
+    {
+      "record": "ATR: All Terrain Racing",
+      "old_match_count": 21,
+      "new_match_count": 2,
+      "removed_false_positives": [
+        "ATrain & Construction Set.lha",
+        "ATrain (CZ).lha",
+        "ATrain (DE).lha",
+        "ATrain (FR).lha",
+        "ATrain (PL).lha",
+        "ATrain.lha",
+        "Alcatraz.lha",
+        "Combat Air Patrol.lha",
+        "Dawn Patrol (DE).lha",
+        "Dawn Patrol.lha",
+        "Highway Patrol 2.lha",
+        "Llamatron (1MB).lha",
+        "Llamatron (512k).lha",
+        "Lost Patrol (NTSC).lha",
+        "Lost Patrol.lha",
+        "Magnatron.lha",
+        "Matrix Marauders.lha",
+        "Patrician (FR).lha",
+        "Patrician.lha",
+        "Patrizier (DE).lha",
+        "Theatre Of Death.lha"
+      ],
+      "added_valid_matches": [
+        "All Terrain Racing - Xmas(Demo).lha",
+        "All Terrain Racing.lha"
+      ],
+      "reason": "Replaced loose substring ATR matcher with anchored All Terrain Racing title matcher."
+    }
+  ]
+}

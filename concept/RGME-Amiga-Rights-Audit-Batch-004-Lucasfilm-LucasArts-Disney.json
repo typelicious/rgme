@@ -1,0 +1,341 @@
+{
+  "schema": "rgme.rights-audit-batch/v0.1",
+  "batch": "004",
+  "generated_at": "2026-10-28",
+  "family": "Lucasfilm Games / LucasArts / Disney",
+  "records": [
+    {
+      "title": "Zak McKracken and the Alien Mindbenders",
+      "library_matches": [
+        "Zak McKracken (DE).lha",
+        "Zak McKracken (FR).lha",
+        "Zak McKracken (IT).lha",
+        "Zak McKracken.lha"
+      ],
+      "runtime_family": "SCUMM",
+      "current_rights_assessment": "Lucasfilm / Disney; actively commercially exploited",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Current commercial distribution exists.",
+        "ScummVM supports SCUMM data-file execution, but game data remains proprietary.",
+        "Excellent RGME dual-runtime BYOG test case."
+      ]
+    },
+    {
+      "title": "Maniac Mansion",
+      "library_matches": [
+        "Maniac Mansion (DE).lha",
+        "Maniac Mansion (ES).lha",
+        "Maniac Mansion (FR).lha",
+        "Maniac Mansion.lha"
+      ],
+      "runtime_family": "SCUMM",
+      "current_rights_assessment": "Lucasfilm / Disney lineage; proprietary game data",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Found in local library.",
+        "ScummVM documentation explicitly lists Maniac Mansion among SCUMM games.",
+        "Copy-protection handling in ScummVM does not convert game data into freeware."
+      ]
+    },
+    {
+      "title": "Loom",
+      "library_matches": [
+        "Loom (DE) (CDTV).lha",
+        "Loom (DE).lha",
+        "Loom (ES).lha",
+        "Loom (FR).lha",
+        "Loom (IT).lha",
+        "Loom.lha"
+      ],
+      "runtime_family": "SCUMM",
+      "current_rights_assessment": "Lucasfilm / Disney; active commercial exploitation",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Steam's LucasArts Adventure Pack includes LOOM.",
+        "Local library contains multiple language variants.",
+        "Strong BYOG/ScummVM candidate."
+      ]
+    },
+    {
+      "title": "The Secret of Monkey Island",
+      "library_matches": [
+        "Secret Of Monkey Island (DE).lha",
+        "Secret Of Monkey Island (ES).lha",
+        "Secret Of Monkey Island (FR).lha",
+        "Secret Of Monkey Island (IT).lha",
+        "Secret Of Monkey Island.lha"
+      ],
+      "runtime_family": "SCUMM",
+      "current_rights_assessment": "Lucasfilm / Disney; highly active franchise/IP",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Local library contains multiple language variants.",
+        "Monkey Island remains an actively exploited franchise.",
+        "Do not bundle original data; engine-aware BYOG path is technically attractive."
+      ]
+    },
+    {
+      "title": "Monkey Island 2: LeChuck's Revenge",
+      "library_matches": [
+        "Monkey Island 2 (DE).lha",
+        "Monkey Island 2 (ES).lha",
+        "Monkey Island 2 (FR).lha",
+        "Monkey Island 2 (IT).lha",
+        "Monkey Island 2.lha"
+      ],
+      "runtime_family": "SCUMM",
+      "current_rights_assessment": "Lucasfilm / Disney; highly active franchise/IP",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED/YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Base and German variants found.",
+        "Treat original Amiga data and later Special Edition assets as separate rights-bearing works."
+      ]
+    },
+    {
+      "title": "Indiana Jones and the Last Crusade — Adventure",
+      "library_matches": [
+        "IndianaJones &The Last Crusade Adventure (DE) (CDTV).lha",
+        "IndianaJones &The Last Crusade Adventure (DE).lha",
+        "IndianaJones &The Last Crusade Adventure (ES).lha",
+        "IndianaJones &The Last Crusade Adventure (FR).lha",
+        "IndianaJones &The Last Crusade Adventure (IT).lha",
+        "IndianaJones &The Last Crusade Adventure (NTSC).lha"
+      ],
+      "runtime_family": "SCUMM + Indiana Jones licensed IP",
+      "current_rights_assessment": "Lucasfilm / Disney; active commercial exploitation",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Multiple language/NTSC/CDTV variants found.",
+        "Steam currently bundles the adventure title in the LucasArts Adventure Pack.",
+        "Additional franchise/trademark/character rights make public remastering especially license-sensitive."
+      ]
+    },
+    {
+      "title": "Indiana Jones and the Last Crusade — Action",
+      "library_matches": [
+        "IndianaJones &The Last Crusade Action.lha"
+      ],
+      "runtime_family": "native Amiga/action runtime",
+      "current_rights_assessment": "Lucasfilm / Disney licensed IP; title-specific development/publishing chain should be retained",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Separate game from the SCUMM adventure despite similar title.",
+        "Must not inherit SCUMM runtime metadata from the adventure edition."
+      ]
+    },
+    {
+      "title": "Indiana Jones and the Fate of Atlantis — Adventure",
+      "library_matches": [
+        "IndianaJones &The Fate Of Atlantis Adventure (DE).lha",
+        "IndianaJones &The Fate Of Atlantis Adventure (ES).lha",
+        "IndianaJones &The Fate Of Atlantis Adventure (FR).lha",
+        "IndianaJones &The Fate Of Atlantis Adventure (IT).lha",
+        "IndianaJones &The Fate Of Atlantis Adventure.lha"
+      ],
+      "runtime_family": "SCUMM + Indiana Jones licensed IP",
+      "current_rights_assessment": "LucasArts / Lucasfilm / Disney; currently sold on Steam",
+      "confidence": "high",
+      "rights_class": "D",
+      "opportunity": "RED",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Current Steam listing directly names LucasArts, Lucasfilm and Disney as publishers.",
+        "Several language variants occur locally.",
+        "High-value technical BYOG target, poor unlicensed public demo candidate."
+      ]
+    },
+    {
+      "title": "Battlehawks 1942",
+      "library_matches": [
+        "Battlehawks 1942.lha"
+      ],
+      "runtime_family": "Lucasfilm Games non-SCUMM / title-specific",
+      "current_rights_assessment": "Lucasfilm/Disney lineage likely; current title-specific exploitation/rights scope requires deeper verification",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Lucasfilm Games association is strong, but current title-specific distribution/licensing evidence should be established before stronger classification."
+      ]
+    },
+    {
+      "title": "Their Finest Hour",
+      "library_matches": [
+        "Their Finest Hour & Missions.lha",
+        "Their Finest Hour.lha"
+      ],
+      "runtime_family": "Lucasfilm Games non-SCUMM / title-specific",
+      "current_rights_assessment": "Lucasfilm/Disney lineage likely; current title-specific exploitation/rights scope requires deeper verification",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Lucasfilm Games association is strong, but current title-specific distribution/licensing evidence should be established before stronger classification."
+      ]
+    },
+    {
+      "title": "Night Shift",
+      "library_matches": [
+        "Night Shift.lha"
+      ],
+      "runtime_family": "Lucasfilm Games non-SCUMM / title-specific",
+      "current_rights_assessment": "Lucasfilm/Disney lineage likely; current title-specific exploitation/rights scope requires deeper verification",
+      "confidence": "medium",
+      "rights_class": "D",
+      "opportunity": "YELLOW",
+      "actions": {
+        "private_execution": "allow_local_byog",
+        "public_binary_redistribution": "deny_without_license",
+        "public_browser_hosting_with_game_data": "deny_without_license",
+        "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+        "user_supplied_game_data": "supported_architecture; no ownership claim",
+        "reverse_engineering": "review_purpose_and_jurisdiction",
+        "patch_distribution": "review_no_original_data",
+        "remaster_distribution": "deny_without_license",
+        "commercial_use_of_game_ip": "deny_without_license"
+      },
+      "notes": [
+        "Lucasfilm Games association is strong, but current title-specific distribution/licensing evidence should be established before stronger classification."
+      ]
+    }
+  ],
+  "architecture_findings": {
+    "scummvm": "Open-source replacement runtime; users still need game data files.",
+    "rgme_pattern": "Offer runtime/profile integration separately from proprietary game data.",
+    "dual_runtime": [
+      "PUAE preserves original Amiga execution environment",
+      "ScummVM can provide engine-aware execution for supported SCUMM releases"
+    ],
+    "important": "Runtime license and game-content rights are independent."
+  },
+  "key_findings": [
+    "Current commercial listings establish active exploitation of multiple LucasArts classics.",
+    "ScummVM explicitly requires users to provide game data and replaces the original executable; this maps closely to RGME BYOG.",
+    "Indiana Jones action and adventure games must remain distinct canonical/runtime records.",
+    "SCUMM-aware RGME profiles could add semantic input/save/display integration without distributing Lucasfilm game assets."
+  ]
+}
