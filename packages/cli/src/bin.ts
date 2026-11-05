@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { formatTable, scanDirectory, writeProfiles } from "./scan.js";
+import { describeExport, runExport } from "./export.js";
 
 const program = new Command("rgme").description("RGME — Retro Game Modernization Engine CLI");
 
@@ -21,6 +22,16 @@ program
       const files = await writeProfiles(entries, opts.out, opts.includeUnknown);
       console.log(`\nWrote ${files.length} profile(s) to ${opts.out}`);
     }
+  });
+
+program
+  .command("export <game-profile>")
+  .description("Export a portable player (cleared titles) or a BYOG package without game data (everything else)")
+  .option("--media <file>", "original media file (only read for cleared titles)")
+  .option("-o, --out <dir>", "output directory", "./export")
+  .option("--rights <id|file>", "freeware registry entry id or freeware-games.json file (must match the media hash)")
+  .action(async (profile: string, opts: { media?: string; out: string; rights?: string }) => {
+    console.log(describeExport(await runExport(profile, opts)));
   });
 
 program.parseAsync().catch((err) => {

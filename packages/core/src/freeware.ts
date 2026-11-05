@@ -7,6 +7,8 @@ export interface FreewareEntry {
   canonical_title: string;
   filename: string;
   sha256: string;
+  /** Defaults to 'amiga'. */
+  platform?: string;
   machine: { model: string; chipset: string; video: string; ram_chip_kb: number; ram_fast_kb: number };
   rights: {
     rights_class: string;
@@ -86,20 +88,26 @@ export function freewareEntryToRights(e: FreewareEntry, now = "2026-11-05T00:00:
   };
 }
 
+const KINDS = ["adf", "d64", "t64", "g64", "st", "msa", "rom", "bin", "md", "sfc", "smc", "nes", "img", "iso"];
+function mediaKind(filename: string): string {
+  const ext = filename.split(".").pop()?.toLowerCase() ?? "";
+  return KINDS.includes(ext) ? ext : "bin";
+}
+
 export function freewareEntryToProfile(e: FreewareEntry): GameProfile {
   const scene = SCENES[e.id];
   return parseGameProfile({
     schema: "rgme.game/v0.2",
     id: e.id,
     title: e.canonical_title,
-    platform: "amiga",
+    platform: e.platform ?? "amiga",
     machine: {
       model: e.machine.model,
       chipset: e.machine.chipset,
       video: e.machine.video,
       ram: { chipKb: e.machine.ram_chip_kb, fastKb: e.machine.ram_fast_kb }
     },
-    media: [{ id: "df0", kind: "adf", filename: e.filename, label: e.canonical_title, sha256: e.sha256 }],
+    media: [{ id: "df0", kind: mediaKind(e.filename), filename: e.filename, label: e.canonical_title, sha256: e.sha256 }],
     runtime: { preferredAdapter: "mock", ...(scene ? { options: { scene } } : {}) },
     launch: { bootMediaId: "df0", autoStart: Boolean(scene) },
     input: DEFAULT_INPUT_MAPPING,

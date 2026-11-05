@@ -1,0 +1,58 @@
+schema: rgme.game/v0.2
+game:
+  id: rgme-md-demo
+  title: "RGME Mega Drive Demo"
+  platform: megadrive
+
+identity:
+  hashes:
+    - algorithm: sha256
+      value: "c4d5b7f7a28e406b6cb8e7e151da8a9a915f2062bfa62946661b41c542bec809"
+  filenames:
+    - "rgme-md-demo.md"
+
+machine:
+  model: Mega Drive
+  chipset: VDP/YM2612
+  video: NTSC
+  ram:
+    chip_kb: 64
+    fast_kb: 0
+
+media:
+  - id: df0
+    kind: md
+    filename: "rgme-md-demo.md"
+
+runtime:
+  preferredAdapter: megadrive-reference
+  emulation: reference
+  capabilities:
+    canvas_raster: true
+    audio_synth: true
+
+input:
+  profile: modern-gamepad
+  mappings:
+    up: ArrowUp
+    down: ArrowDown
+    left: ArrowLeft
+    right: ArrowRight
+    fire: Space
+
+display:
+  defaultProfile: authentic
+  aspectRatio: "4:3"
+  crtSimulation: true
+
+rights:
+  recordId: rights-rgme-md-001
+  status: verified_public_domain
+  class: A
+  opportunity: GREEN
+  license: "CC0-1.0 Universal"
+  rightsholder: "RGME Project"
+  actions:
+    private_execution: allow
+    binary_redistribution: allow
+    browser_hosting: allow

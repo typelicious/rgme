@@ -1,0 +1,62 @@
+[
+  {
+    "id": "rgme-c64-demo",
+    "canonical_title": "RGME C64 Demo",
+    "filename": "rgme-c64-demo.d64",
+    "sha256": "24bb3dbc8ee1360e93c7db0ca62a7a96429c777ba7db30c10c7a65f87d40cbc6",
+    "platform": "c64",
+    "machine": {
+      "model": "C64C",
+      "chipset": "VIC-II/SID",
+      "video": "PAL",
+      "cpu": "6510",
+      "ram_chip_kb": 64,
+      "ram_fast_kb": 0
+    },
+    "rights": {
+      "rights_class": "A",
+      "status": "verified_public_domain",
+      "opportunity": "GREEN",
+      "rightsholder": "RGME Project",
+      "license": "CC0-1.0",
+      "actions": {
+        "private_execution": "allow",
+        "binary_redistribution": "allow",
+        "browser_hosting": "allow",
+        "reverse_engineering": "allow",
+        "modification": "allow"
+      },
+      "provenance_note": "Original synthetic 1541 disk image with two original PRG files; no third-party code."
+    }
+  },
+  {
+    "id": "rgme-md-demo",
+    "canonical_title": "RGME Mega Drive Demo",
+    "filename": "rgme-md-demo.md",
+    "sha256": "c4d5b7f7a28e406b6cb8e7e151da8a9a915f2062bfa62946661b41c542bec809",
+    "platform": "megadrive",
+    "machine": {
+      "model": "Mega Drive",
+      "chipset": "VDP/YM2612",
+      "video": "NTSC",
+      "cpu": "68000+Z80",
+      "ram_chip_kb": 64,
+      "ram_fast_kb": 0
+    },
+    "rights": {
+      "rights_class": "A",
+      "status": "verified_public_domain",
+      "opportunity": "GREEN",
+      "rightsholder": "RGME Project",
+      "license": "CC0-1.0",
+      "actions": {
+        "private_execution": "allow",
+        "binary_redistribution": "allow",
+        "browser_hosting": "allow",
+        "reverse_engineering": "allow",
+        "modification": "allow"
+      },
+      "provenance_note": "Original synthetic homebrew ROM stub with a valid SEGA header and checksum; no third-party code."
+    }
+  }
+]

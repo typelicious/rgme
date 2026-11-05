@@ -1,0 +1,1540 @@
+[
+ {
+  "canonical_title": "Lemmings",
+  "canonical_key": "lemmings",
+  "rights_class": "D",
+  "opportunity": "RED/YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Shadow of the Beast",
+  "canonical_key": "shadow of the beast",
+  "rights_class": "D",
+  "opportunity": "RED/YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Shadow of the Beast II",
+  "canonical_key": "shadow of the beast ii",
+  "rights_class": "D",
+  "opportunity": "RED/YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Sony Interactive Entertainment rights route strongly evidenced by active Sony remake/trademark exploitation",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Oh No! More Lemmings",
+  "canonical_key": "oh no more lemmings",
+  "rights_class": "D",
+  "opportunity": "RED/YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Sony Interactive Entertainment Europe rights route; Exient is current licensed mobile publisher, not established owner",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Agony",
+  "canonical_key": "agony",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium",
+  "confidence_score": 0.62,
+  "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+    "confidence": "medium",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Amnios",
+  "canonical_key": "amnios",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium",
+  "confidence_score": 0.62,
+  "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+    "confidence": "medium",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Aquaventura",
+  "canonical_key": "aquaventura",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium",
+  "confidence_score": 0.62,
+  "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+  "licensing_route": "",
+  "source_families": [
+   "Psygnosis / Sony Interactive Entertainment"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title-specific permission",
+   "browser_hosting": "deny_without_title-specific permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "006",
+    "family": "Psygnosis / Sony Interactive Entertainment",
+    "assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+    "confidence": "medium",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Defender of the Crown",
+  "canonical_key": "defender of the crown",
+  "rights_class": "D",
+  "opportunity": "RED",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "It Came from the Desert",
+  "canonical_key": "it came from the desert",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "It Came from the Desert II: Antheads",
+  "canonical_key": "it came from the desert ii antheads",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Lords of the Rising Sun",
+  "canonical_key": "lords of the rising sun",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Rocket Ranger",
+  "canonical_key": "rocket ranger",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "S.D.I.",
+  "canonical_key": "sdi",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Spirit of Excalibur",
+  "canonical_key": "spirit of excalibur",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium",
+  "confidence_score": 0.62,
+  "current_rights_assessment": "Associated with Cinemaware history, but not in the explicit 2016 acquisition list used as primary family evidence; dedicated title-level evidence required.",
+  "licensing_route": "Cinemaware-adjacent / title-specific research required",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Associated with Cinemaware history, but not in the explicit 2016 acquisition list used as primary family evidence; dedicated title-level evidence required.",
+    "confidence": "medium",
+    "licensing_route": "Cinemaware-adjacent / title-specific research required"
+   }
+  ]
+ },
+ {
+  "canonical_title": "The King of Chicago",
+  "canonical_key": "the king of chicago",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "TV Sports: Baseball",
+  "canonical_key": "tv sports baseball",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "TV Sports: Basketball",
+  "canonical_key": "tv sports basketball",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "TV Sports: Boxing",
+  "canonical_key": "tv sports boxing",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "TV Sports: Football",
+  "canonical_key": "tv sports football",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Wings",
+  "canonical_key": "wings",
+  "rights_class": "D",
+  "opportunity": "YELLOW/LIGHT_GREEN",
+  "confidence_label": "very-high",
+  "confidence_score": 0.98,
+  "current_rights_assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+  "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware",
+  "source_families": [
+   "Cinemaware → Starbreeze → Nordcurrent"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "011",
+    "family": "Cinemaware → Starbreeze → Nordcurrent",
+    "assessment": "Very strong chain-of-title route: title was explicitly included in Starbreeze's 2016 Cinemaware IP acquisition; Nordcurrent acquired the Cinemaware catalog from Starbreeze in 2024.",
+    "confidence": "very-high",
+    "licensing_route": "Nordcurrent / Nordcurrent Labs ← Starbreeze ← Cinemaware"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Big Nose",
+  "canonical_key": "big nose",
+  "rights_class": "D/E",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+  "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+  "source_families": [
+   "Bitmap Brothers / Sensible Software / Codemasters"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "010",
+    "family": "Bitmap Brothers / Sensible Software / Codemasters",
+    "assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+    "confidence": "medium-high",
+    "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify"
+   }
+  ]
+ },
+ {
+  "canonical_title": "BMX Simulator",
+  "canonical_key": "bmx simulator",
+  "rights_class": "D/E",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+  "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+  "source_families": [
+   "Bitmap Brothers / Sensible Software / Codemasters"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "010",
+    "family": "Bitmap Brothers / Sensible Software / Codemasters",
+    "assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+    "confidence": "medium-high",
+    "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Bubble Dizzy",
+  "canonical_key": "bubble dizzy",
+  "rights_class": "D/E",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+  "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify",
+  "source_families": [
+   "Bitmap Brothers / Sensible Software / Codemasters"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "010",
+    "family": "Bitmap Brothers / Sensible Software / Codemasters",
+    "assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+    "confidence": "medium-high",
+    "licensing_route": "Codemasters / Electronic Arts; title-specific IP and external licenses to verify"
+   }
+  ]
+ },
+ {
+  "canonical_title": "688 Attack Sub",
+  "canonical_key": "688 attack sub",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW/ORANGE",
+  "confidence_label": "medium-low",
+  "confidence_score": 0.45,
+  "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+  "licensing_route": "",
+  "source_families": [
+   "Electronic Arts / Bullfrog / Origin Systems / Maxis"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "007",
+    "family": "Electronic Arts / Bullfrog / Origin Systems / Maxis",
+    "assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+    "confidence": "medium-low",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Archon",
+  "canonical_key": "archon",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW/ORANGE",
+  "confidence_label": "medium-low",
+  "confidence_score": 0.45,
+  "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+  "licensing_route": "",
+  "source_families": [
+   "Electronic Arts / Bullfrog / Origin Systems / Maxis"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "007",
+    "family": "Electronic Arts / Bullfrog / Origin Systems / Maxis",
+    "assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+    "confidence": "medium-low",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Budokan",
+  "canonical_key": "budokan",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW/ORANGE",
+  "confidence_label": "medium-low",
+  "confidence_score": 0.45,
+  "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+  "licensing_route": "",
+  "source_families": [
+   "Electronic Arts / Bullfrog / Origin Systems / Maxis"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "007",
+    "family": "Electronic Arts / Bullfrog / Origin Systems / Maxis",
+    "assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+    "confidence": "medium-low",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "A-10 Tank Killer",
+  "canonical_key": "a 10 tank killer",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+  "licensing_route": "",
+  "source_families": [
+   "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "engine_runtime_with_user_data": "candidate",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "008",
+    "family": "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft",
+    "assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+    "confidence": "medium-high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Codename: Iceman",
+  "canonical_key": "codename iceman",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+  "licensing_route": "",
+  "source_families": [
+   "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "engine_runtime_with_user_data": "candidate",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "008",
+    "family": "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft",
+    "assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+    "confidence": "medium-high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Conquests of Camelot",
+  "canonical_key": "conquests of camelot",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+  "licensing_route": "",
+  "source_families": [
+   "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "engine_runtime_with_user_data": "candidate",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "008",
+    "family": "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft",
+    "assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+    "confidence": "medium-high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Conquests of the Longbow",
+  "canonical_key": "conquests of the longbow",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium-high",
+  "confidence_score": 0.78,
+  "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+  "licensing_route": "",
+  "source_families": [
+   "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "engine_runtime_with_user_data": "candidate",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "008",
+    "family": "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft",
+    "assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+    "confidence": "medium-high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Airborne Ranger",
+  "canonical_key": "airborne ranger",
+  "rights_class": "E/D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium",
+  "confidence_score": 0.62,
+  "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+  "licensing_route": "Historical MicroProse catalogue; split successor rights",
+  "source_families": [
+   "MicroProse / Spectrum HoloByte / split successor chains"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "009",
+    "family": "MicroProse / Spectrum HoloByte / split successor chains",
+    "assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+    "confidence": "medium",
+    "licensing_route": "Historical MicroProse catalogue; split successor rights"
+   }
+  ]
+ },
+ {
+  "canonical_title": "B-17 Flying Fortress",
+  "canonical_key": "b 17 flying fortress",
+  "rights_class": "D",
+  "opportunity": "RED/YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Strong current MicroProse stewardship/exploitation route for B-17 heritage; exact original-release component rights still need verification",
+  "licensing_route": "Current MicroProse Software Pty Ltd",
+  "source_families": [
+   "MicroProse / Spectrum HoloByte / split successor chains",
+   "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft"
+  ],
+  "rights_layers": [
+   "aircraft/vehicle designations, logos and manufacturer marks require separate use-specific review"
+  ],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "008",
+    "family": "Sierra On-Line / Dynamix → Activision Blizzard → Microsoft",
+    "assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+    "confidence": "medium-high",
+    "licensing_route": ""
+   },
+   {
+    "batch": "009",
+    "family": "MicroProse / Spectrum HoloByte / split successor chains",
+    "assessment": "Strong current MicroProse stewardship/exploitation route for B-17 heritage; exact original-release component rights still need verification",
+    "confidence": "high",
+    "licensing_route": "Current MicroProse Software Pty Ltd"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Civilization",
+  "canonical_key": "civilization",
+  "rights_class": "D",
+  "opportunity": "RED/YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Strong current Take-Two/2K franchise route; historical Amiga release remains separately rights-bearing",
+  "licensing_route": "2K / Firaxis / Take-Two",
+  "source_families": [
+   "MicroProse / Spectrum HoloByte / split successor chains"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_permission",
+   "browser_hosting": "deny_without_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "009",
+    "family": "MicroProse / Spectrum HoloByte / split successor chains",
+    "assessment": "Strong current Take-Two/2K franchise route; historical Amiga release remains separately rights-bearing",
+    "confidence": "high",
+    "licensing_route": "2K / Firaxis / Take-Two"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Alien Breed",
+  "canonical_key": "alien breed",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Team17 active IP/current franchise evidence",
+  "licensing_route": "",
+  "source_families": [
+   "Team17 / classic Amiga catalogue"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "005",
+    "family": "Team17 / classic Amiga catalogue",
+    "assessment": "Team17 active IP/current franchise evidence",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Alien Breed 2",
+  "canonical_key": "alien breed 2",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Team17 active IP/current franchise evidence",
+  "licensing_route": "",
+  "source_families": [
+   "Team17 / classic Amiga catalogue"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_license",
+   "browser_hosting": "deny_without_license",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "005",
+    "family": "Team17 / classic Amiga catalogue",
+    "assessment": "Team17 active IP/current franchise evidence",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Battlehawks 1942",
+  "canonical_key": "battlehawks 1942",
+  "rights_class": "D",
+  "opportunity": "YELLOW",
+  "confidence_label": "medium",
+  "confidence_score": 0.62,
+  "current_rights_assessment": "Lucasfilm/Disney lineage likely; current title-specific exploitation/rights scope requires deeper verification",
+  "licensing_route": "",
+  "source_families": [
+   "Lucasfilm Games / LucasArts / Disney"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "public_binary_redistribution": "deny_without_license",
+   "public_browser_hosting_with_game_data": "deny_without_license",
+   "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+   "user_supplied_game_data": "supported_architecture; no ownership claim",
+   "reverse_engineering": "review_purpose_and_jurisdiction",
+   "patch_distribution": "review_no_original_data",
+   "remaster_distribution": "deny_without_license",
+   "commercial_use_of_game_ip": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "004",
+    "family": "Lucasfilm Games / LucasArts / Disney",
+    "assessment": "Lucasfilm/Disney lineage likely; current title-specific exploitation/rights scope requires deeper verification",
+    "confidence": "medium",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Indiana Jones and the Fate of Atlantis — Adventure",
+  "canonical_key": "indiana jones and the fate of atlantis adventure",
+  "rights_class": "D",
+  "opportunity": "RED",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "LucasArts / Lucasfilm / Disney; currently sold on Steam",
+  "licensing_route": "",
+  "source_families": [
+   "Lucasfilm Games / LucasArts / Disney"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "public_binary_redistribution": "deny_without_license",
+   "public_browser_hosting_with_game_data": "deny_without_license",
+   "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+   "user_supplied_game_data": "supported_architecture; no ownership claim",
+   "reverse_engineering": "review_purpose_and_jurisdiction",
+   "patch_distribution": "review_no_original_data",
+   "remaster_distribution": "deny_without_license",
+   "commercial_use_of_game_ip": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "004",
+    "family": "Lucasfilm Games / LucasArts / Disney",
+    "assessment": "LucasArts / Lucasfilm / Disney; currently sold on Steam",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Indiana Jones and the Last Crusade — Action",
+  "canonical_key": "indiana jones and the last crusade action",
+  "rights_class": "D",
+  "opportunity": "RED",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Lucasfilm / Disney licensed IP; title-specific development/publishing chain should be retained",
+  "licensing_route": "",
+  "source_families": [
+   "Lucasfilm Games / LucasArts / Disney"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "public_binary_redistribution": "deny_without_license",
+   "public_browser_hosting_with_game_data": "deny_without_license",
+   "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+   "user_supplied_game_data": "supported_architecture; no ownership claim",
+   "reverse_engineering": "review_purpose_and_jurisdiction",
+   "patch_distribution": "review_no_original_data",
+   "remaster_distribution": "deny_without_license",
+   "commercial_use_of_game_ip": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "004",
+    "family": "Lucasfilm Games / LucasArts / Disney",
+    "assessment": "Lucasfilm / Disney licensed IP; title-specific development/publishing chain should be retained",
+    "confidence": "high",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Ambermoon",
+  "canonical_key": "ambermoon",
+  "rights_class": "E",
+  "opportunity": "YELLOW",
+  "confidence_label": "low",
+  "confidence_score": 0.3,
+  "current_rights_assessment": "Title-specific chain requires verification",
+  "licensing_route": "",
+  "source_families": [
+   "Blue Byte / Ubisoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title_specific_permission",
+   "browser_hosting": "deny_without_title_specific_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "003",
+    "family": "Blue Byte / Ubisoft",
+    "assessment": "Title-specific chain requires verification",
+    "confidence": "low",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Amberstar",
+  "canonical_key": "amberstar",
+  "rights_class": "E",
+  "opportunity": "YELLOW",
+  "confidence_label": "low",
+  "confidence_score": 0.3,
+  "current_rights_assessment": "Title-specific chain requires verification",
+  "licensing_route": "",
+  "source_families": [
+   "Blue Byte / Ubisoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title_specific_permission",
+   "browser_hosting": "deny_without_title_specific_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "003",
+    "family": "Blue Byte / Ubisoft",
+    "assessment": "Title-specific chain requires verification",
+    "confidence": "low",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Apidya",
+  "canonical_key": "apidya",
+  "rights_class": "E",
+  "opportunity": "YELLOW",
+  "confidence_label": "low",
+  "confidence_score": 0.3,
+  "current_rights_assessment": "Title-specific chain requires verification",
+  "licensing_route": "",
+  "source_families": [
+   "Blue Byte / Ubisoft"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow_local_byog",
+   "binary_redistribution": "deny_without_title_specific_permission",
+   "browser_hosting": "deny_without_title_specific_permission",
+   "reverse_engineering": "review",
+   "patch_distribution": "review",
+   "modification": "review",
+   "derivative_distribution": "deny_without_license",
+   "commercial_use": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "003",
+    "family": "Blue Byte / Ubisoft",
+    "assessment": "Title-specific chain requires verification",
+    "confidence": "low",
+    "licensing_route": ""
+   }
+  ]
+ },
+ {
+  "canonical_title": "Amegas",
+  "canonical_key": "amegas",
+  "rights_class": "E",
+  "opportunity": "LIGHT_GREEN",
+  "confidence_label": "low",
+  "confidence_score": 0.3,
+  "current_rights_assessment": "research_required",
+  "licensing_route": "reLINE rights chain",
+  "source_families": [
+   "reLINE / Rainbow Arts"
+  ],
+  "rights_layers": [],
+  "actions": {},
+  "provenance": [
+   {
+    "batch": "002",
+    "family": "reLINE / Rainbow Arts",
+    "assessment": "research_required",
+    "confidence": "low",
+    "licensing_route": "reLINE rights chain"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Bad Cat",
+  "canonical_key": "bad cat",
+  "rights_class": "E",
+  "opportunity": "YELLOW",
+  "confidence_label": "low",
+  "confidence_score": 0.3,
+  "current_rights_assessment": "rainbow_arts_catalogue_membership_not_enough",
+  "licensing_route": "Check Ziggurat acquisition schedule/title-specific ownership",
+  "source_families": [
+   "reLINE / Rainbow Arts"
+  ],
+  "rights_layers": [],
+  "actions": {},
+  "provenance": [
+   {
+    "batch": "002",
+    "family": "reLINE / Rainbow Arts",
+    "assessment": "rainbow_arts_catalogue_membership_not_enough",
+    "confidence": "low",
+    "licensing_route": "Check Ziggurat acquisition schedule/title-specific ownership"
+   }
+  ]
+ },
+ {
+  "canonical_title": "RGME Scene Intro: Turrican Tribute",
+  "canonical_key": "rgme-scene-intro",
+  "rights_class": "A",
+  "opportunity": "GREEN",
+  "confidence_label": "high",
+  "confidence_score": 0.9,
+  "current_rights_assessment": "Synthetic test disk with valid Amiga 500 bootblock, graffiti visuals and Turrican-style audio tribute.",
+  "licensing_route": "RGME Project / Open Heritage",
+  "source_families": [
+   "RGME fixture registry"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow",
+   "binary_redistribution": "allow",
+   "browser_hosting": "allow",
+   "reverse_engineering": "allow",
+   "modification": "allow"
+  },
+  "provenance": [
+   {
+    "batch": "fixtures",
+    "family": "RGME fixture registry",
+    "title": "RGME Scene Intro: Turrican Tribute",
+    "assessment": "CC0-1.0 — RGME Project / Open Heritage",
+    "confidence": "high",
+    "licensing_route": "RGME Project / Open Heritage"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Flight of the Amazon Queen",
+  "canonical_key": "flight-of-the-amazon-queen",
+  "rights_class": "C",
+  "opportunity": "GREEN",
+  "confidence_label": "medium",
+  "confidence_score": 0.7,
+  "current_rights_assessment": "Original authors released game data as freeware in 2004 with source provided to ScummVM project.",
+  "licensing_route": "John Passfield & Steve Stamatiadis",
+  "source_families": [
+   "RGME fixture registry"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow",
+   "binary_redistribution": "allow",
+   "browser_hosting": "allow",
+   "reverse_engineering": "review",
+   "modification": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "fixtures",
+    "family": "RGME fixture registry",
+    "title": "Flight of the Amazon Queen",
+    "assessment": "Freeware (Author Permission via ScummVM 2004) — John Passfield & Steve Stamatiadis",
+    "confidence": "medium",
+    "licensing_route": "John Passfield & Steve Stamatiadis"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Beneath a Steel Sky",
+  "canonical_key": "beneath-a-steel-sky",
+  "rights_class": "C",
+  "opportunity": "GREEN",
+  "confidence_label": "medium",
+  "confidence_score": 0.7,
+  "current_rights_assessment": "Revolution Software officially made the game freeware in August 2003 for free community redistribution.",
+  "licensing_route": "Revolution Software (Charles Cecil)",
+  "source_families": [
+   "RGME fixture registry"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow",
+   "binary_redistribution": "allow",
+   "browser_hosting": "allow",
+   "reverse_engineering": "review",
+   "modification": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "fixtures",
+    "family": "RGME fixture registry",
+    "title": "Beneath a Steel Sky",
+    "assessment": "Freeware (Revolution Software 2003 Release) — Revolution Software (Charles Cecil)",
+    "confidence": "medium",
+    "licensing_route": "Revolution Software (Charles Cecil)"
+   }
+  ]
+ },
+ {
+  "canonical_title": "Lure of the Temptress",
+  "canonical_key": "lure-of-the-temptress",
+  "rights_class": "C",
+  "opportunity": "GREEN",
+  "confidence_label": "medium",
+  "confidence_score": 0.7,
+  "current_rights_assessment": "Released alongside Beneath a Steel Sky as official freeware by Revolution Software in 2003.",
+  "licensing_route": "Revolution Software (Charles Cecil)",
+  "source_families": [
+   "RGME fixture registry"
+  ],
+  "rights_layers": [],
+  "actions": {
+   "private_execution": "allow",
+   "binary_redistribution": "allow",
+   "browser_hosting": "allow",
+   "reverse_engineering": "review",
+   "modification": "deny_without_license"
+  },
+  "provenance": [
+   {
+    "batch": "fixtures",
+    "family": "RGME fixture registry",
+    "title": "Lure of the Temptress",
+    "assessment": "Freeware (Revolution Software 2003 Release) — Revolution Software (Charles Cecil)",
+    "confidence": "medium",
+    "licensing_route": "Revolution Software (Charles Cecil)"
+   }
+  ]
+ }
+]

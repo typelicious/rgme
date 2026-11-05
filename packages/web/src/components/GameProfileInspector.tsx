@@ -7,6 +7,8 @@ export interface InspectorDecisions {
   binary_redistribution: PolicyDecision;
 }
 
+const PLATFORM_LABEL: Record<string, string> = { amiga: "Amiga", c64: "Commodore 64", megadrive: "Mega Drive", atari_st: "Atari ST", dos: "DOS", snes: "SNES", nes: "NES" };
+
 export function GameProfileInspector({ profile, decisions }: { profile?: GameProfile; decisions?: InspectorDecisions }) {
   const [open, setOpen] = useState(false);
   if (!profile || !decisions) {
@@ -18,7 +20,7 @@ export function GameProfileInspector({ profile, decisions }: { profile?: GamePro
     <section className="rgme-panel" data-testid="inspector">
       <h2 className="text-lg mb-2" style={{ fontSize: "1.125rem" }}>{profile.title}</h2>
       <p className="text-sm" data-testid="machine-summary">
-        Amiga {m.model} · {m.chipset} · {m.video} {m.video === "PAL" ? "50Hz" : "60Hz"} · {m.ram.chipKb}K chip / {m.ram.fastKb}K fast
+        {PLATFORM_LABEL[profile.platform] ?? profile.platform} {m.model}{m.chipset ? ` · ${m.chipset}` : ""} · {m.video} {m.video === "PAL" ? "50Hz" : "60Hz"}{m.ram?.chipKb !== undefined ? ` · ${m.ram.chipKb}K chip` : ""}{m.ram?.fastKb !== undefined ? ` / ${m.ram.fastKb}K fast` : ""}
       </p>
       <div className="flex flex-col items-start gap-2 mt-3">
         {actions.map((a) => (

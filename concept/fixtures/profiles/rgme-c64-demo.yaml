@@ -1,0 +1,58 @@
+schema: rgme.game/v0.2
+game:
+  id: rgme-c64-demo
+  title: "RGME C64 Demo"
+  platform: c64
+
+identity:
+  hashes:
+    - algorithm: sha256
+      value: "24bb3dbc8ee1360e93c7db0ca62a7a96429c777ba7db30c10c7a65f87d40cbc6"
+  filenames:
+    - "rgme-c64-demo.d64"
+
+machine:
+  model: C64C
+  chipset: VIC-II/SID
+  video: PAL
+  ram:
+    chip_kb: 64
+    fast_kb: 0
+
+media:
+  - id: df0
+    kind: d64
+    filename: "rgme-c64-demo.d64"
+
+runtime:
+  preferredAdapter: c64-reference
+  emulation: reference
+  capabilities:
+    canvas_raster: true
+    audio_synth: true
+
+input:
+  profile: modern-gamepad
+  mappings:
+    up: ArrowUp
+    down: ArrowDown
+    left: ArrowLeft
+    right: ArrowRight
+    fire: Space
+
+display:
+  defaultProfile: authentic
+  aspectRatio: "4:3"
+  crtSimulation: true
+
+rights:
+  recordId: rights-rgme-c64-001
+  status: verified_public_domain
+  class: A
+  opportunity: GREEN
+  license: "CC0-1.0 Universal"
+  rightsholder: "RGME Project"
+  actions:
+    private_execution: allow
+    binary_redistribution: allow
+    browser_hosting: allow

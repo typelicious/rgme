@@ -123,7 +123,7 @@ export class GameLibraryStore {
       rights: resolved.rights,
       rightsClass: resolved.rights.classification,
       rightsStatus: resolved.rights.status,
-      chipset: resolved.profile.machine.chipset,
+      chipset: resolved.profile.machine.chipset ?? "n/a",
       year: resolved.year,
       data
     };
