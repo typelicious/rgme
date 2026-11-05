@@ -471,6 +471,55 @@
       "dependsOn": ["M6-GURU-001"],
       "type": "feature",
       "passes": true
+    },
+    {
+      "id": "M7-SCALING-001",
+      "title": "Responsive 4:3 Viewport Scaling without Artificial Bounds",
+      "description": "Dynamically scale the 1084S monitor bezel to available viewport height while preserving the 4:3 CRT aspect ratio, eliminating rigid 600px/820px limits.",
+      "acceptanceCriteria": [
+        "Viewport height scales dynamically with clamp(340px, calc(100vh - 250px), 88vh)",
+        "Max-width calculated dynamically based on 4:3 aspect ratio and bezel padding",
+        "Controls toolbar and ControllerHUD match the monitor width dynamically",
+        "Controls remain completely above the fold on all standard screen resolutions"
+      ],
+      "priority": "high",
+      "estimatedEffort": "1",
+      "dependsOn": ["M6-PLAYABLE-001"],
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M7-CORE-001",
+      "title": "Amiga OCS Copper & Bitplane Engine with ExecBase Vector Dispatcher",
+      "description": "Implement authentic planar bitplane rendering (1-6 planes to 320x256 RGBA) and Copper list execution alongside synthetic ExecBase Kickstart vectors.",
+      "acceptanceCriteria": [
+        "Bitplane renderer converting 1 to 6 bitplanes into 320x256 32-color chunky RGBA using COLOR00-COLOR31",
+        "Copper engine executing MOVE (register writes) and WAIT (beam position) instructions",
+        "ExecBase vector dispatcher returning valid responses for AllocMem, FreeMem, DoIO, SendIO, WaitIO, and OpenLibrary",
+        "Tested with authentic bootblocks and copper lists"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["M7-SCALING-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M7-ARCHIVE-001",
+      "title": "Archive.org Ephemeral In-Memory Cloud Streamer & Catalog Connector",
+      "description": "Direct, ephemeral in-memory streaming of retro game archives from Archive.org with in-memory ZIP decompression, Rights Policy evaluation, and DF0: mounting.",
+      "acceptanceCriteria": [
+        "ArchiveOrgConnector module querying collection metadata and downloading .adf/.zip files into Uint8Array",
+        "Zero disk persistence: pure in-memory streaming and ZIP extraction using DecompressionStream",
+        "SHA-256 calculation and Rights Policy Engine classification",
+        "1-Click Mount in DF0:-DF3: with simulated floppy drive seek sound",
+        "Cloud Streamer modal in @rgme/web with collection presets and custom URL support"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["M7-CORE-001"],
+      "type": "feature",
+      "passes": true
     }
   ]
 }

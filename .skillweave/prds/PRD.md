@@ -1,62 +1,53 @@
-# Product Requirements Document (PRD) v0.6.0
-## Retro Game Modernization Engine (RGME) — Milestone 6: Monitor Framing, Guru Meditation, Demo Lifecycle & Interactive Playability
+# Product Requirements Document (PRD) v0.7.0
+## Retro Game Modernization Engine (RGME) — Milestone 7: Dynamic 4:3 Proportional Scaling, Amiga OCS Engine & Archive.org Cloud Streamer
 
-- **Version:** 0.6.0
+- **Version:** 0.7.0
 - **Status:** In Progress
-- **Framework:** SkillWeave Blueprint + Impeccable Design
+- **Framework:** SkillWeave Blueprint + SkillWeave Design
 - **Author:** `typelicious <typelicious@gmail.com>`
 
 ---
 
 ## 1. Executive Summary & Problem Statements
 
-Milestone 6 resolves critical usability and retro-computing authenticity issues identified in real-world testing:
-1. **Monitor Overscaling on Wide Displays:** The 1084S monitor bezel previously grew with horizontal container width, pushing emulation controls, shaders, and gamepad options off the bottom of the screen.
-2. **Missing Unload/Eject Lifecycle:** Once a demo or tracker tune was started, it could not be cleanly unloaded; audio and animations looped indefinitely without an eject/stop mechanism.
-3. **Absence of the Amiga Guru Meditation:** The most famous Amiga system failure screen was missing from the demonstration catalog.
-4. **Non-Interactive Test Pattern on Loaded Games:** Loading freeware showcase games produced static color test bars rather than an interactive playable retro experience.
+Milestone 7 elevates RGME into a true playable retro computing and cloud preservation workstation:
+1. **Bezel Scaling Ergonomics:** The 1084S monitor was previously artificially restricted to `600px` height and `820px` width, appearing undersized on 1080p, 1440p, 4K, and ultrawide screens. It must expand proportionally to fill available viewport height while preserving the 4:3 aspect ratio and leaving exactly enough room for the controls toolbar and HUD below without scrolling.
+2. **Missing Real Amiga Playability:** Real Amiga bootblocks halt when calling AmigaOS `ExecBase` library vectors (e.g. `DoIO`, `AllocMem`, `OpenLibrary`), and display output was restricted to color register lines or simulated test patterns. An authentic Amiga OCS bitplane fetcher, Copper list interpreter, and ExecBase vector dispatcher are required.
+3. **Archive.org Ephemeral Cloud Streaming:** Historical preservation archives on Archive.org (e.g. `Amiga-Arquivista`, `Amiga_WHD_Games`) should be streamable directly into browser RAM on-demand, verified by the Rights Policy Engine, and mounted into virtual drives without RGME hosting or redistributing any binaries.
 
 ---
 
-## 2. Milestone 6 Task Breakdown
+## 2. Milestone 7 Task Breakdown
 
-### Task 1: `M6-MONITOR-001` — Viewport & Bezel Height Containment
-- **Goal:** Bound the 1084S monitor bezel to available viewport height so all primary controls are visible without vertical scrolling.
+### Task 1: `M7-SCALING-001` — Responsive 4:3 Viewport Scaling
+- **Goal:** Dynamically scale the 1084S monitor bezel to available viewport height without artificial pixel caps.
 - **Acceptance Criteria:**
-  - Viewport container constrained to `max-height: min(68vh, 640px)`.
-  - Width automatically clamped according to 4:3 aspect ratio (`max-width: min(100%, 840px)`).
-  - Emulation control toolbar (Start, Pause, Reset, Unload, CRT, Runtime) sits directly beneath the monitor on standard laptop (768p) and desktop (1080p/4K) displays.
+  - Viewport container height clamped to `clamp(340px, calc(100vh - 250px), 88vh)`.
+  - Max-width computed dynamically from height using the 4:3 CRT ratio: `min(100%, calc((height - 90px) * 1.3333 + 44px))`.
+  - Controls toolbar and ControllerHUD match the bezel's width rather than being locked to `820px`.
+  - Screen centered horizontally with zero horizontal overflow; all controls visible above the fold on all standard resolutions.
 
-### Task 2: `M6-LIFECYCLE-001` — Complete Demo & Game Unload / Eject Engine
-- **Goal:** Enable clean unloading and state reset for any running game, scene demo, or tracker tune.
+### Task 2: `M7-CORE-001` — Amiga OCS Copper & Bitplane Engine with ExecBase Vector Dispatcher
+- **Goal:** Enable genuine Amiga bootblock programs and demos to execute their copper and bitplane rendering pipelines.
 - **Acceptance Criteria:**
-  - `unloadGame()` resets adapter state to `UNLOADED`, stops render loops, and silences all audio.
-  - FloppyController ejects DF0:-DF3: and sets motor activity to idle.
-  - UI demo buttons toggle between `Load` and `⏏ Unload` (or paired buttons).
-  - Global `⏏ Unload / Eject` button in the emulation toolbar.
-  - Reset cleans the canvas back to authentic powered-down Amiga black.
+  - Bitplane renderer decoding 1–6 planar bitplanes (`BPL1PTH`–`BPL6PTL`) into chunky 320x256 RGBA pixels using `COLOR00`–`COLOR31`.
+  - Copper list runner interpreting `MOVE` (register writes) and `WAIT` (beam synchronization) instructions.
+  - ExecBase library vector dispatcher in `AmigaBus` providing valid responses for `AllocMem`, `FreeMem`, `DoIO`, `SendIO`, `WaitIO`, `OpenLibrary`, `FindTask`, and `CloseLibrary`.
+  - Tested with real bootblock instructions and copper lists.
 
-### Task 3: `M6-GURU-001` — Iconic Amiga Guru Meditation Error Screen
-- **Goal:** Deliver an authentic Commodore Amiga Guru Meditation failure display.
+### Task 3: `M7-ARCHIVE-001` — Archive.org Ephemeral In-Memory Cloud Streamer
+- **Goal:** Direct, user-agent streaming of historical preservation titles from Archive.org into RAM without local or server-side persistence.
 - **Acceptance Criteria:**
-  - Pure black canvas with pulsating/blinking red border (`#ff0000`, 3px, 1.0 Hz).
-  - Authentic centered Topáz monospace text: `Software Failure.  Press left mouse button to continue. / Guru Meditation #00000004.00004845`.
-  - Left mouse click or spacebar reboots the system (audio seek click + canvas reset).
-  - Dedicated `Guru Meditation` demo launcher in UI and Command Palette.
-
-### Task 4: `M6-PLAYABLE-001` — Interactive Playable Retro Engine for Showcase Titles
-- **Goal:** Replace static SMPTE color test bars with an interactive Amiga-style engine.
-- **Acceptance Criteria:**
-  - When loading showcase titles or mock adapter, render an interactive Commodore Amiga Boing Ball experience:
-    - 3D-shaded checkered sphere with real-time rotational transformation and drop shadow.
-    - Keyboard arrow and gamepad steering with bounce physics against screen boundaries.
-    - Synthesized stereo audio bounce sound on wall collisions.
-  - Clear user indicators distinguishing interactive showcase simulations from dropped user ADF disk images.
+  - `ArchiveOrgConnector` in `@rgme/core` querying collection metadata and downloading `.adf` / `.zip` disk images into `Uint8Array`.
+  - Pure in-memory ZIP decompression using `ZipParser` (`DecompressionStream`).
+  - SHA-256 calculation and evaluation against `RightsPolicyEngine`.
+  - 1-Click Mount into virtual drives DF0:–DF3: with simulated floppy seek sounds.
+  - Instant memory release upon unload or tab closure.
+  - Web UI Cloud Streamer modal accessible from header / Command Palette (`⌘K`).
 
 ---
 
 ## 3. Verification & Quality Gates
-- 100% green tests across `@rgme/core`, `@rgme/cli`, `@rgme/web`.
-- TypeScript strict typecheck clean.
-- Production build succeeds without errors.
-- Author identity strictly preserved as `typelicious <typelicious@gmail.com>`.
+- 100% green tests across `@rgme/core`, `@rgme/cli`, and `@rgme/web`.
+- Monorepo production build clean (`pnpm build`).
+- Author strictly `typelicious <typelicious@gmail.com>`.

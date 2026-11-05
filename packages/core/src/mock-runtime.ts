@@ -12,6 +12,8 @@ export interface Canvas2DLike {
   fillText?(text: string, x: number, y: number): void;
   strokeText?(text: string, x: number, y: number): void;
   createLinearGradient?(x0: number, y0: number, x1: number, y1: number): { addColorStop(offset: number, color: string): void };
+  createImageData?(w: number, h: number): { data: Uint8ClampedArray };
+  putImageData?(img: unknown, dx: number, dy: number): void;
   font?: string;
   strokeStyle?: string | CanvasGradient | CanvasPattern;
   lineWidth?: number;

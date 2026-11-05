@@ -18,3 +18,4 @@ export * from "./audio/index.js";
 export * from "./zip/zip-parser.js";
 export * from "./guru-meditation.js";
 export * from "./boing-ball.js";
+export * from "./archive/archive-connector.js";

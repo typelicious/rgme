@@ -176,14 +176,26 @@ export class M68kBootAdapter implements RuntimeAdapter {
     for (const l of this.listeners) l(s);
   }
 
-  /** 320x256 window onto beam lines 44..299, one fillRect per line from the recorded COLOR00 values, plus a status overlay. */
+  /** 320x256 window onto beam lines 44..299, bitplanes or COLOR00 lines plus status overlay. */
   private draw() {
     const ctx = this.opts.canvas?.getContext("2d");
     if (!ctx) return;
-    const lines = this.machine.bus.color00Lines;
-    for (let y = 0; y < 256; y++) {
-      ctx.fillStyle = hex12(lines[Math.min(lines.length - 1, DISPLAY_FIRST_LINE + y)] ?? 0);
-      ctx.fillRect(0, y, 320, 1);
+    const bus = this.machine.bus;
+    const numPlanes = (bus.regs[0x100 >> 1]! >> 12) & 7;
+
+    if (numPlanes > 0 && ctx.createImageData && ctx.putImageData) {
+      const img = ctx.createImageData(320, 256);
+      const u32 = new Uint32Array(img.data.buffer);
+      for (let y = 0; y < 256; y++) {
+        bus.renderScanline(DISPLAY_FIRST_LINE + y, u32, y * 320);
+      }
+      ctx.putImageData(img, 0, 0);
+    } else {
+      const lines = bus.color00Lines;
+      for (let y = 0; y < 256; y++) {
+        ctx.fillStyle = hex12(lines[Math.min(lines.length - 1, DISPLAY_FIRST_LINE + y)] ?? 0);
+        ctx.fillRect(0, y, 320, 1);
+      }
     }
     if (ctx.fillText && (this.machine.halted || this.machine.error)) {
       ctx.font = "10px monospace";

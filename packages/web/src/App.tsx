@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   IpfParser,
   ZipParser,
+  type StreamedRetroMedia,
   FREEWARE_CLASSICS,
   createClassicMultiDiskProfile,
   type FreewareClassic,
@@ -32,6 +33,7 @@ import {
 import { Header } from "./components/Header";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette";
 import { KeyboardShortcutsModal } from "./components/KeyboardShortcutsModal";
+import { CloudStreamModal } from "./components/CloudStreamModal";
 import { parseM3u } from "./lib/m3u";
 import { Dropzone, type DroppedInfo } from "./components/Dropzone";
 import { GameProfileInspector } from "./components/GameProfileInspector";
@@ -112,6 +114,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const [modBytes, setModBytes] = useState<Uint8Array>();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [cloudOpen, setCloudOpen] = useState(false);
   const [driveSoundEnabled, setDriveSoundEnabled] = useState(true);
   const library = useMemo(() => new GameLibraryStore(), []);
   const saves = useMemo(() => new SaveStateManager(IndexedDbSaveStore.available() ? new IndexedDbSaveStore() : new MemorySaveStore()), []);
@@ -419,6 +422,32 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     [activate]
   );
 
+  const onStreamMedia = useCallback(
+    async (media: StreamedRetroMedia) => {
+      const p = buildProfileFromFile(media.diskFilename, media.sha256);
+      setInfo({
+        name: media.diskFilename,
+        size: media.size,
+        sha256: media.sha256,
+        status: "Identified"
+      });
+      await activate(p, undefined);
+      if (media.format === "adf" || media.diskFilename.endsWith(".adf")) {
+        floppy.insertDisk(0, {
+          id: media.diskFilename,
+          label: media.diskFilename,
+          sha256: media.sha256,
+          image: media.bytes
+        });
+        floppy.setMotor(0, true);
+        floppy.recalibrate(0);
+        floppy.pulseActivity(0, "read", 400);
+      }
+      adapterRef.current?.start();
+    },
+    [activate, floppy]
+  );
+
   const loadDemoMod = useCallback(async () => {
     const res = await fetch(demoModUrl);
     setModBytes(new Uint8Array(await res.arrayBuffer()));
@@ -542,6 +571,13 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         detail: `${classic.disks.length} disks • ${classic.developer} (${classic.year})`,
         run: () => void onLaunchClassic(classic)
       })),
+      {
+        id: "archive-stream",
+        category: "Cloud",
+        title: "Stream from Archive.org",
+        detail: "Ephemeral in-memory retro games preservation streaming",
+        run: () => setCloudOpen(true)
+      },
       {
         id: "load-guru",
         category: "Game",
@@ -670,6 +706,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         runtimeName={adapter?.identifyCapabilities().name ?? "No runtime"}
         onOpenPalette={() => setPaletteOpen(true)}
         onOpenShortcuts={() => setShortcutsOpen(true)}
+        onOpenCloudStream={() => setCloudOpen(true)}
         driveSoundEnabled={driveSoundEnabled}
         onToggleDriveSound={() => {
           setDriveSoundEnabled((prev) => {
@@ -741,15 +778,15 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         <div className="flex flex-col items-center w-full">
           <Viewport bezel crt={crt} crtParams={crtParams} onToggleCrt={() => setCrt((c) => !c)} onCanvas={onCanvas} />
           {crt && (
-            <div className="mt-2 w-full max-w-[820px]">
+            <div className="mt-2 w-full rgme-controls-container">
               <CrtControls presetId={crtId} params={crtParams} onPreset={(id) => { setCrtId(id); setCrtParams(getCrtPreset(id).params); }} onParams={setCrtParams} />
             </div>
           )}
-          <div className="mt-2 w-full max-w-[820px]">
+          <div className="mt-2 w-full rgme-controls-container">
             <RuntimeSwitch kind={runtimeKind} onChange={(k) => void switchRuntime(k)} disabledWasmReason={profile && profile.platform !== "amiga" ? "The WASM core runtime is Amiga-only." : undefined} />
           </div>
-          {runtimeError && <p role="alert" className="text-sm mt-2 w-full max-w-[820px]" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
-          <div className="flex flex-wrap gap-2 mt-3 w-full max-w-[820px]">
+          {runtimeError && <p role="alert" className="text-sm mt-2 w-full rgme-controls-container" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
+          <div className="flex flex-wrap gap-2 mt-3 w-full rgme-controls-container">
             <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
             <button className="rgme-btn" disabled={state !== "RUNNING"} data-testid="btn-pause" onClick={() => adapter?.pause()}>Pause</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.reset()}>Reset</button>
@@ -759,7 +796,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
             <button className="rgme-btn" aria-pressed={muted} data-testid="mute-btn" onClick={() => { adapter?.setMuted?.(!muted); floppySynth.setMuted(!muted); setMuted(!muted); }}>{muted ? "Unmute" : "Mute"}</button>
             <button className="rgme-btn" disabled={!hasSave || state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.loadState(0)}>Load</button>
           </div>
-          <div className="w-full max-w-[820px]">
+          <div className="w-full rgme-controls-container">
             <ControllerHUD active={inputs} press={press} physical={gp.physical} gamepadName={gp.connected ? gp.name : undefined} />
             <button className="rgme-btn mt-2" data-testid="remap-btn" onClick={() => setRemapOpen(true)}>Gamepad mapping…</button>
           </div>
@@ -786,6 +823,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       <RemapModal open={remapOpen} mapping={gp.mapping} onChange={gp.setMapping} onClose={() => setRemapOpen(false)} />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
       <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <CloudStreamModal open={cloudOpen} onClose={() => setCloudOpen(false)} onMountMedia={onStreamMedia} />
     </div>
   );
 }

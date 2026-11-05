@@ -15,6 +15,7 @@ export function Header({
   runtimeName,
   onOpenPalette,
   onOpenShortcuts,
+  onOpenCloudStream,
   driveSoundEnabled = true,
   onToggleDriveSound
 }: {
@@ -22,6 +23,7 @@ export function Header({
   runtimeName: string;
   onOpenPalette?: () => void;
   onOpenShortcuts?: () => void;
+  onOpenCloudStream?: () => void;
   driveSoundEnabled?: boolean;
   onToggleDriveSound?: () => void;
 }) {
@@ -34,6 +36,18 @@ export function Header({
       <h1 className="text-xl font-semibold rgme-mono" style={{ fontSize: "1.25rem" }}>RGME</h1>
       <span className="text-sm" style={{ color: "var(--rgme-fg-secondary)" }}>Retro Game Modernization Engine</span>
       <span className="flex-1" />
+
+      {onOpenCloudStream && (
+        <button
+          className="rgme-btn"
+          data-testid="header-cloud-btn"
+          onClick={onOpenCloudStream}
+          style={{ fontSize: "11px", padding: "4px 8px" }}
+          title="Stream games from Archive.org preservation collections"
+        >
+          🌐 Archive.org
+        </button>
+      )}
 
       {onToggleDriveSound && (
         <button

@@ -42,6 +42,13 @@ export class BootblockError extends Error {
 
 export type CustomWrite = { line: number; reg: number; value: number };
 
+export function hex12ToRgba32(c: number): number {
+  const r = ((c >> 8) & 0xf) * 17;
+  const g = ((c >> 4) & 0xf) * 17;
+  const b = (c & 0xf) * 17;
+  return (0xff000000 | (b << 16) | (g << 8) | r) >>> 0;
+}
+
 /** 32-bit sum over the 1024-byte bootblock with end-around carry must equal 0xFFFFFFFF (same rule as AdfParser). */
 export function bootChecksumValid(bytes: Uint8Array): boolean {
   if (bytes.length < 1024) return false;
@@ -62,6 +69,11 @@ export class AmigaBus implements Bus {
   dmacon = 0;
   intena = 0;
   intreq = 0;
+  cop1lc = 0;
+  cop2lc = 0;
+  copPc = 0;
+  copActive = false;
+  readonly bplpt = new Uint32Array(6);
   /** CPU cycle within the current frame, maintained by the machine for the beam counter. */
   frameCycle = 0;
   readonly colors = new Uint16Array(32);
@@ -110,6 +122,18 @@ export class AmigaBus implements Bus {
     else if (off === 0x09a) this.intena = setClr(this.intena);
     else if (off === 0x09c) this.intreq = setClr(this.intreq);
     else if (off === 0x024) this.diskLog.push(v); // DSKLEN: logged, no disk DMA
+    else if (off === 0x080) this.cop1lc = ((v & 0xffff) << 16) | (this.cop1lc & 0xffff);
+    else if (off === 0x082) this.cop1lc = (this.cop1lc & 0xffff0000) | (v & 0xffff);
+    else if (off === 0x084) this.cop2lc = ((v & 0xffff) << 16) | (this.cop2lc & 0xffff);
+    else if (off === 0x086) this.cop2lc = (this.cop2lc & 0xffff0000) | (v & 0xffff);
+    else if (off === 0x088) { this.copPc = this.cop1lc; this.copActive = true; }
+    else if (off === 0x08a) { this.copPc = this.cop2lc; this.copActive = true; }
+    else if (off >= 0x0e0 && off <= 0x0f6) {
+      const plane = (off - 0x0e0) >> 2;
+      const isLow = ((off - 0x0e0) & 2) !== 0;
+      if (isLow) this.bplpt[plane] = (this.bplpt[plane]! & 0xffff0000) | (v & 0xffff);
+      else this.bplpt[plane] = ((v & 0xffff) << 16) | (this.bplpt[plane]! & 0xffff);
+    }
     else if (off >= 0x180 && off < 0x1c0) {
       const i = (off - 0x180) >> 1;
       this.colors[i] = v & 0xfff;
@@ -153,6 +177,69 @@ export class AmigaBus implements Bus {
     this.dmacon = 0;
     this.intena = 0;
     this.intreq = 0;
+    this.cop1lc = 0;
+    this.cop2lc = 0;
+    this.copPc = 0;
+    this.copActive = false;
+    this.bplpt.fill(0);
+  }
+
+  executeCopper(line: number) {
+    if (!this.copActive || this.copPc >= CHIP_RAM_SIZE - 4) return;
+    let limit = 400;
+    while (this.copActive && this.copPc < CHIP_RAM_SIZE - 4 && limit-- > 0) {
+      const w1 = this.read16(this.copPc);
+      const w2 = this.read16(this.copPc + 2);
+      if ((w1 & 1) === 0) {
+        // MOVE custom register
+        const reg = w1 & 0x01fe;
+        this.writeCustom(reg, w2);
+        this.copPc += 4;
+      } else {
+        // WAIT
+        if (w1 === 0xffff && (w2 & 0xfffe) === 0xfffe) {
+          this.copActive = false;
+          break;
+        }
+        const waitLine = (w1 >> 8) & 0xff;
+        if (waitLine > (line & 0xff)) {
+          break;
+        }
+        this.copPc += 4;
+      }
+    }
+  }
+
+  renderScanline(line: number, target: Uint32Array, offset: number) {
+    const numPlanes = Math.min(6, (this.regs[0x100 >> 1]! >> 12) & 7);
+    const bgCol = this.colors[0]!;
+    const bgRgba = hex12ToRgba32(bgCol);
+    if (numPlanes === 0) {
+      target.fill(bgRgba, offset, offset + 320);
+      return;
+    }
+    const planeWords = new Uint16Array(numPlanes);
+    const planeAddrs = new Uint32Array(numPlanes);
+    const mod1 = (this.regs[0x108 >> 1]! << 16) >> 16;
+    const lineOff = line - DISPLAY_FIRST_LINE;
+    for (let p = 0; p < numPlanes; p++) {
+      planeAddrs[p] = (this.bplpt[p]! + lineOff * (40 + mod1)) >>> 0;
+    }
+    let px = 0;
+    for (let wordIdx = 0; wordIdx < 20; wordIdx++) {
+      for (let p = 0; p < numPlanes; p++) {
+        const addr = planeAddrs[p]! + wordIdx * 2;
+        planeWords[p] = addr < CHIP_RAM_SIZE ? this.read16(addr) : 0;
+      }
+      for (let bit = 15; bit >= 0; bit--) {
+        let colIdx = 0;
+        for (let p = 0; p < numPlanes; p++) {
+          if ((planeWords[p]! >> bit) & 1) colIdx |= (1 << p);
+        }
+        const col = this.colors[colIdx]!;
+        target[offset + px++] = hex12ToRgba32(col);
+      }
+    }
   }
 }
 
@@ -316,6 +403,10 @@ export class AmigaBootMachine {
     bus.writes.length = 0;
     bus.frameCycle = 0;
     bus.color00Lines.fill(bus.colors[0]!);
+    if (bus.cop1lc > 0 && (bus.dmacon & 0x0280) === 0x0280) {
+      bus.copPc = bus.cop1lc;
+      bus.copActive = true;
+    }
     if (this.halted) return { cycles: 0, halted: true, haltReason: this.haltReason, error: this.error };
     let used = 0;
     while (used < PAL_CYCLES_PER_FRAME) {
@@ -326,6 +417,7 @@ export class AmigaBootMachine {
       const pc = this.cpu.pc;
       try {
         bus.frameCycle = used;
+        bus.executeCopper(bus.beamLine);
         const c = this.cpu.step();
         used += c;
         this.stepsExecuted++;

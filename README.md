@@ -6,7 +6,7 @@
   <a href="https://github.com/typelicious/rgme/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/CI-Passing-10b981?style=flat-square&logo=githubactions&logoColor=white" alt="CI Status" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License: MIT" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Tests-400%20Passing-10b981?style=flat-square&logo=vitest&logoColor=white" alt="Vitest Tests" /></a>
+  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Tests-410%20Passing-10b981?style=flat-square&logo=vitest&logoColor=white" alt="Vitest Tests" /></a>
   <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" /></a>
   <a href="#sponsor-this-project"><img src="https://img.shields.io/badge/Sponsor-RGME-ff69b4?style=flat-square&logo=githubsponsors&logoColor=white" alt="Sponsor this Project" /></a>
 </p>

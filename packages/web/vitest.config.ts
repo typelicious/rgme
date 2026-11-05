@@ -1,5 +1,11 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config.js";
 export default mergeConfig(viteConfig, defineConfig({
-  test: { include: ["src/**/*.test.{ts,tsx}"], environment: "jsdom", setupFiles: ["src/test-setup.ts"] }
+  test: {
+    include: ["src/**/*.test.{ts,tsx}"],
+    environment: "jsdom",
+    setupFiles: ["src/test-setup.ts"],
+    testTimeout: 25000,
+    hookTimeout: 25000
+  }
 }));
