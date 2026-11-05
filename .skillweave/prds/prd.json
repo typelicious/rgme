@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 2 (Hardware Immersion, Filesystem & Runtime Subsystems)",
+  "milestone": "Milestone 4 (IPF Decoder, Real 68000 Execution Core, ProTracker Engine & Monitor Bezel)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -232,6 +232,90 @@
       ],
       "type": "feature",
       "passes": true
+    },
+    {
+      "id": "IPF-001",
+      "title": "Pure TypeScript IPF / CAPS Floppy Decoder in @rgme/core",
+      "description": "Decode Interchangeable Preservation Format (.ipf) containers: parse CAPS, FDI, TRCK, and DATA chunks to reconstruct MFM track streams and extract Amiga floppy sectors.",
+      "acceptanceCriteria": [
+        "IpfParser in @rgme/core capable of reading raw .ipf container buffers",
+        "Decodes container headers, track descriptor tables, and MFM sector streams",
+        "Extracts standard 512-byte Amiga sectors from decoded IPF tracks",
+        "Integrates with AdfParser / FloppyController to seamlessly mount .ipf files into DF0:-DF3:",
+        "Unit tests in @rgme/core verifying parsing against synthetic and sample IPF chunks"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["FS-001", "DRIVE-001"],
+      "type": "feature",
+      "passes": false
+    },
+    {
+      "id": "M68K-001",
+      "title": "In-Browser Motorola 68000 CPU Execution Core in @rgme/core",
+      "description": "Lightweight Motorola 68000 CPU execution core with memory bus and register file, capable of executing genuine Amiga bootblock code, copperlist setups, and arithmetic instructions.",
+      "acceptanceCriteria": [
+        "M68kCpu in @rgme/core with 8 data registers (D0-D7), 8 address registers (A0-A7), PC, and SR",
+        "Implements core 68000 opcodes: MOVE, LEA, PEA, ADD, SUB, CMP, BRA, BSR, RTS, JMP, JSR, NOP, RESET",
+        "Executes Amiga bootblock code from sector 0: sets memory base, writes to Custom Chip registers (0xdff000)",
+        "Fulfills the WasmAmigaAdapter / RuntimeAdapter contract for real instruction-level execution",
+        "Unit tests in @rgme/core running real m68k test vectors and verifying register/flag states"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["WASM-001"],
+      "type": "architecture",
+      "passes": false
+    },
+    {
+      "id": "MOD-001",
+      "title": "Amiga ProTracker / SoundTracker (.mod) 4-Channel Audio Engine",
+      "description": "Native 4-channel ProTracker engine: parse M.K. / 4CHN module format, Paula 8-bit signed PCM audio synthesis, hardware period-to-frequency pitching, volume and effect commands (Arpeggio, Vibrato, Portamento).",
+      "acceptanceCriteria": [
+        "ModPlayer in @rgme/core parsing standard 4-channel Amiga ProTracker modules (.mod)",
+        "Simulates Paula stereo separation (channels 0 & 3 to Left, 1 & 2 to Right)",
+        "Implements core ProTracker effects: 0 (Arpeggio), 1/2 (Portamento), C (Set Volume), D (Pattern Break), F (Set Speed)",
+        "Plays bundled retro tribute MOD file with Web Audio API",
+        "Unit tests verifying MOD header parsing, pattern decoding, and sample playback math"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["CORE-002"],
+      "type": "feature",
+      "passes": false
+    },
+    {
+      "id": "M3U-001",
+      "title": "Multi-Disk .m3u Playlist Engine & In-Game Floppy Swapper",
+      "description": "Support .m3u playlists (matching IPF preservation sets), with automated disk swapping triggers and hotkey/UI disk selector.",
+      "acceptanceCriteria": [
+        "M3uPlaylistParser in @rgme/core parsing .m3u files and grouping multi-disk sets",
+        "Floppy HUD in @rgme/web displays active disk (e.g. 'Disk 1 of 11') with quick-swap selector",
+        "Hotkeys (e.g. Ctrl+Alt+1..9) or button click immediately swaps disk in DF0: with drive click audio",
+        "Unit tests verifying playlist parsing and swap events"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["DRIVE-001"],
+      "type": "ui",
+      "passes": false
+    },
+    {
+      "id": "BEZEL-001",
+      "title": "Commodore 1084S Retro Monitor Bezel & Fullscreen Nostalgia Experience",
+      "description": "Commodore 1084S monitor bezel overlay wrapping the WebGL CRT canvas with authentic texture, power LED, power switch toggle, and fullscreen mode.",
+      "acceptanceCriteria": [
+        "Commodore 1084S monitor bezel component framing the canvas viewport",
+        "Interactive power LED (glow green/amber) and power switch (toggles power off/on with CRT phosphor shrink effect)",
+        "Degauss button triggering screen shake and electromagnetic degauss color flash effect",
+        "Fullscreen toggle fitting monitor bezel or filling screen with aspect ratio lock",
+        "Responsive scaling maintaining 4:3 PAL display geometry"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["CRT-001"],
+      "type": "ui",
+      "passes": false
     }
   ]
 }
