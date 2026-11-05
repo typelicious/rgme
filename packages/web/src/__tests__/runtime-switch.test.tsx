@@ -35,6 +35,9 @@ describe("RuntimeSwitch", () => {
 describe("runtime factory", () => {
   it("creates the requested adapter kind", () => {
     expect(createRuntime("mock", null)).toBeInstanceOf(MockRuntimeAdapter);
+    expect(createRuntime("vamiga", null).identifyCapabilities().id).toBe("vamiga");
+    expect(createRuntime("puae", null).identifyCapabilities().id).toBe("puae");
+    expect(createRuntime("preview", null).identifyCapabilities().id).toBe("preview");
     const w = createRuntime("wasm", null);
     expect(w).toBeInstanceOf(WasmAmigaAdapter);
     expect(w.identifyCapabilities().id).toBe("wasm-amiga");

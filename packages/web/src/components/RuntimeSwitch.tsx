@@ -1,10 +1,12 @@
 import type { RuntimeKind } from "../lib/runtime-factory";
 
 const OPTIONS: Array<{ kind: RuntimeKind; label: string }> = [
-  { kind: "wasm", label: "WASM Core" },
-  { kind: "puae", label: "Full Amiga (PUAE)" },
-  { kind: "mock", label: "Mock" },
-  { kind: "m68k", label: "68000 (partial)" }
+  { kind: "vamiga", label: "vAmiga (Real)" },
+  { kind: "puae", label: "PUAE (Real)" },
+  { kind: "preview", label: "Preview (Mock)" },
+  { kind: "wasm", label: "WASM Ref" },
+  { kind: "m68k", label: "68000" },
+  { kind: "mock", label: "Boing Mock" }
 ];
 
 export function RuntimeSwitch({
@@ -41,7 +43,17 @@ export function RuntimeSwitch({
         })}
       </div>
       <span style={{ color: "var(--rgme-fg-secondary)" }} data-testid="runtime-note">
-        {kind === "wasm" ? "WebAssembly Amiga 68000 reference core (OCS/ECS + AROS Kickstart; timing/integration test, not an emulator)" : kind === "puae" ? "Full Amiga OCS/ECS emulator (PUAE / EmulatorJS) for genuine game binaries" : kind === "m68k" ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga" : "mock test-pattern runtime"}
+        {kind === "vamiga"
+          ? "vAmigaWeb cycle-exact Amiga 500/1200 WebAssembly emulator (real OCS/ECS/AGA execution, GPL-3.0)"
+          : kind === "puae"
+          ? "PUAE libretro Amiga emulator via EmulatorJS 4.2.3 (real 68000 + chipset execution, GPL-2.0+)"
+          : kind === "preview"
+          ? "Placeholder preview animation — NOT an emulator (for UI testing only)"
+          : kind === "wasm"
+          ? "WebAssembly Amiga 68000 reference core (OCS/ECS + AROS Kickstart; timing/integration test, not an emulator)"
+          : kind === "m68k"
+          ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga"
+          : "mock test-pattern runtime"}
       </span>
     </div>
   );

@@ -90,7 +90,17 @@ export function Header({
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-mono font-bold text-white">
-              {runtimeKind === "wasm" ? "WASM Core" : runtimeKind === "puae" ? "Full Amiga (PUAE)" : runtimeKind === "m68k" ? "68000" : "Mock Arcade"}
+              {runtimeKind === "vamiga"
+                ? "vAmiga (Real)"
+                : runtimeKind === "puae"
+                ? "PUAE (Real)"
+                : runtimeKind === "preview"
+                ? "Preview (Mock)"
+                : runtimeKind === "wasm"
+                ? "WASM Core"
+                : runtimeKind === "m68k"
+                ? "68000"
+                : "Mock Arcade"}
             </span>
             <span className="text-[10px] text-[#94a3b8]">▾</span>
           </button>
@@ -105,20 +115,40 @@ export function Header({
           >
             <div className="text-[10px] uppercase font-mono px-2 py-1 text-[#64748b]">Select Runtime Engine</div>
             <button
+              data-testid="runtime-vamiga"
+              onClick={() => { onSelectRuntimeKind("vamiga"); setRuntimeMenuOpen(false); }}
+              className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                runtimeKind === "vamiga" ? "bg-emerald-950/40 text-emerald-300 border border-emerald-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
+              }`}
+            >
+              <span className="font-bold">✨ vAmiga Emulator (Real)</span>
+              <span className="text-[10px] text-[#94a3b8]">Cycle-exact OCS/ECS/AGA WebAssembly</span>
+            </button>
+            <button
               data-testid="runtime-puae"
               onClick={() => { onSelectRuntimeKind("puae"); setRuntimeMenuOpen(false); }}
               className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
                 runtimeKind === "puae" ? "bg-purple-950/40 text-purple-300 border border-purple-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
               }`}
             >
-              <span className="font-bold">🕹️ Full Amiga Emulator</span>
-              <span className="text-[10px] text-[#94a3b8]">PUAE / UAE OCS/ECS full game execution</span>
+              <span className="font-bold">🕹️ PUAE Emulator (Real)</span>
+              <span className="text-[10px] text-[#94a3b8]">EmulatorJS 4.2.3 libretro PUAE core</span>
+            </button>
+            <button
+              data-testid="runtime-preview"
+              onClick={() => { onSelectRuntimeKind("preview"); setRuntimeMenuOpen(false); }}
+              className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                runtimeKind === "preview" ? "bg-amber-950/40 text-amber-300 border border-amber-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
+              }`}
+            >
+              <span className="font-bold">🎭 Placeholder Preview (Mock)</span>
+              <span className="text-[10px] text-[#94a3b8]">Scripted preview — NOT an emulator</span>
             </button>
             <button
               data-testid="runtime-wasm"
               onClick={() => { onSelectRuntimeKind("wasm"); setRuntimeMenuOpen(false); }}
               className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
-                runtimeKind === "wasm" ? "bg-emerald-950/40 text-emerald-300 border border-emerald-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
+                runtimeKind === "wasm" ? "bg-cyan-950/40 text-cyan-300 border border-cyan-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
               }`}
             >
               <span className="font-bold">⚡ WebAssembly Core</span>
@@ -145,13 +175,17 @@ export function Header({
               <span className="text-[10px] text-[#94a3b8]">Bootblock diagnostic interpreter</span>
             </button>
             <span data-testid="runtime-note" className="hidden">
-              {runtimeKind === "wasm"
-                ? "WebAssembly Amiga 68000 reference core (OCS/ECS + AROS Kickstart; timing/integration test, not an emulator)"
+              {runtimeKind === "vamiga"
+                ? "vAmigaWeb cycle-exact Amiga 500/1200 WebAssembly emulator (real OCS/ECS/AGA execution, GPL-3.0)"
                 : runtimeKind === "puae"
-                  ? "Full Amiga OCS/ECS emulator (PUAE / EmulatorJS) for genuine game binaries"
-                  : runtimeKind === "m68k"
-                    ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga"
-                    : "mock test-pattern runtime"}
+                ? "PUAE libretro Amiga emulator via EmulatorJS 4.2.3 (real 68000 + chipset execution, GPL-2.0+)"
+                : runtimeKind === "preview"
+                ? "Placeholder preview animation — NOT an emulator (for UI testing only)"
+                : runtimeKind === "wasm"
+                ? "WebAssembly Amiga 68000 reference core (OCS/ECS + AROS Kickstart; timing/integration testbed)"
+                : runtimeKind === "m68k"
+                ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga"
+                : "mock test-pattern runtime"}
             </span>
           </div>
         </div>

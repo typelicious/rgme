@@ -18,11 +18,12 @@ export function Viewport({
   /** Frame the screen in the generic 1084-style monitor bezel. */
   bezel?: boolean;
   onToggleCrt: () => void;
-  onCanvas: (canvas: HTMLCanvasElement) => void;
+  onCanvas: (canvas: HTMLCanvasElement, host?: HTMLDivElement | null) => void;
   crtMenuContent?: React.ReactNode;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const [el, setEl] = useState<HTMLCanvasElement | null>(null);
   const [fallback, setFallback] = useState(() => !isWebGLAvailable());
   const [size, setSize] = useState(() => computeIntegerScale(640, 480));
@@ -30,7 +31,7 @@ export function Viewport({
   useEffect(() => {
     if (canvas.current) {
       setEl(canvas.current);
-      onCanvas(canvas.current);
+      onCanvas(canvas.current, hostRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -67,6 +68,11 @@ export function Viewport({
                 aria-label="Amiga display, PAL 4:3"
                 style={{ width: "100%", height: "100%", imageRendering: "pixelated", display: "block" }}
               />
+              <div
+                ref={hostRef}
+                data-testid="emulator-host"
+                style={{ position: "absolute", inset: 0, display: "none", zIndex: 4, background: "#000" }}
+              />
               {crt && crtParams && !fallback && <CrtShaderCanvas source={el} params={crtParams} enabled onFallback={() => setFallback(true)} />}
               {crt && (fallback || !crtParams) && <div className="rgme-crt" data-testid="crt-overlay" />}
             </div>
@@ -86,6 +92,11 @@ export function Viewport({
                 data-scale={size.scale}
                 aria-label="Amiga display, PAL 4:3"
                 style={{ width: "100%", height: "100%", imageRendering: "pixelated", display: "block" }}
+              />
+              <div
+                ref={hostRef}
+                data-testid="emulator-host"
+                style={{ position: "absolute", inset: 0, display: "none", zIndex: 4, background: "#000" }}
               />
               {crt && crtParams && !fallback && <CrtShaderCanvas source={el} params={crtParams} enabled onFallback={() => setFallback(true)} />}
               {crt && (fallback || !crtParams) && <div className="rgme-crt" data-testid="crt-overlay" />}

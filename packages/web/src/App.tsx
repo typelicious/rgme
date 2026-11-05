@@ -112,11 +112,12 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     return () => { off(); floppySynth.dispose(); floppy.dispose(); };
   }, [floppy, floppySynth]);
   const isCustomFactory = createAdapter !== defaultFactory;
-  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "puae";
+  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "vamiga";
   const mediaRegistry = useMemo(() => new MediaRegistry(true), []);
   const bytesBySha = useRef(new Map<string, Uint8Array>());
-  const adapterKey = useRef(initialKind === "mock" ? "amiga:mock" : "amiga:puae");
+  const adapterKey = useRef(initialKind === "mock" ? "amiga:mock" : `amiga:${initialKind}`);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const hostContainerRef = useRef<HTMLDivElement | null>(null);
   const runtimeKindRef = useRef<RuntimeKind>(initialKind);
   const [runtimeKind, setRuntimeKindState] = useState<RuntimeKind>(initialKind);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -141,10 +142,17 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     void kickstartStore.getActiveRom().then((r) => {
       setActiveRomName(r.meta.name);
       activeRomBytesRef.current = r.bytes;
-      if ((runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae") && adapterRef.current?.state === "UNLOADED") {
+      if (
+        (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga") &&
+        adapterRef.current?.state === "UNLOADED"
+      ) {
         const canvas = canvasRef.current;
         disposeRuntime(adapterRef.current);
-        const a = createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: r.bytes });
+        const a = createRuntime(runtimeKindRef.current, canvas, {
+          media: mediaRegistry,
+          kickstartRom: r.bytes,
+          container: hostContainerRef.current
+        });
         adapterRef.current = a;
         adapterKey.current = `amiga:${runtimeKindRef.current}`;
         unsub.current?.();
@@ -167,7 +175,11 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       const a =
         runtimeKindRef.current === "mock"
           ? createAdapter(canvas as unknown as CanvasLike)
-          : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
+          : createRuntime(runtimeKindRef.current, canvas, {
+              media: mediaRegistry,
+              kickstartRom: activeRomBytesRef.current,
+              container: hostContainerRef.current
+            });
       adapterRef.current = a;
       adapterKey.current = `amiga:${runtimeKindRef.current}`;
       unsub.current?.();
@@ -201,13 +213,18 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   }, [createAdapter, floppy, mediaRegistry]);
 
   const onCanvas = useCallback(
-    (canvas: HTMLCanvasElement) => {
+    (canvas: HTMLCanvasElement, host?: HTMLDivElement | null) => {
       canvasRef.current = canvas;
+      if (host !== undefined) hostContainerRef.current = host;
       setCanvasEl(canvas);
       const a =
         runtimeKindRef.current === "mock"
           ? createAdapter(canvas as unknown as CanvasLike)
-          : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
+          : createRuntime(runtimeKindRef.current, canvas, {
+              media: mediaRegistry,
+              kickstartRom: activeRomBytesRef.current,
+              container: hostContainerRef.current
+            });
       disposeRuntime(adapterRef.current);
       adapterRef.current = a;
       adapterKey.current = `amiga:${runtimeKindRef.current}`;
@@ -258,7 +275,11 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       if (p.platform === "amiga") {
         a = kind === "mock"
           ? createAdapter(canvas as unknown as CanvasLike)
-          : createRuntime(kind, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
+          : createRuntime(kind, canvas, {
+              media: mediaRegistry,
+              kickstartRom: activeRomBytesRef.current,
+              container: hostContainerRef.current
+            });
       } else {
         a = createPlatformAdapter(p.platform, (canvas ?? undefined) as unknown as CanvasLike | undefined, createPlatformAudio(p.platform, createBrowserAudioContext));
       }
@@ -981,6 +1002,8 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
             frame={frame}
             activeRomName={activeRomName}
             onOpenRomSettings={() => setRomModalOpen(true)}
+            phase={status.phase}
+            message={status.message}
           />
         </div>
       </main>
@@ -1042,11 +1065,15 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           setActiveRomName(meta.name);
           void kickstartStore.getActiveRom().then((r) => {
             activeRomBytesRef.current = r.bytes;
-            if (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae") {
+            if (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga") {
               const canvas = canvasRef.current;
               const wasRunning = adapterRef.current?.state === "RUNNING";
               disposeRuntime(adapterRef.current);
-              const a = createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: r.bytes });
+              const a = createRuntime(runtimeKindRef.current, canvas, {
+                media: mediaRegistry,
+                kickstartRom: r.bytes,
+                container: hostContainerRef.current
+              });
               adapterRef.current = a;
               adapterKey.current = `amiga:${runtimeKindRef.current}`;
               unsub.current?.();

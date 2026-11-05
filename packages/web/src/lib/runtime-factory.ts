@@ -1,9 +1,23 @@
 import {
-  ChiptunePlayer, EmulatorJsPuaeAdapter, M68kBootAdapter, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader, wasmAmigaCoreLoader,
-  type CanvasLike, type Media, type RuntimeAdapter, type WasmCanvasLike, type WasmCoreLoader
+  ChiptunePlayer,
+  EmulatorJsCoreAdapter,
+  PlaceholderPreviewAdapter,
+  VAmigaWebAdapter,
+  M68kBootAdapter,
+  MockRuntimeAdapter,
+  WasmAmigaAdapter,
+  createBrowserAudioContext,
+  referenceCoreLoader,
+  urlLoader,
+  wasmAmigaCoreLoader,
+  type CanvasLike,
+  type Media,
+  type RuntimeAdapter,
+  type WasmCanvasLike,
+  type WasmCoreLoader
 } from "@rgme/core";
 
-export type RuntimeKind = "mock" | "wasm" | "m68k" | "puae";
+export type RuntimeKind = "vamiga" | "puae" | "preview" | "wasm" | "m68k" | "mock";
 
 /** Generates a valid 880 KB Amiga ADF disk image with valid 32-bit boot checksum and boot code */
 export function generateBootableAdfFallback(media: { filename?: string; label?: string }): Uint8Array {
@@ -68,11 +82,13 @@ export interface RuntimeFactoryOptions {
   loader?: WasmCoreLoader;
   media?: MediaRegistry;
   kickstartRom?: Uint8Array;
+  /** Host element for embedded real emulators (vAmigaWeb, EmulatorJS). */
+  container?: HTMLElement | null;
 }
 
 /**
  * Creates a runtime behind the RuntimeAdapter interface. Switching "seamlessly" means: dispose the old
- * adapter, create the new one on the SAME canvas, re-register its status listener, then call `loadGame`
+ * adapter, create the new one on the SAME canvas or container, re-register its status listener, then call `loadGame`
  * with the current profile (and `start()` if it was RUNNING).
  */
 export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | null, opts: RuntimeFactoryOptions = {}): RuntimeAdapter {
@@ -83,9 +99,27 @@ export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | nul
     const media = opts.media ?? new MediaRegistry();
     return new M68kBootAdapter({ mediaProvider: media.provider, canvas: (canvas ?? undefined) as unknown as CanvasLike | undefined });
   }
+  if (kind === "vamiga") {
+    const media = opts.media ?? new MediaRegistry();
+    return new VAmigaWebAdapter({
+      mediaProvider: media.provider,
+      kickstartRom: opts.kickstartRom,
+      baseUrl: opts.coreUrl,
+      container: opts.container
+    });
+  }
   if (kind === "puae") {
     const media = opts.media ?? new MediaRegistry();
-    return new EmulatorJsPuaeAdapter({
+    return new EmulatorJsCoreAdapter({
+      mediaProvider: media.provider,
+      kickstartRom: opts.kickstartRom,
+      dataUrl: opts.coreUrl,
+      container: opts.container
+    });
+  }
+  if (kind === "preview") {
+    const media = opts.media ?? new MediaRegistry();
+    return new PlaceholderPreviewAdapter({
       mediaProvider: media.provider,
       kickstartRom: opts.kickstartRom,
       coreUrl: opts.coreUrl,

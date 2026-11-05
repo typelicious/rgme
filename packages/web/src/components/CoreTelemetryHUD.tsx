@@ -6,6 +6,8 @@ export interface CoreTelemetryHUDProps {
   frame: number;
   activeRomName?: string;
   onOpenRomSettings?: () => void;
+  phase?: string;
+  message?: string;
 }
 
 export function CoreTelemetryHUD({
@@ -13,9 +15,11 @@ export function CoreTelemetryHUD({
   state,
   frame,
   activeRomName,
-  onOpenRomSettings
+  onOpenRomSettings,
+  phase,
+  message
 }: CoreTelemetryHUDProps) {
-  const isAmigaCore = runtimeKind === "wasm" || runtimeKind === "puae";
+  const isAmigaCore = runtimeKind === "vamiga" || runtimeKind === "puae" || runtimeKind === "preview" || runtimeKind === "wasm";
 
   return (
     <div
@@ -26,7 +30,11 @@ export function CoreTelemetryHUD({
         <div className="flex items-center gap-1.5">
           <span
             className={`w-2 h-2 rounded-full ${
-              state === "RUNNING"
+              phase === "error"
+                ? "bg-red-500 shadow-[0_0_8px_#ef4444]"
+                : phase === "loading"
+                ? "bg-amber-400 animate-spin"
+                : state === "RUNNING"
                 ? "bg-emerald-400 animate-pulse shadow-[0_0_8px_#10b981]"
                 : state === "LOADED"
                 ? "bg-blue-400"
@@ -36,10 +44,14 @@ export function CoreTelemetryHUD({
             }`}
           />
           <span className="font-bold text-white tracking-wider">
-            {runtimeKind === "wasm"
-              ? "WASM 68000 CORE"
+            {runtimeKind === "vamiga"
+              ? "VAMIGA AMIGA EMULATOR"
               : runtimeKind === "puae"
               ? "PUAE AMIGA EMULATOR"
+              : runtimeKind === "preview"
+              ? "PREVIEW (MOCK)"
+              : runtimeKind === "wasm"
+              ? "WASM 68000 CORE"
               : runtimeKind === "m68k"
               ? "68000 PARTIAL"
               : "MOCK ARCADE"}
@@ -51,6 +63,15 @@ export function CoreTelemetryHUD({
         <span className="text-[#94a3b8]">
           STATE: <strong className="text-white">{state}</strong>
         </span>
+
+        {message && (
+          <>
+            <span className="text-[#64748b]">|</span>
+            <span className={`text-[11px] truncate max-w-sm ${phase === "error" ? "text-red-400 font-bold" : "text-amber-300"}`} title={message}>
+              {message}
+            </span>
+          </>
+        )}
 
         <span className="text-[#64748b]">|</span>
 

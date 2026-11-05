@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 11 (Real Amiga Emulation via Pluggable WASM Core (ADR-004), Persistent Kickstart & Universal Disk Engine)",
+  "milestone": "M12",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -340,7 +340,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "3",
-      "dependsOn": ["M68K-001"],
+      "dependsOn": [
+        "M68K-001"
+      ],
       "type": "architecture",
       "passes": true
     },
@@ -356,7 +358,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["MOD-001"],
+      "dependsOn": [
+        "MOD-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -372,7 +376,10 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M3U-001", "DRIVE-001"],
+      "dependsOn": [
+        "M3U-001",
+        "DRIVE-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -388,7 +395,10 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M3U-SWAP-001", "LIB-001"],
+      "dependsOn": [
+        "M3U-SWAP-001",
+        "LIB-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -405,7 +415,10 @@
       ],
       "priority": "high",
       "estimatedEffort": "3",
-      "dependsOn": ["MOD-EXT-001", "BEZEL-001"],
+      "dependsOn": [
+        "MOD-EXT-001",
+        "BEZEL-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -420,7 +433,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "1",
-      "dependsOn": ["UX-PRO-MAX-001"],
+      "dependsOn": [
+        "UX-PRO-MAX-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -436,23 +451,27 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M6-MONITOR-001"],
+      "dependsOn": [
+        "M6-MONITOR-001"
+      ],
       "type": "feature",
       "passes": true
     },
     {
       "id": "M6-GURU-001",
       "title": "Authentic Commodore Amiga Guru Meditation Error Screen",
-      "description": "Implement the legendary Amiga Guru Meditation screen with flashing red border, Topáz monospace failure code, and mouse-click reboot.",
+      "description": "Implement the legendary Amiga Guru Meditation screen with flashing red border, Top\u00e1z monospace failure code, and mouse-click reboot.",
       "acceptanceCriteria": [
         "Deep black background with pulsating red border flashing at 1.0 Hz",
-        "Centred Topáz monospace text: Software Failure #00000004.00004845",
+        "Centred Top\u00e1z monospace text: Software Failure #00000004.00004845",
         "Left mouse click or spacebar reboots with drive seek audio and screen flash",
         "Launcher button and Command Palette entry"
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M6-LIFECYCLE-001"],
+      "dependsOn": [
+        "M6-LIFECYCLE-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -468,7 +487,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M6-GURU-001"],
+      "dependsOn": [
+        "M6-GURU-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -484,7 +505,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "1",
-      "dependsOn": ["M6-PLAYABLE-001"],
+      "dependsOn": [
+        "M6-PLAYABLE-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -500,7 +523,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "3",
-      "dependsOn": ["M7-SCALING-001"],
+      "dependsOn": [
+        "M7-SCALING-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -517,7 +542,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "3",
-      "dependsOn": ["M7-CORE-001"],
+      "dependsOn": [
+        "M7-CORE-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -533,7 +560,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M7-ARCHIVE-001"],
+      "dependsOn": [
+        "M7-ARCHIVE-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -548,7 +577,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M8-SOURCES-001"],
+      "dependsOn": [
+        "M8-SOURCES-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -564,7 +595,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M8-DISCOVERY-001"],
+      "dependsOn": [
+        "M8-DISCOVERY-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -580,7 +613,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "3",
-      "dependsOn": ["M8-CARDS-001"],
+      "dependsOn": [
+        "M8-CARDS-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -610,7 +645,9 @@
       ],
       "priority": "critical",
       "estimatedEffort": "2",
-      "dependsOn": ["M9-WASM-001"],
+      "dependsOn": [
+        "M9-WASM-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -625,7 +662,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M9-WASM-001"],
+      "dependsOn": [
+        "M9-WASM-001"
+      ],
       "type": "feature",
       "passes": true
     },
@@ -640,7 +679,10 @@
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["M9-KICKSTART-001", "M9-AUDIO-001"],
+      "dependsOn": [
+        "M9-KICKSTART-001",
+        "M9-AUDIO-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -696,7 +738,9 @@
       ],
       "priority": "high",
       "estimatedEffort": "3",
-      "dependsOn": ["M10-SIDEBAR-001"],
+      "dependsOn": [
+        "M10-SIDEBAR-001"
+      ],
       "type": "ui",
       "passes": true
     },
@@ -755,6 +799,125 @@
       "estimatedEffort": "2",
       "type": "feature",
       "passes": true
+    },
+    {
+      "id": "M12-HOST-001",
+      "title": "Embedded emulator host contract, runtime kinds, honest preview label",
+      "description": "Shared embedded-frame plumbing (injectable frame factory, message bridge, timers), RuntimeKind extension, rename fake renderer to preview with honest capabilities name.",
+      "acceptanceCriteria": [
+        "RuntimeKind includes vamiga, puae, preview",
+        "Preview adapter capabilities.name contains 'not an emulator' and id is 'preview'",
+        "Embedded host helper has no hard dependency on window/document (injectable)"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": [],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M12-VAMIGA-001",
+      "title": "VAmigaWebAdapter (vAmiga WASM via vAmigaWeb iframe protocol)",
+      "description": "Real emulator adapter over documented postMessage protocol.",
+      "acceptanceCriteria": [
+        "loadGame mounts iframe at configured baseUrl with JSON fragment config",
+        "After render_run_state, posts {cmd:'load', file_name, file} with ADF bytes; BYOR adds kickstart_rom",
+        "start/pause map to button_run() only when state differs; reset posts script wasm_reset()",
+        "pressInput posts emit_joystick_cmd script for up/down/left/right/fire/fire2",
+        "No ready message within timeout sets error status (not black screen)",
+        "dispose removes iframe and listeners"
+      ],
+      "priority": "high",
+      "estimatedEffort": "5",
+      "dependsOn": [
+        "M12-HOST-001"
+      ],
+      "type": "feature",
+      "passes": true,
+      "boundaries": [
+        {
+          "kind": "adapter",
+          "data_contract": {
+            "artifact": "vAmigaWeb postMessage protocol",
+            "versioning": "pinned to vAmigaWeb js/vAmiga_ui.js 2026-11-05; feature-detected via render_run_state",
+            "producer": "RGME VAmigaWebAdapter",
+            "consumer": "vAmigaWeb iframe",
+            "compatibility": "unknown messages ignored; missing ready => error status"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M12-EJS-001",
+      "title": "EmulatorJsPuaeAdapter real (PUAE via EmulatorJS 4.2.3)",
+      "description": "Real PUAE core via EmulatorJS loader inside same-origin srcdoc iframe.",
+      "acceptanceCriteria": [
+        "srcdoc sets EJS_core='amiga', EJS_pathtodata, EJS_gameUrl (blob), EJS_gameName ending .adf, EJS_startOnLoaded",
+        "pause/start/reset/mute drive EJS_emulator via iframe window",
+        "EJS_onGameStart reports started to parent; timeout sets error status",
+        "dispose revokes blob URLs and removes iframe"
+      ],
+      "priority": "high",
+      "estimatedEffort": "5",
+      "dependsOn": [
+        "M12-HOST-001"
+      ],
+      "type": "feature",
+      "passes": true,
+      "boundaries": [
+        {
+          "kind": "adapter",
+          "data_contract": {
+            "artifact": "EJS_* globals + rgme ejs postMessage",
+            "versioning": "EmulatorJS 4.2.3 /stable/",
+            "producer": "RGME EmulatorJsPuaeAdapter",
+            "consumer": "EmulatorJS loader in iframe",
+            "compatibility": "missing method => error status"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M12-UI-001",
+      "title": "Viewport host element, runtime selector, default vamiga, status/error layer",
+      "description": "Wire both adapters into factory/App/Viewport/RuntimeSwitch/HUD/Header with honest labels.",
+      "acceptanceCriteria": [
+        "Viewport renders data-testid='emulator-host' and passes it to onCanvas",
+        "Default runtime kind is vamiga on fresh load",
+        "RuntimeSwitch shows vamiga, puae, preview with honest labels",
+        "Embedded status/error is visible text in the screen area"
+      ],
+      "priority": "high",
+      "estimatedEffort": "5",
+      "dependsOn": [
+        "M12-VAMIGA-001",
+        "M12-EJS-001"
+      ],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M12-DOC-001",
+      "title": "Docs, NOTICE (GPL runtime-load), manual smoke checklist",
+      "description": "Document adapters, URLs, limitations, manual browser verification.",
+      "acceptanceCriteria": [
+        "docs/emulators.md exists with both cores and limits",
+        "NOTICE mentions runtime loading, no vendoring"
+      ],
+      "priority": "medium",
+      "estimatedEffort": "1",
+      "dependsOn": [
+        "M12-UI-001"
+      ],
+      "type": "documentation",
+      "passes": true
     }
-  ]
+  ],
+  "sequence": {
+    "sequence_id": "rgme-m12",
+    "sequence_type": "build",
+    "methodology": "assay",
+    "autonomy_policy": "unicorn",
+    "session_schedule": "batch"
+  }
 }

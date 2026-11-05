@@ -6,7 +6,7 @@ import { drawText } from "../platforms/font.js";
 
 export type EmulatorMediaProvider = (media: Media) => Uint8Array | Promise<Uint8Array>;
 
-export interface EmulatorJsPuaeAdapterOptions {
+export interface PlaceholderPreviewAdapterOptions {
   mediaProvider: EmulatorMediaProvider;
   kickstartRom?: Uint8Array;
   coreUrl?: string;
@@ -17,19 +17,21 @@ export interface EmulatorJsPuaeAdapterOptions {
   cyclesPerFrame?: number;
 }
 
-const ADAPTER_ID = "puae-amiga";
+const ADAPTER_ID = "preview";
 const FB_WIDTH = 320;
 const FB_HEIGHT = 256;
 
 type GameKind = "rick" | "wayne" | "amazon" | "steel" | "lure" | "turrican" | "demo" | "generic" | "kickstart";
 
 /**
- * ADR-004 / ADR-007 Real Amiga Emulator Bridge (PUAE / EmulatorJS / WebAssembly).
- * Isolates genuine Amiga OCS/ECS/AGA emulation behind the RuntimeAdapter contract.
- * Mounts commercial game ADFs, injects user Kickstart ROMs, routes video directly to the 1084S canvas,
- * and passes audio to WebAudio.
+ * PLACEHOLDER PREVIEW — THIS IS NOT AN EMULATOR.
+ *
+ * It executes no ADF, no Kickstart and no 68000 code. It only recognises the disk title and draws a
+ * scripted, hand-made animation on the canvas (so a UI can be shown without any emulator core).
+ * It must never be presented to users as Amiga emulation. Real emulation lives in
+ * `VAmigaWebAdapter` (vAmiga) and `EmulatorJsCoreAdapter` (PUAE via EmulatorJS).
  */
-export class EmulatorJsPuaeAdapter implements RuntimeAdapter {
+export class PlaceholderPreviewAdapter implements RuntimeAdapter {
   private _state: RuntimeState = "UNLOADED";
   private profile?: GameProfile;
   private bootBytes?: Uint8Array;
@@ -58,7 +60,7 @@ export class EmulatorJsPuaeAdapter implements RuntimeAdapter {
   private score = 0;
   private audioCtx?: AudioContext;
 
-  constructor(private readonly opts: EmulatorJsPuaeAdapterOptions) {
+  constructor(private readonly opts: PlaceholderPreviewAdapterOptions) {
     this.clock = opts.clock ?? REAL_CLOCK;
     this.scheduler = new FrameScheduler(() => this.stepFrame(), this.clock);
 
@@ -92,7 +94,7 @@ export class EmulatorJsPuaeAdapter implements RuntimeAdapter {
   identifyCapabilities(): RuntimeCapabilities {
     return {
       id: ADAPTER_ID,
-      name: "PUAE Amiga OCS/ECS Full Emulator",
+      name: "Placeholder preview — not an emulator",
       videoStandards: ["PAL", "NTSC"],
       frameRateHz: PAL_FRAME_RATE_HZ,
       saveStates: true,
@@ -102,7 +104,7 @@ export class EmulatorJsPuaeAdapter implements RuntimeAdapter {
 
   async loadGame(profile: GameProfile): Promise<void> {
     if (profile.platform !== "amiga") {
-      throw new Error(`EmulatorJsPuaeAdapter only runs Amiga profiles, got "${profile.platform}"`);
+      throw new Error(`PlaceholderPreviewAdapter only runs Amiga profiles, got "${profile.platform}"`);
     }
 
     this.scheduler.stop();
@@ -905,5 +907,6 @@ export class EmulatorJsPuaeAdapter implements RuntimeAdapter {
   }
 }
 
-/** Alias for WasmEmulatorAdapter conforming to ADR-004 */
-export { EmulatorJsPuaeAdapter as WasmEmulatorAdapter };
+export { PlaceholderPreviewAdapter as WasmEmulatorAdapter };
+export { PlaceholderPreviewAdapter as EmulatorJsPuaeAdapter };
+

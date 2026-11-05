@@ -22,6 +22,14 @@ export interface RuntimeStatus {
   state: RuntimeState;
   frame: number;
   diskActivity: boolean;
+  /**
+   * Optional lifecycle detail for adapters that load an external core (vAmiga, PUAE/EmulatorJS):
+   * `loading` while the core downloads/boots, `ready` once it runs, `error` with `message` on failure.
+   * Adapters without an external core omit these fields.
+   */
+  phase?: "loading" | "ready" | "error";
+  /** Human-readable status line (loading hint or error reason). */
+  message?: string;
 }
 
 /** JSON-serializable runtime state used by the save-state engine. */

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EmulatorJsPuaeAdapter, WasmEmulatorAdapter } from "../emulator/emulatorjs-adapter.js";
+import { PlaceholderPreviewAdapter, WasmEmulatorAdapter } from "../emulator/index.js";
 import type { GameProfile, Media } from "../profile.js";
 
 const TEST_MEDIA: Media = {
@@ -31,13 +31,13 @@ const TEST_PROFILE: GameProfile = {
 };
 
 describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
-  it("identifies PUAE capabilities faithfully conforming to RuntimeAdapter", () => {
-    const adapter = new EmulatorJsPuaeAdapter({
+  it("identifies placeholder-preview capabilities honestly conforming to RuntimeAdapter", () => {
+    const adapter = new PlaceholderPreviewAdapter({
       mediaProvider: () => new Uint8Array(901120)
     });
     const caps = adapter.identifyCapabilities();
-    expect(caps.id).toBe("puae-amiga");
-    expect(caps.name).toContain("PUAE");
+    expect(caps.id).toBe("preview");
+    expect(caps.name).toContain("not an emulator");
     expect(caps.frameRateHz).toBe(50);
     expect(caps.videoStandards).toContain("PAL");
     expect(caps.saveStates).toBe(true);
@@ -45,7 +45,7 @@ describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
   });
 
   it("exports WasmEmulatorAdapter alias matching ADR-004 specification", () => {
-    expect(WasmEmulatorAdapter).toBe(EmulatorJsPuaeAdapter);
+    expect(WasmEmulatorAdapter).toBeDefined();
   });
 
   it("loads an Amiga profile, boots disk, steps frames, and dispatches status events", async () => {
@@ -55,7 +55,7 @@ describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
     const statuses: string[] = [];
     let providerCalled = false;
 
-    const adapter = new EmulatorJsPuaeAdapter({
+    const adapter = new PlaceholderPreviewAdapter({
       mediaProvider: (m) => {
         providerCalled = true;
         expect(m.id).toBe("df0");
@@ -96,7 +96,7 @@ describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
   });
 
   it("handles input presses, save states, and snapshots", async () => {
-    const adapter = new EmulatorJsPuaeAdapter({
+    const adapter = new PlaceholderPreviewAdapter({
       mediaProvider: () => new Uint8Array(901120)
     });
     await adapter.loadGame(TEST_PROFILE);
@@ -115,7 +115,7 @@ describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
     expect(loadMeta.slot).toBe(1);
 
     const snapshot = adapter.exportSnapshot();
-    expect(snapshot.adapterId).toBe("puae-amiga");
+    expect(snapshot.adapterId).toBe("preview");
     expect(snapshot.profileId).toBe("test-game");
 
     adapter.stop();
@@ -139,7 +139,7 @@ describe("Milestone 11: Real Amiga Emulator Bridge (ADR-004 / ADR-007)", () => {
       })
     };
 
-    const adapter = new EmulatorJsPuaeAdapter({
+    const adapter = new PlaceholderPreviewAdapter({
       mediaProvider: () => new Uint8Array(901120),
       canvas: mockCanvas as any
     });
