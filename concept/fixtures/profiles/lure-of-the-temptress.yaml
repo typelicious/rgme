@@ -1,0 +1,43 @@
+schema: rgme.game/v0.2
+game:
+  id: lure-of-the-temptress
+  title: "Lure of the Temptress"
+  platform: amiga
+
+identity:
+  filenames:
+    - "Lure of the Temptress (Disk 1 of 4).adf"
+  hashes:
+    - algorithm: sha256
+      value: "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a"
+
+machine:
+  model: A500
+  chipset: OCS
+  video: PAL
+  ram:
+    chip_kb: 512
+    fast_kb: 512
+
+runtime:
+  preferredAdapter: puae
+
+input:
+  profile: mouse-joystick-hybrid
+
+display:
+  defaultProfile: authentic
+  aspectRatio: "4:3"
+
+rights:
+  recordId: rights-lure-001
+  status: explicit_freeware_authorized
+  class: C
+  opportunity: GREEN
+  rightsholder: "Revolution Software (Charles Cecil)"
+  license: "Freeware (Revolution Software 2003)"
+  actions:
+    private_execution: allow
+    binary_redistribution: allow
+    browser_hosting: allow
+    modification: deny_without_license

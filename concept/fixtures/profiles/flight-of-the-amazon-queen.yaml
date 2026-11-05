@@ -1,0 +1,43 @@
+schema: rgme.game/v0.2
+game:
+  id: flight-of-the-amazon-queen
+  title: "Flight of the Amazon Queen"
+  platform: amiga
+
+identity:
+  filenames:
+    - "Flight of the Amazon Queen (Disk 1 of 11).adf"
+  hashes:
+    - algorithm: sha256
+      value: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+
+machine:
+  model: A500
+  chipset: OCS
+  video: PAL
+  ram:
+    chip_kb: 1024
+    fast_kb: 0
+
+runtime:
+  preferredAdapter: puae
+
+input:
+  profile: mouse-joystick-hybrid
+
+display:
+  defaultProfile: authentic
+  aspectRatio: "4:3"
+
+rights:
+  recordId: rights-fotaq-001
+  status: explicit_freeware_authorized
+  class: C
+  opportunity: GREEN
+  rightsholder: "John Passfield & Steve Stamatiadis"
+  license: "Freeware (ScummVM Release 2004)"
+  actions:
+    private_execution: allow
+    binary_redistribution: allow
+    browser_hosting: allow
+    modification: deny_without_license

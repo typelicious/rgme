@@ -1,0 +1,122 @@
+[
+  {
+    "id": "rgme-scene-intro",
+    "canonical_title": "RGME Scene Intro: Turrican Tribute",
+    "filename": "rgme-scene-intro.adf",
+    "sha256": "71731f46d9a41d9ac0999d15e41ac7b94826a867e1c7b3640aabe5c10a172409",
+    "platform": "amiga",
+    "machine": {
+      "model": "A500",
+      "chipset": "OCS",
+      "video": "PAL",
+      "cpu": "68000",
+      "ram_chip_kb": 512,
+      "ram_fast_kb": 512
+    },
+    "rights": {
+      "rights_class": "A",
+      "status": "verified_public_domain",
+      "opportunity": "GREEN",
+      "rightsholder": "RGME Project / Open Heritage",
+      "license": "CC0-1.0",
+      "actions": {
+        "private_execution": "allow",
+        "binary_redistribution": "allow",
+        "browser_hosting": "allow",
+        "reverse_engineering": "allow",
+        "modification": "allow"
+      },
+      "provenance_note": "Synthetic test disk with valid Amiga 500 bootblock, graffiti visuals and Turrican-style audio tribute."
+    }
+  },
+  {
+    "id": "flight-of-the-amazon-queen",
+    "canonical_title": "Flight of the Amazon Queen",
+    "filename": "Flight of the Amazon Queen (Disk 1 of 11).adf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "platform": "amiga",
+    "machine": {
+      "model": "A500",
+      "chipset": "OCS",
+      "video": "PAL",
+      "cpu": "68000",
+      "ram_chip_kb": 1024,
+      "ram_fast_kb": 0
+    },
+    "rights": {
+      "rights_class": "C",
+      "status": "explicit_freeware_authorized",
+      "opportunity": "GREEN",
+      "rightsholder": "John Passfield & Steve Stamatiadis",
+      "license": "Freeware (Author Permission via ScummVM 2004)",
+      "actions": {
+        "private_execution": "allow",
+        "binary_redistribution": "allow",
+        "browser_hosting": "allow",
+        "reverse_engineering": "review",
+        "modification": "deny_without_license"
+      },
+      "provenance_note": "Original authors released game data as freeware in 2004 with source provided to ScummVM project."
+    }
+  },
+  {
+    "id": "beneath-a-steel-sky",
+    "canonical_title": "Beneath a Steel Sky",
+    "filename": "Beneath a Steel Sky (Disk 1 of 15).adf",
+    "sha256": "8a7c2957bcf9435b02138efbe765890e0c0df4a78bc535e656d78216c02ef499",
+    "platform": "amiga",
+    "machine": {
+      "model": "A500",
+      "chipset": "ECS",
+      "video": "PAL",
+      "cpu": "68000",
+      "ram_chip_kb": 1024,
+      "ram_fast_kb": 1024
+    },
+    "rights": {
+      "rights_class": "C",
+      "status": "explicit_freeware_authorized",
+      "opportunity": "GREEN",
+      "rightsholder": "Revolution Software (Charles Cecil)",
+      "license": "Freeware (Revolution Software 2003 Release)",
+      "actions": {
+        "private_execution": "allow",
+        "binary_redistribution": "allow",
+        "browser_hosting": "allow",
+        "reverse_engineering": "review",
+        "modification": "deny_without_license"
+      },
+      "provenance_note": "Revolution Software officially made the game freeware in August 2003 for free community redistribution."
+    }
+  },
+  {
+    "id": "lure-of-the-temptress",
+    "canonical_title": "Lure of the Temptress",
+    "filename": "Lure of the Temptress (Disk 1 of 4).adf",
+    "sha256": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "platform": "amiga",
+    "machine": {
+      "model": "A500",
+      "chipset": "OCS",
+      "video": "PAL",
+      "cpu": "68000",
+      "ram_chip_kb": 512,
+      "ram_fast_kb": 512
+    },
+    "rights": {
+      "rights_class": "C",
+      "status": "explicit_freeware_authorized",
+      "opportunity": "GREEN",
+      "rightsholder": "Revolution Software (Charles Cecil)",
+      "license": "Freeware (Revolution Software 2003 Release)",
+      "actions": {
+        "private_execution": "allow",
+        "binary_redistribution": "allow",
+        "browser_hosting": "allow",
+        "reverse_engineering": "review",
+        "modification": "deny_without_license"
+      },
+      "provenance_note": "Released alongside Beneath a Steel Sky as official freeware by Revolution Software in 2003."
+    }
+  }
+]

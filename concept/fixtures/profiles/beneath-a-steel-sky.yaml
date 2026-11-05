@@ -1,0 +1,43 @@
+schema: rgme.game/v0.2
+game:
+  id: beneath-a-steel-sky
+  title: "Beneath a Steel Sky"
+  platform: amiga
+
+identity:
+  filenames:
+    - "Beneath a Steel Sky (Disk 1 of 15).adf"
+  hashes:
+    - algorithm: sha256
+      value: "8a7c2957bcf9435b02138efbe765890e0c0df4a78bc535e656d78216c02ef499"
+
+machine:
+  model: A500
+  chipset: ECS
+  video: PAL
+  ram:
+    chip_kb: 1024
+    fast_kb: 1024
+
+runtime:
+  preferredAdapter: puae
+
+input:
+  profile: mouse-joystick-hybrid
+
+display:
+  defaultProfile: authentic
+  aspectRatio: "4:3"
+
+rights:
+  recordId: rights-bass-001
+  status: explicit_freeware_authorized
+  class: C
+  opportunity: GREEN
+  rightsholder: "Revolution Software (Charles Cecil)"
+  license: "Freeware (Revolution Software 2003)"
+  actions:
+    private_execution: allow
+    binary_redistribution: allow
+    browser_hosting: allow
+    modification: deny_without_license
