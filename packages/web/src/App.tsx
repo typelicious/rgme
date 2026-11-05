@@ -1,6 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
+  ChiptunePlayer,
   MockRuntimeAdapter,
+  createBrowserAudioContext,
+  findFreewareByHash,
+  freewareEntryToProfile,
+  freewareEntryToRights,
+  type FreewareEntry,
   RightsPolicyEngine,
   unknownRightsRecord,
   type CanvasLike,
@@ -19,9 +25,14 @@ import { useKeyboardInput } from "./hooks/useKeyboardInput";
 import { hashFile } from "./lib/hash";
 import { buildProfileFromFile } from "./lib/profile";
 import { DEMO_PROFILE, DEMO_RIGHTS } from "./samples/demo";
+import freewareData from "../../../concept/fixtures/freeware-games.json";
+import sceneIntroUrl from "../../../concept/fixtures/rgme-scene-intro.adf?url";
+
+const FREEWARE = freewareData as unknown as FreewareEntry[];
 
 export type AdapterFactory = (canvas: CanvasLike | null) => RuntimeAdapter;
-const defaultFactory: AdapterFactory = (canvas) => new MockRuntimeAdapter(canvas ?? undefined);
+const defaultFactory: AdapterFactory = (canvas) =>
+  new MockRuntimeAdapter(canvas ?? undefined, undefined, new ChiptunePlayer(createBrowserAudioContext));
 const engine = new RightsPolicyEngine();
 const INITIAL: RuntimeStatus = { state: "UNLOADED", frame: 0, diskActivity: false };
 
@@ -36,6 +47,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const [crt, setCrt] = useState(false);
   const [inputs, setInputs] = useState<ReadonlySet<string>>(new Set());
   const [hasSave, setHasSave] = useState(false);
+  const [muted, setMuted] = useState(false);
 
   const onCanvas = useCallback(
     (canvas: HTMLCanvasElement) => {
@@ -78,15 +90,29 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   }, [activate]);
 
   const onFile = useCallback(
-    async (file: File) => {
+    async (file: File): Promise<string | undefined> => {
       setInfo({ name: file.name, size: file.size, status: "Analyzing" });
       const sha256 = await hashFile(file);
-      // No bundled hash registry in the browser yet: unrecognized => Unknown (local play only).
+      // Identity comes from the exact SHA-256 only; anything unrecognized stays Unknown (local play only).
+      const known = findFreewareByHash(FREEWARE, sha256);
+      if (known) {
+        setInfo({ name: file.name, size: file.size, sha256, status: "Identified" });
+        await activate(freewareEntryToProfile(known), freewareEntryToRights(known).record);
+        return known.id;
+      }
       setInfo({ name: file.name, size: file.size, sha256, status: "Unknown" });
       await activate(buildProfileFromFile(file.name, sha256), undefined);
+      return undefined;
     },
     [activate]
   );
+
+  const loadScene = useCallback(async () => {
+    const res = await fetch(sceneIntroUrl);
+    const file = new File([await res.arrayBuffer()], "rgme-scene-intro.adf");
+    const id = await onFile(file);
+    if (id) adapterRef.current?.start();
+  }, [onFile]);
 
   const state = status.state;
   const canExport = decisions?.binary_redistribution.decision === "allow";
@@ -107,6 +133,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         <div className="flex flex-col gap-4">
           <Dropzone info={info} onFile={onFile} />
           <button className="rgme-btn" onClick={() => void loadDemo()} data-testid="load-demo">Load demo profile</button>
+          <button className="rgme-btn" onClick={() => void loadScene()} data-testid="load-scene">Load Scene Demo</button>
           <GameProfileInspector profile={profile} decisions={decisions} />
           <section className="rgme-panel">
             <div className="flex gap-2">
@@ -123,6 +150,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
             <button className="rgme-btn" disabled={state !== "RUNNING"} onClick={() => adapter?.pause()}>Pause</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.reset()}>Reset</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => { adapter?.saveState(0); setHasSave(true); }}>Save</button>
+            <button className="rgme-btn" aria-pressed={muted} data-testid="mute-btn" onClick={() => { adapter?.setMuted?.(!muted); setMuted(!muted); }}>{muted ? "Unmute" : "Mute"}</button>
             <button className="rgme-btn" disabled={!hasSave || state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.loadState(0)}>Load</button>
           </div>
           <ControllerHUD active={inputs} press={press} />

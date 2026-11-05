@@ -4,3 +4,6 @@ export * from "./rights.js";
 export * from "./matrix.js";
 export * from "./runtime.js";
 export * from "./mock-runtime.js";
+export * from "./freeware.js";
+export * from "./scene-intro.js";
+export * from "./chiptune.js";

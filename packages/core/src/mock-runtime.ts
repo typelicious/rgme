@@ -1,4 +1,6 @@
 import type { DisplayProfile, GameProfile, InputMapping, Media } from "./profile.js";
+import { drawSceneIntro } from "./scene-intro.js";
+import type { AudioSink } from "./chiptune.js";
 import type { RuntimeAdapter, RuntimeCapabilities, RuntimeState, RuntimeStatus, SaveStateMeta } from "./runtime.js";
 
 /** Minimal 2D context surface used by the mock (satisfied by CanvasRenderingContext2D). */
@@ -6,7 +8,14 @@ export interface Canvas2DLike {
   fillStyle: string | CanvasGradient | CanvasPattern;
   fillRect(x: number, y: number, w: number, h: number): void;
   fillText?(text: string, x: number, y: number): void;
+  strokeText?(text: string, x: number, y: number): void;
+  createLinearGradient?(x0: number, y0: number, x1: number, y1: number): { addColorStop(offset: number, color: string): void };
   font?: string;
+  strokeStyle?: string | CanvasGradient | CanvasPattern;
+  lineWidth?: number;
+  lineJoin?: string;
+  textAlign?: string;
+  textBaseline?: string;
 }
 export interface CanvasLike {
   width: number;
@@ -37,9 +46,13 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   private display?: DisplayProfile;
   private media: Media[] = [];
 
+  private scene = "pattern";
+
+  /** `audio` is optional: when present it follows the lifecycle (start/pause/stop) and carries the soundtrack. */
   constructor(
     private readonly canvas?: CanvasLike,
-    private readonly now: () => number = () => Date.now()
+    private readonly now: () => number = () => Date.now(),
+    private readonly audio?: AudioSink
   ) {
     if (canvas) {
       canvas.width = PAL_LORES.width;
@@ -67,7 +80,7 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   }
 
   identifyCapabilities(): RuntimeCapabilities {
-    return { id: "mock", name: "RGME Mock Runtime", videoStandards: ["PAL", "NTSC"], frameRateHz: PAL_HZ, saveStates: true, audio: false };
+    return { id: "mock", name: "RGME Mock Runtime", videoStandards: ["PAL", "NTSC"], frameRateHz: PAL_HZ, saveStates: true, audio: Boolean(this.audio) };
   }
 
   private transition(allowed: RuntimeState[], to: RuntimeState, op: string) {
@@ -78,6 +91,8 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   async loadGame(profile: GameProfile): Promise<void> {
     this.clearTimer();
     this.profile = profile;
+    this.scene = String(profile.runtime.options?.scene ?? "pattern");
+    this.audio?.stop();
     this.media = [...profile.media];
     this.mapping = profile.input;
     this.display = profile.display;
@@ -94,17 +109,20 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
     this.transition(["LOADED", "PAUSED"], "RUNNING", "start");
     this.clearTimer();
     this.timer = setInterval(() => this.tick(), 1000 / PAL_HZ);
+    this.audio?.start();
     this.emit();
   }
   pause() {
     this.transition(["RUNNING"], "PAUSED", "pause");
     this.clearTimer();
+    this.audio?.pause();
     this.emit();
   }
   reset() {
     if (this._state === "UNLOADED") throw new Error("Cannot reset while UNLOADED");
     const wasRunning = this._state === "RUNNING";
     this.clearTimer();
+    this.audio?.stop();
     this.frame = 0;
     this.pressed.clear();
     this._state = "LOADED";
@@ -116,6 +134,7 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   stop() {
     this.transition(["LOADED", "RUNNING", "PAUSED"], "STOPPED", "stop");
     this.clearTimer();
+    this.audio?.stop();
     this.emit();
   }
 
@@ -191,10 +210,19 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
     this.timer = undefined;
   }
 
-  /** Renders PAL colour bars with animated raster lines. */
+  setMuted(muted: boolean) {
+    this.audio?.setMuted(muted);
+  }
+
+  /** Renders the selected scene: the demo-scene intro, or PAL colour bars with animated raster lines. */
   private draw() {
     const ctx = this.canvas?.getContext("2d");
     if (!ctx) return;
+    if (this.scene === "intro") {
+      drawSceneIntro(ctx, this.frame);
+      this.drawOverlay(ctx);
+      return;
+    }
     const { width: w, height: h } = PAL_LORES;
     const barW = w / BARS.length;
     BARS.forEach((c, i) => {
@@ -208,6 +236,15 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
     if (this.pressed.size > 0) {
       ctx.fillStyle = "#ff8800";
       ctx.fillRect(8, h - 24, 16 * this.pressed.size, 16);
+    }
+    this.drawOverlay(ctx);
+  }
+
+  private drawOverlay(ctx: Canvas2DLike) {
+    const { width: w, height: h } = PAL_LORES;
+    if (this.pressed.size > 0 && this.scene === "intro") {
+      ctx.fillStyle = "#ff8800";
+      ctx.fillRect(8, h - 24, 16 * this.pressed.size, 6);
     }
     // disk activity LED
     ctx.fillStyle = this.now() < this.diskUntil ? "#39ff14" : "#113311";

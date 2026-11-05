@@ -7,6 +7,10 @@ import {
   DEFAULT_DISPLAY_PROFILE,
   DEFAULT_INPUT_MAPPING,
   GameProfileSchema,
+  findFreewareByHash,
+  freewareEntryToProfile,
+  freewareEntryToRights,
+  type FreewareEntry,
   MasterMatrixIndex,
   RightsPolicyEngine,
   matrixRecordToRights,
@@ -19,6 +23,7 @@ import {
   type RightsStatus
 } from "@rgme/core";
 import matrixSubset from "./data/matrix-subset.json" with { type: "json" };
+import freewareData from "./data/freeware-games.json" with { type: "json" };
 import { FIXTURE_REGISTRY } from "./registry.js";
 
 export interface ScanEntry {
@@ -28,6 +33,9 @@ export interface ScanEntry {
   title: string;
   identified: boolean;
   matchedBy: "hash" | "title" | "none";
+  /** Set when the exact SHA-256 is in the freeware/public-domain registry. */
+  freeware?: FreewareEntry;
+  rightsClass: string;
   chipset: string;
   rightsStatus: RightsStatus;
   localPlay: PolicyDecisionKind;
@@ -38,6 +46,7 @@ export interface ScanEntry {
 export interface ScanOptions {
   registry?: Readonly<Record<string, string>>;
   matrix?: MatrixFile;
+  freeware?: readonly FreewareEntry[];
 }
 
 /** Streaming SHA-256; the file is opened read-only and never modified. */
@@ -65,19 +74,25 @@ export async function findAdfFiles(dir: string): Promise<string[]> {
 export async function scanDirectory(dir: string, opts: ScanOptions = {}): Promise<ScanEntry[]> {
   const registry = opts.registry ?? FIXTURE_REGISTRY;
   const index = new MasterMatrixIndex(opts.matrix ?? (matrixSubset as MatrixFile));
+  const freewareEntries = opts.freeware ?? (freewareData as unknown as FreewareEntry[]);
   const engine = new RightsPolicyEngine();
   const results: ScanEntry[] = [];
 
   for (const path of await findAdfFiles(dir)) {
     const filename = basename(path);
     const sha256 = await hashFile(path);
-    const hashTitle = registry[sha256];
-    const record = index.match(hashTitle ?? filename);
-    const matchedBy: ScanEntry["matchedBy"] = hashTitle ? "hash" : record ? "title" : "none";
+    const freeware = findFreewareByHash(freewareEntries, sha256);
+    const hashTitle = freeware?.canonical_title ?? registry[sha256];
+    const record = freeware ? undefined : index.match(hashTitle ?? filename);
+    const matchedBy: ScanEntry["matchedBy"] = freeware || hashTitle ? "hash" : record ? "title" : "none";
 
     let rights: RightsRecord;
     let title: string;
-    if (record) {
+    if (freeware) {
+      // Exact-hash identity with evidenced rights. Title matches alone never reach this branch.
+      rights = freewareEntryToRights(freeware).record;
+      title = freeware.canonical_title;
+    } else if (record) {
       rights = matrixRecordToRights(record).record;
       title = record.canonical_title;
     } else {
@@ -89,9 +104,11 @@ export async function scanDirectory(dir: string, opts: ScanOptions = {}): Promis
       filename,
       sha256,
       title,
-      identified: Boolean(record),
+      identified: Boolean(record || freeware),
+      freeware,
+      rightsClass: rights.classification,
       matchedBy,
-      chipset: "OCS",
+      chipset: freeware?.machine.chipset ?? "OCS",
       rightsStatus: rights.status,
       localPlay: engine.evaluateAction(rights, { action: "private_execution" }).decision,
       redistribution: engine.evaluateAction(rights, { action: "binary_redistribution" }).decision,
@@ -106,6 +123,7 @@ export function slugify(title: string): string {
 }
 
 export function buildProfile(entry: ScanEntry): GameProfile {
+  if (entry.freeware) return freewareEntryToProfile(entry.freeware);
   const slug = slugify(entry.title);
   return GameProfileSchema.parse({
     schema: "rgme.game/v0.2",
@@ -143,10 +161,11 @@ const STATUS_LABEL: Record<PolicyDecisionKind, string> = {
 
 export function formatTable(entries: ScanEntry[]): string {
   const rows = [
-    ["Title", "Chipset", "Rights Status", "Local / Redistribution", "SHA-256"],
+    ["Title", "Chipset", "Class", "Rights Status", "Local / Redistribution", "SHA-256"],
     ...entries.map((e) => [
       e.title,
       e.chipset,
+      e.identified ? e.rightsClass : "-",
       e.rightsStatus,
       `${STATUS_LABEL[e.localPlay]} / ${STATUS_LABEL[e.redistribution]}`,
       e.sha256.slice(0, 12)

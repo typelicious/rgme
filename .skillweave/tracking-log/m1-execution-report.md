@@ -9,6 +9,12 @@ Methodology: assay · Autonomy: unicorn · Parallelism: CLI and Web lanes ran in
 | 3 | CLI-001, UI-001 | `pnpm --filter @rgme/cli test && pnpm --filter @rgme/web build` | pass |
 | 4 | INTEG-001 | `pnpm test && pnpm build` | pass (core 27, cli 9, web 10 = 46 tests) |
 
+## Scene demo & fixtures (follow-up)
+- `rgme scan concept/fixtures` identifies `rgme-scene-intro.adf` by exact SHA-256 as Class A / public domain (local + redistribution allowed). Identity comes from the hash only; filenames/titles never grant permission (a renamed copy is identified, an impostor with the same name is not).
+- `Load Scene Demo` (web) renders copper rasterbars, a chrome RGME logo with moving shine and a sine scroller on the mock runtime, with a procedural 4-channel chiptune (Web Audio, Amiga L/R/R/L panning, 150 BPM, A minor). Original composition, not a copy of any existing tune; Mute button included.
+- Fixture caveat: `flight-of-the-amazon-queen` carries `e3b0c442…b855`, the SHA-256 of an empty file (a placeholder). It is excluded from hash matching so a 0-byte file can never be treated as freeware. The real-game hashes in `freeware-games.json` could not be verified here.
+- `packages/cli/src/data/freeware-games.json` is a copy of the concept fixture; a test guards against drift.
+
 ## Domain laws
 - **Original content immutable:** scanner opens ADFs read-only; tests assert bytes/mtime unchanged.
 - **Rights policy:** unknown, missing, or unevidenced permission yields `local_only` for local play and `deny` for everything else. The Matrix value `allow_local_byog` maps to `unknown`, never `permitted`.

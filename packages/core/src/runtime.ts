@@ -40,5 +40,7 @@ export interface RuntimeAdapter {
   insertMedia(media: Media): void;
   /** Host input (semantic Amiga joystick actions). */
   pressInput(action: string, down: boolean): void;
+  /** Optional: adapters with audio support honour this. */
+  setMuted?(muted: boolean): void;
   onStatus(listener: (s: RuntimeStatus) => void): () => void;
 }
