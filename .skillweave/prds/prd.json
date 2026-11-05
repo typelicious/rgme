@@ -88,7 +88,7 @@
       "estimatedEffort": "2",
       "dependsOn": ["CORE-001"],
       "type": "feature",
-      "passes": false
+      "passes": true
     },
     {
       "id": "UI-001",

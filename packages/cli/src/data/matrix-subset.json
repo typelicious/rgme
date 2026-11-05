@@ -1,0 +1,620 @@
+{
+ "schema": "rgme.master-rights-matrix/v0.2",
+ "records": [
+  {
+   "canonical_key": "688 attack sub",
+   "canonical_title": "688 Attack Sub",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW/ORANGE",
+   "confidence_label": "medium-low",
+   "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+   "source_batches": [
+    "007"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "a 10 tank killer",
+   "canonical_title": "A-10 Tank Killer",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium-high",
+   "current_rights_assessment": "Sierra/Dynamix corporate succession route is strong; exact title/component rights and any external licenses require verification",
+   "source_batches": [
+    "008"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "engine_runtime_with_user_data": "candidate",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "agony",
+   "canonical_title": "Agony",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "airborne ranger",
+   "canonical_title": "Airborne Ranger",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Historical MicroProse relationship established; current ownership must be resolved title by title",
+   "source_batches": [
+    "009"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_permission",
+    "browser_hosting": "deny_without_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "alien breed",
+   "canonical_title": "Alien Breed",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "high",
+   "current_rights_assessment": "Team17 active IP/current franchise evidence",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "alien breed 2",
+   "canonical_title": "Alien Breed 2",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "high",
+   "current_rights_assessment": "Team17 active IP/current franchise evidence",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "alien breed special edition",
+   "canonical_title": "Alien Breed Special Edition",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "high",
+   "current_rights_assessment": "Team17 active IP/current franchise evidence",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "alien breed tower assault",
+   "canonical_title": "Alien Breed: Tower Assault",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "high",
+   "current_rights_assessment": "Team17 active IP/current franchise evidence",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "ambermoon",
+   "canonical_title": "Ambermoon",
+   "rights_class": "E",
+   "opportunity": "YELLOW",
+   "confidence_label": "low",
+   "current_rights_assessment": "Title-specific chain requires verification",
+   "source_batches": [
+    "003"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title_specific_permission",
+    "browser_hosting": "deny_without_title_specific_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "amberstar",
+   "canonical_title": "Amberstar",
+   "rights_class": "E",
+   "opportunity": "YELLOW",
+   "confidence_label": "low",
+   "current_rights_assessment": "Title-specific chain requires verification",
+   "source_batches": [
+    "003"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title_specific_permission",
+    "browser_hosting": "deny_without_title_specific_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "amegas",
+   "canonical_title": "Amegas",
+   "rights_class": "E",
+   "opportunity": "LIGHT_GREEN",
+   "confidence_label": "low",
+   "current_rights_assessment": "research_required",
+   "source_batches": [
+    "002"
+   ],
+   "actions": {}
+  },
+  {
+   "canonical_key": "amnios",
+   "canonical_title": "Amnios",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "apidya",
+   "canonical_title": "Apidya",
+   "rights_class": "E",
+   "opportunity": "YELLOW",
+   "confidence_label": "low",
+   "current_rights_assessment": "Title-specific chain requires verification",
+   "source_batches": [
+    "003"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title_specific_permission",
+    "browser_hosting": "deny_without_title_specific_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "aquaventura",
+   "canonical_title": "Aquaventura",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "arcade pool",
+   "canonical_title": "Arcade Pool",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "archon",
+   "canonical_title": "Archon",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW/ORANGE",
+   "confidence_label": "medium-low",
+   "current_rights_assessment": "Historical EA publishing relationship; current ownership must be established title by title",
+   "source_batches": [
+    "007"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "armour geddon",
+   "canonical_title": "Armour-Geddon",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "assassin",
+   "canonical_title": "Assassin",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "assassin special edition",
+   "canonical_title": "Assassin Special Edition",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "atomino",
+   "canonical_title": "Atomino",
+   "rights_class": "E/D",
+   "opportunity": "ORANGE",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Do not assign to Ubisoft as a single rights chain",
+   "source_batches": [
+    "003"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title_specific_permission",
+    "browser_hosting": "deny_without_title_specific_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "all terrain racing",
+   "canonical_title": "ATR: All Terrain Racing",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Team17 catalogue relationship strong; exact current title-specific IP ownership should be verified",
+   "source_batches": [
+    "005"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_license",
+    "browser_hosting": "deny_without_license",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "awesome",
+   "canonical_title": "Awesome",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "b 17 flying fortress",
+   "canonical_title": "B-17 Flying Fortress",
+   "rights_class": "D",
+   "opportunity": "RED/YELLOW",
+   "confidence_label": "high",
+   "current_rights_assessment": "Strong current MicroProse stewardship/exploitation route for B-17 heritage; exact original-release component rights still need verification",
+   "source_batches": [
+    "008",
+    "009"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_permission",
+    "browser_hosting": "deny_without_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "baal",
+   "canonical_title": "Baal",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "bad cat",
+   "canonical_title": "Bad Cat",
+   "rights_class": "E",
+   "opportunity": "YELLOW",
+   "confidence_label": "low",
+   "current_rights_assessment": "rainbow_arts_catalogue_membership_not_enough",
+   "source_batches": [
+    "002"
+   ],
+   "actions": {}
+  },
+  {
+   "canonical_key": "barbarian psygnosis",
+   "canonical_title": "Barbarian (Psygnosis)",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "barbarian ii psygnosis",
+   "canonical_title": "Barbarian II (Psygnosis)",
+   "rights_class": "E/D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Psygnosis-origin catalogue; Sony succession is plausible but title-specific ownership not yet proven",
+   "source_batches": [
+    "006"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title-specific permission",
+    "browser_hosting": "deny_without_title-specific permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "battle isle",
+   "canonical_title": "Battle Isle",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "high",
+   "current_rights_assessment": "Ubisoft / Blue Byte lineage",
+   "source_batches": [
+    "001",
+    "003"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_title_specific_permission",
+    "browser_hosting": "deny_without_title_specific_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "battlehawks 1942",
+   "canonical_title": "Battlehawks 1942",
+   "rights_class": "D",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium",
+   "current_rights_assessment": "Lucasfilm/Disney lineage likely; current title-specific exploitation/rights scope requires deeper verification",
+   "source_batches": [
+    "004"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "public_binary_redistribution": "deny_without_license",
+    "public_browser_hosting_with_game_data": "deny_without_license",
+    "scummvm_runtime_distribution": "allow_subject_to_scummvm_license_and_compliance",
+    "user_supplied_game_data": "supported_architecture; no ownership claim",
+    "reverse_engineering": "review_purpose_and_jurisdiction",
+    "patch_distribution": "review_no_original_data",
+    "remaster_distribution": "deny_without_license",
+    "commercial_use_of_game_ip": "deny_without_license"
+   }
+  },
+  {
+   "canonical_key": "big nose",
+   "canonical_title": "Big Nose",
+   "rights_class": "D/E",
+   "opportunity": "YELLOW",
+   "confidence_label": "medium-high",
+   "current_rights_assessment": "Strong current corporate route for Codemasters, but early third-party/creator/franchise rights require title-specific verification",
+   "source_batches": [
+    "010"
+   ],
+   "actions": {
+    "private_execution": "allow_local_byog",
+    "binary_redistribution": "deny_without_permission",
+    "browser_hosting": "deny_without_permission",
+    "reverse_engineering": "review",
+    "patch_distribution": "review",
+    "modification": "review",
+    "derivative_distribution": "deny_without_license",
+    "commercial_use": "deny_without_license"
+   }
+  }
+ ]
+}
