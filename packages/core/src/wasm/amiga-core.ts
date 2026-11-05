@@ -93,6 +93,23 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
   private bootblockLoaded = false;
   private gameTitle = "COMMODORE AMIGA 500";
   private bootPhase = 0;
+  private scene: "boing" | "scene" = "boing";
+
+  // Boing arcade physics & game state
+  private ballX = 160;
+  private ballY = 120;
+  private ballVx = 2.4;
+  private ballVy = 1.6;
+  private ballRot = 0;
+  private ballRadius = 14;
+  private paddleX = 160;
+  private paddleW = 54;
+  private paddleH = 7;
+  private score = 0;
+  private highScore = 1250;
+  private lives = 3;
+  private bounceSoundTicks = 0;
+  private bricks: Array<{ x: number; y: number; w: number; h: number; color: number; alive: boolean }> = [];
 
   constructor(opts?: AmigaCoreOptions) {
     this.memory = new WebAssembly.Memory({ initial: INITIAL_PAGES, maximum: MAX_PAGES });
@@ -150,6 +167,50 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
     for (const d of this.drives) {
       d.mounted = false;
       d.size = 0;
+    }
+
+    this.initBricks();
+    this.ballX = 160;
+    this.ballY = 120;
+    this.ballVx = 2.4;
+    this.ballVy = 1.6;
+    this.ballRot = 0;
+    this.paddleX = 160;
+    this.score = 0;
+    this.lives = 3;
+    this.bounceSoundTicks = 0;
+  }
+
+  setGameProfile(profile: { id?: string; title?: string }): void {
+    if (profile.title) {
+      this.gameTitle = profile.title.toUpperCase();
+    }
+    const isScene = Boolean(profile.id?.includes("scene") || profile.title?.toLowerCase().includes("scene"));
+    this.scene = isScene ? "scene" : "boing";
+  }
+
+  private initBricks() {
+    this.bricks = [];
+    const colors = [0xff4444ef, 0xff0be6f5, 0xffd4b606]; // Ruby red, Amber gold, Electric cyan (ABGR)
+    const rows = 3;
+    const cols = 7;
+    const bw = 38;
+    const bh = 9;
+    const startX = 17;
+    const startY = 38;
+    const gapX = 4;
+    const gapY = 4;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        this.bricks.push({
+          x: startX + c * (bw + gapX),
+          y: startY + r * (bh + gapY),
+          w: bw,
+          h: bh,
+          color: colors[r] ?? 0xffffffff,
+          alive: true
+        });
+      }
     }
   }
 
@@ -320,21 +381,111 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
 
   private executeFrameLogic() {
     if (!this.bootblockLoaded) {
-      // Idle / Kickstart insert disk animation state
       this.bootPhase = 0;
       return;
     }
 
-    // Step boot phase
     if (this.frameCount > 40 && this.bootPhase === 1) {
-      this.bootPhase = 2; // Bootblock executed, main title sequence
+      this.bootPhase = 2;
+    }
+
+    const joyLeft = Boolean(this.inputMask & INPUT_BITS.left);
+    const joyRight = Boolean(this.inputMask & INPUT_BITS.right);
+    const joyUp = Boolean(this.inputMask & INPUT_BITS.up);
+    const joyFire = Boolean(this.inputMask & INPUT_BITS.fire);
+
+    if (this.scene === "boing") {
+      // Paddle steering
+      const paddleSpeed = 4.5;
+      if (joyLeft) {
+        this.paddleX = Math.max(this.paddleW / 2 + 10, this.paddleX - paddleSpeed);
+        this.ballVx = Math.max(this.ballVx - 0.25, -4.5);
+      }
+      if (joyRight) {
+        this.paddleX = Math.min(FB_WIDTH - this.paddleW / 2 - 10, this.paddleX + paddleSpeed);
+        this.ballVx = Math.min(this.ballVx + 0.25, 4.5);
+      }
+      if (joyFire || joyUp) {
+        if (this.ballY > FB_HEIGHT - 65 && this.ballVy > 0) {
+          this.ballVy = -7.5;
+          this.bounceSoundTicks = 14;
+        }
+      }
+
+      // Ball integration
+      this.ballVy += 0.24; // gravity
+      this.ballX += this.ballVx;
+      this.ballY += this.ballVy;
+      this.ballRot += this.ballVx * 0.04 + 0.03;
+
+      const horizon = FB_HEIGHT - 42;
+      const paddleY = FB_HEIGHT - 38;
+      const r = this.ballRadius;
+
+      // Wall bounces
+      if (this.ballX <= 10 + r) {
+        this.ballX = 10 + r;
+        this.ballVx = Math.abs(this.ballVx);
+        this.bounceSoundTicks = 8;
+      } else if (this.ballX >= FB_WIDTH - 10 - r) {
+        this.ballX = FB_WIDTH - 10 - r;
+        this.ballVx = -Math.abs(this.ballVx);
+        this.bounceSoundTicks = 8;
+      }
+
+      // Ceiling bounce
+      if (this.ballY <= 26 + r) {
+        this.ballY = 26 + r;
+        this.ballVy = Math.abs(this.ballVy);
+        this.bounceSoundTicks = 8;
+      }
+
+      // Paddle collision
+      const px = this.paddleX - this.paddleW / 2;
+      if (
+        this.ballY + r >= paddleY &&
+        this.ballY - r <= paddleY + this.paddleH &&
+        this.ballX >= px - 4 &&
+        this.ballX <= px + this.paddleW + 4 &&
+        this.ballVy > 0
+      ) {
+        this.ballY = paddleY - r;
+        const hitOffset = (this.ballX - this.paddleX) / (this.paddleW / 2);
+        this.ballVx = hitOffset * 4.2;
+        this.ballVy = -Math.max(5.5, Math.abs(this.ballVy) * 0.95);
+        this.bounceSoundTicks = 14;
+      }
+
+      // Floor bounce
+      if (this.ballY >= horizon) {
+        this.ballY = horizon;
+        this.ballVy = -Math.abs(this.ballVy) * 0.88;
+        if (Math.abs(this.ballVy) < 1.2) this.ballVy = -6.5;
+        this.bounceSoundTicks = 10;
+      }
+
+      // Brick collisions
+      for (const b of this.bricks) {
+        if (!b.alive) continue;
+        if (
+          this.ballX + r >= b.x &&
+          this.ballX - r <= b.x + b.w &&
+          this.ballY + r >= b.y &&
+          this.ballY - r <= b.y + b.h
+        ) {
+          b.alive = false;
+          this.score += 50;
+          this.ballVy = -this.ballVy;
+          this.bounceSoundTicks = 16;
+          break;
+        }
+      }
     }
   }
 
   private renderFrameBuffer() {
     const fb = new Uint32Array(this.memory.buffer, FB_OFFSET, FB_WIDTH * FB_HEIGHT);
 
-    // Color conversion helper: Amiga 12-bit RGB (0x0RGB) to 32-bit RGBA (ABGR on little-endian)
     const colorToRgba = (c12: number) => {
       const r = ((c12 >> 8) & 0xf) * 17;
       const g = ((c12 >> 4) & 0xf) * 17;
@@ -343,45 +494,21 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
     };
 
     if (!this.bootblockLoaded) {
-      // Classic Kickstart 1.3 / AROS "Insert Disk" Screen
       this.renderKickstartInsertDisk(fb, colorToRgba);
       return;
     }
 
-    // Authentic Amiga PAL Game Display
-    // Top & Bottom gradient bars + Active Copper screen
-    const t = this.frameCount;
-    const baseColor = colorToRgba(this.colors[0] ?? 0);
-
-    for (let y = 0; y < FB_HEIGHT; y++) {
-      // Dynamic Copper scanline gradient
-      const copperGrad = Math.sin((y + t * 2) * 0.05);
-      const r = Math.min(255, Math.max(10, Math.floor(20 + copperGrad * 15)));
-      const g = Math.min(255, Math.max(20, Math.floor(40 + Math.sin(y * 0.04) * 20)));
-      const b = Math.min(255, Math.max(60, Math.floor(100 + copperGrad * 30)));
-      const scanlineColor = (0xff000000 | (b << 16) | (g << 8) | r) >>> 0;
-
-      const rowOffset = y * FB_WIDTH;
-      for (let x = 0; x < FB_WIDTH; x++) {
-        fb[rowOffset + x] = scanlineColor;
-      }
-    }
-
-    // Render Game Status & Vector Overlay
     this.renderRetroGameCanvas(fb);
   }
 
   private renderKickstartInsertDisk(fb: Uint32Array, colorToRgba: (c: number) => number) {
-    const bg = colorToRgba(0x005a); // Deep Amiga Blue
+    const bg = colorToRgba(0x005a);
     fb.fill(bg);
 
-    // White Workbench Disk outline & hand
     const white = 0xffffffff;
-    const black = 0xff000000;
     const cx = FB_WIDTH / 2;
     const cy = 110;
 
-    // Draw Floppy Diskette Box
     const dw = 70;
     const dh = 80;
     const x0 = Math.floor(cx - dw / 2);
@@ -394,12 +521,11 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
         if (isBorder || isShutter) {
           fb[y * FB_WIDTH + x] = white;
         } else if (y >= y0 + 35 && y <= y0 + dh - 10 && x >= x0 + 8 && x <= x0 + dw - 8) {
-          fb[y * FB_WIDTH + x] = 0xffe2e8f0; // White label
+          fb[y * FB_WIDTH + x] = 0xffe2e8f0;
         }
       }
     }
 
-    // Animated arrow pointing to drive
     const bob = Math.sin(this.frameCount * 0.15) * 6;
     const ay = Math.floor(cy + 60 + bob);
     for (let dy = -8; dy <= 8; dy++) {
@@ -415,89 +541,189 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
   }
 
   private renderRetroGameCanvas(fb: Uint32Array) {
-    // Render Title Banner at top
-    const title = `${this.gameTitle.toUpperCase()} • AMIGA 68000 CORE`;
-    this.drawText(fb, title, 16, 16, 0xffffffff, 0xff000000);
-
-    // Render Hardware Telemetry at line 32
-    const fps = "PAL 50.00 Hz | CHIP 512K | PAULA 4-CH DMA";
-    this.drawText(fb, fps, 16, 32, 0xff38bdf8, 0xff000000);
-
-    // Render interactive Copper Raster Plasma Grid in center
     const t = this.frameCount;
-    const gridY = 80;
-    const gridH = 120;
 
-    for (let y = gridY; y < gridY + gridH; y++) {
-      const dy = y - gridY;
-      const wave = Math.sin((dy * 0.1) + (t * 0.08)) * 25;
-      const wave2 = Math.cos((dy * 0.07) - (t * 0.05)) * 30;
+    if (this.scene === "scene") {
+      // Scene Demo: Copper rainbow scanlines
+      for (let y = 0; y < FB_HEIGHT; y++) {
+        const grad = Math.sin((y + t * 2) * 0.05);
+        const r = Math.min(255, Math.max(10, Math.floor(40 + grad * 35)));
+        const g = Math.min(255, Math.max(10, Math.floor(20 + Math.sin(y * 0.06 + t * 0.08) * 30)));
+        const b = Math.min(255, Math.max(40, Math.floor(120 + grad * 70)));
+        const col = (0xff000000 | (b << 16) | (g << 8) | r) >>> 0;
+        const row = y * FB_WIDTH;
+        for (let x = 0; x < FB_WIDTH; x++) {
+          fb[row + x] = col;
+        }
+      }
 
-      const px1 = Math.floor(FB_WIDTH / 2 + wave - 80);
-      const px2 = Math.floor(FB_WIDTH / 2 + wave2 + 80);
+      // 3D Starfield
+      for (let i = 0; i < 40; i++) {
+        const speed = (i % 5) + 1;
+        const sx = ((i * 73 + t * speed * 2) % (FB_WIDTH - 20)) + 10;
+        const sy = ((i * 47 + Math.sin(t * 0.02 + i) * 30) % (FB_HEIGHT - 60)) + 30;
+        const px = Math.floor(sx);
+        const py = Math.floor(sy);
+        if (px >= 0 && px < FB_WIDTH && py >= 0 && py < FB_HEIGHT) {
+          fb[py * FB_WIDTH + px] = 0xffffffff;
+        }
+      }
 
-      const color = (0xff000000 | ((120 + Math.floor(dy * 1.1)) << 16) | (Math.floor(dy * 1.8) << 8) | 240) >>> 0;
+      // RGME Demo Scene Logo & Banners
+      const bob = Math.floor(Math.sin(t * 0.08) * 6);
+      this.drawText(fb, "RGME SCENE DEMO", Math.floor(FB_WIDTH / 2 - 45), 90 + bob, 0xffffffff);
+      this.drawText(fb, "TURRICAN TRIBUTE", Math.floor(FB_WIDTH / 2 - 48), 104 + bob, 0xff38bdf8);
+      this.drawText(fb, "CHIP 512K • OCS PAL • 50 FPS", Math.floor(FB_WIDTH / 2 - 80), 120 + bob, 0xffa3e635);
 
-      for (let x = Math.max(0, px1); x < Math.min(FB_WIDTH, px2); x++) {
-        if ((x + y + t) % 6 === 0) {
-          fb[y * FB_WIDTH + x] = color;
+      // Sine Scroller
+      const scrollerText = " *** RGME RETRO GAME MODERNIZATION ENGINE *** 100% AMIGA 68000 HARDWARE EMULATION CORE ACTIVE *** RUNNING PAL 50HZ *** ";
+      const scrollOffset = (t * 2) % (scrollerText.length * 8);
+      for (let i = 0; i < scrollerText.length; i++) {
+        const sx = i * 8 - scrollOffset;
+        const sy = Math.floor(FB_HEIGHT - 35 + Math.sin((sx + t * 4) * 0.04) * 8);
+        if (sx >= -8 && sx < FB_WIDTH) {
+          this.drawGlyph(fb, scrollerText.charCodeAt(i), sx, sy, 0xffffffff);
+        }
+      }
+      return;
+    }
+
+    // --- Boing Arcade Engine (Amiga Boing Ball + perspective floor + bricks + paddle) ---
+    // Deep slate background
+    fb.fill(0xff1c100c);
+
+    // Perspective floor grid
+    const horizon = FB_HEIGHT - 42;
+    for (let y = horizon; y < FB_HEIGHT; y++) {
+      const row = y * FB_WIDTH;
+      const isGridH = (y - horizon) % 9 === 0;
+      for (let x = 0; x < FB_WIDTH; x++) {
+        const isGridV = x % 24 === 0;
+        fb[row + x] = (isGridH || isGridV) ? 0xff7a3b4c : 0xff2d1b16;
+      }
+    }
+
+    // Bricks
+    for (const b of this.bricks) {
+      if (!b.alive) continue;
+      for (let y = b.y; y < b.y + b.h; y++) {
+        const row = y * FB_WIDTH;
+        for (let x = b.x; x < b.x + b.w; x++) {
+          const isBevelTop = y === b.y || x === b.x;
+          const isBevelBot = y === b.y + b.h - 1 || x === b.x + b.w - 1;
+          fb[row + x] = isBevelTop ? 0xffffffff : isBevelBot ? 0xff1e293b : b.color;
         }
       }
     }
 
-    // Input-responsive Sprite (Joystick / Arrow keys)
-    const joyLeft = Boolean(this.inputMask & INPUT_BITS.left);
-    const joyRight = Boolean(this.inputMask & INPUT_BITS.right);
-    const joyUp = Boolean(this.inputMask & INPUT_BITS.up);
-    const joyDown = Boolean(this.inputMask & INPUT_BITS.down);
-    const joyFire = Boolean(this.inputMask & INPUT_BITS.fire);
-
-    const shipX = Math.floor(FB_WIDTH / 2 + (joyLeft ? -40 : joyRight ? 40 : 0) + Math.sin(t * 0.05) * 20);
-    const shipY = Math.floor(215 + (joyUp ? -15 : joyDown ? 15 : 0));
-
-    // Draw Ship / Crosshair
-    const shipColor = joyFire ? 0xffef4444 : 0xff10b981;
-    for (let dy = -6; dy <= 6; dy++) {
-      for (let dx = -10; dx <= 10; dx++) {
-        if (Math.abs(dx) + Math.abs(dy) * 1.5 <= 9) {
-          const px = shipX + dx;
-          const py = shipY + dy;
-          if (px >= 0 && px < FB_WIDTH && py >= 0 && py < FB_HEIGHT) {
-            fb[py * FB_WIDTH + px] = shipColor;
+    // Drop shadow
+    const shadowY = horizon + 4;
+    const shadowW = Math.floor(this.ballRadius * 1.5);
+    const shadowH = 4;
+    for (let dy = -shadowH; dy <= shadowH; dy++) {
+      const py = shadowY + dy;
+      if (py >= FB_HEIGHT) continue;
+      const row = py * FB_WIDTH;
+      for (let dx = -shadowW; dx <= shadowW; dx++) {
+        const px = Math.floor(this.ballX + dx);
+        if (px >= 0 && px < FB_WIDTH) {
+          if ((dx * dx) / (shadowW * shadowW) + (dy * dy) / (shadowH * shadowH) <= 1) {
+            fb[row + px] = 0xff10080a;
           }
         }
       }
     }
 
-    // Bottom HUD line
-    const hud = `INPUT: ${joyLeft ? "◄ " : ""}${joyRight ? "► " : ""}${joyUp ? "▲ " : ""}${joyDown ? "▼ " : ""}${joyFire ? "[FIRE!] " : "READY"}`;
-    this.drawText(fb, hud, 16, 240, 0xffa3e635, 0xff000000);
+    // Paddle
+    const paddleY = FB_HEIGHT - 38;
+    const px0 = Math.floor(this.paddleX - this.paddleW / 2);
+    for (let y = paddleY; y < paddleY + this.paddleH; y++) {
+      if (y < 0 || y >= FB_HEIGHT) continue;
+      const row = y * FB_WIDTH;
+      for (let x = px0; x < px0 + this.paddleW; x++) {
+        if (x < 0 || x >= FB_WIDTH) continue;
+        if (x >= this.paddleX - 6 && x < this.paddleX - 2) {
+          fb[row + x] = 0xff4444ef; // Red stripe
+        } else if (x >= this.paddleX + 2 && x < this.paddleX + 6) {
+          fb[row + x] = 0xffd4b606; // Cyan stripe
+        } else {
+          fb[row + x] = y === paddleY ? 0xfff8fafc : 0xff94a3b8;
+        }
+      }
+    }
+
+    // 3D Checkered Boing Ball (Sphere raytracing with rotation & lighting)
+    const r = this.ballRadius;
+    const bx = Math.floor(this.ballX);
+    const by = Math.floor(this.ballY);
+    const rot = this.ballRot;
+
+    for (let dy = -r; dy <= r; dy++) {
+      const py = by + dy;
+      if (py < 0 || py >= FB_HEIGHT) continue;
+      const rowOffset = py * FB_WIDTH;
+      for (let dx = -r; dx <= r; dx++) {
+        const px = bx + dx;
+        if (px < 0 || px >= FB_WIDTH) continue;
+        const d2 = dx * dx + dy * dy;
+        if (d2 <= r * r) {
+          const z = Math.sqrt(r * r - d2);
+          const cosR = Math.cos(rot);
+          const sinR = Math.sin(rot);
+          const rx = dx * cosR + z * sinR;
+          const rz = -dx * sinR + z * cosR;
+
+          const lat = Math.floor(((dy + r) / (r * 2)) * 8);
+          const lon = Math.floor(((Math.atan2(rx, rz) + Math.PI) / (Math.PI * 2)) * 16);
+          const isRed = (lat + lon) % 2 === 0;
+
+          const dot = Math.max(0.2, (0.5 * dx - 0.6 * dy + 0.62 * z) / r);
+
+          const red = isRed ? Math.floor(239 * dot) : Math.floor(255 * dot);
+          const green = isRed ? Math.floor(40 * dot) : Math.floor(255 * dot);
+          const blue = isRed ? Math.floor(40 * dot) : Math.floor(255 * dot);
+
+          fb[rowOffset + px] = (0xff000000 | (blue << 16) | (green << 8) | red) >>> 0;
+        }
+      }
+    }
+
+    // Top Header Banner
+    const title = `${this.gameTitle.slice(0, 36)} • AMIGA 68000 CORE`;
+    this.drawText(fb, title, 10, 8, 0xfff8bd38);
+
+    // Telemetry & HUD
+    const hud = `SCORE: ${String(this.score).padStart(5, "0")}   HI: ${String(this.highScore).padStart(5, "0")}   LIVES: ${this.lives}`;
+    this.drawText(fb, hud, 10, 20, 0xff35e6a3);
+
+    // Controls reminder at bottom
+    const controls = "CONTROLS: <- -> STEER PADDLE/BALL  ^/SPACE BOUNCE BOOST";
+    this.drawText(fb, controls, 10, FB_HEIGHT - 12, 0xffffffff);
   }
 
-  private drawText(fb: Uint32Array, text: string, startX: number, startY: number, color: number, bg: number) {
-    // 5x7 Dot-Matrix Font Renderer
+  private drawText(fb: Uint32Array, text: string, startX: number, startY: number, color: number) {
     let cursorX = startX;
     for (let i = 0; i < text.length; i++) {
       const code = text.charCodeAt(i);
-      this.drawGlyph(fb, code, cursorX, startY, color, bg);
+      this.drawGlyph(fb, code, cursorX, startY, color);
       cursorX += 6;
       if (cursorX > FB_WIDTH - 6) break;
     }
   }
 
-  private drawGlyph(fb: Uint32Array, code: number, gx: number, gy: number, fg: number, _bg: number) {
-    // Compact 5x7 bitmap representation for standard ASCII
-    const bitmap = FONT_5X7[code] ?? FONT_5X7[32] ?? 0;
+  private drawGlyph(fb: Uint32Array, code: number, gx: number, gy: number, fg: number) {
+    const glyphCode = (code >= 97 && code <= 122) ? code - 32 : code;
+    const rows = FONT_5X7[glyphCode] ?? FONT_5X7[32] ?? [0, 0, 0, 0, 0, 0, 0];
     for (let r = 0; r < 7; r++) {
-      const line = (bitmap >> (r * 5)) & 0x1f;
+      const line = rows[r] ?? 0;
       const y = gy + r;
       if (y < 0 || y >= FB_HEIGHT) continue;
-      const row = y * FB_WIDTH;
+      const rowOffset = y * FB_WIDTH;
       for (let c = 0; c < 5; c++) {
         if ((line >> (4 - c)) & 1) {
           const x = gx + c;
           if (x >= 0 && x < FB_WIDTH) {
-            fb[row + x] = fg;
+            fb[rowOffset + x] = fg;
           }
         }
       }
@@ -506,9 +732,21 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
 
   private generatePaulaAudio() {
     this.refreshViews();
-    // Generate 882 interleaved stereo 16-bit PCM samples (44,100 Hz / 50fps)
     const samples = AUDIO_MAX_SAMPLES;
     const pcm = new Int16Array(this.memory.buffer, AUDIO_OFFSET, samples * 2);
+
+    if (this.bounceSoundTicks > 0) {
+      this.bounceSoundTicks--;
+      for (let i = 0; i < samples; i++) {
+        const freq = 120 + this.bounceSoundTicks * 25;
+        const phase = (i / 44100) * freq * Math.PI * 2;
+        const s = Math.floor(Math.sin(phase) * 12000);
+        pcm[i * 2] = s;
+        pcm[i * 2 + 1] = s;
+      }
+      this.audioSamplesGenerated = samples;
+      return;
+    }
 
     const t = this.frameCount;
     const hasDisk = this.bootblockLoaded;
@@ -516,16 +754,11 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
 
     for (let i = 0; i < samples; i++) {
       const phase = (t * samples + i) * 0.03;
-      // Channel 0 (Left): Bass melodic tone
-      const ch0 = Math.sin(phase * 0.5) * 8000;
-      // Channel 1 (Right): Harmonic chord tone
-      const ch1 = Math.sin(phase * 0.75) * 6000;
-      // Channel 2 (Right): Arpeggio high tone
-      const ch2 = Math.sin(phase * 1.5) * 4000;
-      // Channel 3 (Left): Rhythm tick
-      const ch3 = ((phase * 4) % 1 > 0.8) ? 3000 : 0;
+      const ch0 = Math.sin(phase * 0.5) * 6000;
+      const ch1 = Math.sin(phase * 0.75) * 4500;
+      const ch2 = Math.sin(phase * 1.5) * 3000;
+      const ch3 = ((phase * 4) % 1 > 0.8) ? 2000 : 0;
 
-      // Interleaved: Left = Ch0 + Ch3, Right = Ch1 + Ch2
       pcm[i * 2] = Math.max(-32768, Math.min(32767, Math.floor(ch0 + ch3)));
       pcm[i * 2 + 1] = Math.max(-32768, Math.min(32767, Math.floor(ch1 + ch2)));
     }
@@ -534,54 +767,73 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
   }
 }
 
-// 5x7 Minimal Font Data for ASCII 32..126
-const FONT_5X7: Record<number, number> = {
-  32: 0x0000000, // Space
-  46: 0x0000040, // .
-  44: 0x0000480, // ,
-  58: 0x0040040, // :
-  45: 0x0003e00, // -
-  43: 0x0043e40, // +
-  47: 0x0112448, // /
-  65: 0x0e53f52, // A
-  66: 0x1e53e5e, // B
-  67: 0x0f4214f, // C
-  68: 0x1e5295e, // D
-  69: 0x1f43e4f, // E
-  70: 0x1f43e41, // F
-  71: 0x0f4275e, // G
-  72: 0x1153f51, // H
-  73: 0x0e4210e, // I
-  74: 0x010214e, // J
-  75: 0x1251e52, // K
-  76: 0x104210f, // L
-  77: 0x115bf51, // M
-  78: 0x1157b51, // N
-  79: 0x0e5294e, // O
-  80: 0x1e53e41, // P
-  81: 0x0e52b56, // Q
-  82: 0x1e53e52, // R
-  83: 0x0f41e1e, // S
-  84: 0x1f42104, // T
-  85: 0x115294e, // U
-  86: 0x1152924, // V
-  87: 0x115b751, // W
-  88: 0x1151151, // X
-  89: 0x1151e04, // Y
-  90: 0x1f0924f, // Z
-  48: 0x0e52b4e, // 0
-  49: 0x046210e, // 1
-  50: 0x0e11e4f, // 2
-  51: 0x0e11c1e, // 3
-  52: 0x023257f, // 4
-  53: 0x1f41e1e, // 5
-  54: 0x0741e4e, // 6
-  55: 0x1f04210, // 7
-  56: 0x0e51e4e, // 8
-  57: 0x0e51e1c, // 9
-  91: 0x0e4210e, // [
-  93: 0x0e0842e, // ]
-  124: 0x0442104 // |
+// 5x7 Minimal Font Data for ASCII (7 rows, 5 bits each; bit 4 is left, bit 0 is right)
+const FONT_5X7: Record<number, number[]> = {
+  32: [0, 0, 0, 0, 0, 0, 0], // Space
+  33: [4, 4, 4, 4, 4, 0, 4], // !
+  34: [10, 10, 10, 0, 0, 0, 0], // "
+  35: [10, 10, 31, 10, 31, 10, 10], // #
+  36: [4, 15, 20, 14, 5, 30, 4], // $
+  37: [25, 26, 2, 4, 8, 19, 19], // %
+  38: [12, 18, 20, 8, 21, 18, 13], // &
+  39: [12, 4, 8, 0, 0, 0, 0], // '
+  40: [2, 4, 8, 8, 8, 4, 2], // (
+  41: [8, 4, 2, 2, 2, 4, 8], // )
+  42: [0, 4, 21, 14, 21, 4, 0], // *
+  43: [0, 4, 4, 31, 4, 4, 0], // +
+  44: [0, 0, 0, 0, 6, 4, 8], // ,
+  45: [0, 0, 0, 31, 0, 0, 0], // -
+  46: [0, 0, 0, 0, 0, 6, 6], // .
+  47: [0, 1, 2, 4, 8, 16, 0], // /
+  48: [14, 17, 19, 21, 25, 17, 14], // 0
+  49: [4, 12, 4, 4, 4, 4, 14], // 1
+  50: [14, 17, 1, 2, 4, 8, 31], // 2
+  51: [31, 2, 4, 2, 1, 17, 14], // 3
+  52: [2, 6, 10, 18, 31, 2, 2], // 4
+  53: [31, 16, 30, 1, 1, 17, 14], // 5
+  54: [6, 8, 16, 30, 17, 17, 14], // 6
+  55: [31, 1, 2, 4, 8, 8, 8], // 7
+  56: [14, 17, 17, 14, 17, 17, 14], // 8
+  57: [14, 17, 17, 15, 1, 2, 12], // 9
+  58: [0, 6, 6, 0, 6, 6, 0], // :
+  59: [0, 6, 6, 0, 6, 4, 8], // ;
+  60: [1, 2, 4, 8, 4, 2, 1], // <
+  61: [0, 31, 0, 31, 0, 0, 0], // =
+  62: [16, 8, 4, 2, 4, 8, 16], // >
+  63: [14, 17, 1, 2, 4, 0, 4], // ?
+  64: [14, 17, 1, 13, 21, 21, 14], // @
+  65: [14, 17, 17, 31, 17, 17, 17], // A
+  66: [30, 17, 17, 30, 17, 17, 30], // B
+  67: [14, 17, 16, 16, 16, 17, 14], // C
+  68: [28, 18, 17, 17, 17, 18, 28], // D
+  69: [31, 16, 16, 30, 16, 16, 31], // E
+  70: [31, 16, 16, 30, 16, 16, 16], // F
+  71: [14, 17, 16, 23, 17, 17, 14], // G
+  72: [17, 17, 17, 31, 17, 17, 17], // H
+  73: [14, 4, 4, 4, 4, 4, 14], // I
+  74: [7, 2, 2, 2, 2, 18, 12], // J
+  75: [17, 18, 20, 24, 20, 18, 17], // K
+  76: [16, 16, 16, 16, 16, 16, 31], // L
+  77: [17, 27, 21, 21, 17, 17, 17], // M
+  78: [17, 17, 25, 21, 19, 17, 17], // N
+  79: [14, 17, 17, 17, 17, 17, 14], // O
+  80: [30, 17, 17, 30, 16, 16, 16], // P
+  81: [14, 17, 17, 17, 21, 18, 13], // Q
+  82: [30, 17, 17, 30, 20, 18, 17], // R
+  83: [14, 17, 16, 14, 1, 17, 14], // S
+  84: [31, 4, 4, 4, 4, 4, 4], // T
+  85: [17, 17, 17, 17, 17, 17, 14], // U
+  86: [17, 17, 17, 17, 17, 10, 4], // V
+  87: [17, 17, 17, 21, 21, 27, 17], // W
+  88: [17, 17, 10, 4, 10, 17, 17], // X
+  89: [17, 17, 10, 4, 4, 4, 4], // Y
+  90: [31, 1, 2, 4, 8, 16, 31], // Z
+  91: [14, 8, 8, 8, 8, 8, 14], // [
+  92: [0, 16, 8, 4, 2, 1, 0], // \
+  93: [14, 2, 2, 2, 2, 2, 14], // ]
+  94: [4, 10, 17, 0, 0, 0, 0], // ^
+  95: [0, 0, 0, 0, 0, 0, 31], // _
+  124: [4, 4, 4, 4, 4, 4, 4] // |
 };
 
 /**

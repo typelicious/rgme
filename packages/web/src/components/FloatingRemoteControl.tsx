@@ -55,7 +55,7 @@ export function FloatingRemoteControl({
       <button
         onClick={onToggleMinimize}
         data-testid="remote-minimized-pill"
-        className="fixed bottom-6 right-40 z-50 flex items-center gap-1.5 px-3 py-2.5 rounded-full bg-[#161822]/95 hover:bg-[#202334] border border-[#38bdf8]/60 text-sky-200 hover:text-white shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-md font-mono text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer group"
+        className="fixed bottom-6 right-[130px] z-50 flex items-center gap-1.5 px-3 py-2.5 rounded-full bg-[#161822]/95 hover:bg-[#202334] border border-[#38bdf8]/60 text-sky-200 hover:text-white shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-md font-mono text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer group"
         title="Show Remote Controller"
       >
         <span className="text-base group-hover:scale-110 transition-transform">🎮</span>

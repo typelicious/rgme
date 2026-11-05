@@ -108,6 +108,7 @@ export class WasmAmigaAdapter implements RuntimeAdapter {
     const inst = await this.opts.loader.load();
     const core = validateCoreExports(inst.exports); // throws WasmCoreContractError
     core.rgme_init();
+    (core as unknown as { setGameProfile?: (p: GameProfile) => void }).setGameProfile?.(profile);
     this.core = core;
     this.profile = profile;
     this.mapping = profile.input;

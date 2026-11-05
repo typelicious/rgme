@@ -190,7 +190,7 @@ export function Commodore1084sBezel({
             </button>
 
             {/* Interactive CRT Display Settings Knob with Popover popping up-left */}
-            <div className="relative" ref={crtMenuRef}>
+            <div className="relative flex items-center justify-center h-[15px]" ref={crtMenuRef}>
               <button
                 type="button"
                 className="rgme-bezel__knob flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"

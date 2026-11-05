@@ -192,14 +192,15 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
 
   const onCanvas = useCallback(
     (canvas: HTMLCanvasElement) => {
-      if (adapterRef.current) return;
       canvasRef.current = canvas;
       setCanvasEl(canvas);
       const a =
         runtimeKindRef.current === "mock"
           ? createAdapter(canvas as unknown as CanvasLike)
           : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
+      disposeRuntime(adapterRef.current);
       adapterRef.current = a;
+      unsub.current?.();
       unsub.current = a.onStatus(setStatus);
       setAdapter(a);
 
@@ -403,12 +404,18 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         const profile = freewareEntryToProfile(known);
         const rights = freewareEntryToRights(known).record;
         await activate(profile, rights);
+        if (profile.launch.autoStart && adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+          adapterRef.current.start();
+        }
         await addToLibrary(file, sha256, { profile, rights, title: known.canonical_title });
         return known.id;
       }
       setInfo({ name: file.name, size: file.size, sha256, status: "Unknown" });
       const profile = buildProfileFromFile(file.name, sha256);
       await activate(profile, undefined);
+      if (profile.launch.autoStart && adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+        adapterRef.current.start();
+      }
       await addToLibrary(file, sha256, { profile, rights: unknownRightsRecord(profile.id), title: profile.title });
       return undefined;
     },
@@ -502,16 +509,20 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     setActiveDemo("scene");
     const res = await fetch(sceneIntroUrl);
     const file = new File([await res.arrayBuffer()], "rgme-scene-intro.adf");
-    const id = await onFile(file);
-    if (id) adapterRef.current?.start();
+    await onFile(file);
+    if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+      adapterRef.current.start();
+    }
   }, [onFile]);
 
   const loadFixture = useCallback(
     async (url: string, filename: string, demoKind?: "c64" | "md") => {
       if (demoKind) setActiveDemo(demoKind);
       const res = await fetch(url);
-      const id = await onFile(new File([await res.arrayBuffer()], filename));
-      if (id) adapterRef.current?.start();
+      await onFile(new File([await res.arrayBuffer()], filename));
+      if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
+        adapterRef.current.start();
+      }
     },
     [onFile]
   );
