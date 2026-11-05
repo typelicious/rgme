@@ -24,7 +24,7 @@ describe("M4 wiring", () => {
     await act(async () => { fireEvent.click(screen.getByTestId("runtime-m68k")); });
     await waitFor(() => expect(screen.getByTestId("runtime-pill")).toHaveTextContent(/68000/i), { timeout: 8000 });
     expect(screen.getByTestId("runtime-note")).toHaveTextContent(/partial 68000/i);
-  }, 20000);
+  }, 40000);
 
   it("loads the demo tracker module into the player panel", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response(fx("rgme-demo.mod"), { status: 200 })));

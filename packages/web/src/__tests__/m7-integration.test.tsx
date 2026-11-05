@@ -67,7 +67,11 @@ describe("Milestone 7 Integration & Features", () => {
     fireEvent.click(streamButtons[0]!);
 
     await waitFor(() => {
-      expect(mockConnector.streamFile).toHaveBeenCalledWith("Amiga-Arquivista", "classic_adventure.adf");
+      expect(mockConnector.streamFile).toHaveBeenCalledWith(
+        "Amiga-Arquivista",
+        "classic_adventure.adf",
+        expect.any(Function)
+      );
       expect(handleMount).toHaveBeenCalled();
       expect(handleClose).toHaveBeenCalled();
     });

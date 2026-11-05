@@ -424,14 +424,17 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
 
   const onStreamMedia = useCallback(
     async (media: StreamedRetroMedia) => {
-      const p = buildProfileFromFile(media.diskFilename, media.sha256);
+      remember(media.sha256, media.bytes);
+      const known = findFreewareByHash(FREEWARE, media.sha256);
+      const p = known ? freewareEntryToProfile(known) : buildProfileFromFile(media.diskFilename, media.sha256);
+      const rights = known ? freewareEntryToRights(known).record : unknownRightsRecord(p.id);
       setInfo({
         name: media.diskFilename,
         size: media.size,
         sha256: media.sha256,
-        status: "Identified"
+        status: known ? "Identified" : "Unknown"
       });
-      await activate(p, undefined);
+      await activate(p, rights);
       if (media.format === "adf" || media.diskFilename.endsWith(".adf")) {
         floppy.insertDisk(0, {
           id: media.diskFilename,
@@ -445,7 +448,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       }
       adapterRef.current?.start();
     },
-    [activate, floppy]
+    [activate, floppy, remember]
   );
 
   const loadDemoMod = useCallback(async () => {

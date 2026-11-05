@@ -25,6 +25,71 @@ export class ZipParser {
   }
 
   private parse() {
+    if (this.parseCentralDirectory()) {
+      return;
+    }
+    this.parseLocalHeaders();
+  }
+
+  private parseCentralDirectory(): boolean {
+    const len = this.buffer.length;
+    if (len < 22) return false;
+    const view = new DataView(this.buffer.buffer, this.buffer.byteOffset, this.buffer.byteLength);
+
+    const searchLimit = Math.max(0, len - 65557);
+    let eocdOffset = -1;
+    for (let i = len - 22; i >= searchLimit; i--) {
+      if (view.getUint32(i, true) === 0x06054b50) {
+        eocdOffset = i;
+        break;
+      }
+    }
+    if (eocdOffset === -1) return false;
+
+    const totalEntries = view.getUint16(eocdOffset + 10, true);
+    const cdOffset = view.getUint32(eocdOffset + 16, true);
+    if (cdOffset >= len) return false;
+
+    let offset = cdOffset;
+    for (let i = 0; i < totalEntries && offset + 46 <= len; i++) {
+      const sig = view.getUint32(offset, true);
+      if (sig !== 0x02014b50) break;
+
+      const method = view.getUint16(offset + 10, true);
+      const compSize = view.getUint32(offset + 20, true);
+      const uncompSize = view.getUint32(offset + 24, true);
+      const nameLen = view.getUint16(offset + 28, true);
+      const extraLen = view.getUint16(offset + 30, true);
+      const commentLen = view.getUint16(offset + 32, true);
+      const localOffset = view.getUint32(offset + 42, true);
+
+      const nameBytes = this.buffer.subarray(offset + 46, offset + 46 + nameLen);
+      const filename = new TextDecoder().decode(nameBytes);
+
+      if (localOffset + 30 <= len && view.getUint32(localOffset, true) === 0x04034b50) {
+        const localNameLen = view.getUint16(localOffset + 26, true);
+        const localExtraLen = view.getUint16(localOffset + 28, true);
+        const dataOffset = localOffset + 30 + localNameLen + localExtraLen;
+
+        if (!filename.endsWith("/")) {
+          this.entries.push({
+            filename,
+            compressionMethod: method,
+            compressedSize: compSize,
+            uncompressedSize: uncompSize,
+            offset: localOffset,
+            dataOffset
+          });
+        }
+      }
+
+      offset += 46 + nameLen + extraLen + commentLen;
+    }
+
+    return this.entries.length > 0;
+  }
+
+  private parseLocalHeaders() {
     const view = new DataView(this.buffer.buffer, this.buffer.byteOffset, this.buffer.byteLength);
     let offset = 0;
     const len = this.buffer.length;

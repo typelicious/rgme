@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 export interface PaletteAction {
   id: string;
-  category: "Game" | "Runtime" | "Display" | "Floppy" | "Audio" | "Help";
+  category: "Game" | "Runtime" | "Display" | "Floppy" | "Audio" | "Help" | "Cloud";
   title: string;
   detail?: string;
   shortcut?: string;

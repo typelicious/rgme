@@ -24,6 +24,7 @@ export function CloudStreamModal({
   const [isCustom, setIsCustom] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [streamingName, setStreamingName] = useState<string | null>(null);
+  const [streamStatus, setStreamStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [collectionTitle, setCollectionTitle] = useState<string>("");
   const [files, setFiles] = useState<ArchiveOrgFile[]>([]);
@@ -64,15 +65,20 @@ export function CloudStreamModal({
 
   const handleStreamAndMount = async (file: ArchiveOrgFile) => {
     setStreamingName(file.name);
+    setStreamStatus(`Connecting to Archive.org for "${file.name}"...`);
     setError(null);
     try {
-      const media = await connector.streamFile(activeIdentifier, file.name);
+      const media = await connector.streamFile(activeIdentifier, file.name, (ev) => {
+        setStreamStatus(ev.message);
+      });
+      setStreamStatus(`Mounting ${media.diskFilename} into DF0:...`);
       await onMountMedia(media);
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setStreamingName(null);
+      setStreamStatus(null);
     }
   };
 
@@ -123,13 +129,19 @@ export function CloudStreamModal({
           <div className="flex gap-2">
             <button
               className={`rgme-btn flex-1 text-xs ${!isCustom ? "border-[var(--rgme-accent,#38bdf8)]" : ""}`}
-              onClick={() => setIsCustom(false)}
+              onClick={() => {
+                setIsCustom(false);
+                setError(null);
+              }}
             >
               Curated Collections
             </button>
             <button
               className={`rgme-btn flex-1 text-xs ${isCustom ? "border-[var(--rgme-accent,#38bdf8)]" : ""}`}
-              onClick={() => setIsCustom(true)}
+              onClick={() => {
+                setIsCustom(true);
+                setError(null);
+              }}
             >
               Custom Identifier / URL
             </button>
@@ -142,6 +154,7 @@ export function CloudStreamModal({
                 value={selectedPreset}
                 onChange={(e) => {
                   setSelectedPreset(e.target.value);
+                  setError(null);
                   void handleFetchFiles(e.target.value);
                 }}
               >
@@ -154,7 +167,7 @@ export function CloudStreamModal({
               <button
                 className="rgme-btn text-sm"
                 onClick={() => void handleFetchFiles(selectedPreset)}
-                disabled={loading}
+                disabled={loading || streamingName !== null}
               >
                 {loading ? "Loading..." : "Query Files"}
               </button>
@@ -166,7 +179,10 @@ export function CloudStreamModal({
                 className="rgme-input flex-1 p-2 text-sm rounded bg-[#101116] border border-[#2d3139] text-white"
                 placeholder="e.g. Amiga-Arquivista or https://archive.org/details/..."
                 value={customInput}
-                onChange={(e) => setCustomInput(e.target.value)}
+                onChange={(e) => {
+                  setCustomInput(e.target.value);
+                  setError(null);
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") void handleFetchFiles();
                 }}
@@ -174,19 +190,37 @@ export function CloudStreamModal({
               <button
                 className="rgme-btn text-sm"
                 onClick={() => void handleFetchFiles()}
-                disabled={loading || !customInput.trim()}
+                disabled={loading || !customInput.trim() || streamingName !== null}
               >
                 {loading ? "Loading..." : "Query"}
               </button>
             </div>
           )}
 
+          {/* Active Streaming Progress Banner */}
+          {streamStatus && (
+            <div className="flex items-center gap-2 text-xs p-2.5 rounded bg-sky-950/50 border border-sky-600 text-sky-200 animate-pulse">
+              <span className="inline-block animate-spin">⏳</span>
+              <span className="font-mono">{streamStatus}</span>
+            </div>
+          )}
+
+          {/* Error Banner */}
           {error && (
             <div
-              className="text-xs p-2 rounded bg-red-950/50 border border-red-700 text-red-200"
+              className="text-xs p-2.5 rounded bg-red-950/60 border border-red-700 text-red-200 flex flex-col gap-1"
               role="alert"
             >
-              ⚠️ {error}
+              <div className="flex items-center justify-between font-semibold">
+                <span>⚠️ Stream Error</span>
+                <button
+                  className="text-[10px] text-red-400 hover:text-red-200 underline"
+                  onClick={() => setError(null)}
+                >
+                  Dismiss
+                </button>
+              </div>
+              <div className="break-words">{error}</div>
             </div>
           )}
         </div>
@@ -204,7 +238,10 @@ export function CloudStreamModal({
                   placeholder="Filter by title..."
                   className="rgme-input p-1 px-2 text-xs rounded bg-[#101116] border border-[#2d3139] text-white w-48"
                   value={filterQuery}
-                  onChange={(e) => setFilterQuery(e.target.value)}
+                  onChange={(e) => {
+                    setFilterQuery(e.target.value);
+                    setError(null);
+                  }}
                 />
               )}
             </div>

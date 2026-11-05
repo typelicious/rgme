@@ -39,3 +39,4 @@ All monorepo packages executed their test suites and production build gates with
 1. **Author Identity:** All commits authored strictly by `typelicious <typelicious@gmail.com>`. Zero AI vendor headers or co-author lines.
 2. **Zero-Hosting / Ephemeral Rights Boundary:** Archive.org streaming runs purely client-side in browser RAM without server-side mirroring, proxying, or caching of copyright-protected binaries.
 3. **Rights Policy Enforcement:** All streamed images are SHA-256 hashed and evaluated against the Rights Policy Engine; non-cleared titles enforce private local execution only and disable binary redistribution exports.
+4. **CORS Resilience & Dev Proxy Relay:** Added Vite dev server middleware `/api/archive-download/*` to cleanly bypass browser CORS blocks on `localhost:5173`, with automatic fallback to public CORS proxies (`corsproxy.io`, `allorigins.win`), live progress status banner, and Central Directory ZIP extraction.

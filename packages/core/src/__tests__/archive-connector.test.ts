@@ -1,5 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import { ArchiveOrgConnector, ARCHIVE_COLLECTION_PRESETS } from "../archive/archive-connector.js";
+import {
+  ArchiveOrgConnector,
+  ARCHIVE_COLLECTION_PRESETS,
+  type StreamProgressEvent
+} from "../archive/archive-connector.js";
 
 describe("Milestone 7: ArchiveOrgConnector", () => {
   it("provides preset collections", () => {
@@ -18,10 +22,13 @@ describe("Milestone 7: ArchiveOrgConnector", () => {
     const mockFetch = vi.fn(async (url: string | URL | Request) => {
       const urlStr = String(url);
       expect(urlStr).toContain("https://archive.org/metadata/Amiga-Arquivista");
-      return new Response(JSON.stringify({
-        metadata: { title: "Amiga Arquivista", description: "Preservation items" },
-        files: mockFiles
-      }), { status: 200, headers: { "Content-Type": "application/json" } });
+      return new Response(
+        JSON.stringify({
+          metadata: { title: "Amiga Arquivista", description: "Preservation items" },
+          files: mockFiles
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
     });
 
     const connector = new ArchiveOrgConnector({ fetchFn: mockFetch as unknown as typeof fetch });
@@ -52,5 +59,42 @@ describe("Milestone 7: ArchiveOrgConnector", () => {
     expect(media.format).toBe("adf");
     expect(media.bytes.length).toBe(1024);
     expect(media.sha256).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it("streamFile falls back to CORS proxy when direct fetch fails with TypeError", async () => {
+    const fakeAdfBytes = new Uint8Array(512);
+    fakeAdfBytes.set([0x44, 0x4f, 0x53, 0]); // DOS\0
+
+    const calls: string[] = [];
+    const mockFetch = vi.fn(async (url: string | URL | Request) => {
+      const urlStr = String(url);
+      calls.push(urlStr);
+      if (urlStr.startsWith("https://archive.org/download/")) {
+        // Direct browser fetch blocked by CORS
+        throw new TypeError("Failed to fetch");
+      }
+      if (urlStr.includes("corsproxy.io")) {
+        return new Response(fakeAdfBytes, { status: 200 });
+      }
+      return new Response("Not found", { status: 404 });
+    });
+
+    const progressEvents: StreamProgressEvent[] = [];
+    const connector = new ArchiveOrgConnector({
+      fetchFn: mockFetch as unknown as typeof fetch,
+      disableLocalProxy: true
+    });
+
+    const media = await connector.streamFile("Amiga-Arquivista", "oil_imperium.adf", (ev) => {
+      progressEvents.push(ev);
+    });
+
+    expect(media.diskFilename).toBe("oil_imperium.adf");
+    expect(media.bytes.length).toBe(512);
+    expect(calls.length).toBe(2);
+    expect(calls[0]).toContain("https://archive.org/download/Amiga-Arquivista/oil_imperium.adf");
+    expect(calls[1]).toContain("corsproxy.io");
+    expect(progressEvents.some((p) => p.stage === "fallback")).toBe(true);
+    expect(progressEvents.some((p) => p.stage === "ready")).toBe(true);
   });
 });
