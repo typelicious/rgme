@@ -43,7 +43,7 @@
       "estimatedEffort": "2",
       "dependsOn": ["ARCH-001"],
       "type": "schema",
-      "passes": false,
+      "passes": true,
       "boundaries": [
         {
           "kind": "storage",
@@ -71,7 +71,7 @@
       "estimatedEffort": "2",
       "dependsOn": ["CORE-001"],
       "type": "architecture",
-      "passes": false
+      "passes": true
     },
     {
       "id": "CLI-001",
