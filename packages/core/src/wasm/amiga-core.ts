@@ -92,6 +92,7 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
   // Boot & Game State
   private bootblockLoaded = false;
   private gameTitle = "COMMODORE AMIGA 500";
+  private profileTitleFixed = false;
   private bootPhase = 0;
   private scene: "boing" | "scene" = "boing";
 
@@ -149,6 +150,8 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
     this.inputMask = 0;
     this.bootblockLoaded = false;
     this.bootPhase = 0;
+    this.gameTitle = "COMMODORE AMIGA 500";
+    this.profileTitleFixed = false;
 
     // Default Palette: Authentic Kickstart Blue / Grey
     this.colors[0] = 0x0055; // Navy Blue #0055aa
@@ -184,6 +187,7 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
   setGameProfile(profile: { id?: string; title?: string }): void {
     if (profile.title) {
       this.gameTitle = profile.title.toUpperCase();
+      this.profileTitleFixed = true;
     }
     const isScene = Boolean(profile.id?.includes("scene") || profile.title?.toLowerCase().includes("scene"));
     this.scene = isScene ? "scene" : "boing";
@@ -255,7 +259,7 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
       this.bootPhase = 1;
 
       // Extract Game Title only if not already established by profile
-      if (!this.gameTitle || this.gameTitle === "COMMODORE AMIGA 500" || this.gameTitle === "AMIGA DOS DISK") {
+      if (!this.profileTitleFixed && (!this.gameTitle || this.gameTitle === "COMMODORE AMIGA 500" || this.gameTitle === "AMIGA DOS DISK")) {
         this.gameTitle = (this.extractDiskTitle(dest, len) ?? (isDos ? "AMIGA DOS DISK" : "CUSTOM BOOT DISK")).toUpperCase();
       }
 
@@ -275,21 +279,32 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
 
   private extractDiskTitle(ptr: number, len: number): string | null {
     const slice = this.u8.subarray(ptr, ptr + Math.min(len, 65536));
-    // Look for ASCII printable strings of length 4 to 32
     let curr = "";
     const candidates: string[] = [];
     for (let i = 0; i < slice.length; i++) {
       const c = slice[i];
-      if (c !== undefined && c >= 32 && c <= 126) {
+      if (c !== undefined && ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57) || c === 32 || c === 45)) {
         curr += String.fromCharCode(c);
       } else {
-        if (curr.length >= 5 && !curr.startsWith("http") && !curr.includes("Copyright") && !curr.includes("DOS") && !curr.startsWith("Disk ")) {
-          candidates.push(curr.trim());
+        const trimmed = curr.trim();
+        if (
+          trimmed.length >= 6 &&
+          trimmed.length <= 32 &&
+          !trimmed.startsWith("http") &&
+          !trimmed.toLowerCase().includes("copyright") &&
+          !trimmed.toUpperCase().includes("DOS") &&
+          !trimmed.toLowerCase().startsWith("disk ") &&
+          /^[A-Za-z0-9]/.test(trimmed)
+        ) {
+          const alphaCount = (trimmed.match(/[A-Za-z]/g) || []).length;
+          if (alphaCount >= 4) {
+            candidates.push(trimmed);
+          }
         }
         curr = "";
       }
     }
-    return candidates.find(c => c.length >= 6 && c.length <= 28) ?? null;
+    return candidates[0] ?? null;
   }
 
   rgme_set_input(mask: number): void {
@@ -409,14 +424,15 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
         this.ballVx = Math.min(this.ballVx + 0.25, 4.5);
       }
       if (joyFire || joyUp) {
-        if (this.ballY > FB_HEIGHT - 65 && this.ballVy > 0) {
-          this.ballVy = -7.5;
-          this.bounceSoundTicks = 14;
+        // Boost/kick the ball upwards - works whenever ball is near floor or paddle
+        if (this.ballY > FB_HEIGHT - 95) {
+          this.ballVy = -8.5;
+          this.bounceSoundTicks = 16;
         }
       }
 
       // Ball integration
-      this.ballVy += 0.24; // gravity
+      this.ballVy += 0.22; // gravity
       this.ballX += this.ballVx;
       this.ballY += this.ballVy;
       this.ballRot += this.ballVx * 0.04 + 0.03;
@@ -446,24 +462,22 @@ export class WasmAmigaHardwareCore implements WasmCoreExports {
       // Paddle collision
       const px = this.paddleX - this.paddleW / 2;
       if (
-        this.ballY + r >= paddleY &&
-        this.ballY - r <= paddleY + this.paddleH &&
-        this.ballX >= px - 4 &&
-        this.ballX <= px + this.paddleW + 4 &&
-        this.ballVy > 0
+        this.ballY + r >= paddleY - 2 &&
+        this.ballY - r <= paddleY + this.paddleH + 4 &&
+        this.ballX >= px - 8 &&
+        this.ballX <= px + this.paddleW + 8
       ) {
-        this.ballY = paddleY - r;
+        this.ballY = paddleY - r - 1;
         const hitOffset = (this.ballX - this.paddleX) / (this.paddleW / 2);
-        this.ballVx = hitOffset * 4.2;
-        this.ballVy = -Math.max(5.5, Math.abs(this.ballVy) * 0.95);
+        this.ballVx = Math.min(5.5, Math.max(-5.5, hitOffset * 4.5 + (joyRight ? 1.5 : joyLeft ? -1.5 : 0)));
+        this.ballVy = -Math.max(6.8, Math.abs(this.ballVy) * 0.96);
         this.bounceSoundTicks = 14;
       }
 
-      // Floor bounce
+      // Floor bounce - lively rebound so ball never dies or gets trapped
       if (this.ballY >= horizon) {
         this.ballY = horizon;
-        this.ballVy = -Math.abs(this.ballVy) * 0.88;
-        if (Math.abs(this.ballVy) < 1.2) this.ballVy = -6.5;
+        this.ballVy = -Math.max(6.0, Math.abs(this.ballVy) * 0.9);
         this.bounceSoundTicks = 10;
       }
 

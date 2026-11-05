@@ -338,8 +338,22 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
 
   const mountFromLibrary = useCallback(
     async (rec: LibraryRecord) => {
+      let data: Uint8Array = new Uint8Array(rec.data);
+      if (ZipParser.isZip(data)) {
+        const zip = new ZipParser(data);
+        const mediaEntries = zip.getMediaEntries();
+        if (mediaEntries.length > 0) {
+          const ext = await zip.extractEntry(mediaEntries[0]!);
+          data = new Uint8Array(ext.buffer, ext.byteOffset, ext.byteLength);
+        }
+      }
+      if (identifyImage(data) === "ipf") {
+        const { adf } = IpfParser.parse(data).toAdfResult();
+        if (adf) data = new Uint8Array(adf.buffer, adf.byteOffset, adf.byteLength);
+      }
       const m = rec.profile.media[0]!;
-      remember(rec.sha256, new Uint8Array(rec.data));
+      remember(rec.sha256, data);
+      remember(m.sha256, data);
       setInfo({ name: m.filename, size: rec.size, sha256: rec.sha256, status: rec.rightsStatus === "unknown" ? "Unknown" : "Identified" });
       await activate(rec.profile, rec.rights);
       if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
