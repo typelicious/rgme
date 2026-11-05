@@ -8,6 +8,10 @@ export interface FloppyMedia {
   id: string;
   label?: string;
   sha256?: string;
+  /** Container the image came from (set by ipf/mount.ts). */
+  format?: "adf" | "ipf";
+  /** Plain 901,120-byte ADF image mounted in the drive (decoded from the IPF when format is 'ipf'). */
+  image?: Uint8Array;
 }
 
 export interface DriveState {

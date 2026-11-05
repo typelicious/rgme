@@ -1,0 +1,221 @@
+/* Generic retro monitor bezel. Palette is scoped to .rgme-bezel (original artwork, no third-party marks). */
+.rgme-bezel {
+  --bz-case: #cdc5b0;
+  --bz-case-hi: #ddd7c5;
+  --bz-case-lo: #a59d89;
+  --bz-slat: #8b8472;
+  --bz-tube: #101116;
+  --bz-led-on: #3cff5a;
+  --bz-led-warm: #ffb000;
+  --bz-led-off: #1c2a1f;
+  --bz-ink: #3b372e;
+  --bz-warm-ms: 900ms;
+  --bz-collapse-ms: 900ms;
+  --bz-degauss-ms: 1200ms;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rgme-bezel *,
+.rgme-bezel *::before,
+.rgme-bezel *::after { box-sizing: border-box; }
+.rgme-bezel__housing {
+  width: 100%;
+  padding: 3.5% 4% 2.5%;
+  border-radius: 14px 14px 10px 10px;
+  background: linear-gradient(180deg, var(--bz-case-hi), var(--bz-case) 40%, var(--bz-case-lo));
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.55), inset 0 -3px 0 rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.rgme-bezel__tube {
+  padding: 3%;
+  border-radius: 12px;
+  background: #1a1b20;
+  box-shadow: inset 0 0 0 2px #0a0a0d, inset 0 6px 14px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.rgme-bezel__screen {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bz-tube);
+  border-radius: 4% / 5%;
+}
+.rgme-bezel__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: 50% 50%;
+}
+.rgme-bezel__flash,
+.rgme-bezel__off {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.rgme-bezel__off {
+  background: radial-gradient(circle at 50% 50%, rgba(220, 255, 230, 0.9) 0, rgba(120, 255, 170, 0.35) 2%, transparent 6%), #000;
+}
+.rgme-bezel__panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 2.5%;
+  color: var(--bz-ink);
+}
+.rgme-bezel__badge {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font: 700 11px/1 "Courier New", monospace;
+  letter-spacing: 0.08em;
+}
+.rgme-bezel__badge-name {
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--bz-ink);
+  color: var(--bz-case-hi);
+}
+.rgme-bezel__badge-sub {
+  font-size: 9px;
+  opacity: 0.75;
+}
+.rgme-bezel__slats {
+  flex: 1;
+  min-width: 80px;
+  max-width: 140px;
+  height: 20px;
+  fill: var(--bz-slat);
+  opacity: 0.8;
+}
+.rgme-bezel__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.rgme-bezel__led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bz-led-off);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: background 150ms, box-shadow 150ms;
+}
+.rgme-bezel__led[data-led="green"] { background: var(--bz-led-on); box-shadow: 0 0 8px var(--bz-led-on); }
+.rgme-bezel__led[data-led="amber"] { background: var(--bz-led-warm); box-shadow: 0 0 8px var(--bz-led-warm); }
+.rgme-bezel__btn {
+  font: 700 10px/1 "Courier New", monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 9px;
+  color: var(--bz-ink);
+  background: linear-gradient(180deg, var(--bz-case-hi), var(--bz-case-lo));
+  border: 1px solid #7d7664;
+  border-radius: 4px;
+  box-shadow: 0 2px 0 #6f6959;
+  cursor: pointer;
+}
+.rgme-bezel__btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 1px 0 #6f6959; }
+.rgme-bezel__btn[aria-pressed="true"] { box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3); }
+.rgme-bezel__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.rgme-bezel__btn:focus-visible { outline: 2px solid var(--rgme-border-focus, #3d5afe); outline-offset: 2px; }
+.rgme-bezel__knob {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--bz-case-hi), var(--bz-case-lo));
+  border: 1px solid #7d7664;
+}
+.rgme-bezel__foot {
+  width: 46%;
+  height: auto;
+  margin-top: -1px;
+  fill: var(--bz-case-lo);
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* ---- power states ---- */
+.rgme-bezel[data-power="off"] .rgme-bezel__content { opacity: 0; }
+.rgme-bezel[data-power="off"] .rgme-bezel__off { opacity: 1; background: #000; }
+.rgme-bezel[data-power="warming"] .rgme-bezel__content { animation: rgme-bz-warm var(--bz-warm-ms) ease-out both; }
+.rgme-bezel[data-power="collapsing"] .rgme-bezel__content { animation: rgme-bz-collapse var(--bz-collapse-ms) cubic-bezier(0.5, 0, 0.9, 0.6) forwards; }
+.rgme-bezel[data-power="collapsing"] .rgme-bezel__off { animation: rgme-bz-afterglow var(--bz-collapse-ms) ease-out forwards; }
+
+@keyframes rgme-bz-warm {
+  0% { opacity: 0.25; filter: brightness(0.3) saturate(0.2) blur(1px); }
+  60% { opacity: 0.8; filter: brightness(0.8) saturate(0.7) blur(0.4px); }
+  100% { opacity: 1; filter: none; }
+}
+/* image squashes to a bright horizontal line, the line shrinks to a dot, then it vanishes */
+@keyframes rgme-bz-collapse {
+  0% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
+  35% { transform: scale(1, 0.01); filter: brightness(3.5); opacity: 1; }
+  65% { transform: scale(0.02, 0.01); filter: brightness(5); opacity: 1; }
+  100% { transform: scale(0, 0); filter: brightness(5); opacity: 0; }
+}
+/* black screen with a lingering phosphor dot (~600ms fade) */
+@keyframes rgme-bz-afterglow {
+  0% { opacity: 0; background: #000; }
+  40% { opacity: 0.35; background: radial-gradient(circle at 50% 50%, rgba(220, 255, 230, 1) 0, rgba(120, 255, 170, 0.4) 1.5%, transparent 5%), #000; }
+  100% { opacity: 1; background: radial-gradient(circle at 50% 50%, rgba(220, 255, 230, 0) 0, transparent 1%), #000; }
+}
+
+/* ---- degauss ---- */
+.rgme-bezel[data-degauss="active"] .rgme-bezel__screen { animation: rgme-bz-shudder var(--bz-degauss-ms) linear both; }
+.rgme-bezel[data-degauss="active"] .rgme-bezel__content { animation: rgme-bz-purity var(--bz-degauss-ms) ease-out both; }
+.rgme-bezel[data-degauss="active"] .rgme-bezel__flash {
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 0, 120, 0.35), rgba(0, 255, 120, 0.25) 50%, rgba(0, 80, 255, 0.35));
+  animation: rgme-bz-flash var(--bz-degauss-ms) ease-out both;
+}
+@keyframes rgme-bz-shudder {
+  0%, 100% { transform: translate(0, 0) skewX(0); }
+  8% { transform: translate(-3px, 1px) skewX(-1.2deg); }
+  16% { transform: translate(3px, -1px) skewX(1.2deg); }
+  28% { transform: translate(-2px, 0) skewX(-0.8deg); }
+  40% { transform: translate(2px, 1px) skewX(0.8deg); }
+  58% { transform: translate(-1px, 0) skewX(-0.4deg); }
+  76% { transform: translate(1px, 0) skewX(0.3deg); }
+}
+@keyframes rgme-bz-purity {
+  0% { filter: hue-rotate(60deg) saturate(2.2) contrast(1.15); }
+  60% { filter: hue-rotate(-15deg) saturate(1.4); }
+  100% { filter: none; }
+}
+@keyframes rgme-bz-flash { 0% { opacity: 0.75; } 100% { opacity: 0; } }
+
+/* ---- fullscreen: keep the 4:3 tube, letterbox the rest ---- */
+.rgme-bezel:fullscreen,
+.rgme-bezel--pseudo-fs {
+  background: #000;
+  justify-content: center;
+  height: 100vh;
+}
+.rgme-bezel--pseudo-fs { position: fixed; inset: 0; z-index: 1000; width: 100vw; }
+.rgme-bezel:fullscreen .rgme-bezel__housing,
+.rgme-bezel--pseudo-fs .rgme-bezel__housing {
+  width: min(100vw, calc((100vh - 120px) * 4 / 3 + 12%));
+}
+
+/* ---- reduced motion: simple fades, no shaking/squashing ---- */
+@media (prefers-reduced-motion: reduce) {
+  .rgme-bezel[data-power="warming"] .rgme-bezel__content { animation: rgme-bz-fade-in 300ms ease-out both; }
+  .rgme-bezel[data-power="collapsing"] .rgme-bezel__content { animation: rgme-bz-fade-out 300ms ease-in forwards; }
+  .rgme-bezel[data-power="collapsing"] .rgme-bezel__off { animation: rgme-bz-fade-in 300ms ease-in forwards; background: #000; }
+  .rgme-bezel[data-degauss="active"] .rgme-bezel__screen,
+  .rgme-bezel[data-degauss="active"] .rgme-bezel__content { animation: none; }
+  .rgme-bezel[data-degauss="active"] .rgme-bezel__flash { animation: rgme-bz-flash 400ms ease-out both; }
+}
+.rgme-bezel--reduced[data-power="warming"] .rgme-bezel__content { animation: rgme-bz-fade-in 300ms ease-out both; }
+.rgme-bezel--reduced[data-power="collapsing"] .rgme-bezel__content { animation: rgme-bz-fade-out 300ms ease-in forwards; }
+.rgme-bezel--reduced[data-power="collapsing"] .rgme-bezel__off { animation: rgme-bz-fade-in 300ms ease-in forwards; background: #000; }
+.rgme-bezel--reduced[data-degauss="active"] .rgme-bezel__screen,
+.rgme-bezel--reduced[data-degauss="active"] .rgme-bezel__content { animation: none; }
+.rgme-bezel--reduced[data-degauss="active"] .rgme-bezel__flash { animation: rgme-bz-flash 400ms ease-out both; }
+@keyframes rgme-bz-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rgme-bz-fade-out { from { opacity: 1; } to { opacity: 0; } }
