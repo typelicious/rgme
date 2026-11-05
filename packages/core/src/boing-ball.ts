@@ -1,5 +1,16 @@
 import type { Canvas2DLike } from "./mock-runtime.js";
 
+export interface BoingBrick {
+  id: number;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  color: string;
+  points: number;
+  alive: boolean;
+}
+
 export interface BoingState {
   x: number;
   y: number;
@@ -7,6 +18,48 @@ export interface BoingState {
   vy: number;
   rotation: number;
   radius: number;
+  paddleX: number;
+  paddleW: number;
+  paddleH: number;
+  score: number;
+  highScore: number;
+  lives: number;
+  gameOver: boolean;
+  gameWon: boolean;
+  bricks: BoingBrick[];
+}
+
+export function createBricks(): BoingBrick[] {
+  const bricks: BoingBrick[] = [];
+  const rows = [
+    { color: "#ef4444", points: 50 }, // Amiga Ruby Red
+    { color: "#f59e0b", points: 30 }, // Amiga Amber Gold
+    { color: "#06b6d4", points: 20 }  // Amiga Electric Cyan
+  ];
+  const cols = 7;
+  const brickW = 38;
+  const brickH = 9;
+  const startX = 17;
+  const startY = 40;
+  const gapX = 4;
+  const gapY = 4;
+
+  let id = 0;
+  for (let r = 0; r < rows.length; r++) {
+    for (let c = 0; c < cols; c++) {
+      bricks.push({
+        id: id++,
+        x: startX + c * (brickW + gapX),
+        y: startY + r * (brickH + gapY),
+        w: brickW,
+        h: brickH,
+        color: rows[r]!.color,
+        points: rows[r]!.points,
+        alive: true
+      });
+    }
+  }
+  return bricks;
 }
 
 export function createInitialBoingState(): BoingState {
@@ -16,7 +69,16 @@ export function createInitialBoingState(): BoingState {
     vx: 2.2,
     vy: 1.5,
     rotation: 0,
-    radius: 36
+    radius: 14,
+    paddleX: 160,
+    paddleW: 56,
+    paddleH: 7,
+    score: 0,
+    highScore: 1250,
+    lives: 3,
+    gameOver: false,
+    gameWon: false,
+    bricks: createBricks()
   };
 }
 
@@ -27,56 +89,125 @@ export function updateBoingPhysics(
   height = 256,
   onBounce?: () => void
 ): BoingState {
-  let { x, y, vx, vy, rotation, radius } = state;
-  const gravity = 0.28;
-  const floor = height - 42;
-  const ceiling = 32;
-  const leftWall = radius + 12;
-  const rightWall = width - radius - 12;
-
-  // Input handling
-  if (inputs.has("left") || inputs.has("ArrowLeft")) vx = Math.max(vx - 0.4, -4.5);
-  if (inputs.has("right") || inputs.has("ArrowRight")) vx = Math.min(vx + 0.4, 4.5);
-  if ((inputs.has("up") || inputs.has("ArrowUp") || inputs.has("fire") || inputs.has("Space")) && y >= floor - 10) {
-    vy = -7.5;
-    onBounce?.();
+  // If game over or won, space / fire restarts
+  const wantsRestart = inputs.has("fire") || inputs.has("Space") || inputs.has("ArrowUp") || inputs.has("up");
+  if ((state.gameOver || state.gameWon) && wantsRestart) {
+    return createInitialBoingState();
   }
 
-  // Apply gravity
+  if (state.gameOver || state.gameWon) {
+    return state;
+  }
+
+  let {
+    x, y, vx, vy, rotation, radius,
+    paddleX, paddleW, paddleH,
+    score, highScore, lives, bricks
+  } = state;
+  let gameOver: boolean = state.gameOver;
+  let gameWon: boolean = state.gameWon;
+
+  const paddleSpeed = 4.4;
+  const paddleY = height - 38;
+
+  // Paddle steering and ball English
+  if (inputs.has("left") || inputs.has("ArrowLeft") || inputs.has("KeyA")) {
+    paddleX = Math.max(paddleW / 2 + 10, paddleX - paddleSpeed);
+    vx = Math.max(vx - 0.4, -4.5);
+  }
+  if (inputs.has("right") || inputs.has("ArrowRight") || inputs.has("KeyD")) {
+    paddleX = Math.min(width - paddleW / 2 - 10, paddleX + paddleSpeed);
+    vx = Math.min(vx + 0.4, 4.5);
+  }
+
+  // Ball integration
+  const gravity = 0.28;
   vy += gravity;
   x += vx;
   y += vy;
-  rotation = (rotation + vx * 0.04 + 0.05) % (Math.PI * 2);
+  rotation = (rotation + vx * 0.05 + 0.03) % (Math.PI * 2);
 
-  let bounced = false;
+  // Ceiling and side walls
+  const ceiling = 26 + radius;
+  const leftWall = 10 + radius;
+  const rightWall = width - 10 - radius;
 
-  // Floor collision
-  if (y >= floor) {
-    y = floor;
-    vy = -Math.abs(vy) * 0.88;
-    if (Math.abs(vy) < 1.2) vy = -6.5; // continuous bounce
-    bounced = true;
-  }
-  // Ceiling collision
-  if (y <= ceiling) {
-    y = ceiling;
-    vy = Math.abs(vy);
-    bounced = true;
-  }
-  // Walls collision
   if (x <= leftWall) {
     x = leftWall;
     vx = Math.abs(vx);
-    bounced = true;
+    onBounce?.();
   } else if (x >= rightWall) {
     x = rightWall;
     vx = -Math.abs(vx);
-    bounced = true;
+    onBounce?.();
   }
 
-  if (bounced) onBounce?.();
+  if (y <= ceiling) {
+    y = ceiling;
+    vy = Math.abs(vy);
+    onBounce?.();
+  }
 
-  return { x, y, vx, vy, rotation, radius };
+  // Paddle collision
+  if (
+    vy > 0 &&
+    y + radius >= paddleY &&
+    y - radius <= paddleY + paddleH &&
+    x >= paddleX - paddleW / 2 - 4 &&
+    x <= paddleX + paddleW / 2 + 4
+  ) {
+    y = paddleY - radius;
+    const offset = (x - paddleX) / (paddleW / 2);
+    vx = Math.max(-4.5, Math.min(4.5, offset * 3.8));
+    vy = -Math.max(2.4, Math.abs(vy));
+    onBounce?.();
+  }
+
+  // Brick collision
+  for (const b of bricks) {
+    if (!b.alive) continue;
+    if (
+      x + radius >= b.x &&
+      x - radius <= b.x + b.w &&
+      y + radius >= b.y &&
+      y - radius <= b.y + b.h
+    ) {
+      b.alive = false;
+      score += b.points;
+      if (score > highScore) highScore = score;
+      vy = -vy;
+      onBounce?.();
+      break; // one brick per tick
+    }
+  }
+
+  // Check victory
+  if (bricks.every((b) => !b.alive)) {
+    gameWon = true;
+    score += 1000;
+    if (score > highScore) highScore = score;
+  }
+
+  // Bottom pit / life lost
+  if (y >= height - 16) {
+    lives -= 1;
+    if (lives <= 0) {
+      gameOver = true;
+    } else {
+      // Respawn above paddle
+      x = paddleX;
+      y = paddleY - radius - 15;
+      vx = (Math.random() > 0.5 ? 1 : -1) * 2.2;
+      vy = -2.6;
+    }
+  }
+
+  return {
+    x, y, vx, vy, rotation, radius,
+    paddleX, paddleW, paddleH,
+    score, highScore, lives,
+    gameOver, gameWon, bricks
+  };
 }
 
 export function drawBoingScene(
@@ -87,7 +218,7 @@ export function drawBoingScene(
   title?: string,
   inputs?: ReadonlySet<string>
 ) {
-  // Amiga Slate Blue / Deep Night background
+  // Deep Amiga Slate / Night background
   ctx.fillStyle = "#0c101c";
   ctx.fillRect(0, 0, width, height);
 
@@ -105,6 +236,24 @@ export function drawBoingScene(
     ctx.fillRect(0, y, width, 1);
   }
 
+  // Draw destructible bricks
+  if (state.bricks) {
+    for (const b of state.bricks) {
+      if (!b.alive) continue;
+      // Main brick face
+      ctx.fillStyle = b.color;
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      // 3D Bevel highlight (top/left)
+      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+      ctx.fillRect(b.x, b.y, b.w, 1);
+      ctx.fillRect(b.x, b.y, 1, b.h);
+      // 3D Bevel shadow (bottom/right)
+      ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+      ctx.fillRect(b.x, b.y + b.h - 1, b.w, 1);
+      ctx.fillRect(b.x + b.w - 1, b.y, 1, b.h);
+    }
+  }
+
   // Draw drop shadow under the ball
   const shadowY = horizon + 4;
   const shadowScale = Math.max(0.3, 1 - (horizon - state.y) / 160);
@@ -113,26 +262,103 @@ export function drawBoingScene(
   ctx.fillStyle = "rgba(10, 8, 20, 0.65)";
   ctx.fillRect(state.x - shadowW / 2, shadowY - shadowH / 2, shadowW, shadowH);
 
+  // Draw Amiga Paddle
+  const paddleY = height - 38;
+  const px = state.paddleX - state.paddleW / 2;
+  // Paddle body metallic gradient effect
+  ctx.fillStyle = "#94a3b8";
+  ctx.fillRect(px, paddleY, state.paddleW, state.paddleH);
+  ctx.fillStyle = "#f8fafc";
+  ctx.fillRect(px, paddleY, state.paddleW, 1);
+  ctx.fillStyle = "#475569";
+  ctx.fillRect(px, paddleY + state.paddleH - 1, state.paddleW, 1);
+  // Red/Cyan center stripes
+  ctx.fillStyle = "#ef4444";
+  ctx.fillRect(state.paddleX - 6, paddleY + 1, 4, state.paddleH - 2);
+  ctx.fillStyle = "#06b6d4";
+  ctx.fillRect(state.paddleX + 2, paddleY + 1, 4, state.paddleH - 2);
+
   // Draw 3D Checkered Boing Ball
   drawCheckeredSphere(ctx, state.x, state.y, state.radius, state.rotation);
 
-  // Top header banner
+  // Top header banner & HUD
   if (ctx.fillText) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+    // Header background
+    ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
     ctx.fillRect(0, 0, width, 22);
+
+    // Title banner
     ctx.fillStyle = "#38bdf8";
-    ctx.font = "bold 10px monospace";
+    ctx.font = "bold 9px monospace";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(title ? `${title.toUpperCase()} • AMIGA RETRO ENGINE` : "COMMODORE AMIGA 500 • BOING BALL DEMO", width / 2, 11);
+    const headerTitle = title ? `${title.toUpperCase()}` : "AMIGA RETRO ENGINE • BOING ARCADE";
+    ctx.fillText(headerTitle.slice(0, 42), width / 2, 8);
+
+    // HUD: Score / High Score / Lives
+    ctx.font = "bold 8px monospace";
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#a3e635";
+    ctx.fillText(`SCORE: ${String(state.score).padStart(5, "0")}`, 10, 16);
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#f59e0b";
+    ctx.fillText(`HI: ${String(state.highScore).padStart(5, "0")}`, width / 2, 16);
+
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#ef4444";
+    const hearts = "♥ ".repeat(Math.max(0, state.lives)).trim();
+    ctx.fillText(`LIVES: ${hearts || "0"}`, width - 10, 16);
 
     // Interactive controls reminder at bottom
-    ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
     ctx.font = "8px monospace";
+    ctx.textAlign = "center";
     const statusHint = inputs && inputs.size > 0
       ? `ACTIVE INPUT: ${[...inputs].join(", ")}`
-      : "CONTROLS: ◄ ► STEER BALL   ▲ / SPACE BOUNCE BOOST";
-    ctx.fillText(statusHint, width / 2, height - 10);
+      : "CONTROLS: ◄ ► MOVE PADDLE  ▲ / SPACE LAUNCH";
+    ctx.fillText(statusHint, width / 2, height - 8);
+
+    // Game Over Overlay Box
+    if (state.gameOver) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+      ctx.fillRect(40, 90, width - 80, 60);
+      ctx.fillStyle = "#ef4444";
+      ctx.fillRect(40, 90, width - 80, 2);
+      ctx.fillRect(40, 148, width - 80, 2);
+
+      ctx.font = "bold 13px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("GAME OVER", width / 2, 108);
+
+      ctx.fillStyle = "#f8fafc";
+      ctx.font = "8px monospace";
+      ctx.fillText(`FINAL SCORE: ${state.score}`, width / 2, 124);
+
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillText("PRESS SPACE / FIRE TO RESTART", width / 2, 138);
+    }
+
+    // Game Won Overlay Box
+    if (state.gameWon) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+      ctx.fillRect(40, 90, width - 80, 60);
+      ctx.fillStyle = "#10b981";
+      ctx.fillRect(40, 90, width - 80, 2);
+      ctx.fillRect(40, 148, width - 80, 2);
+
+      ctx.font = "bold 12px monospace";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#10b981";
+      ctx.fillText("STAGE CLEARED!", width / 2, 108);
+
+      ctx.fillStyle = "#f8fafc";
+      ctx.font = "8px monospace";
+      ctx.fillText(`BONUS +1000  •  SCORE: ${state.score}`, width / 2, 124);
+
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillText("PRESS SPACE / FIRE FOR NEXT STAGE", width / 2, 138);
+    }
   }
 }
 

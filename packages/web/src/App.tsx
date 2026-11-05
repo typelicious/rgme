@@ -870,6 +870,19 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
       <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
       <CloudStreamModal open={cloudOpen} onClose={() => setCloudOpen(false)} onMountMedia={onStreamMedia} />
+
+      {/* Master Reset Layover Button (bottom right) */}
+      <button
+        onClick={unloadGame}
+        data-testid="master-reset-overlay-btn"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#161822]/95 hover:bg-[#202334] border border-red-500/70 hover:border-red-400 text-red-200 hover:text-white shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-md font-mono text-xs font-bold transition-all hover:scale-105 active:scale-95 group cursor-pointer"
+        title="Reset back to initial clean state (eject disks, unload game, silence audio)"
+      >
+        <span className="text-base text-red-400 group-hover:text-red-300 group-hover:rotate-[-180deg] transition-transform duration-500 inline-block">
+          ↺
+        </span>
+        <span className="tracking-wide uppercase font-semibold">Reset</span>
+      </button>
     </div>
   );
 }

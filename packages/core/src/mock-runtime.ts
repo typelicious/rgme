@@ -146,6 +146,7 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
     else this.emit();
   }
   stop() {
+    if (this._state === "STOPPED" || this._state === "UNLOADED") return;
     this.transition(["LOADED", "RUNNING", "PAUSED"], "STOPPED", "stop");
     this.clearTimer();
     this.audio?.stop();

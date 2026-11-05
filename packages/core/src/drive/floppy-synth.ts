@@ -128,10 +128,12 @@ export class FloppySoundSynth {
     o.type = "sawtooth";
     o.frequency.value = 48 + drive * 2;
     const g = ctx.createGain();
-    g.gain.value = 0.04;
+    g.gain.setValueAtTime(0.04, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
     o.connect(g);
     g.connect(this.master!);
     o.start(ctx.currentTime);
+    o.stop(ctx.currentTime + 1.25);
     this.hum.set(drive, o);
     this.played++;
   }

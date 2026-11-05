@@ -159,6 +159,10 @@ export class ChiptunePlayer implements AudioSink {
   pump() {
     const ctx = this.ctx;
     if (!ctx) return;
+    // Prevent buffer underflow and noise burst if main thread was busy (e.g. unzipping or hashing)
+    if (this.nextTime < ctx.currentTime) {
+      this.nextTime = ctx.currentTime + 0.05;
+    }
     while (this.nextTime < ctx.currentTime + LOOKAHEAD) {
       const step = this.nextStep % SONG_STEPS;
       for (const e of this.song) if (e.step === step) this.play(e, this.nextTime);
