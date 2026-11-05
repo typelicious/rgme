@@ -89,7 +89,7 @@ export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | nul
       mediaProvider: media.provider,
       kickstartRom: opts.kickstartRom,
       coreUrl: opts.coreUrl,
-      canvas: (canvas ?? undefined) as unknown as WasmCanvasLike | undefined
+      canvas: (canvas ?? undefined) as unknown as CanvasLike | undefined
     });
   }
   const loader = opts.loader ?? (opts.coreUrl ? urlLoader(opts.coreUrl) : wasmAmigaCoreLoader({ kickstartRom: opts.kickstartRom }));
