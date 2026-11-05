@@ -14,9 +14,14 @@ This document is the execution specification for running the **Retro Game Modern
   - Next: Concurrently execute `CORE-001`, `CORE-002`, `CLI-001`, and `UI-001`.
 
 ### Pragmatic Unicorn Decisions (Pre-Approved)
-1. **Rights Matrix Hash Matching:** The Master Rights Matrix (`concept/RGME-Amiga-Master-Rights-Matrix-v0.2.json`) indexes titles by canonical names without embedded SHA-256 hashes. **Decision:** Implement title/filename normalization matching against the Master Matrix, supplemented by a bundled test fixture registry with known SHA-256 hashes for cryptographic tests.
-2. **Mock Runtime Adapter:** Renders an animated PAL 50Hz raster pattern to Canvas and echoes simulated disk sounds/states.
-3. **Emulator Isolation:** Zero direct imports of emulator binaries in `@rgme/web`; all runtime interactions flow through `@rgme/core`'s `RuntimeAdapter`.
+1. **Rights Matrix Hash Matching:** The Master Rights Matrix (`concept/RGME-Amiga-Master-Rights-Matrix-v0.2.json`) indexes titles by canonical names. Match by normalized title, and use `concept/fixtures/freeware-games.json` as the fixture registry of known SHA-256 hashes.
+2. **Bundled Test Fixtures & Demoscene Intro:**
+   - Real Amiga floppy disk image already generated: `concept/fixtures/rgme-scene-intro.adf` (880 KB, valid Amiga bootblock).
+   - Bundled Freeware Profiles: `concept/fixtures/freeware-games.json` and `concept/fixtures/profiles/` (Flight of the Amazon Queen, Beneath a Steel Sky, Lure of the Temptress, RGME Scene Intro).
+3. **Mock Runtime Adapter & Intro Audio/Visuals:**
+   - Visuals: Canvas renders Amiga Copper raster rainbows, a stylized graffiti "RGME" metallic logo with shine/wobble, and a demoscene sine scroller.
+   - Audio: Web Audio API chiptune synth playing an energetic Chris Huelsbeck / Turrican-inspired 4-channel arpeggio & bassline.
+4. **Emulator Isolation:** Zero direct imports of emulator binaries in `@rgme/web`; all runtime interactions flow through `@rgme/core`'s `RuntimeAdapter`.
 
 ---
 
