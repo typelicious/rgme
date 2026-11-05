@@ -23,7 +23,7 @@ describe("RightsBadge", () => {
 describe("App", () => {
   it("renders shell with disabled export", () => {
     render(<App createAdapter={() => new MockRuntimeAdapter()} />);
-    expect(screen.getByText("RGME")).toBeInTheDocument();
+    expect(screen.getAllByText("RGME").length).toBeGreaterThan(0);
     expect(screen.getByTestId("export-btn")).toBeDisabled();
     expect(screen.getByTestId("runtime-pill")).toHaveTextContent("UNLOADED");
   });
@@ -44,14 +44,14 @@ describe("App", () => {
     expect(screen.getByTestId("export-reason")).toHaveTextContent(/local play only/i);
     await waitFor(() => expect(adapter.state).toBe("LOADED"));
 
-    fireEvent.click(screen.getByText("Start"));
+    fireEvent.click(screen.getByTestId("btn-start"));
     await waitFor(() => expect(adapter.state).toBe("RUNNING"));
     fireEvent.keyDown(window, { code: "Space" });
     await waitFor(() => expect(screen.getByTestId("hud-fire")).toHaveAttribute("data-active", "true"));
     expect(adapter.activeInputs).toEqual(["fire"]);
     fireEvent.keyUp(window, { code: "Space" });
     await waitFor(() => expect(screen.getByTestId("hud-fire")).toHaveAttribute("data-active", "false"));
-    fireEvent.click(screen.getByText("Pause"));
+    fireEvent.click(screen.getByTestId("btn-pause"));
     expect(adapter.state).toBe("PAUSED");
     fireEvent.click(screen.getByText("Show details"));
     expect(screen.getByTestId("inspector-details")).toBeInTheDocument();

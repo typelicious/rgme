@@ -1,9 +1,9 @@
 import {
-  ChiptunePlayer, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader,
+  ChiptunePlayer, M68kBootAdapter, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader,
   type CanvasLike, type Media, type RuntimeAdapter, type WasmCanvasLike, type WasmCoreLoader
 } from "@rgme/core";
 
-export type RuntimeKind = "mock" | "wasm";
+export type RuntimeKind = "mock" | "wasm" | "m68k";
 
 /** Remembers the raw ADF bytes the user supplied, keyed by SHA-256, so the WASM host can mount them. Bytes are never modified. */
 export class MediaRegistry {
@@ -37,6 +37,10 @@ export interface RuntimeFactoryOptions {
 export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | null, opts: RuntimeFactoryOptions = {}): RuntimeAdapter {
   if (kind === "mock") {
     return new MockRuntimeAdapter((canvas ?? undefined) as unknown as CanvasLike | undefined, undefined, new ChiptunePlayer(createBrowserAudioContext));
+  }
+  if (kind === "m68k") {
+    const media = opts.media ?? new MediaRegistry();
+    return new M68kBootAdapter({ mediaProvider: media.provider, canvas: (canvas ?? undefined) as unknown as CanvasLike | undefined });
   }
   const loader = opts.loader ?? (opts.coreUrl ? urlLoader(opts.coreUrl) : referenceCoreLoader());
   const media = opts.media ?? new MediaRegistry();

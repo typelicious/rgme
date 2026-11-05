@@ -2,7 +2,8 @@ import type { RuntimeKind } from "../lib/runtime-factory";
 
 const OPTIONS: Array<{ kind: RuntimeKind; label: string }> = [
   { kind: "mock", label: "Mock" },
-  { kind: "wasm", label: "WASM core" }
+  { kind: "wasm", label: "WASM core" },
+  { kind: "m68k", label: "68000 (partial)" }
 ];
 
 export function RuntimeSwitch({
@@ -19,7 +20,7 @@ export function RuntimeSwitch({
     <div className="flex items-center gap-2 text-sm" data-testid="runtime-switch">
       <div role="radiogroup" aria-label="Runtime" className="flex">
         {OPTIONS.map((o) => {
-          const disabled = o.kind === "wasm" && Boolean(disabledWasmReason);
+          const disabled = o.kind !== "mock" && Boolean(disabledWasmReason);
           return (
             <button
               key={o.kind}
@@ -39,7 +40,7 @@ export function RuntimeSwitch({
         })}
       </div>
       <span style={{ color: "var(--rgme-fg-secondary)" }} data-testid="runtime-note">
-        {kind === "wasm" ? "reference core (timing/integration test, not an emulator)" : "mock test-pattern runtime"}
+        {kind === "wasm" ? "reference core (timing/integration test, not an emulator)" : kind === "m68k" ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga" : "mock test-pattern runtime"}
       </span>
     </div>
   );

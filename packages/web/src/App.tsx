@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  IpfParser,
+  identifyImage,
   ChiptunePlayer,
   FloppyController,
   FloppySoundSynth,
@@ -35,6 +37,11 @@ import { MediaRegistry, createRuntime, disposeRuntime, type RuntimeKind } from "
 import multiplatformData from "../../../concept/fixtures/multiplatform-games.json";
 import c64DemoUrl from "../../../concept/fixtures/rgme-c64-demo.d64?url";
 import mdDemoUrl from "../../../concept/fixtures/rgme-md-demo.md?url";
+import { DiskSwapper } from "./components/DiskSwapper";
+import { ModPlayerPanel } from "./components/ModPlayerPanel";
+import { useDiskHotkeys } from "./hooks/useDiskHotkeys";
+import { createDiskSwapper } from "./lib/m3u";
+import demoModUrl from "../../../concept/fixtures/rgme-demo.mod?url";
 import { FloppyDrives } from "./components/FloppyDrives";
 import { LibraryShelf } from "./components/LibraryShelf";
 import { useGamepad } from "./hooks/useGamepad";
@@ -88,6 +95,8 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const [runtimeKind, setRuntimeKindState] = useState<RuntimeKind>("mock");
   const [rightsRecord, setRightsRecord] = useState<RightsRecord>();
   const [runtimeError, setRuntimeError] = useState<string>();
+  const [diskIdx, setDiskIdx] = useState(0);
+  const [modBytes, setModBytes] = useState<Uint8Array>();
   const library = useMemo(() => new GameLibraryStore(), []);
   const saves = useMemo(() => new SaveStateManager(IndexedDbSaveStore.available() ? new IndexedDbSaveStore() : new MemorySaveStore()), []);
 
@@ -134,7 +143,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       const canvas = canvasRef.current;
       let a: RuntimeAdapter;
       if (p.platform === "amiga") {
-        a = kind === "wasm" ? createRuntime("wasm", canvas, { media: mediaRegistry }) : createAdapter(canvas as unknown as CanvasLike);
+        a = kind === "mock" ? createAdapter(canvas as unknown as CanvasLike) : createRuntime(kind, canvas, { media: mediaRegistry });
       } else {
         a = createPlatformAdapter(p.platform, (canvas ?? undefined) as unknown as CanvasLike | undefined, createPlatformAudio(p.platform, createBrowserAudioContext));
       }
@@ -220,7 +229,18 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     async (file: File): Promise<string | undefined> => {
       setInfo({ name: file.name, size: file.size, status: "Analyzing" });
       const sha256 = await hashFile(file);
-      remember(sha256, new Uint8Array(await file.arrayBuffer()));
+      let bytes: Uint8Array = new Uint8Array(await file.arrayBuffer());
+      if (identifyImage(bytes) === "ipf") {
+        // IPF: decode standard Amiga MFM tracks to an ADF. Copy-protected tracks are NOT emulated and never faked.
+        const { adf, reasons } = IpfParser.parse(bytes).toAdfResult();
+        if (!adf) {
+          setInfo({ name: file.name, size: file.size, sha256, status: "Unknown" });
+          setRuntimeError(`IPF cannot be mounted: ${reasons.slice(0, 2).join("; ") || "undecodable or copy-protected tracks"}.`);
+          return undefined;
+        }
+        bytes = adf;
+      }
+      remember(sha256, bytes);
       // Identity comes from the exact SHA-256 only; anything unrecognized stays Unknown (local play only).
       const known = findFreewareByHash(FREEWARE, sha256);
       if (known) {
@@ -239,6 +259,30 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     },
     [activate, addToLibrary, remember]
   );
+
+  const discs = useMemo(
+    () => (profile ? profile.media.map((m) => ({ id: m.id, label: m.label ?? m.filename, sha256: m.sha256 })) : []),
+    [profile]
+  );
+  const swapper = useMemo(
+    () =>
+      createDiskSwapper({
+        controller: floppy,
+        discs,
+        onSwap: (i) => {
+          setDiskIdx(i);
+          const m = profile?.media[i];
+          if (m && adapterRef.current && adapterRef.current.state !== "UNLOADED") adapterRef.current.insertMedia(m);
+        }
+      }),
+    [floppy, discs, profile]
+  );
+  useDiskHotkeys(swapper, discs.length > 1);
+
+  const loadDemoMod = useCallback(async () => {
+    const res = await fetch(demoModUrl);
+    setModBytes(new Uint8Array(await res.arrayBuffer()));
+  }, []);
 
   const loadScene = useCallback(async () => {
     const res = await fetch(sceneIntroUrl);
@@ -292,6 +336,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           <FloppyDrives controller={floppy} discs={profile ? profile.media.map((m) => ({ id: m.id, label: m.label ?? m.filename, sha256: m.sha256 })) : []} onSwap={(drive, discId) => { const m = profile?.media.find((x) => x.id === discId); if (m) adapter?.insertMedia(m); void drive; }} />
           <button className="rgme-btn" onClick={() => void loadFixture(c64DemoUrl, "rgme-c64-demo.d64")} data-testid="load-c64">Load C64 Demo</button>
           <button className="rgme-btn" onClick={() => void loadFixture(mdDemoUrl, "rgme-md-demo.md")} data-testid="load-md">Load Mega Drive Demo</button>
+          {discs.length > 1 && <DiskSwapper swapper={swapper} discs={discs} currentIndex={diskIdx} label={profile?.title} onChange={setDiskIdx} />}
           <GameProfileInspector profile={profile} decisions={decisions} />
           <section className="rgme-panel">
             <div className="flex gap-2">
@@ -307,7 +352,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           </section>
         </div>
         <div>
-          <Viewport crt={crt} crtParams={crtParams} onToggleCrt={() => setCrt((c) => !c)} onCanvas={onCanvas} />
+          <Viewport bezel crt={crt} crtParams={crtParams} onToggleCrt={() => setCrt((c) => !c)} onCanvas={onCanvas} />
           {crt && (
             <div className="mt-2">
               <CrtControls presetId={crtId} params={crtParams} onPreset={(id) => { setCrtId(id); setCrtParams(getCrtPreset(id).params); }} onParams={setCrtParams} />
@@ -318,8 +363,8 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           </div>
           {runtimeError && <p role="alert" className="text-sm mt-2" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
           <div className="flex flex-wrap gap-2 mt-3">
-            <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED"} onClick={() => adapter?.start()}>Start</button>
-            <button className="rgme-btn" disabled={state !== "RUNNING"} onClick={() => adapter?.pause()}>Pause</button>
+            <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
+            <button className="rgme-btn" disabled={state !== "RUNNING"} data-testid="btn-pause" onClick={() => adapter?.pause()}>Pause</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.reset()}>Reset</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => { adapter?.saveState(0); setHasSave(true); }}>Save</button>
             <button className="rgme-btn" disabled={!profile} data-testid="saves-btn" onClick={() => setSavesOpen(true)}>Saves…</button>
@@ -330,6 +375,11 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           <button className="rgme-btn mt-2" data-testid="remap-btn" onClick={() => setRemapOpen(true)}>Gamepad mapping…</button>
         </div>
       </main>
+      <section className="p-4" aria-label="Tracker player">
+        <h2 className="text-lg mb-2">ProTracker Player</h2>
+        <button className="rgme-btn mb-2" onClick={() => void loadDemoMod()} data-testid="load-mod">Load demo tune</button>
+        <ModPlayerPanel bytes={modBytes} title={modBytes ? "RGME demo tune" : undefined} />
+      </section>
       <section className="p-4" aria-label="Chain of title">
         <h2 className="text-lg mb-2">Chain of Title</h2>
         <ChainOfTitle title={profile?.title} rights={rightsRecord} />
