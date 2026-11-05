@@ -1,1 +1,105 @@
 @import "tailwindcss";
+
+:root {
+  --rgme-bg-canvas: #090a0f;
+  --rgme-bg-surface-base: #11141d;
+  --rgme-bg-surface-elevated: #1a1e2c;
+  --rgme-bg-surface-overlay: rgba(26, 30, 44, 0.85);
+  --rgme-border-subtle: #242a3d;
+  --rgme-border-focus: #3d5afe;
+  --rgme-border-glow: rgba(61, 90, 254, 0.35);
+  --rgme-fg-primary: #f0f3fc;
+  --rgme-fg-secondary: #9da8c3;
+  --rgme-fg-muted: #5e6882;
+  --rgme-fg-inverse: #090a0f;
+  --rgme-accent-boing-red: #ff334b;
+  --rgme-accent-boing-white: #ffffff;
+  --rgme-accent-workbench-blue: #0055aa;
+  --rgme-accent-workbench-orange: #ff8800;
+  --rgme-accent-phosphor-green: #39ff14;
+  --rgme-accent-phosphor-amber: #ffb000;
+  --rgme-status-cleared-bg: rgba(16, 185, 129, 0.15);
+  --rgme-status-cleared-fg: #10b981;
+  --rgme-status-cleared-border: #059669;
+  --rgme-status-localonly-bg: rgba(245, 158, 11, 0.15);
+  --rgme-status-localonly-fg: #f59e0b;
+  --rgme-status-localonly-border: #d97706;
+  --rgme-status-restricted-bg: rgba(239, 68, 68, 0.15);
+  --rgme-status-restricted-fg: #ef4444;
+  --rgme-status-restricted-border: #dc2626;
+  --rgme-font-mono: "Courier New", "Topaz", "JetBrains Mono", monospace;
+  --rgme-font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --rgme-radius-control: 4px;
+  --rgme-radius-panel: 6px;
+}
+
+@theme {
+  --color-rgme-canvas: var(--rgme-bg-canvas);
+  --color-rgme-surface: var(--rgme-bg-surface-base);
+  --color-rgme-elevated: var(--rgme-bg-surface-elevated);
+  --color-rgme-border: var(--rgme-border-subtle);
+  --color-rgme-focus: var(--rgme-border-focus);
+  --color-rgme-fg: var(--rgme-fg-primary);
+  --color-rgme-fg2: var(--rgme-fg-secondary);
+  --color-rgme-muted: var(--rgme-fg-muted);
+  --color-rgme-blue: var(--rgme-accent-workbench-blue);
+  --color-rgme-orange: var(--rgme-accent-workbench-orange);
+  --color-rgme-green: var(--rgme-accent-phosphor-green);
+  --color-rgme-red: var(--rgme-accent-boing-red);
+  --font-mono: var(--rgme-font-mono);
+  --font-sans: var(--rgme-font-body);
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--rgme-bg-canvas);
+  color: var(--rgme-fg-primary);
+  font-family: var(--rgme-font-body);
+  font-size: 1rem;
+}
+
+.rgme-panel {
+  background: var(--rgme-bg-surface-base);
+  border: 1px solid var(--rgme-border-subtle);
+  border-radius: var(--rgme-radius-panel);
+  padding: 16px;
+}
+.rgme-btn {
+  background: var(--rgme-bg-surface-elevated);
+  color: var(--rgme-fg-primary);
+  border: 1px solid var(--rgme-border-subtle);
+  border-radius: var(--rgme-radius-control);
+  padding: 4px 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.rgme-btn:hover:not(:disabled) { border-color: var(--rgme-border-focus); box-shadow: 0 0 0 2px var(--rgme-border-glow); }
+.rgme-btn:focus-visible { outline: 2px solid var(--rgme-border-focus); outline-offset: 2px; }
+.rgme-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.rgme-btn[aria-pressed="true"] { border-color: var(--rgme-accent-workbench-orange); color: var(--rgme-accent-workbench-orange); }
+.rgme-mono { font-family: var(--rgme-font-mono); font-size: 0.75rem; }
+
+.rgme-badge {
+  display: inline-block;
+  border-radius: var(--rgme-radius-control);
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  border: 1px solid;
+}
+.rgme-badge[data-tone="cleared"] { background: var(--rgme-status-cleared-bg); color: var(--rgme-status-cleared-fg); border-color: var(--rgme-status-cleared-border); }
+.rgme-badge[data-tone="local-only"] { background: var(--rgme-status-localonly-bg); color: var(--rgme-status-localonly-fg); border-color: var(--rgme-status-localonly-border); }
+.rgme-badge[data-tone="restricted"] { background: var(--rgme-status-restricted-bg); color: var(--rgme-status-restricted-fg); border-color: var(--rgme-status-restricted-border); }
+
+.rgme-crt {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0,0,0,0.28) 0, rgba(0,0,0,0.28) 1px, transparent 1px, transparent 3px),
+    radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.35) 100%);
+  mix-blend-mode: multiply;
+}
+.rgme-dropzone[data-active="true"] { border-color: var(--rgme-border-focus); box-shadow: 0 0 0 3px var(--rgme-border-glow); }
+.rgme-hud-key { width: 40px; height: 40px; border-radius: var(--rgme-radius-control); border: 1px solid var(--rgme-border-subtle); background: var(--rgme-bg-surface-elevated); color: var(--rgme-fg-secondary); touch-action: none; user-select: none; }
+.rgme-hud-key[data-active="true"] { background: var(--rgme-accent-workbench-orange); color: var(--rgme-fg-inverse); border-color: var(--rgme-accent-workbench-orange); }

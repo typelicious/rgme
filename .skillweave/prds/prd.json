@@ -105,7 +105,7 @@
       "estimatedEffort": "3",
       "dependsOn": ["CORE-001", "CORE-002"],
       "type": "ui",
-      "passes": false
+      "passes": true
     },
     {
       "id": "INTEG-001",
