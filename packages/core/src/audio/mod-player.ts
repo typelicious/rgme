@@ -23,6 +23,7 @@ export class ModPlayer implements AudioSink {
   private volume = 1;
   private _state: ModPlayerState = "idle";
   scheduledChunks = 0;
+  private lastWaveform = new Float32Array(512);
 
   constructor(private readonly createContext: () => AudioContextLike | undefined) {}
 
@@ -34,6 +35,22 @@ export class ModPlayer implements AudioSink {
   }
   get module(): ModModule | undefined {
     return this.mod;
+  }
+
+  /** Returns normalized volume level [0..1] for channels 0..3 for live VU-meters. */
+  getChannelLevels(): [number, number, number, number] {
+    if (!this.replayer || this._state !== "playing") return [0, 0, 0, 0];
+    return this.replayer.channels.map((c) => (c.playing && !c.muted ? (c.volume / 64) * this.volume : 0)) as [
+      number,
+      number,
+      number,
+      number
+    ];
+  }
+
+  /** Returns recent 512-sample mono PCM chunk for oscilloscope visualizers. */
+  getWaveformData(): Float32Array {
+    return this.lastWaveform;
   }
 
   /** Parses a module (throws ModError on unsupported/invalid files) and resets playback. */
@@ -105,6 +122,9 @@ export class ModPlayer implements AudioSink {
     if (!ctx || !rep) return;
     while (this.nextTime < ctx.currentTime + LOOKAHEAD) {
       const { left, right } = rep.render(CHUNK_FRAMES, ctx.sampleRate);
+      for (let i = 0; i < 512; i++) {
+        this.lastWaveform[i] = ((left[i] ?? 0) + (right[i] ?? 0)) * 0.5;
+      }
       const buf = ctx.createBuffer(2, CHUNK_FRAMES, ctx.sampleRate);
       buf.getChannelData(0).set(left);
       buf.getChannelData(1).set(right);

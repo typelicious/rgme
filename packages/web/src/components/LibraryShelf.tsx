@@ -1,9 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import { filterLibrary, isCleared, type GameLibraryStore, type LibraryRecord } from "../lib/library";
+import { FREEWARE_CLASSICS, type FreewareClassic } from "@rgme/core";
 
 type Group = "all" | "cleared" | "local-only";
 
-export function LibraryShelf({ store, onMount, refreshKey = 0 }: { store: GameLibraryStore; onMount: (record: LibraryRecord) => void; refreshKey?: number }) {
+export function LibraryShelf({
+  store,
+  onMount,
+  onLaunchClassic,
+  refreshKey = 0
+}: {
+  store: GameLibraryStore;
+  onMount: (record: LibraryRecord) => void;
+  onLaunchClassic?: (classic: FreewareClassic) => void;
+  refreshKey?: number;
+}) {
   const [records, setRecords] = useState<LibraryRecord[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [query, setQuery] = useState("");
@@ -21,6 +32,38 @@ export function LibraryShelf({ store, onMount, refreshKey = 0 }: { store: GameLi
   return (
     <section className="rgme-panel" aria-label="Game library" data-testid="library-shelf">
       <h2 className="text-lg mb-2">Library</h2>
+
+      <div className="mb-4" data-testid="freeware-classics-showcase">
+        <h3 className="text-xs uppercase tracking-wider mb-2" style={{ color: "#ff8800", fontWeight: 600 }}>
+          ★ Freeware Classics (Multi-Disk Showcase)
+        </h3>
+        <div className="grid gap-2" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))" }}>
+          {FREEWARE_CLASSICS.map((classic) => (
+            <div
+              key={classic.id}
+              className="rgme-panel"
+              style={{ padding: "10px", background: "#0b0f19", border: "1px solid var(--rgme-border-subtle)" }}
+              data-testid={`classic-${classic.id}`}
+            >
+              <div className="font-semibold text-sm" style={{ color: "var(--rgme-fg-primary)" }}>{classic.title}</div>
+              <div className="text-xs" style={{ color: "var(--rgme-fg-muted)" }}>{classic.developer} ({classic.year})</div>
+              <div className="flex gap-1 my-2 flex-wrap">
+                <span className="rgme-badge" data-tone="cleared">Class C: Authorized</span>
+                <span className="rgme-badge" style={{ borderColor: "#3b82f6", color: "#38bdf8" }}>{classic.totalDisks} Disks</span>
+              </div>
+              <button
+                className="rgme-btn w-full"
+                data-testid={`launch-${classic.id}`}
+                onClick={() => onLaunchClassic?.(classic)}
+                style={{ fontSize: "11px", padding: "4px 8px" }}
+              >
+                1-Click Mount &amp; Load
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="flex gap-2 mb-3 flex-wrap">
         <input
           type="search" placeholder="Search title…" aria-label="Search library" value={query}

@@ -143,10 +143,10 @@ describe("running bootblocks", () => {
   });
   it("unsupported instructions halt with the opcode and address", () => {
     const m = new AmigaBootMachine();
-    m.loadBootblock(bootAdf([0x7001, 0x4e40])); // MOVEQ ; TRAP #0
+    m.loadBootblock(bootAdf([0x7001, 0xa000])); // MOVEQ ; Line-A trap
     const r = m.runFrame();
     expect(r.error).toBeInstanceOf(UnsupportedInstructionError);
-    expect((r.error as UnsupportedInstructionError).opcode).toBe(0x4e40);
+    expect((r.error as UnsupportedInstructionError).opcode).toBe(0xa000);
     expect((r.error as UnsupportedInstructionError).pc).toBe(BOOT_ADDRESS + 14);
     expect(m.runFrame().cycles).toBe(0); // stays halted
   });

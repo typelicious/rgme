@@ -27,7 +27,27 @@ interface Channel {
   // current row effect
   effect: number;
   param: number;
+  portaTarget: number;
+  portaSpeed: number;
+  vibratoPos: number;
+  vibratoSpeed: number;
+  vibratoDepth: number;
+  tremoloPos: number;
+  tremoloSpeed: number;
+  tremoloDepth: number;
+  sampleOffset: number;
+  patternLoopRow: number;
+  patternLoopCount: number;
+  noteCutTick: number;
+  noteDelayTick: number;
+  delayedPeriod: number;
+  delayedSample: number;
 }
+
+const SINE_TABLE = [
+  0, 24, 49, 74, 97, 120, 141, 161, 180, 197, 212, 224, 235, 244, 250, 253,
+  255, 253, 250, 244, 235, 224, 212, 197, 180, 161, 141, 120, 97, 74, 49, 24
+];
 
 /**
  * Deterministic ProTracker-style replayer (no Web Audio dependency).
@@ -55,7 +75,17 @@ export class ModReplayer {
 
   constructor(readonly mod: ModModule, options: ReplayerOptions = {}) {
     this.opts = { loop: options.loop ?? true, resampling: options.resampling ?? "nearest", masterGain: options.masterGain ?? 1 };
-    this.channels = Array.from({ length: 4 }, () => ({ sample: 0, period: 0, basePeriod: 0, volume: 0, pos: 0, playing: false, muted: false, effect: 0, param: 0 }));
+    this.channels = Array.from({ length: 4 }, () => this.makeChannel());
+  }
+
+  private makeChannel(): Channel {
+    return {
+      sample: 0, period: 0, basePeriod: 0, volume: 0, pos: 0, playing: false, muted: false,
+      effect: 0, param: 0, portaTarget: 0, portaSpeed: 0, vibratoPos: 0, vibratoSpeed: 0,
+      vibratoDepth: 0, tremoloPos: 0, tremoloSpeed: 0, tremoloDepth: 0, sampleOffset: 0,
+      patternLoopRow: 0, patternLoopCount: 0, noteCutTick: -1, noteDelayTick: -1,
+      delayedPeriod: 0, delayedSample: 0
+    };
   }
 
   setChannelMuted(ch: number, muted: boolean) {
@@ -79,7 +109,7 @@ export class ModReplayer {
     this.order = this.row = this.tick = 0;
     this.nextOrder = this.nextRow = -1;
     this.tickRemaining = 0;
-    for (const c of this.channels) Object.assign(c, { sample: 0, period: 0, basePeriod: 0, volume: 0, pos: 0, playing: false, effect: 0, param: 0 });
+    for (const c of this.channels) Object.assign(c, this.makeChannel());
   }
 
   positionInfo(): ModPosition {
@@ -110,6 +140,7 @@ export class ModReplayer {
       const c = this.channels[ch]!;
       c.effect = n.effect;
       c.param = n.param;
+      const isPorta = n.effect === 3 || n.effect === 5;
       if (n.sample > 0 && n.sample <= 31) {
         c.sample = n.sample;
         c.volume = this.mod.samples[n.sample - 1]!.volume;
@@ -118,13 +149,39 @@ export class ModReplayer {
         const s = c.sample ? this.mod.samples[c.sample - 1] : undefined;
         const idx = noteIndex(n.period);
         const ftRow = s ? finetuneRow(s.finetune & 15) : 0;
-        c.period = PERIOD_TABLE[ftRow]![idx] ?? n.period;
-        c.basePeriod = c.period;
-        c.pos = 0;
-        c.playing = Boolean(c.sample && s && s.length > 0);
+        const targetPeriod = PERIOD_TABLE[ftRow]![idx] ?? n.period;
+        if (isPorta) {
+          c.portaTarget = targetPeriod;
+        } else {
+          c.period = targetPeriod;
+          c.basePeriod = c.period;
+          c.pos = 0;
+          c.playing = Boolean(c.sample && s && s.length > 0);
+        }
       }
       // tick-0 effects
+      const x = n.param >> 4, y = n.param & 15;
       switch (n.effect) {
+        case 0x3: // Tone Portamento
+          if (n.param > 0) c.portaSpeed = n.param;
+          break;
+        case 0x4: // Vibrato
+          if (x > 0) c.vibratoSpeed = x;
+          if (y > 0) c.vibratoDepth = y;
+          break;
+        case 0x5: // Tone Porta + Volslide
+          if (n.period > 0) c.portaTarget = n.period;
+          break;
+        case 0x6: // Vibrato + Volslide
+          break;
+        case 0x7: // Tremolo
+          if (x > 0) c.tremoloSpeed = x;
+          if (y > 0) c.tremoloDepth = y;
+          break;
+        case 0x9: // Sample Offset
+          if (n.param > 0) c.sampleOffset = n.param * 256;
+          c.pos = c.sampleOffset;
+          break;
         case 0xc:
           c.volume = Math.min(64, n.param);
           break;
@@ -135,6 +192,33 @@ export class ModReplayer {
         case 0xd:
           if (this.nextOrder < 0) this.nextOrder = this.order + 1;
           this.nextRow = Math.min(63, (n.param >> 4) * 10 + (n.param & 15));
+          break;
+        case 0xe: // Extended effects
+          if (x === 1) { // Fine Porta Up
+            c.period = Math.max(MIN_PERIOD, c.period - y);
+            c.basePeriod = c.period;
+          } else if (x === 2) { // Fine Porta Down
+            c.period = Math.min(MAX_PERIOD, c.period + y);
+            c.basePeriod = c.period;
+          } else if (x === 6) { // Pattern Loop
+            if (y === 0) c.patternLoopRow = this.row;
+            else {
+              if (c.patternLoopCount === 0) c.patternLoopCount = y;
+              else c.patternLoopCount--;
+              if (c.patternLoopCount > 0) this.nextRow = c.patternLoopRow;
+            }
+          } else if (x === 0xa) { // Fine Volslide Up
+            c.volume = Math.min(64, c.volume + y);
+          } else if (x === 0xb) { // Fine Volslide Down
+            c.volume = Math.max(0, c.volume - y);
+          } else if (x === 0xc) { // Note Cut
+            c.noteCutTick = y;
+          } else if (x === 0xd) { // Note Delay
+            c.noteDelayTick = y;
+            c.delayedPeriod = n.period;
+            c.delayedSample = n.sample;
+            c.playing = false;
+          }
           break;
         case 0xf:
           if (n.param === 0) break; // F00 stops in ProTracker; treated as no-op here
@@ -169,8 +253,63 @@ export class ModReplayer {
           c.period = Math.min(MAX_PERIOD, c.period + c.param);
           c.basePeriod = c.period;
           break;
+        case 3: // Tone Portamento
+          if (c.portaTarget > 0 && c.portaSpeed > 0) {
+            if (c.period < c.portaTarget) c.period = Math.min(c.portaTarget, c.period + c.portaSpeed);
+            else if (c.period > c.portaTarget) c.period = Math.max(c.portaTarget, c.period - c.portaSpeed);
+            c.basePeriod = c.period;
+          }
+          break;
+        case 4: // Vibrato
+          if (c.vibratoDepth > 0) {
+            const delta = (SINE_TABLE[c.vibratoPos & 31]! * c.vibratoDepth) >> 7;
+            c.period = (c.vibratoPos & 32) ? c.basePeriod - delta : c.basePeriod + delta;
+            c.period = Math.max(MIN_PERIOD, Math.min(MAX_PERIOD, c.period));
+            c.vibratoPos = (c.vibratoPos + c.vibratoSpeed) & 63;
+          }
+          break;
+        case 5: // Tone Porta + Volslide
+          if (c.portaTarget > 0 && c.portaSpeed > 0) {
+            if (c.period < c.portaTarget) c.period = Math.min(c.portaTarget, c.period + c.portaSpeed);
+            else if (c.period > c.portaTarget) c.period = Math.max(c.portaTarget, c.period - c.portaSpeed);
+            c.basePeriod = c.period;
+          }
+          c.volume = Math.max(0, Math.min(64, c.volume + (x ? x : -y)));
+          break;
+        case 6: // Vibrato + Volslide
+          if (c.vibratoDepth > 0) {
+            const delta = (SINE_TABLE[c.vibratoPos & 31]! * c.vibratoDepth) >> 7;
+            c.period = (c.vibratoPos & 32) ? c.basePeriod - delta : c.basePeriod + delta;
+            c.period = Math.max(MIN_PERIOD, Math.min(MAX_PERIOD, c.period));
+            c.vibratoPos = (c.vibratoPos + c.vibratoSpeed) & 63;
+          }
+          c.volume = Math.max(0, Math.min(64, c.volume + (x ? x : -y)));
+          break;
+        case 7: // Tremolo
+          if (c.tremoloDepth > 0) {
+            const delta = (SINE_TABLE[c.tremoloPos & 31]! * c.tremoloDepth) >> 6;
+            const tremVol = (c.tremoloPos & 32) ? c.volume - delta : c.volume + delta;
+            c.volume = Math.max(0, Math.min(64, tremVol));
+            c.tremoloPos = (c.tremoloPos + c.tremoloSpeed) & 63;
+          }
+          break;
         case 0xa:
           c.volume = Math.max(0, Math.min(64, c.volume + (x ? x : -y)));
+          break;
+        case 0xe:
+          if (x === 9) { // Retrigger Note
+            if (y > 0 && this.tick % y === 0) c.pos = 0;
+          } else if (x === 0xc) { // Note Cut
+            if (this.tick === y) c.volume = 0;
+          } else if (x === 0xd) { // Note Delay
+            if (this.tick === y && c.delayedPeriod > 0) {
+              const s = c.delayedSample ? this.mod.samples[c.delayedSample - 1] : undefined;
+              c.period = c.delayedPeriod;
+              c.basePeriod = c.period;
+              c.pos = 0;
+              c.playing = Boolean(c.delayedSample && s && s.length > 0);
+            }
+          }
           break;
         default:
           break;

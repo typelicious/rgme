@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ModPlayer, createBrowserAudioContext } from "@rgme/core";
+import { AudioVisualizer } from "./AudioVisualizer";
 
 /** The subset of ModPlayer the panel needs (lets tests inject a fake). */
 export interface ModPlayerLike {
@@ -10,6 +11,8 @@ export interface ModPlayerLike {
   setVolume(v: number): void;
   readonly title: string;
   positionInfo(): { order: number; pattern: number; row: number; tick: number } | null;
+  getChannelLevels?(): [number, number, number, number];
+  getWaveformData?(): Float32Array;
 }
 
 export interface ModPlayerPanelProps {
@@ -30,6 +33,7 @@ export function ModPlayerPanel({ bytes, title, createPlayer = defaultCreate }: M
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [pos, setPos] = useState<{ order: number; pattern: number; row: number } | null>(null);
+  const [levels, setLevels] = useState<[number, number, number, number]>([0, 0, 0, 0]);
   const [error, setError] = useState("");
 
   const get = useCallback(() => (player.current ??= createPlayer()), [createPlayer]);
@@ -45,6 +49,7 @@ export function ModPlayerPanel({ bytes, title, createPlayer = defaultCreate }: M
         setLoaded(true);
         setPlaying(false);
         setPos(null);
+        setLevels([0, 0, 0, 0]);
         setError("");
       } catch (e) {
         setLoaded(false);
@@ -61,11 +66,17 @@ export function ModPlayerPanel({ bytes, title, createPlayer = defaultCreate }: M
   }, [bytes]);
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing) {
+      setLevels([0, 0, 0, 0]);
+      return;
+    }
     const id = setInterval(() => {
-      const i = player.current?.positionInfo();
+      const p = player.current;
+      if (!p) return;
+      const i = p.positionInfo();
       if (i) setPos({ order: i.order, pattern: i.pattern, row: i.row });
-    }, 100);
+      if (p.getChannelLevels) setLevels(p.getChannelLevels());
+    }, 50);
     return () => clearInterval(id);
   }, [playing]);
 
@@ -117,6 +128,12 @@ export function ModPlayerPanel({ bytes, title, createPlayer = defaultCreate }: M
           Open .mod…
           <input type="file" accept=".mod,audio/x-mod" data-testid="mod-file" hidden onChange={(e) => { void onFile(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
+      </div>
+      <div className="mt-3">
+        <AudioVisualizer
+          levels={levels}
+          getWaveformData={() => player.current?.getWaveformData?.() ?? new Float32Array(512)}
+        />
       </div>
       {error && <p role="alert" className="text-sm mt-2" data-testid="mod-error" style={{ color: "var(--rgme-status-restricted-fg)" }}>{error}</p>}
     </section>

@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   IpfParser,
+  ZipParser,
+  FREEWARE_CLASSICS,
+  createClassicMultiDiskProfile,
+  type FreewareClassic,
+  DEFAULT_INPUT_MAPPING,
+  DEFAULT_DISPLAY_PROFILE,
   identifyImage,
   ChiptunePlayer,
   FloppyController,
@@ -23,6 +29,9 @@ import {
   type RuntimeStatus
 } from "@rgme/core";
 import { Header } from "./components/Header";
+import { CommandPalette, type PaletteAction } from "./components/CommandPalette";
+import { KeyboardShortcutsModal } from "./components/KeyboardShortcutsModal";
+import { parseM3u } from "./lib/m3u";
 import { Dropzone, type DroppedInfo } from "./components/Dropzone";
 import { GameProfileInspector } from "./components/GameProfileInspector";
 import { Viewport } from "./components/Viewport";
@@ -97,6 +106,9 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   const [runtimeError, setRuntimeError] = useState<string>();
   const [diskIdx, setDiskIdx] = useState(0);
   const [modBytes, setModBytes] = useState<Uint8Array>();
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [driveSoundEnabled, setDriveSoundEnabled] = useState(true);
   const library = useMemo(() => new GameLibraryStore(), []);
   const saves = useMemo(() => new SaveStateManager(IndexedDbSaveStore.available() ? new IndexedDbSaveStore() : new MemorySaveStore()), []);
 
@@ -230,6 +242,50 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       setInfo({ name: file.name, size: file.size, status: "Analyzing" });
       const sha256 = await hashFile(file);
       let bytes: Uint8Array = new Uint8Array(await file.arrayBuffer());
+
+      if (file.name.toLowerCase().endsWith(".m3u")) {
+        const text = await file.text();
+        const entries = parseM3u(text, { baseName: file.name });
+        const multiDiscs = entries.map((e, idx) => ({
+          id: `disk-${idx + 1}`,
+          label: e.title || `Disk ${idx + 1}`,
+          filename: e.path || `Disk ${idx + 1}.adf`,
+          sha256: `m3u${idx + 1}`.padStart(64, "0")
+        }));
+        const m3uProfile: GameProfile = {
+          schema: "rgme.game/v0.2",
+          id: `m3u-${file.name.replace(/\.[^/.]+$/, "")}`,
+          title: file.name.replace(/\.[^/.]+$/, ""),
+          platform: "amiga",
+          machine: { model: "A500", chipset: "OCS", video: "PAL", ram: { chipKb: 512, fastKb: 0 } },
+          media: multiDiscs.map((d) => ({
+            id: d.id,
+            kind: "adf",
+            filename: d.filename,
+            label: d.label,
+            sha256: d.sha256
+          })),
+          runtime: { preferredAdapter: "mock" },
+          launch: { bootMediaId: "disk-1", autoStart: false },
+          input: DEFAULT_INPUT_MAPPING,
+          display: DEFAULT_DISPLAY_PROFILE,
+          rights: { recordId: `rights:m3u-${file.name.replace(/\.[^/.]+$/, "")}` }
+        };
+        setInfo({ name: file.name, size: file.size, sha256, status: "Identified" });
+        await activate(m3uProfile, undefined);
+        return m3uProfile.id;
+      }
+
+      if (ZipParser.isZip(bytes)) {
+        const zip = new ZipParser(bytes);
+        const mediaEntries = zip.getMediaEntries();
+        if (mediaEntries.length > 0) {
+          const first = mediaEntries[0]!;
+          const extracted = await zip.extractEntry(first);
+          bytes = extracted;
+        }
+      }
+
       if (identifyImage(bytes) === "ipf") {
         // IPF: decode standard Amiga MFM tracks to an ADF. Copy-protected tracks are NOT emulated and never faked.
         const { adf, reasons } = IpfParser.parse(bytes).toAdfResult();
@@ -269,15 +325,35 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       createDiskSwapper({
         controller: floppy,
         discs,
-        onSwap: (i) => {
+        onSwap: (i, disc) => {
           setDiskIdx(i);
           const m = profile?.media[i];
-          if (m && adapterRef.current && adapterRef.current.state !== "UNLOADED") adapterRef.current.insertMedia(m);
+          if (m) {
+            floppy.swapDisk(0, { id: disc.id, label: disc.label, sha256: disc.sha256 });
+            if (adapterRef.current && adapterRef.current.state !== "UNLOADED") {
+              adapterRef.current.insertMedia(m);
+            }
+          }
         }
       }),
     [floppy, discs, profile]
   );
   useDiskHotkeys(swapper, discs.length > 1);
+
+  const onLaunchClassic = useCallback(
+    async (classic: FreewareClassic) => {
+      const p = createClassicMultiDiskProfile(classic);
+      setInfo({
+        name: classic.disks[0]!.filename,
+        size: 901120,
+        sha256: classic.disks[0]!.sha256,
+        status: "Identified"
+      });
+      await activate(p, undefined);
+      adapterRef.current?.start();
+    },
+    [activate]
+  );
 
   const loadDemoMod = useCallback(async () => {
     const res = await fetch(demoModUrl);
@@ -313,6 +389,180 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     [profile, rightsRecord, activate]
   );
 
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) {
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      } else if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        setPaletteOpen(true);
+      } else if (e.key === "?" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        setShortcutsOpen((o) => !o);
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, []);
+
+  const paletteActions = useMemo<PaletteAction[]>(() => {
+    const actions: PaletteAction[] = [
+      {
+        id: "start-game",
+        category: "Game",
+        title: "Start Emulation",
+        detail: "Run the currently loaded game or demo",
+        shortcut: "↵",
+        run: () => adapter?.start()
+      },
+      {
+        id: "pause-game",
+        category: "Game",
+        title: "Pause Emulation",
+        detail: "Halt emulation loop",
+        shortcut: "P",
+        run: () => adapter?.pause()
+      },
+      {
+        id: "reset-game",
+        category: "Game",
+        title: "Reset Machine",
+        detail: "Perform warm reset",
+        shortcut: "R",
+        run: () => adapter?.reset()
+      },
+      {
+        id: "load-demo",
+        category: "Game",
+        title: "Load Demo Profile",
+        detail: "Built-in Amiga demo game",
+        run: () => void loadDemo()
+      },
+      {
+        id: "load-scene",
+        category: "Game",
+        title: "Load Scene Demo ADF",
+        detail: "rgme-scene-intro.adf bootable image",
+        run: () => void loadScene()
+      },
+      {
+        id: "load-c64",
+        category: "Game",
+        title: "Load C64 Demo",
+        detail: "Commodore 64 reference runtime",
+        run: () => void loadFixture(c64DemoUrl, "rgme-c64-demo.d64")
+      },
+      {
+        id: "load-md",
+        category: "Game",
+        title: "Load Mega Drive Demo",
+        detail: "Sega Genesis/Mega Drive reference runtime",
+        run: () => void loadFixture(mdDemoUrl, "rgme-md-demo.md")
+      },
+      ...FREEWARE_CLASSICS.map((classic) => ({
+        id: `classic-${classic.id}`,
+        category: "Game" as const,
+        title: `Launch ${classic.title}`,
+        detail: `${classic.disks.length} disks • ${classic.developer} (${classic.year})`,
+        run: () => void onLaunchClassic(classic)
+      })),
+      {
+        id: "switch-runtime-mock",
+        category: "Runtime",
+        title: "Switch to Mock Runtime",
+        detail: "Fast canvas mock adapter",
+        run: () => void switchRuntime("mock")
+      },
+      {
+        id: "switch-runtime-m68k",
+        category: "Runtime",
+        title: "Switch to 68000 Interpreter (Partial)",
+        detail: "Decodes 68000 opcodes with ExecBase stubs",
+        run: () => void switchRuntime("m68k")
+      },
+      {
+        id: "switch-runtime-wasm",
+        category: "Runtime",
+        title: "Switch to WASM Core Runtime",
+        detail: "WebAssembly host harness",
+        run: () => void switchRuntime("wasm")
+      },
+      {
+        id: "toggle-crt",
+        category: "Display",
+        title: crt ? "Disable CRT Shader" : "Enable CRT Shader",
+        detail: "WebGL Commodore 1084S / Trinitron simulation",
+        shortcut: "C",
+        run: () => setCrt((c) => !c)
+      },
+      {
+        id: "toggle-mute",
+        category: "Audio",
+        title: muted ? "Unmute Audio" : "Mute Audio",
+        detail: "Toggle chiptune synthesizer and floppy sound effects",
+        shortcut: "M",
+        run: () => {
+          const next = !muted;
+          adapter?.setMuted?.(next);
+          floppySynth.setMuted(next);
+          setMuted(next);
+        }
+      },
+      {
+        id: "toggle-drive-sound",
+        category: "Audio",
+        title: driveSoundEnabled ? "Disable Floppy Drive Sounds" : "Enable Floppy Drive Sounds",
+        detail: "Mechanical head seek, stepper motor, and track click FX",
+        run: () => {
+          setDriveSoundEnabled((prev) => {
+            const next = !prev;
+            floppySynth.setMuted(!next);
+            return next;
+          });
+        }
+      },
+      {
+        id: "open-saves",
+        category: "Game",
+        title: "Save States Manager",
+        detail: "Inspect or restore IndexedDB / Memory save states",
+        run: () => setSavesOpen(true)
+      },
+      {
+        id: "open-remap",
+        category: "Help",
+        title: "Gamepad Button Mapping",
+        detail: "Configure USB / Bluetooth controller inputs",
+        run: () => setRemapOpen(true)
+      },
+      {
+        id: "open-shortcuts",
+        category: "Help",
+        title: "Keyboard Shortcuts Guide",
+        detail: "View all hotkeys and controller inputs",
+        shortcut: "?",
+        run: () => setShortcutsOpen(true)
+      }
+    ];
+    return actions;
+  }, [
+    adapter,
+    loadDemo,
+    loadScene,
+    loadFixture,
+    onLaunchClassic,
+    switchRuntime,
+    crt,
+    muted,
+    floppySynth,
+    driveSoundEnabled
+  ]);
+
   const state = status.state;
   const canExport = decisions?.binary_redistribution.decision === "allow";
   const exportReason = useMemo(
@@ -327,7 +577,20 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
 
   return (
     <div className="min-h-full flex flex-col">
-      <Header status={status} runtimeName={adapter?.identifyCapabilities().name ?? "No runtime"} />
+      <Header
+        status={status}
+        runtimeName={adapter?.identifyCapabilities().name ?? "No runtime"}
+        onOpenPalette={() => setPaletteOpen(true)}
+        onOpenShortcuts={() => setShortcutsOpen(true)}
+        driveSoundEnabled={driveSoundEnabled}
+        onToggleDriveSound={() => {
+          setDriveSoundEnabled((prev) => {
+            const next = !prev;
+            floppySynth.setMuted(!next);
+            return next;
+          });
+        }}
+      />
       <main className="grid gap-4 p-4 flex-1 md:grid-cols-[320px_1fr]">
         <div className="flex flex-col gap-4">
           <Dropzone info={info} onFile={onFile} />
@@ -385,13 +648,14 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         <ChainOfTitle title={profile?.title} rights={rightsRecord} />
       </section>
       <section className="p-4" aria-label="Game library">
-        <h2 className="text-lg mb-2">Library</h2>
-        <LibraryShelf store={library} refreshKey={libraryKey} onMount={(r) => void mountFromLibrary(r)} />
+        <LibraryShelf store={library} refreshKey={libraryKey} onMount={(r) => void mountFromLibrary(r)} onLaunchClassic={onLaunchClassic} />
       </section>
       {profile && adapter && (
         <SaveDrawer manager={saves} adapter={adapter} getCanvas={() => canvasEl} title={profile.title} sha256={profile.media[0]!.sha256} open={savesOpen} onClose={() => setSavesOpen(false)} />
       )}
       <RemapModal open={remapOpen} mapping={gp.mapping} onChange={gp.setMapping} onClose={() => setRemapOpen(false)} />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} actions={paletteActions} />
+      <KeyboardShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
   );
 }

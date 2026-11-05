@@ -115,3 +115,89 @@ export function freewareEntryToProfile(e: FreewareEntry): GameProfile {
     rights: { recordId: `rights:${e.id}` }
   });
 }
+
+export interface FreewareClassic {
+  id: string;
+  title: string;
+  developer: string;
+  year: number;
+  totalDisks: number;
+  rightsClass: "C";
+  provenance: string;
+  disks: Array<{ id: string; label: string; filename: string; sha256: string }>;
+}
+
+export const FREEWARE_CLASSICS: readonly FreewareClassic[] = [
+  {
+    id: "flight-of-the-amazon-queen",
+    title: "Flight of the Amazon Queen",
+    developer: "Interactive Binary Illusions",
+    year: 1995,
+    totalDisks: 11,
+    rightsClass: "C",
+    provenance: "Released as freeware by John Passfield & Steve Stamatiadis in 2004 for ScummVM project.",
+    disks: Array.from({ length: 11 }, (_, i) => ({
+      id: `disk-${i + 1}`,
+      label: `Disk ${i + 1} of 11`,
+      filename: `Flight of the Amazon Queen (Disk ${i + 1} of 11).adf`,
+      sha256: `f07a0000000000000000000000000000000000000000000000000000000000${(i + 1).toString(16).padStart(2, "0")}`
+    }))
+  },
+  {
+    id: "beneath-a-steel-sky",
+    title: "Beneath a Steel Sky",
+    developer: "Revolution Software",
+    year: 1994,
+    totalDisks: 15,
+    rightsClass: "C",
+    provenance: "Released as freeware by Revolution Software in 2003 with ScummVM collaboration.",
+    disks: Array.from({ length: 15 }, (_, i) => ({
+      id: `disk-${i + 1}`,
+      label: `Disk ${i + 1} of 15`,
+      filename: `Beneath a Steel Sky (Disk ${i + 1} of 15).adf`,
+      sha256: `ba550000000000000000000000000000000000000000000000000000000000${(i + 1).toString(16).padStart(2, "0")}`
+    }))
+  },
+  {
+    id: "lure-of-the-temptress",
+    title: "Lure of the Temptress",
+    developer: "Revolution Software",
+    year: 1992,
+    totalDisks: 4,
+    rightsClass: "C",
+    provenance: "Released as freeware by Revolution Software in 2003.",
+    disks: Array.from({ length: 4 }, (_, i) => ({
+      id: `disk-${i + 1}`,
+      label: `Disk ${i + 1} of 4`,
+      filename: `Lure of the Temptress (Disk ${i + 1} of 4).adf`,
+      sha256: `107e0000000000000000000000000000000000000000000000000000000000${(i + 1).toString(16).padStart(2, "0")}`
+    }))
+  }
+];
+
+export function createClassicMultiDiskProfile(classic: FreewareClassic): GameProfile {
+  return parseGameProfile({
+    schema: "rgme.game/v0.2",
+    id: classic.id,
+    title: classic.title,
+    platform: "amiga",
+    machine: {
+      model: "A500",
+      chipset: "OCS",
+      video: "PAL",
+      ram: { chipKb: 1024, fastKb: 0 }
+    },
+    media: classic.disks.map((d) => ({
+      id: d.id,
+      kind: "adf",
+      filename: d.filename,
+      label: d.label,
+      sha256: d.sha256
+    })),
+    runtime: { preferredAdapter: "mock" },
+    launch: { bootMediaId: "disk-1", autoStart: false },
+    input: DEFAULT_INPUT_MAPPING,
+    display: { ...DEFAULT_DISPLAY_PROFILE, crt: true },
+    rights: { recordId: `rights:${classic.id}` }
+  });
+}

@@ -224,6 +224,31 @@ export class AmigaBootMachine {
     b.write16(RETURN_SENTINEL, 0x4afc);
     // zeroed IOStdReq stub at IOREQ_ADDRESS (48 bytes)
     for (let i = 0; i < 48; i++) b.write8(IOREQ_ADDRESS + i, 0);
+
+    // Graceful ExecBase vector stubs for common OS boot routines
+    const stub = (lvo: number, code: number[]) => {
+      const addr = EXEC_BASE + lvo;
+      code.forEach((w, idx) => b.write16(addr + idx * 2, w));
+    };
+    // _LVOForbid (-132): RTS, NOP, NOP
+    stub(-132, [0x4e75, 0x4e71, 0x4e71]);
+    // _LVOPermit (-138): RTS, NOP, NOP
+    stub(-138, [0x4e75, 0x4e71, 0x4e71]);
+    // _LVOAllocMem (-198): JMP $300
+    b.write16(0x300, 0x203c); // MOVE.L #$30000, D0
+    b.write32(0x302, 0x00030000);
+    b.write16(0x306, 0x4e75); // RTS
+    stub(-198, [0x4ef9, 0x0000, 0x0300]);
+    // _LVOFreeMem (-210): MOVEQ #0, D0; RTS; NOP
+    stub(-210, [0x7000, 0x4e75, 0x4e71]);
+    // _LVOFindTask (-294): MOVEQ #1, D0; RTS; NOP
+    stub(-294, [0x7001, 0x4e75, 0x4e71]);
+    // _LVOOpenLibrary (-408): MOVEQ #1, D0; RTS; NOP
+    stub(-408, [0x7001, 0x4e75, 0x4e71]);
+    // _LVOCloseLibrary (-414): MOVEQ #0, D0; RTS; NOP
+    stub(-414, [0x7000, 0x4e75, 0x4e71]);
+    // _LVODoIO (-456): MOVEQ #0, D0; RTS; NOP
+    stub(-456, [0x7000, 0x4e75, 0x4e71]);
   }
 
   /**

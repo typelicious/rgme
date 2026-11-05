@@ -1,89 +1,74 @@
 # Product Requirements Document (PRD)
-## Retro Game Modernization Engine (RGME) — Milestone 1 Specification
+## Retro Game Modernization Engine (RGME) — Milestone 5 Specification
 
-**Version:** 0.2.0  
-**Status:** Ready for Execution (Milestone 1 Foundation Slice)  
-**Parent Strategy:** `concept/RGME-Overall-Concept-v0.2.md` & `concept/RGME-MVP-Technical-Specification-PRD-v0.2.md`  
-**Execution Budget Target:** $15 Claude Cloud run (estimated ~3–4 hours of agentic generation)  
+**Version:** 0.5.0  
+**Status:** In Execution (Milestone 5 — Amiga Engine Completeness, Real IPF/MOD, M3U In-Memory Swapper & Impeccable UX)  
+**Parent Strategy:** `concept/RGME-Overall-Concept-v0.2.md` & `.skillweave/design/impeccable-design-spec.md`  
+**Methodology:** `assay` (empirical test-driven validation)  
+**Autonomy Policy:** `unicorn` (maximum autonomy, proactive delivery)  
+**Session Schedule:** `batch`  
+**Parallelism:** `maximal`  
 
 ---
 
 ## 1. Executive Summary & Vision
 
-The Retro Game Modernization Engine (RGME) is a local-first, browser-first platform for playing, preserving, and modernizing classic computer games.
+Milestone 5 brings RGME to operational maturity by completing the in-browser Amiga execution pipeline, adding full ProTracker playback accuracy, universal multi-disk management, freeware multi-disk classics, and an Impeccable / UI-UX-Pro-Max usability overhaul.
 
-The **Golden Architectural Law** of RGME:
-> **Original content is immutable.** Identity, runtime configuration, rights evidence, controls, presentation, saves, and future enhancements exist purely as external, declarative, versioned layers.
-
-The **Golden Policy Law** of RGME:
-> **Unknown rights never become permission by inference.**
-
-Milestone 1 builds the structural foundation and an end-to-end verifiable demonstrator slice: monorepo architecture, strict domain schemas, the rights policy engine, the `RuntimeAdapter` abstraction with a verifiable mock runtime, a local CLI scanner, and a web UX shell designed with the RGME design system.
+### Golden Laws of RGME:
+1. **Original content is immutable:** Identity, configuration, rights evidence, presentation, and saves exist purely as external, declarative layers.
+2. **Unknown rights never become permission by inference:** Clear provenance and classification (Class A/B/C/D) are strictly enforced.
+3. **No AI Slop in UX:** Clean Amiga/Commodore colorway, monospace telemetry, zero cumulative layout shifts (CLS = 0), and instant tactile feedback (< 50ms).
 
 ---
 
-## 2. Target Users & Problem Statement
+## 2. Milestone 5 Feature Objectives
 
-### 2.1 Problem
-Classic Amiga game preservation and modern emulation are plagued by fragmented configurations, manual input mapping, messy ROM folders, zero rights provenance, and tight coupling to specific emulator binaries.
+### Lane 1: Complete 68000 CPU Opcode Set & Amiga Exec/DOS Trap Stubs (`CPU-EXT-001`)
+- **Missing Opcodes:** `CHK`, `TRAP #n`, `MOVEP`, `BCD` (`ABCD`, `SBCD`, `NBCD`), `ADDX`, `SUBX`, `NEGX`, `CMPM`, `ROXL`, `ROXR`.
+- **Amiga Exec/DOS Vector Stubs:** Trapping at `ExecBase` (`0x000004`):
+  - `_LVOOpenLibrary` (-408 / -0x198)
+  - `_LVOCloseLibrary` (-414 / -0x19E)
+  - `_LVOAllocMem` (-198 / -0xC6)
+  - `_LVOFreeMem` (-210 / -0xD2)
+  - `_LVODoIO` (-456 / -0x1C8)
+  - `_LVOPermit` (-138 / -0x8A)
+  - `_LVOForbid` (-132 / -0x84)
+  - `_LVOFindTask` (-294 / -0x126)
+- **Outcome:** The scene intro bootblock banner continues past the `$4D45` (`CHK`) opcode without halting on an unhandled instruction exception.
 
-### 2.2 Personas
-1. **The Collection Owner:** Possesses local retro files (e.g., ADF dumps). Wants to index, inspect rights status, and play seamlessly in a modern browser.
-2. **The RGME Developer/Researcher:** Authors declarative Game Profiles, implements runtime adapters, and maintains the Rights Matrix evidence store.
+### Lane 2: Extended ProTracker Effects & Live Audio Visualizer Data (`MOD-EXT-001`)
+- **ProTracker Effects:**
+  - Effect 3: Tone Portamento (slide towards target period)
+  - Effect 4: Vibrato (sine pitch modulation)
+  - Effect 5: Tone Porta + Volume Slide
+  - Effect 6: Vibrato + Volume Slide
+  - Effect 7: Tremolo
+  - Effect 9: Sample Offset
+  - E-Effects: E1/E2 (Fine Porta), E6 (Pattern Loop), E9 (Retrigger), EA/EB (Fine Volslide), EC (Note Cut), ED (Note Delay)
+- **Paula Hardware Frequency:** Standardized formula `PAL_CLOCK / period` (where `PAL_CLOCK = 3546895 Hz`).
+- **Telemetry & Visualizer Data:** `ModPlayer` exposes `getChannelLevels(): [number, number, number, number]` and audio waveform data for live UI VU-meters and oscilloscope.
 
----
+### Lane 3: Universal Dropzone for M3U/ZIP & Live In-Memory Disk Swap (`M3U-SWAP-001`)
+- **Universal Dropzone:** Accepts `.m3u` playlists and `.zip` archives directly via drag-and-drop.
+- **Live In-Memory Swap:** Swapping a disk in DF0: updates the active byte buffer in `FloppyController`, resets cylinder tracking, plays mechanical seek sound, and notifies the active `RuntimeAdapter`.
 
-## 3. Scope & Phasing
+### Lane 4: Freeware Classics Multi-Disk Showcase & Launchers (`FREEWARE-CLASSICS-001`)
+- Curated multi-disk catalog:
+  - *Flight of the Amazon Queen* (11 disks)
+  - *Beneath a Steel Sky* (15 disks)
+  - *Lure of the Temptress* (4 disks)
+- 1-click launcher in `LibraryShelf`: loads Disk 1 into `DF0:`, queues the complete disk set into `DiskSwapper`, and displays Class C Authorized Freeware rights badge.
 
-### 3.1 In Scope for Milestone 1 ($15 Budget Run)
-- **Monorepo Setup:** `@rgme/core`, `@rgme/cli`, and `@rgme/web` configured with TypeScript and Vitest.
-- **Domain Schemas (`@rgme/core`):** Zod models for `GameProfile` (schema `rgme.game/v0.2`), `MachineConfig`, `RightsRecord`, and `RightsPolicyEngine`.
-- **Runtime Abstraction (`@rgme/core`):** Universal `RuntimeAdapter` interface + `MockRuntimeAdapter` implementing video frames (Canvas), audio tones, input handling, and save-state slots.
-- **CLI Ingestion (`@rgme/cli`):** `rgme scan <dir>` to recursively read ADFs, compute SHA-256 hashes, match rights, and emit GameProfiles.
-- **Web UI Shell (`@rgme/web`):** Built with Vite and React, implementing the design tokens from `.skillweave/design/rgme-design-system.md` (Amiga Workbench/Boing Ball accents, drag-and-drop zone, canvas viewport with 4:3 lock and CRT scanline toggle, controller HUD).
-- **End-to-End Verification:** Automated tests proving the entire pipeline from file ingestion to mock playback.
-
-### 3.2 Out of Scope for Milestone 1 (Planned for Subsequent Milestones)
-- Full WASM compilation / bundler embedding of EmulatorJS and libretro PUAE binaries (Milestone 2).
-- Dynamic WHDLoad/LHA disk extraction and filesystem patching (Milestone 2).
-- Ghidra static analysis automation and REA agentic reverse-engineering workbench (Milestone 3).
-
----
-
-## 4. Technical Architecture
-
-```text
-[ Local Amiga ADF Files ]
-           │
-           ▼
-   [@rgme/cli Scanner] ──(SHA-256)──► [Rights Matrix Registry]
-           │                                   │
-           ▼                                   ▼
-    [GameProfile v0.2] ────────────► [Rights Policy Engine]
-           │                                   │
-           ▼                                   ▼
-   [@rgme/web UI Shell] ◄────────────── [Policy Decision]
-           │
-           ▼
-   [RuntimeAdapter (Interface)]
-           │
-           ├──► [MockRuntimeAdapter] (Milestone 1 Demonstrator)
-           └──► [PUAE / EmulatorJS]  (Milestone 2 Integration)
-```
-
-### 4.1 Data Contracts & Boundaries
-
-| Boundary | Producer | Consumer | Artifact / Contract | Rule |
-| :--- | :--- | :--- | :--- | :--- |
-| **Storage / Profile** | `@rgme/cli` / User | `@rgme/web` | `GameProfile` YAML/JSON (`rgme.game/v0.2`) | Strict Zod validation; original ADF untouched. |
-| **Rights Evaluation** | Master Rights JSON | Policy Engine | `RightsRecord` + `RightsDecision` | Never infer permission from missing data. |
-| **Runtime Boundary** | `@rgme/web` | `RuntimeAdapter` | `RuntimeCapabilities`, `DisplayProfile`, `InputMapping` | UI never accesses emulator memory/internals directly. |
+### Lane 5: Impeccable & UI-UX-Pro-Max Usability and Polish Overhaul (`UX-PRO-MAX-001`)
+- **Command Palette:** `Cmd+K` or `/` quick fuzzy search for games, runtimes, floppy actions, and shader presets.
+- **Keyboard Shortcuts Modal:** `?` hotkey reference dialog.
+- **Audio Visualizer:** 4-Channel Paula VU-meters and real-time waveform oscilloscope.
+- **Zero Layout Shift (CLS = 0) & Tactile Audio:** Strict fixed layout geometry and drive sound toggle.
 
 ---
 
-## 5. Success Metrics & Binary Gates
-
-1. **Gate 1 (Build):** `pnpm build` (or `npm run build`) builds all 3 packages (`@rgme/core`, `@rgme/cli`, `@rgme/web`) with zero errors.
-2. **Gate 2 (Unit Tests):** `pnpm test` executes Vitest across the monorepo with 100% test pass rate.
-3. **Gate 3 (Rights Policy):** Policy engine tests verify that unknown rights evaluate to `local_only` or `deny`, never `allow_distribution`.
-4. **Gate 4 (UI & Adapter):** Web UI renders viewport, mounts `MockRuntimeAdapter`, outputs test canvas frames at 50fps (PAL timing), and provides CRT shader toggle.
+## 3. Verification & Gate Policy
+- Build gate: `pnpm test && pnpm build` must be 100% green.
+- All unit and integration tests across core, cli, and web must pass.
+- Git author: `typelicious <typelicious@gmail.com>`.

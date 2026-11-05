@@ -28,7 +28,7 @@ export function Dropzone({ info, onFile }: { info?: DroppedInfo; onFile: (file: 
         data-active={active}
         role="button"
         tabIndex={0}
-        aria-label="Drop an ADF disk image here or press Enter to browse"
+        aria-label="Drop disk image (.adf, .ipf), playlist (.m3u), or archive (.zip) here or press Enter to browse"
         onDragOver={(e) => { e.preventDefault(); setActive(true); }}
         onDragLeave={() => setActive(false)}
         onDrop={drop}
@@ -36,12 +36,12 @@ export function Dropzone({ info, onFile }: { info?: DroppedInfo; onFile: (file: 
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") input.current?.click(); }}
         style={{ border: "2px dashed var(--rgme-border-subtle)", borderRadius: 6, padding: 24, textAlign: "center", cursor: "pointer", color: "var(--rgme-fg-secondary)" }}
       >
-        Drop an <strong>.adf</strong> here to analyze
+        Drop an <strong>.adf, .ipf, .m3u, .zip</strong> or retro media here to analyze
         <input
           ref={input}
           data-testid="file-input"
           type="file"
-          accept=".adf"
+          accept=".adf,.ipf,.d64,.md,.mod,.m3u,.zip"
           hidden
           onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ""; }}
         />

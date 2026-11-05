@@ -15,3 +15,4 @@ export * from "./export/index.js";
 export * from "./ipf/index.js";
 export * from "./cpu/index.js";
 export * from "./audio/index.js";
+export * from "./zip/zip-parser.js";

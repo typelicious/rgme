@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.4.0",
-  "status": "in_progress",
+  "version": "0.5.0",
+  "status": "completed",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 4 (IPF Decoder, Real 68000 Execution Core, ProTracker Engine & Monitor Bezel)",
+  "milestone": "Milestone 5 (Amiga Engine Completeness, Real IPF/MOD, M3U In-Memory Swapper & Impeccable UX)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -251,7 +251,7 @@
         "DRIVE-001"
       ],
       "type": "feature",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M68K-001",
@@ -270,7 +270,7 @@
         "WASM-001"
       ],
       "type": "architecture",
-      "passes": false
+      "passes": true
     },
     {
       "id": "MOD-001",
@@ -289,7 +289,7 @@
         "CORE-002"
       ],
       "type": "feature",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M3U-001",
@@ -307,7 +307,7 @@
         "DRIVE-001"
       ],
       "type": "ui",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEZEL-001",
@@ -326,7 +326,88 @@
         "CRT-001"
       ],
       "type": "ui",
-      "passes": false
+      "passes": true
+    },
+    {
+      "id": "CPU-EXT-001",
+      "title": "Complete 68000 CPU Opcode Set & Amiga Exec/DOS Trap Stubs",
+      "description": "Extend M68kCpu with CHK, TRAP, MOVEP, BCD (ABCD, SBCD, NBCD), ADDX, SUBX, NEGX, CMPM, ROXL, ROXR opcodes and provide Amiga ExecBase (0x000004) vector library stubs so bootblocks and OS calls succeed without halting.",
+      "acceptanceCriteria": [
+        "M68kCpu executes CHK, TRAP #n, MOVEP, ABCD/SBCD/NBCD, ADDX/SUBX/NEGX/CMPM, and ROXL/ROXR without throwing UnsupportedInstructionError",
+        "AmigaBootMachine traps ExecBase calls (OpenLibrary, DoIO, AllocMem, Permit, Forbid) gracefully",
+        "Scene intro bootblock banner continues past CHK opcode without halting",
+        "Unit tests in @rgme/core covering all extended 68000 opcodes and trap stubs"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["M68K-001"],
+      "type": "architecture",
+      "passes": true
+    },
+    {
+      "id": "MOD-EXT-001",
+      "title": "Extended ProTracker Effects (Porta, Vibrato, Tremolo, Sample Offset)",
+      "description": "Implement missing ProTracker effects 3 (Tone Portamento), 4 (Vibrato), 5 (Tone Porta + Volslide), 6 (Vibrato + Volslide), 7 (Tremolo), 9 (Sample Offset), and E-commands (E1/E2, E6, E9, EA/EB, EC, ED). Expose live audio levels for VU-meters.",
+      "acceptanceCriteria": [
+        "ModReplayer processes effect 3 (Tone Porta to target note period), effect 4 (Vibrato sine modulation), and effect 9 (Sample Offset)",
+        "Processes E-commands: E1/E2 (Fine Porta), E6 (Pattern Loop), E9 (Retrigger), EA/EB (Fine Volslide), EC (Note Cut), ED (Note Delay)",
+        "ModPlayer exposes getChannelLevels(): [number, number, number, number] for live UI VU-meters and oscilloscope",
+        "Unit tests in @rgme/core verifying pitch modulation and effect processing"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["MOD-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M3U-SWAP-001",
+      "title": "Universal Dropzone for M3U/ZIP & Live In-Memory Disk Swap",
+      "description": "Enable drag & drop of .m3u playlists and multi-disk .zip archives onto the Dropzone. Swapping disks in DF0: updates the memory buffer in FloppyController and signals the active runtime adapter.",
+      "acceptanceCriteria": [
+        "Dropzone parses dropped .m3u playlists and automatically mounts first disk to DF0: and queues subsequent disks",
+        "DiskSwapper actively swaps the raw disk byte buffer in FloppyController and notifies active RuntimeAdapter",
+        "Virtual drive LED blinks and FloppySoundSynth plays head seek click during swap",
+        "Unit and integration tests verifying in-memory disk replacement"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M3U-001", "DRIVE-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "FREEWARE-CLASSICS-001",
+      "title": "Freeware Classics Multi-Disk Showcase & Launchers",
+      "description": "Incorporate Flight of the Amazon Queen (11 disks), Beneath a Steel Sky (15 disks), and Lure of the Temptress (4 disks) with multi-disk manifests and 1-click mounting in LibraryShelf.",
+      "acceptanceCriteria": [
+        "Curated Freeware Classics shelf section with cover badges and multi-disk indicators",
+        "1-click launch loads game into DF0: and populates the DiskSwapper with the complete disk set",
+        "Preserves Class C rights metadata and displays authorized freeware provenance badge",
+        "Unit tests verifying multi-disk mounting and rights display"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M3U-SWAP-001", "LIB-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "UX-PRO-MAX-001",
+      "title": "Impeccable & UI-UX-Pro-Max Usability and Polish Overhaul",
+      "description": "Complete UI/UX overhaul: Command Palette (Cmd+K / /), Interactive Keyboard Shortcuts Modal (?), Real-time 4-Channel Paula VU-meters and oscilloscope visualizer, audio feedback toggle, and zero-shift layout.",
+      "acceptanceCriteria": [
+        "Command Palette modal accessible via Cmd+K or / with fuzzy search across games, drives, shaders, and runtimes",
+        "Keyboard Shortcuts modal accessible via ? displaying all hotkeys (1-9 disks, space fire, arrows, CRT toggle)",
+        "Live 4-Channel Paula VU-meters and Oscilloscope component rendering in audio panel",
+        "Zero Layout Shift (CLS = 0) with crisp retro-modern Amiga palette and tactile mechanical styling",
+        "Unit tests in @rgme/web verifying modal shortcuts and visualizer mounting"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["MOD-EXT-001", "BEZEL-001"],
+      "type": "ui",
+      "passes": true
     }
   ]
 }

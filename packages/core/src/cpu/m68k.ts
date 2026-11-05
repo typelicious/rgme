@@ -154,6 +154,15 @@ export class M68kCpu {
     const hi = this.fetch16();
     return ((hi << 16) | this.fetch16()) >>> 0;
   }
+  push16(v: number) {
+    this.a[7] = (this.a[7]! - 2) >>> 0;
+    this.wr(this.a[7]!, 2, v & 0xffff);
+  }
+  pop16(): number {
+    const v = this.rd(this.a[7]!, 2);
+    this.a[7] = (this.a[7]! + 2) >>> 0;
+    return v;
+  }
   private push32(v: number) {
     this.a[7] = (this.a[7]! - 4) >>> 0;
     this.wr(this.a[7]!, 4, v);
@@ -162,6 +171,22 @@ export class M68kCpu {
     const v = this.rd(this.a[7]!, 4);
     this.a[7] = (this.a[7]! + 4) >>> 0;
     return v;
+  }
+
+  /** Dispatches an exception trap via vector table (e.g. vector 6 for CHK, 32-47 for TRAP #n). */
+  trap(vector: number) {
+    const oldSr = this.sr;
+    if (!this.supervisor) {
+      this.usp = this.a[7]!;
+      this.a[7] = this.ssp;
+      this.sr |= SR_S;
+    }
+    this.push32(this.pc);
+    this.push16(oldSr);
+    const handler = this.rd(vector * 4, 4);
+    if (handler !== 0) {
+      this.pc = handler;
+    }
   }
 
   // ---- effective addresses ----
@@ -270,6 +295,68 @@ export class M68kCpu {
     this.setFlag(SR_Z, res === 0);
     return res;
   }
+  private addx(s: number, d: number, size: Size): number {
+    const x = this.flag(SR_X) ? 1 : 0;
+    const r = s + d + x;
+    const res = u(r, size);
+    const c = r > MASK[size];
+    this.setFlag(SR_C | SR_X, c);
+    this.setFlag(SR_V, ((s ^ res) & (d ^ res) & MSB[size]) !== 0);
+    this.setFlag(SR_N, (res & MSB[size]) !== 0);
+    if (res !== 0) this.setFlag(SR_Z, false);
+    return res;
+  }
+  private subx(s: number, d: number, size: Size): number {
+    const x = this.flag(SR_X) ? 1 : 0;
+    const res = u(d - s - x, size);
+    const c = (s + x) > d;
+    this.setFlag(SR_C | SR_X, c);
+    this.setFlag(SR_V, ((d ^ s) & (d ^ res) & MSB[size]) !== 0);
+    this.setFlag(SR_N, (res & MSB[size]) !== 0);
+    if (res !== 0) this.setFlag(SR_Z, false);
+    return res;
+  }
+  private abcd(s: number, d: number): number {
+    s &= 0xff;
+    d &= 0xff;
+    const x = this.flag(SR_X) ? 1 : 0;
+    let lo = (s & 0x0f) + (d & 0x0f) + x;
+    let hi = (s >> 4) + (d >> 4);
+    if (lo > 9) {
+      lo += 6;
+      hi += 1;
+    }
+    if (hi > 9) {
+      hi += 6;
+    }
+    const res = ((hi << 4) | (lo & 0x0f)) & 0xff;
+    const carry = hi > 15 || ((s + d + x) > 0x99);
+    this.setFlag(SR_C | SR_X, carry);
+    this.setFlag(SR_N, (res & 0x80) !== 0);
+    if (res !== 0) this.setFlag(SR_Z, false);
+    return res;
+  }
+  private sbcd(s: number, d: number): number {
+    s &= 0xff;
+    d &= 0xff;
+    const x = this.flag(SR_X) ? 1 : 0;
+    let lo = (d & 0x0f) - (s & 0x0f) - x;
+    let hi = (d >> 4) - (s >> 4);
+    let borrow = false;
+    if (lo < 0) {
+      lo += 10;
+      hi -= 1;
+    }
+    if (hi < 0) {
+      hi += 10;
+      borrow = true;
+    }
+    const res = ((hi << 4) | (lo & 0x0f)) & 0xff;
+    this.setFlag(SR_C | SR_X, borrow);
+    this.setFlag(SR_N, (res & 0x80) !== 0);
+    if (res !== 0) this.setFlag(SR_Z, false);
+    return res;
+  }
 
   cond(cc: number): boolean {
     const C = this.flag(SR_C), V = this.flag(SR_V), Z = this.flag(SR_Z), N = this.flag(SR_N);
@@ -294,7 +381,7 @@ export class M68kCpu {
   }
 
   // ---- shifts / rotates ----
-  /** type: 0 AS, 1 LS, 3 RO. Returns the result and sets X/N/Z/V/C per the 68000 manual. */
+  /** type: 0 AS, 1 LS, 2 ROX, 3 RO. Returns the result and sets X/N/Z/V/C per the 68000 manual. */
   private shift(type: number, left: boolean, v: number, n: number, size: Size): number {
     const bits = BITS[size];
     const m = MASK[size];
@@ -304,7 +391,19 @@ export class M68kCpu {
     let overflow = false;
     const bit = (i: number) => ((v >>> i) & 1) !== 0;
     if (n > 0) {
-      if (type === 3) {
+      if (type === 2) { // ROXL / ROXR (rotate through extend bit)
+        for (let i = 0; i < n; i++) {
+          const x = this.flag(SR_X) ? 1 : 0;
+          if (left) {
+            carry = (res & MSB[size]) !== 0;
+            res = u(((res << 1) | x) >>> 0, size);
+          } else {
+            carry = (res & 1) !== 0;
+            res = u((res >>> 1) | (x ? MSB[size] : 0), size);
+          }
+          this.setFlag(SR_X, carry);
+        }
+      } else if (type === 3) {
         const k = n % bits;
         if (k > 0) res = left ? u(((v << k) | (v >>> (bits - k))) >>> 0, size) : u(((v >>> k) | (v << (bits - k))) >>> 0, size);
         carry = left ? (res & 1) !== 0 : (res & MSB[size]) !== 0;
@@ -326,9 +425,11 @@ export class M68kCpu {
         res = n >= bits ? (neg ? m : 0) : u((sx(v, size) >> n) >>> 0, size);
         carry = n >= bits ? neg : bit(n - 1);
       }
+    } else if (type === 2) {
+      carry = this.flag(SR_X);
     }
     this.setFlag(SR_C, carry);
-    if (n > 0 && type !== 3) this.setFlag(SR_X, carry);
+    if (n > 0 && type !== 3 && type !== 2) this.setFlag(SR_X, carry);
     this.setFlag(SR_V, overflow);
     this.setFlag(SR_N, (res & MSB[size]) !== 0);
     this.setFlag(SR_Z, res === 0);
@@ -423,7 +524,42 @@ export class M68kCpu {
     if (op & 0x100 || (op & 0xf00) === 0x800) {
       // bit operations
       const dynamic = (op & 0x100) !== 0;
-      if (dynamic && mode === 1) return this.unsupported(op, "MOVEP");
+      if (dynamic && mode === 1) { // MOVEP
+        const dn = (op >> 9) & 7;
+        const opmode = (op >> 6) & 7;
+        const ay = reg;
+        const disp = sx16(this.fetch16());
+        const baseAddr = (this.a[ay]! + disp) >>> 0;
+        if (opmode === 4) { // MOVEP.W (d, Ay), Dx
+          const b0 = this.rd(baseAddr, 1);
+          const b1 = this.rd((baseAddr + 2) >>> 0, 1);
+          const w = (b0 << 8) | b1;
+          this.d[dn] = ((this.d[dn]! & 0xffff0000) | w) >>> 0;
+          this.cyc += 16;
+        } else if (opmode === 5) { // MOVEP.L (d, Ay), Dx
+          const b0 = this.rd(baseAddr, 1);
+          const b1 = this.rd((baseAddr + 2) >>> 0, 1);
+          const b2 = this.rd((baseAddr + 4) >>> 0, 1);
+          const b3 = this.rd((baseAddr + 6) >>> 0, 1);
+          this.d[dn] = ((b0 << 24) | (b1 << 16) | (b2 << 8) | b3) >>> 0;
+          this.cyc += 24;
+        } else if (opmode === 6) { // MOVEP.W Dx, (d, Ay)
+          const w = this.d[dn]! & 0xffff;
+          this.wr(baseAddr, 1, (w >> 8) & 0xff);
+          this.wr((baseAddr + 2) >>> 0, 1, w & 0xff);
+          this.cyc += 16;
+        } else if (opmode === 7) { // MOVEP.L Dx, (d, Ay)
+          const l = this.d[dn]!;
+          this.wr(baseAddr, 1, (l >>> 24) & 0xff);
+          this.wr((baseAddr + 2) >>> 0, 1, (l >>> 16) & 0xff);
+          this.wr((baseAddr + 4) >>> 0, 1, (l >>> 8) & 0xff);
+          this.wr((baseAddr + 6) >>> 0, 1, l & 0xff);
+          this.cyc += 24;
+        } else {
+          return this.unsupported(op, "invalid MOVEP opmode");
+        }
+        return;
+      }
       const kind = (op >> 6) & 3; // 0 BTST 1 BCHG 2 BCLR 3 BSET
       let bit = dynamic ? this.d[(op >> 9) & 7]! : this.fetch16();
       const o = this.ea(mode, reg, 1, op);
@@ -489,6 +625,13 @@ export class M68kCpu {
       this.cyc += 20;
       return;
     }
+    if (op === 0x4e72) { // STOP #imm
+      if (!this.supervisor) throw new PrivilegeViolationError(op, this.lastPc);
+      const imm = this.fetch16();
+      this.setSR(imm);
+      this.cyc += 4;
+      return;
+    }
     if (op === 0x4e75) { this.pc = this.pop32(); this.cyc += 16; return; }
     if (op === 0x4e77) {
       const ccr = this.rd(this.a[7]!, 2);
@@ -498,7 +641,40 @@ export class M68kCpu {
       this.cyc += 20;
       return;
     }
-    if ((op & 0xfff0) === 0x4e40) return this.unsupported(op, "TRAP (no exception model)");
+    if ((op & 0xfff0) === 0x4e40) { // TRAP #n
+      const vector = 32 + (op & 0x0f);
+      this.trap(vector);
+      this.cyc += 34;
+      return;
+    }
+    if ((op & 0xf1c0) === 0x4180) { // CHK.W <ea>, Dn
+      const dn = (op >> 9) & 7;
+      const o = this.ea(mode, reg, 2, op);
+      if (o.t === 1) return this.unsupported(op);
+      const bound = sx16(this.read(o, 2));
+      const val = sx16(this.d[dn]! & 0xffff);
+      if (val < 0) {
+        this.setFlag(SR_N, true);
+        this.trap(6);
+        this.cyc += 40;
+      } else if (val > bound) {
+        this.setFlag(SR_N, false);
+        this.trap(6);
+        this.cyc += 40;
+      } else {
+        this.cyc += 10;
+      }
+      return;
+    }
+    if ((op & 0xffc0) === 0x4800) { // NBCD <ea>
+      const o = this.ea(mode, reg, 1, op);
+      if (o.t === 1 || o.t === 3) return this.unsupported(op, "invalid NBCD destination");
+      const d = this.read(o, 1);
+      const res = this.sbcd(d, 0);
+      this.write(o, 1, res);
+      this.cyc += o.t === 0 ? 6 : 8;
+      return;
+    }
     if ((op & 0xffc0) === 0x4e80) { // JSR
       const addr = this.controlAddr(mode, reg, op);
       this.push32(this.pc);
@@ -565,7 +741,7 @@ export class M68kCpu {
     }
     const sizeBits = (op >> 6) & 3;
     const k = (op >> 8) & 0xf;
-    if (sizeBits !== 3 && (k === 0x2 || k === 0x4 || k === 0x6 || k === 0xa)) {
+    if (sizeBits !== 3 && (k === 0x0 || k === 0x2 || k === 0x4 || k === 0x6 || k === 0xa)) {
       const size = this.sizeOf(sizeBits, op);
       const o = this.ea(mode, reg, size, op);
       if (o.t === 3 || (o.t === 1 && k !== 0xa)) return this.unsupported(op, "invalid operand");
@@ -576,7 +752,11 @@ export class M68kCpu {
         return;
       }
       this.cyc += base;
-      if (k === 0x2) { // CLR
+      if (k === 0x0) { // NEGX
+        const d = this.read(o, size);
+        const res = this.subx(d, 0, size);
+        this.write(o, size, res);
+      } else if (k === 0x2) { // CLR
         this.write(o, size, 0);
         this.setFlag(SR_N | SR_V | SR_C, false);
         this.setFlag(SR_Z, true);
@@ -734,7 +914,23 @@ export class M68kCpu {
       }
       return;
     }
-    if (opmode === 4 && mode < 2) return this.unsupported(op, "SBCD");
+    if (opmode === 4 && mode < 2) { // SBCD
+      const rx = dn;
+      const ry = reg;
+      if (mode === 0) { // Dy, Dx
+        this.d[rx] = ((this.d[rx]! & 0xffffff00) | this.sbcd(this.d[ry]!, this.d[rx]!)) >>> 0;
+        this.cyc += 6;
+      } else { // -(Ay), -(Ax)
+        this.a[ry] = (this.a[ry]! - 1) >>> 0;
+        this.a[rx] = (this.a[rx]! - 1) >>> 0;
+        const src = this.rd(this.a[ry]!, 1);
+        const dst = this.rd(this.a[rx]!, 1);
+        const res = this.sbcd(src, dst);
+        this.wr(this.a[rx]!, 1, res);
+        this.cyc += 18;
+      }
+      return;
+    }
     this.logic(op, (a, b) => a | b, true);
   }
 
@@ -758,7 +954,22 @@ export class M68kCpu {
       this.cyc += size === 4 ? 6 : 4;
       return;
     }
-    if (mode === 1) return this.unsupported(op, "CMPM");
+    if (mode === 1) { // CMPM (Ay)+, (Ax)+
+      const size = this.sizeOf(opmode & 3, op);
+      const ry = reg;
+      const rx = dn;
+      const stepY = size === 1 && ry === 7 ? 2 : size;
+      const stepX = size === 1 && rx === 7 ? 2 : size;
+      const addrY = this.a[ry]!;
+      const addrX = this.a[rx]!;
+      this.a[ry] = (addrY + stepY) >>> 0;
+      this.a[rx] = (addrX + stepX) >>> 0;
+      const s = this.rd(addrY, size);
+      const d = this.rd(addrX, size);
+      this.sub(s, d, size, false);
+      this.cyc += size === 4 ? 20 : 12;
+      return;
+    }
     this.logic(op, (a, b) => a ^ b, false); // EOR Dn,<ea>
   }
 
@@ -789,7 +1000,23 @@ export class M68kCpu {
     if (opmode === 5 && mode === 0) { const t = this.d[dn]!; this.d[dn] = this.d[reg]!; this.d[reg] = t; this.cyc += 6; return; }
     if (opmode === 5 && mode === 1) { const t = this.a[dn]!; this.a[dn] = this.a[reg]!; this.a[reg] = t; this.cyc += 6; return; }
     if (opmode === 6 && mode === 1) { const t = this.d[dn]!; this.d[dn] = this.a[reg]!; this.a[reg] = t; this.cyc += 6; return; }
-    if (opmode === 4 && mode < 2) return this.unsupported(op, "ABCD");
+    if (opmode === 4 && mode < 2) { // ABCD
+      const rx = dn;
+      const ry = reg;
+      if (mode === 0) { // Dy, Dx
+        this.d[rx] = ((this.d[rx]! & 0xffffff00) | this.abcd(this.d[ry]!, this.d[rx]!)) >>> 0;
+        this.cyc += 6;
+      } else { // -(Ay), -(Ax)
+        this.a[ry] = (this.a[ry]! - 1) >>> 0;
+        this.a[rx] = (this.a[rx]! - 1) >>> 0;
+        const src = this.rd(this.a[ry]!, 1);
+        const dst = this.rd(this.a[rx]!, 1);
+        const res = this.abcd(src, dst);
+        this.wr(this.a[rx]!, 1, res);
+        this.cyc += 18;
+      }
+      return;
+    }
     this.logic(op, (a, b) => a & b, true);
   }
 
@@ -832,7 +1059,29 @@ export class M68kCpu {
       this.cyc += size === 4 && (o.t === 0 || o.t === 1 || o.t === 3) ? 8 : size === 4 ? 6 : 8;
       return;
     }
-    if (opmode >= 4 && mode < 2) return this.unsupported(op, isSub ? "SUBX" : "ADDX");
+    if (opmode >= 4 && mode < 2) { // ADDX / SUBX
+      const size = this.sizeOf(opmode & 3, op);
+      const rx = dn;
+      const ry = reg;
+      if (mode === 0) { // Dy, Dx
+        const s = u(this.d[ry]!, size);
+        const d = u(this.d[rx]!, size);
+        const res = isSub ? this.subx(s, d, size) : this.addx(s, d, size);
+        this.write({ t: 0, n: rx }, size, res);
+        this.cyc += size === 4 ? 8 : 4;
+      } else { // -(Ay), -(Ax)
+        const stepY = size === 1 && ry === 7 ? 2 : size;
+        const stepX = size === 1 && rx === 7 ? 2 : size;
+        this.a[ry] = (this.a[ry]! - stepY) >>> 0;
+        this.a[rx] = (this.a[rx]! - stepX) >>> 0;
+        const s = this.rd(this.a[ry]!, size);
+        const d = this.rd(this.a[rx]!, size);
+        const res = isSub ? this.subx(s, d, size) : this.addx(s, d, size);
+        this.wr(this.a[rx]!, size, res);
+        this.cyc += size === 4 ? 30 : 18;
+      }
+      return;
+    }
     const size = this.sizeOf(opmode & 3, op);
     const o = this.ea(mode, reg, size, op);
     if (opmode < 3) {
@@ -854,7 +1103,6 @@ export class M68kCpu {
     const left = (op & 0x100) !== 0;
     if (sizeBits === 3) { // memory shift, word, count 1
       const type = (op >> 9) & 3;
-      if (type === 2) return this.unsupported(op, "ROXL/ROXR");
       const o = this.ea((op >> 3) & 7, op & 7, 2, op);
       if (o.t !== 2) return this.unsupported(op);
       this.write(o, 2, this.shift(type, left, this.read(o, 2), 1, 2));
@@ -862,7 +1110,6 @@ export class M68kCpu {
       return;
     }
     const type = (op >> 3) & 3;
-    if (type === 2) return this.unsupported(op, "ROXL/ROXR");
     const size = this.sizeOf(sizeBits, op);
     const reg = op & 7;
     let n: number;

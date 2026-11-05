@@ -353,8 +353,8 @@ describe("faults are explicit", () => {
     expect(() => runN([0x207c, ...l(0x2001), 0x3010], 2)).toThrow(AddressError);
     expect(() => runN([0x207c, ...l(0x2001), 0x3080], 2)).toThrow(AddressError);
   });
-  it("TRAP, line-A, line-F, CHK and ILLEGAL are reported with opcode and pc", () => {
-    for (const op of [0x4e40, 0xa000, 0xf000, 0x4d45, 0x4afc]) {
+  it("line-A, line-F, and ILLEGAL are reported with opcode and pc", () => {
+    for (const op of [0xa000, 0xf000, 0x4d45, 0x4afc]) {
       try {
         runN([NOP, op], 2);
         throw new Error("expected UnsupportedInstructionError");

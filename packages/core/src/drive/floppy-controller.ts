@@ -81,6 +81,16 @@ export class FloppyController {
     this.emit({ type: "insert", drive, media: s.media });
   }
 
+  /** Atomically swaps disk media in the drive, resetting head to cylinder 0 and pulsing read activity. */
+  swapDisk(drive: number, media: FloppyMedia) {
+    assertDrive(drive);
+    this.eject(drive);
+    this.insertDisk(drive, media);
+    this.setMotor(drive, true);
+    this.recalibrate(drive);
+    this.pulseActivity(drive, "read", 200);
+  }
+
   eject(drive: number): FloppyMedia | undefined {
     assertDrive(drive);
     const s = this.drives[drive]!;
