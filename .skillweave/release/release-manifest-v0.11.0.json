@@ -1,0 +1,30 @@
+{
+  "productName": "RGME",
+  "version": "0.11.0",
+  "releaseTitle": "RGME v0.11.0 — Real Amiga Emulator Bridge (ADR-004), Persistent Kickstart ROM & Universal Disk Engine",
+  "tag": "v0.11.0",
+  "buildTimestamp": "2026-11-05T21:28:00Z",
+  "artifacts": [
+    {
+      "name": "packages/web/dist",
+      "type": "web-application-bundle",
+      "entry": "packages/web/dist/index.html"
+    },
+    {
+      "name": "packages/core/dist",
+      "type": "library-distribution",
+      "entry": "packages/core/dist/index.js",
+      "types": "packages/core/dist/index.d.ts"
+    }
+  ],
+  "verification": {
+    "totalTests": 457,
+    "passedTests": 457,
+    "failedTests": 0,
+    "gateStatus": "PASSED"
+  },
+  "signing": {
+    "signedBy": "typelicious <typelicious@gmail.com>",
+    "signatureType": "git-annotated-tag"
+  }
+}

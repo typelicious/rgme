@@ -90,7 +90,7 @@ export function Header({
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-mono font-bold text-white">
-              {runtimeKind === "wasm" ? "WASM Core" : runtimeKind === "m68k" ? "68000" : "Mock Arcade"}
+              {runtimeKind === "wasm" ? "WASM Core" : runtimeKind === "puae" ? "Full Amiga (PUAE)" : runtimeKind === "m68k" ? "68000" : "Mock Arcade"}
             </span>
             <span className="text-[10px] text-[#94a3b8]">▾</span>
           </button>
@@ -105,6 +105,16 @@ export function Header({
           >
             <div className="text-[10px] uppercase font-mono px-2 py-1 text-[#64748b]">Select Runtime Engine</div>
             <button
+              data-testid="runtime-puae"
+              onClick={() => { onSelectRuntimeKind("puae"); setRuntimeMenuOpen(false); }}
+              className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                runtimeKind === "puae" ? "bg-purple-950/40 text-purple-300 border border-purple-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
+              }`}
+            >
+              <span className="font-bold">🕹️ Full Amiga Emulator</span>
+              <span className="text-[10px] text-[#94a3b8]">PUAE / UAE OCS/ECS full game execution</span>
+            </button>
+            <button
               data-testid="runtime-wasm"
               onClick={() => { onSelectRuntimeKind("wasm"); setRuntimeMenuOpen(false); }}
               className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
@@ -112,7 +122,7 @@ export function Header({
               }`}
             >
               <span className="font-bold">⚡ WebAssembly Core</span>
-              <span className="text-[10px] text-[#94a3b8]">Full Amiga 68000 hardware core + AROS ROM</span>
+              <span className="text-[10px] text-[#94a3b8]">Amiga 68000 hardware core + AROS ROM</span>
             </button>
             <button
               data-testid="runtime-mock"
@@ -137,9 +147,11 @@ export function Header({
             <span data-testid="runtime-note" className="hidden">
               {runtimeKind === "wasm"
                 ? "WebAssembly Amiga 68000 reference core (OCS/ECS + AROS Kickstart; timing/integration test, not an emulator)"
-                : runtimeKind === "m68k"
-                  ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga"
-                  : "mock test-pattern runtime"}
+                : runtimeKind === "puae"
+                  ? "Full Amiga OCS/ECS emulator (PUAE / EmulatorJS) for genuine game binaries"
+                  : runtimeKind === "m68k"
+                    ? "partial 68000 interpreter runs the bootblock; no Kickstart, not a full Amiga"
+                    : "mock test-pattern runtime"}
             </span>
           </div>
         </div>

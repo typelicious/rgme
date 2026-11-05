@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 10 (Spatial Modernization, Centered Viewport, Layover Drawer & Ambient Controls)",
+  "milestone": "Milestone 11 (Real Amiga Emulation via Pluggable WASM Core (ADR-004), Persistent Kickstart & Universal Disk Engine)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -698,6 +698,62 @@
       "estimatedEffort": "3",
       "dependsOn": ["M10-SIDEBAR-001"],
       "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M11-KICKSTART-001",
+      "title": "Persistent Kickstart ROM & Dynamic Runtime Synchronization",
+      "description": "Persist active Kickstart ROM in localStorage, load seamlessly on boot, and dynamically recreate active runtime adapter when ROM changes.",
+      "acceptanceCriteria": [
+        "KickstartRomStore saves and loads activeId from localStorage",
+        "Selecting or uploading custom Kickstart ROM immediately recreates running WASM adapter with new ROM bytes",
+        "App ensures activeRomBytesRef is synchronized before loading any media"
+      ],
+      "priority": "critical",
+      "estimatedEffort": "2",
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M11-EMU-001",
+      "title": "Real Amiga Emulator Core Integration Bridge (ADR-004)",
+      "description": "Provide a production-grade WebAssembly emulator adapter bridge adhering to RuntimeAdapter for genuine commercial Amiga OCS/ECS games.",
+      "acceptanceCriteria": [
+        "WasmEmulatorAdapter/VAmigaWebAdapter implements RuntimeAdapter",
+        "Supports real commercial games with full 68000 + OCS/ECS execution",
+        "Clean canvas, audio, and state management"
+      ],
+      "priority": "critical",
+      "estimatedEffort": "4",
+      "type": "architecture",
+      "passes": true
+    },
+    {
+      "id": "M11-DISK-001",
+      "title": "Universal In-Memory Archive & Disk Extraction",
+      "description": "Transparent decompression of .zip and .ipf disk archives across all media mounting pathways.",
+      "acceptanceCriteria": [
+        "mountFromLibrary unzips .zip archives and decodes .ipf tracks before mounting into DF0:",
+        "Extracted ADF bytes registered in MediaRegistry under both archive and disk hashes",
+        "Prevents raw zip bytes from causing blank screens or boot failures"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M11-PHYSICS-001",
+      "title": "Resilient Arcade Boost & Clean Alphanumeric Title Parsing",
+      "description": "Ensure Boing ball boost/kick controls are always responsive at any scale and disk title extraction never shows binary garbage.",
+      "acceptanceCriteria": [
+        "Ball kick/boost works from ground or mid-air regardless of vertical velocity",
+        "Floor bounce maintains lively minimum velocity",
+        "Disk title parser strictly enforces alphanumeric word tokens"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "type": "feature",
       "passes": true
     }
   ]

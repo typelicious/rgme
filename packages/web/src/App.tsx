@@ -141,8 +141,18 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     void kickstartStore.getActiveRom().then((r) => {
       setActiveRomName(r.meta.name);
       activeRomBytesRef.current = r.bytes;
+      if ((runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae") && adapterRef.current?.state === "UNLOADED") {
+        const canvas = canvasRef.current;
+        disposeRuntime(adapterRef.current);
+        const a = createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: r.bytes });
+        adapterRef.current = a;
+        adapterKey.current = `amiga:${runtimeKindRef.current}`;
+        unsub.current?.();
+        unsub.current = a.onStatus(setStatus);
+        setAdapter(a);
+      }
     });
-  }, [kickstartStore]);
+  }, [kickstartStore, mediaRegistry]);
 
   const unloadGame = useCallback(() => {
     if (adapterRef.current) {
@@ -159,7 +169,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           ? createAdapter(canvas as unknown as CanvasLike)
           : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
       adapterRef.current = a;
-      adapterKey.current = runtimeKindRef.current === "wasm" ? "amiga:wasm" : "amiga:mock";
+      adapterKey.current = `amiga:${runtimeKindRef.current}`;
       unsub.current?.();
       unsub.current = a.onStatus(setStatus);
       setAdapter(a);
@@ -1031,8 +1041,21 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           setActiveRomName(meta.name);
           void kickstartStore.getActiveRom().then((r) => {
             activeRomBytesRef.current = r.bytes;
-            if (runtimeKindRef.current === "wasm" && profile) {
-              void activate(profile, rightsRecord);
+            if (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae") {
+              const canvas = canvasRef.current;
+              const wasRunning = adapterRef.current?.state === "RUNNING";
+              disposeRuntime(adapterRef.current);
+              const a = createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: r.bytes });
+              adapterRef.current = a;
+              adapterKey.current = `amiga:${runtimeKindRef.current}`;
+              unsub.current?.();
+              unsub.current = a.onStatus(setStatus);
+              setAdapter(a);
+              if (profileRef.current) {
+                void activate(profileRef.current, rightsRecord).then(() => {
+                  if (wasRunning) adapterRef.current?.start();
+                });
+              }
             }
           });
         }}

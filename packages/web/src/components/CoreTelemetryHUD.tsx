@@ -15,7 +15,7 @@ export function CoreTelemetryHUD({
   activeRomName,
   onOpenRomSettings
 }: CoreTelemetryHUDProps) {
-  const isWasm = runtimeKind === "wasm";
+  const isAmigaCore = runtimeKind === "wasm" || runtimeKind === "puae";
 
   return (
     <div
@@ -36,7 +36,13 @@ export function CoreTelemetryHUD({
             }`}
           />
           <span className="font-bold text-white tracking-wider">
-            {isWasm ? "WASM 68000 CORE" : runtimeKind === "m68k" ? "68000 PARTIAL" : "MOCK ARCADE"}
+            {runtimeKind === "wasm"
+              ? "WASM 68000 CORE"
+              : runtimeKind === "puae"
+              ? "PUAE AMIGA EMULATOR"
+              : runtimeKind === "m68k"
+              ? "68000 PARTIAL"
+              : "MOCK ARCADE"}
           </span>
         </div>
 
@@ -54,7 +60,7 @@ export function CoreTelemetryHUD({
       </div>
 
       <div className="flex items-center gap-2">
-        {isWasm && (
+        {isAmigaCore && (
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-[#064e3b]/80 border border-emerald-600/50 text-[11px] text-emerald-200">
               {activeRomName ?? "AROS 68k"}

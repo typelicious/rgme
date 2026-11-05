@@ -1,4 +1,4 @@
-export const CORE_VERSION = "0.9.0";
+export const CORE_VERSION = "0.11.0";
 export * from "./profile.js";
 export * from "./rights.js";
 export * from "./matrix.js";
@@ -10,6 +10,7 @@ export * from "./chiptune.js";
 export * from "./adf/index.js";
 export * from "./drive/index.js";
 export * from "./wasm/index.js";
+export * from "./emulator/index.js";
 export * from "./platforms/index.js";
 export * from "./export/index.js";
 export * from "./ipf/index.js";

@@ -1,9 +1,9 @@
 import {
-  ChiptunePlayer, M68kBootAdapter, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader, wasmAmigaCoreLoader,
+  ChiptunePlayer, EmulatorJsPuaeAdapter, M68kBootAdapter, MockRuntimeAdapter, WasmAmigaAdapter, createBrowserAudioContext, referenceCoreLoader, urlLoader, wasmAmigaCoreLoader,
   type CanvasLike, type Media, type RuntimeAdapter, type WasmCanvasLike, type WasmCoreLoader
 } from "@rgme/core";
 
-export type RuntimeKind = "mock" | "wasm" | "m68k";
+export type RuntimeKind = "mock" | "wasm" | "m68k" | "puae";
 
 /** Generates a valid 880 KB Amiga ADF disk image with valid 32-bit boot checksum and boot code */
 export function generateBootableAdfFallback(media: { filename?: string; label?: string }): Uint8Array {
@@ -82,6 +82,15 @@ export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | nul
   if (kind === "m68k") {
     const media = opts.media ?? new MediaRegistry();
     return new M68kBootAdapter({ mediaProvider: media.provider, canvas: (canvas ?? undefined) as unknown as CanvasLike | undefined });
+  }
+  if (kind === "puae") {
+    const media = opts.media ?? new MediaRegistry();
+    return new EmulatorJsPuaeAdapter({
+      mediaProvider: media.provider,
+      kickstartRom: opts.kickstartRom,
+      coreUrl: opts.coreUrl,
+      canvas: (canvas ?? undefined) as unknown as WasmCanvasLike | undefined
+    });
   }
   const loader = opts.loader ?? (opts.coreUrl ? urlLoader(opts.coreUrl) : wasmAmigaCoreLoader({ kickstartRom: opts.kickstartRom }));
   const media = opts.media ?? new MediaRegistry();

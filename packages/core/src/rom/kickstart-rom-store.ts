@@ -90,6 +90,14 @@ export class KickstartRomStore {
   private dbPromise: Promise<IDBDatabase | null> | null = null;
 
   constructor() {
+    try {
+      if (typeof localStorage !== "undefined") {
+        const saved = localStorage.getItem("rgme_active_kickstart_rom_id");
+        if (saved) this.activeId = saved;
+      }
+    } catch {
+      /* ignore */
+    }
     this.initDb();
   }
 
@@ -122,6 +130,13 @@ export class KickstartRomStore {
   setActiveRomId(id: string): void {
     if (id === BUILTIN_AROS_META.id || this.customRoms.has(id)) {
       this.activeId = id;
+      try {
+        if (typeof localStorage !== "undefined") {
+          localStorage.setItem("rgme_active_kickstart_rom_id", id);
+        }
+      } catch {
+        /* ignore */
+      }
     }
   }
 
@@ -165,6 +180,13 @@ export class KickstartRomStore {
     const entry: KickstartRomEntry = { meta, bytes };
     this.customRoms.set(cleanSha, entry);
     this.activeId = cleanSha;
+    try {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("rgme_active_kickstart_rom_id", cleanSha);
+      }
+    } catch {
+      /* ignore */
+    }
 
     // Persist to IndexedDB
     try {
@@ -197,6 +219,16 @@ export class KickstartRomStore {
                   bytes: new Uint8Array(item.bytes)
                 });
               }
+            }
+            try {
+              if (typeof localStorage !== "undefined") {
+                const saved = localStorage.getItem("rgme_active_kickstart_rom_id");
+                if (saved && (saved === BUILTIN_AROS_META.id || this.customRoms.has(saved))) {
+                  this.activeId = saved;
+                }
+              }
+            } catch {
+              /* ignore */
             }
           }
           resolve();
