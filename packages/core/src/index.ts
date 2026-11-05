@@ -19,3 +19,6 @@ export * from "./zip/zip-parser.js";
 export * from "./guru-meditation.js";
 export * from "./boing-ball.js";
 export * from "./archive/archive-connector.js";
+export * from "./archive/archive-source-store.js";
+export * from "./archive/archive-metadata-parser.js";
+export * from "./archive/archive-bookmark-store.js";

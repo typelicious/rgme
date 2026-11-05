@@ -28,7 +28,10 @@ import {
   type PolicyDecision,
   type RightsRecord,
   type RuntimeAdapter,
-  type RuntimeStatus
+  type RuntimeStatus,
+  ArchiveOrgConnector,
+  type RetroGameMetadata,
+  type RetroGameVersion
 } from "@rgme/core";
 import { Header } from "./components/Header";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette";
@@ -451,6 +454,15 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     [activate, floppy, remember]
   );
 
+  const onStreamGame = useCallback(
+    async (game: RetroGameMetadata, version: RetroGameVersion) => {
+      const connector = new ArchiveOrgConnector();
+      const media = await connector.streamFile(game.sourceId, version.filename);
+      await onStreamMedia(media);
+    },
+    [onStreamMedia]
+  );
+
   const loadDemoMod = useCallback(async () => {
     const res = await fetch(demoModUrl);
     setModBytes(new Uint8Array(await res.arrayBuffer()));
@@ -530,6 +542,18 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         detail: "Halt emulation loop",
         shortcut: "P",
         run: () => adapter?.pause()
+      },
+      {
+        id: "stop-game",
+        category: "Game",
+        title: "Stop Emulation",
+        detail: "Halt emulation loop and silence audio",
+        shortcut: "S",
+        run: () => {
+          adapter?.stop();
+          floppySynth.setMuted(true);
+          setTimeout(() => { if (!muted) floppySynth.setMuted(false); }, 50);
+        }
       },
       {
         id: "reset-game",
@@ -790,9 +814,22 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           </div>
           {runtimeError && <p role="alert" className="text-sm mt-2 w-full rgme-controls-container" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
           <div className="flex flex-wrap gap-2 mt-3 w-full rgme-controls-container">
-            <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
+            <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED" && state !== "STOPPED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
             <button className="rgme-btn" disabled={state !== "RUNNING"} data-testid="btn-pause" onClick={() => adapter?.pause()}>Pause</button>
-            <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.reset()}>Reset</button>
+            <button
+              className="rgme-btn"
+              disabled={state !== "RUNNING" && state !== "PAUSED"}
+              data-testid="btn-stop"
+              onClick={() => {
+                adapter?.stop();
+                floppySynth.setMuted(true);
+                setTimeout(() => { if (!muted) floppySynth.setMuted(false); }, 50);
+              }}
+              title="Stop emulation loop and silence audio"
+            >
+              ⏹ Stop
+            </button>
+            <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-reset" onClick={() => adapter?.reset()}>Reset</button>
             <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-unload" onClick={unloadGame} title="Eject media and stop emulation">⏏ Unload</button>
             <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => { adapter?.saveState(0); setHasSave(true); }}>Save</button>
             <button className="rgme-btn" disabled={!profile} data-testid="saves-btn" onClick={() => setSavesOpen(true)}>Saves…</button>
@@ -818,7 +855,13 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         <ChainOfTitle title={profile?.title} rights={rightsRecord} />
       </section>
       <section className="p-4" aria-label="Game library">
-        <LibraryShelf store={library} refreshKey={libraryKey} onMount={(r) => void mountFromLibrary(r)} onLaunchClassic={onLaunchClassic} />
+        <LibraryShelf
+          store={library}
+          refreshKey={libraryKey}
+          onMount={(r) => void mountFromLibrary(r)}
+          onLaunchClassic={onLaunchClassic}
+          onStreamGame={onStreamGame}
+        />
       </section>
       {profile && adapter && (
         <SaveDrawer manager={saves} adapter={adapter} getCanvas={() => canvasEl} title={profile.title} sha256={profile.media[0]!.sha256} open={savesOpen} onClose={() => setSavesOpen(false)} />

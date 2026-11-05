@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.6.0",
+  "version": "0.8.0",
   "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 6 (Monitor Height Containment, Guru Meditation, Demo Lifecycle Unload & Interactive Playability)",
+  "milestone": "Milestone 8 (Rich Library Overhaul, Archive.org Source Management & Steam/YouTube Retro Hub)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -519,6 +519,69 @@
       "estimatedEffort": "3",
       "dependsOn": ["M7-CORE-001"],
       "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M8-SOURCES-001",
+      "title": "Archive.org Connected Source Management System",
+      "description": "Model and manage multiple connected Archive.org retro game collections with persistence, discovery, refresh, and custom collection support.",
+      "acceptanceCriteria": [
+        "ArchiveSourceStore in @rgme/core persisting sources in IndexedDB",
+        "Pre-configured default sources (Amiga-Arquivista, Amiga_WHD_Games)",
+        "Add, refresh, and remove custom Archive.org collections",
+        "SourceManagerModal dialog in @rgme/web for intuitive management"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M7-ARCHIVE-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M8-DISCOVERY-001",
+      "title": "Multi-Faceted Metadata Extraction & Filter Engine",
+      "description": "Intelligent parsing of retro game metadata (Genre, Year, Developer/Studio, Disk Count, Region) with multi-faceted filtering.",
+      "acceptanceCriteria": [
+        "Metadata heuristic parser for Genre, Year, Developer/Studio, and Multi-Disk versions",
+        "Multi-faceted filter engine (Genre, Year range, Studio, Search term)",
+        "Unified multi-version grouping for titles with multiple disk images or regional releases"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M8-SOURCES-001"],
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M8-CARDS-001",
+      "title": "Steam-Inspired Game Cards & Multiple-Version Resolver",
+      "description": "Card component featuring retro metadata badges, multiple link resolution, 1-click ephemeral streaming, and library bookmarking.",
+      "acceptanceCriteria": [
+        "GameCard rendering title, studio, year, genre badge, disk count, and source badge",
+        "Versions / Links selector dropdown for games with multiple disks or regional editions",
+        "1-click 'Stream & Mount DF0:' action with floppy seek audio",
+        "Bookmark / Add to My Library action with immediate persistence"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["M8-DISCOVERY-001"],
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M8-LIBRARY-001",
+      "title": "Overhauled Library Hub (My Library, Recently Played, Browse Sources)",
+      "description": "Steam/YouTube-style tabbed retro hub replacing the static shelf with My Library, Recently Played history, and full Catalog Discovery.",
+      "acceptanceCriteria": [
+        "Tabbed navigation: My Library, Recently Played, and Discover & Sources",
+        "My Library displays bookmarked cloud games alongside local dropped games and freeware showcase",
+        "Recently Played tracks chronological history with quick re-mount",
+        "Discover & Sources provides facet filters and source switcher"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["M8-CARDS-001"],
+      "type": "ui",
       "passes": true
     }
   ]

@@ -1,7 +1,7 @@
-# Product Requirements Document (PRD) v0.7.0
-## Retro Game Modernization Engine (RGME) — Milestone 7: Dynamic 4:3 Proportional Scaling, Amiga OCS Engine & Archive.org Cloud Streamer
+# Product Requirements Document (PRD) v0.8.0
+## Retro Game Modernization Engine (RGME) — Milestone 8: Rich Library Overhaul, Source Management & Steam/YouTube-Style Retro Discovery Hub
 
-- **Version:** 0.7.0
+- **Version:** 0.8.0
 - **Status:** In Progress
 - **Framework:** SkillWeave Blueprint + SkillWeave Design
 - **Author:** `typelicious <typelicious@gmail.com>`
@@ -10,40 +10,54 @@
 
 ## 1. Executive Summary & Problem Statements
 
-Milestone 7 elevates RGME into a true playable retro computing and cloud preservation workstation:
-1. **Bezel Scaling Ergonomics:** The 1084S monitor was previously artificially restricted to `600px` height and `820px` width, appearing undersized on 1080p, 1440p, 4K, and ultrawide screens. It must expand proportionally to fill available viewport height while preserving the 4:3 aspect ratio and leaving exactly enough room for the controls toolbar and HUD below without scrolling.
-2. **Missing Real Amiga Playability:** Real Amiga bootblocks halt when calling AmigaOS `ExecBase` library vectors (e.g. `DoIO`, `AllocMem`, `OpenLibrary`), and display output was restricted to color register lines or simulated test patterns. An authentic Amiga OCS bitplane fetcher, Copper list interpreter, and ExecBase vector dispatcher are required.
-3. **Archive.org Ephemeral Cloud Streaming:** Historical preservation archives on Archive.org (e.g. `Amiga-Arquivista`, `Amiga_WHD_Games`) should be streamable directly into browser RAM on-demand, verified by the Rights Policy Engine, and mounted into virtual drives without RGME hosting or redistributing any binaries.
+Milestone 8 addresses the library usability and discovery experience of RGME:
+1. **Explanation of Freeware Classics Display:**
+   - The user asked why the freeware showcase titles (*Flight of the Amazon Queen*, *Beneath a Steel Sky*, *Lure of the Temptress*) display the interactive 3D Amiga Boing Ball simulation instead of the full commercial Amiga game binary.
+   - The ~30 MB commercial floppy disk images are not stored in Git to keep the repo clean. The `MockRuntimeAdapter` runs an authentic interactive Amiga Boing Ball physics simulation.
+   - To make full games accessible, RGME now enables users to stream real disks directly from preservation sources (Archive.org) on demand.
+2. **Library Expansion & Multi-Source Management:**
+   - Users need the ability to connect, manage, and discover multiple Archive.org collections (e.g., `Amiga-Arquivista`, `Amiga_WHD_Games`, custom TOSEC or CDTV collections).
+3. **Steam & YouTube-Inspired Game Discovery:**
+   - Games should be presented in clean, informative card items with rich metadata (Genre, Year, Developer/Studio, Disk Count, Platform, Format).
+   - Multi-faceted filtering by genre, release year, studio, and free-text search.
+   - When a game exists in multiple versions or sources (e.g., EU vs DE, WHDLoad vs multi-disk ADF), users can view and select the exact link/version.
+   - Curated and personalized discovery shelves: "My Library" (Bookmarked cloud titles + local games), "Recently Played" (History), and "Discover & Sources" (Full catalog).
 
 ---
 
-## 2. Milestone 7 Task Breakdown
+## 2. Milestone 8 Task Breakdown
 
-### Task 1: `M7-SCALING-001` — Responsive 4:3 Viewport Scaling
-- **Goal:** Dynamically scale the 1084S monitor bezel to available viewport height without artificial pixel caps.
+### Task 1: `M8-SOURCES-001` — Archive.org Source Management System
+- **Goal:** Model, persist, and manage connected Archive.org retro game collections.
 - **Acceptance Criteria:**
-  - Viewport container height clamped to `clamp(340px, calc(100vh - 250px), 88vh)`.
-  - Max-width computed dynamically from height using the 4:3 CRT ratio: `min(100%, calc((height - 90px) * 1.3333 + 44px))`.
-  - Controls toolbar and ControllerHUD match the bezel's width rather than being locked to `820px`.
-  - Screen centered horizontally with zero horizontal overflow; all controls visible above the fold on all standard resolutions.
+  - `ArchiveSourceStore` in `@rgme/core` persisting connected collections in IndexedDB (with in-memory fallback).
+  - Default preset sources: `Amiga-Arquivista`, `Amiga_WHD_Games`.
+  - Add, remove, and refresh custom collections/identifiers with live item count and status.
+  - Source Manager modal (`SourceManagerModal.tsx`) with clean management controls.
 
-### Task 2: `M7-CORE-001` — Amiga OCS Copper & Bitplane Engine with ExecBase Vector Dispatcher
-- **Goal:** Enable genuine Amiga bootblock programs and demos to execute their copper and bitplane rendering pipelines.
+### Task 2: `M8-DISCOVERY-001` — Rich Metadata Extraction & Multi-Faceted Filter Engine
+- **Goal:** Transform raw Archive.org filenames and metadata into structured, searchable retro game records.
 - **Acceptance Criteria:**
-  - Bitplane renderer decoding 1–6 planar bitplanes (`BPL1PTH`–`BPL6PTL`) into chunky 320x256 RGBA pixels using `COLOR00`–`COLOR31`.
-  - Copper list runner interpreting `MOVE` (register writes) and `WAIT` (beam synchronization) instructions.
-  - ExecBase library vector dispatcher in `AmigaBus` providing valid responses for `AllocMem`, `FreeMem`, `DoIO`, `SendIO`, `WaitIO`, `OpenLibrary`, `FindTask`, and `CloseLibrary`.
-  - Tested with real bootblock instructions and copper lists.
+  - Metadata parser extracting Genre, Release Year, Studio/Developer, Multi-Disk count, and Region/Language from title strings.
+  - Multi-faceted filter engine supporting Genre filtering (Adventure, Action, RPG, Simulation, Strategy, etc.), Year range, Studio, and keyword search.
+  - Multi-version grouping: Groups related disks/variants into a single unified game card with multiple link options.
 
-### Task 3: `M7-ARCHIVE-001` — Archive.org Ephemeral In-Memory Cloud Streamer
-- **Goal:** Direct, user-agent streaming of historical preservation titles from Archive.org into RAM without local or server-side persistence.
+### Task 3: `M8-CARDS-001` — Steam-Inspired Game Cards & Multi-Link Resolver
+- **Goal:** Rich, aesthetic card component for retro games with seamless 1-click launch and bookmarking.
 - **Acceptance Criteria:**
-  - `ArchiveOrgConnector` in `@rgme/core` querying collection metadata and downloading `.adf` / `.zip` disk images into `Uint8Array`.
-  - Pure in-memory ZIP decompression using `ZipParser` (`DecompressionStream`).
-  - SHA-256 calculation and evaluation against `RightsPolicyEngine`.
-  - 1-Click Mount into virtual drives DF0:–DF3: with simulated floppy seek sounds.
-  - Instant memory release upon unload or tab closure.
-  - Web UI Cloud Streamer modal accessible from header / Command Palette (`⌘K`).
+  - `GameCard.tsx` rendering title, genre badge, year, studio pill, disk count, and cloud link source.
+  - "Versions / Links" dropdown/selector when multiple versions or disks are detected.
+  - "Stream & Mount DF0:" primary action with simulated floppy seek audio.
+  - "★ Bookmark / Add to Library" toggle action.
+
+### Task 4: `M8-LIBRARY-001` — Overhauled Library Hub (My Library, Recently Played, Discover)
+- **Goal:** Replace static bottom shelf with a modern Steam/YouTube-style tabbed retro hub.
+- **Acceptance Criteria:**
+  - 3 primary tabs:
+    - **"My Library"**: User's bookmarked cloud games + local dropped games + freeware showcase.
+    - **"Recently Played"**: Chronological history of streamed/launched games with fast re-mount.
+    - **"Discover & Sources"**: Browsable multi-source catalog with filters and source selector.
+  - Responsive layout matching the dark cyber-retro RGME design system.
 
 ---
 

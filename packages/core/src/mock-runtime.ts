@@ -98,12 +98,9 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
     this.profile = profile;
     this.scene = String(
       profile.runtime.options?.scene ??
-        (profile.id.startsWith("classic-") ||
-        profile.id === "lure-of-the-temptress" ||
-        profile.id === "beneath-a-steel-sky" ||
-        profile.id === "flight-of-the-amazon-queen"
-          ? "boing"
-          : "pattern")
+        (profile.id === "demo" || profile.id === "rgme-demo-game"
+          ? "pattern"
+          : "boing")
     );
     this.boingState = createInitialBoingState();
     this.audio?.stop();
@@ -120,9 +117,12 @@ export class MockRuntimeAdapter implements RuntimeAdapter {
   }
 
   start() {
-    this.transition(["LOADED", "PAUSED"], "RUNNING", "start");
+    this.transition(["LOADED", "PAUSED", "STOPPED"], "RUNNING", "start");
     this.clearTimer();
     this.timer = setInterval(() => this.tick(), 1000 / PAL_HZ);
+    if (typeof this.timer === "object" && this.timer !== null && "unref" in this.timer) {
+      (this.timer as { unref: () => void }).unref();
+    }
     this.audio?.start();
     this.emit();
   }
