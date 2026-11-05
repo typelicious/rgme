@@ -27,7 +27,7 @@
       "estimatedEffort": "1",
       "dependsOn": [],
       "type": "infrastructure",
-      "passes": false
+      "passes": true
     },
     {
       "id": "CORE-001",
