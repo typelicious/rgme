@@ -6,7 +6,8 @@
   <a href="https://github.com/typelicious/rgme/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/CI-Passing-10b981?style=flat-square&logo=githubactions&logoColor=white" alt="CI Status" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License: MIT" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Tests-410%20Passing-10b981?style=flat-square&logo=vitest&logoColor=white" alt="Vitest Tests" /></a>
+  <a href="https://vitest.dev/"><img src="https://img.shields.io/badge/Tests-445%20Passing-10b981?style=flat-square&logo=vitest&logoColor=white" alt="Vitest Tests" /></a>
+  <a href="https://github.com/typelicious/rgme/releases"><img src="https://img.shields.io/badge/Version-0.9.0-38bdf8?style=flat-square" alt="Version 0.9.0" /></a>
   <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" /></a>
   <a href="#sponsor-this-project"><img src="https://img.shields.io/badge/Sponsor-RGME-ff69b4?style=flat-square&logo=githubsponsors&logoColor=white" alt="Sponsor this Project" /></a>
 </p>
@@ -60,9 +61,17 @@ RGME solves this through two **Golden Laws**:
 * **Tactile HUD Visualizer:** Real-time feedback overlay showing live D-Pad and Fire button presses.
 * **Custom Remapping:** In-app button remapping dialog with persistence.
 
-### 📚 Persistent Browser Game Shelf
+### 📚 Persistent Browser Game Shelf & Steam/YouTube Retro Hub
 * **Local Collection Manager:** Drag-and-drop ADF disk images to instantly calculate client-side SHA-256 hashes, match rights, and persist games in your browser shelf.
-* **Rights Filtering:** Filter your library by Rights Status (Class A / C Freeware vs. Class D Commercial), Platform, and Chipset.
+* **Steam/YouTube Hub:** Tabbed library view with *My Library*, *Recently Played*, and multi-source *Discover & Sources* catalog.
+* **Archive.org Cloud Streaming:** Ephemeral, zero-local-storage streaming directly from preservation collections (`Amiga-Arquivista`, `Amiga_WHD_Games`).
+
+### ⚡ WebAssembly Amiga 68000 Hardware Core & Kickstart ROM Manager
+* **Full WASM Hardware Core:** Conforms to the RGME WASM Core Contract with 512KB Chip RAM, 512KB Kickstart ROM, 320x256 PAL frame generation, and Copper synchronization.
+* **Built-in Open AROS ROM:** Clean, unencumbered AROS 68k compatibility layer enables out-of-the-box execution without copyrighted ROMs.
+* **Bring Your Own ROM (BYOR):** Drag-and-drop support for original Commodore Kickstart ROMs (1.2, 1.3, 2.04, 3.1) with SHA-256 validation.
+* **Paula 4-Channel DMA Audio:** Streams 44.1kHz 16-bit interleaved PCM audio directly to the browser Web Audio graph.
+* **Core Telemetry & Reset Layover:** Real-time HUD showing state, frame counts, active ROM, plus a floating one-click master `↺ Reset` button.
 
 ---
 

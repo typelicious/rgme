@@ -1,0 +1,4 @@
+product_name: "RGME"
+version: "0.9.0"
+release_title_policy: "RGME v0.9.0"
+tag_prefix: "v"

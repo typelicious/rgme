@@ -1,0 +1,34 @@
+{
+  "productName": "RGME",
+  "version": "0.9.0",
+  "releaseTitle": "RGME v0.9.0",
+  "tag": "v0.9.0",
+  "buildTimestamp": "2026-11-05T18:12:00Z",
+  "artifacts": [
+    {
+      "name": "packages/web/dist",
+      "type": "web-application-bundle",
+      "entry": "packages/web/dist/index.html",
+      "assets": [
+        "packages/web/dist/assets/index-DRDYnnFG.js",
+        "packages/web/dist/assets/index-DdyQByUg.css"
+      ]
+    },
+    {
+      "name": "packages/core/dist",
+      "type": "library-distribution",
+      "entry": "packages/core/dist/index.js",
+      "types": "packages/core/dist/index.d.ts"
+    }
+  ],
+  "verification": {
+    "totalTests": 445,
+    "passedTests": 445,
+    "failedTests": 0,
+    "gateStatus": "PASSED"
+  },
+  "signing": {
+    "signedBy": "typelicious <typelicious@gmail.com>",
+    "signatureType": "git-annotated-tag"
+  }
+}
