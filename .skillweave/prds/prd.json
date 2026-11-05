@@ -1,121 +1,162 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
+  "milestone": "Milestone 2 (Hardware Immersion, Filesystem & Runtime Subsystems)",
   "tasks": [
     {
       "id": "ARCH-001",
       "title": "Initialize Monorepo, Build Tooling and CI Baseline",
-      "description": "Establish the TypeScript monorepo structure with @rgme/core, @rgme/cli, and @rgme/web packages using pnpm workspaces and Vitest.",
-      "acceptanceCriteria": [
-        "Monorepo root configured with pnpm-workspace.yaml or npm workspaces",
-        "Packages @rgme/core, @rgme/cli, @rgme/web initialized with TypeScript configs",
-        "pnpm build (or npm run build) compiles all packages with 0 errors",
-        "pnpm test runs Vitest across all workspace packages and passes"
-      ],
+      "description": "Establish TypeScript monorepo with @rgme/core, @rgme/cli, @rgme/web.",
       "priority": "high",
-      "estimatedEffort": "1",
-      "dependsOn": [],
       "type": "infrastructure",
       "passes": true
     },
     {
       "id": "CORE-001",
       "title": "Implement GameProfile and Rights Intelligence Domain Schemas",
-      "description": "Create strict Zod schemas and TypeScript types for GameProfile v0.2, Rights Record, and the Rights Policy Engine in @rgme/core.",
-      "acceptanceCriteria": [
-        "Zod schemas and types for GameProfile, MachineConfig (A500/A600, OCS/ECS, PAL/NTSC), InputMapping, DisplayProfile",
-        "RightsRecord and EvidenceStore schemas reflecting the RGME Rights Matrix format",
-        "RightsPolicyEngine.evaluateAction() enforces the golden rule: Unknown rights never become permission by inference",
-        "Comprehensive unit tests in @rgme/core verifying valid/invalid profiles and policy decisions (allow, local_only, deny)"
-      ],
+      "description": "Zod schemas and policy engine for GameProfile v0.2 and Rights Matrix.",
       "priority": "high",
-      "estimatedEffort": "2",
-      "dependsOn": ["ARCH-001"],
       "type": "schema",
-      "passes": true,
-      "boundaries": [
-        {
-          "kind": "storage",
-          "data_contract": {
-            "artifact": "GameProfile JSON/YAML",
-            "versioning": "schema rgme.game/v0.2",
-            "producer": "@rgme/cli",
-            "consumer": "@rgme/web",
-            "compatibility": "backward compatible"
-          }
-        }
-      ]
+      "passes": true
     },
     {
       "id": "CORE-002",
       "title": "Implement RuntimeAdapter Contract and MockRuntimeAdapter",
-      "description": "Define the generic RuntimeAdapter interface in @rgme/core and implement MockRuntimeAdapter for headless and browser testing.",
-      "acceptanceCriteria": [
-        "RuntimeAdapter interface cleanly isolates emulator internals from game profiles and UI",
-        "Methods: identifyCapabilities, loadGame, start, pause, reset, saveState, loadState, setInputMapping, setDisplayProfile, insertMedia",
-        "MockRuntimeAdapter implements the interface, generates test pattern video frames on HTML5 Canvas, and manages mock save-states",
-        "Unit tests in @rgme/core verifying adapter state transitions (UNLOADED -> LOADED -> RUNNING -> PAUSED -> STOPPED)"
-      ],
+      "description": "Generic RuntimeAdapter interface with MockRuntimeAdapter.",
       "priority": "high",
-      "estimatedEffort": "2",
-      "dependsOn": ["CORE-001"],
       "type": "architecture",
       "passes": true
     },
     {
       "id": "CLI-001",
       "title": "Implement Local File Ingestion and Rights Resolver in @rgme/cli",
-      "description": "Build the CLI command to scan directories for Amiga ADF disk images. Matches games via normalized title/filename against Master Rights Matrix dataset and resolves known SHA-256 hashes via a bundled test fixture registry.",
-      "acceptanceCriteria": [
-        "CLI command 'rgme scan <directory>' recursively discovers .adf files without modifying them",
-        "Streaming SHA-256 calculation for low memory overhead",
-        "Resolver matches hash/metadata against Rights Matrix dataset (via normalized title and fixture hash map) and outputs formatted table",
-        "Generates declarative GameProfile YAML file for identified titles",
-        "Unit and fixture tests verifying scanner output against sample ADF hashes"
-      ],
+      "description": "CLI scan command with streaming hash and rights resolution.",
       "priority": "high",
-      "estimatedEffort": "2",
-      "dependsOn": ["CORE-001"],
       "type": "feature",
       "passes": true
     },
     {
       "id": "UI-001",
       "title": "Build Web Player Shell with Design System and Viewport in @rgme/web",
-      "description": "Create the modern web interface using Vite, React, and the RGME design tokens with Amiga heritage accents and CRT simulation.",
-      "acceptanceCriteria": [
-        "Design tokens from .skillweave/design/rgme-design-system.md implemented in CSS/Tailwind",
-        "Drag-and-drop ADF file ingestion zone with client-side SHA-256 hash calculation",
-        "GameProfile inspector component showing machine specs, chipset, and color-coded Rights badge",
-        "Canvas viewport component with 4:3 PAL aspect-ratio preservation and togglable CRT scanline shader",
-        "Virtual gamepad HUD with Amiga joystick/button mapping indicators"
-      ],
+      "description": "React + Vite shell with design tokens, dropzone, and canvas.",
       "priority": "high",
-      "estimatedEffort": "3",
-      "dependsOn": ["CORE-001", "CORE-002"],
       "type": "ui",
       "passes": true
     },
     {
       "id": "INTEG-001",
       "title": "End-to-End M1 Demonstrator Integration and Verification",
-      "description": "Integrate @rgme/web with MockRuntimeAdapter and sample profiles, verify full ingestion-to-launch flow, and enforce test gates.",
+      "description": "Complete demonstrator with synthetic intro ADF and freeware fixtures.",
+      "priority": "high",
+      "type": "testing",
+      "passes": true
+    },
+    {
+      "id": "FS-001",
+      "title": "Amiga Floppy Filesystem (OFS/FFS) Parser in @rgme/core",
+      "description": "Pure TypeScript parser to read Amiga ADF disk images: decode bootblock, root block, volume name, file entries, directory tree, and file contents.",
       "acceptanceCriteria": [
-        "Web shell launches mock game on canvas upon loading profile or dropping demo ADF",
-        "Rights policy correctly blocks unauthorized actions and displays badge",
-        "Keyboard controls translate to Amiga joystick inputs with visual feedback in HUD",
-        "Full test suite across monorepo passes with zero errors and test report generated"
+        "AdfParser class in @rgme/core capable of reading raw 880KB ADF buffers",
+        "Parses volume label, creation timestamp, and detects OFS vs FFS filesystem variants",
+        "Extracts directory tree, file list, and file byte contents without native C dependencies",
+        "Reads rgme-scene-intro.adf and extracts disk header/banner cleanly",
+        "100% unit tests in @rgme/core verifying parser with synthetic ADF buffers"
       ],
       "priority": "high",
       "estimatedEffort": "2",
-      "dependsOn": ["CLI-001", "UI-001"],
-      "type": "testing",
-      "passes": true
+      "dependsOn": ["INTEG-001"],
+      "type": "feature",
+      "passes": false
+    },
+    {
+      "id": "DRIVE-001",
+      "title": "Virtual Floppy Drive Subsystem (DF0:-DF3:) & Step Sound Synth",
+      "description": "Virtual floppy drive controller managing multiple drives (DF0: to DF3:), track stepper motor states, disk ejection/insertion events, and Web Audio mechanical drive sound simulation.",
+      "acceptanceCriteria": [
+        "FloppyController managing virtual drives DF0:, DF1:, DF2:, DF3:",
+        "State machine tracking drive motor (on/off), current cylinder (0-79), read/write activity",
+        "AmigaFloppyAudioSynth generating authentic mechanical drive head step, seek, and track-0 click sounds via Web Audio API",
+        "Multi-disk swap UI component in @rgme/web allowing users to switch disks (e.g. Disk 1 to Disk 2) with visual drive LED activity",
+        "Unit tests in @rgme/core verifying drive state machine and disk swap events"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["FS-001"],
+      "type": "feature",
+      "passes": false
+    },
+    {
+      "id": "SAVE-001",
+      "title": "Save State Persistence Engine with Canvas Thumbnails",
+      "description": "IndexedDB-backed save-state management supporting slots 1-10 with visual canvas thumbnail snapshots, disk association, export/import (.rgmesave), and instant restore.",
+      "acceptanceCriteria": [
+        "SaveStateManager supporting slots 1-10 backed by browser IndexedDB",
+        "Each save state captures memory/runtime snapshot, disk SHA-256, timestamp, and visual PNG thumbnail",
+        "Web UI Save/Load drawer with thumbnail cards, slot switcher, and timestamp badges",
+        "Save state export and import functionality",
+        "Unit and integration tests verifying IndexedDB operations and mock adapter restore"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["INTEG-001"],
+      "type": "feature",
+      "passes": false
+    },
+    {
+      "id": "INPUT-001",
+      "title": "Hardware Gamepad API Subsystem with Auto-Mapping",
+      "description": "HTML5 Gamepad API integration auto-detecting physical controllers (Xbox, PlayStation, 8BitDo, retro USB) and mapping them to Amiga Joystick 1/2 and Mouse.",
+      "acceptanceCriteria": [
+        "GamepadManager polling HTML5 Gamepad API with connection/disconnection lifecycle",
+        "Standard mapping translating D-Pad/Left-Stick and Face Buttons to Amiga directions and Fire",
+        "Live button visualizer in ControllerHUD indicating active physical presses in real time",
+        "Configurable button remap modal in @rgme/web",
+        "Unit tests verifying gamepad event loop and translation to Amiga input events"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["INTEG-001"],
+      "type": "ui",
+      "passes": false
+    },
+    {
+      "id": "CRT-001",
+      "title": "High-Fidelity WebGL CRT Shader & Display Profile Pipeline",
+      "description": "WebGL post-processing pipeline for the Canvas Viewport implementing authentic PAL scanlines, shadow mask/aperture grille, curvature, and phosphor bloom.",
+      "acceptanceCriteria": [
+        "WebGL CRT shader renderer wrapping the canvas viewport in @rgme/web",
+        "Preset profiles: 'Authentic PAL (Clean)', 'Trinitron CRT', 'Commodore 1084S (Curved)', 'Retro Arcade Grille'",
+        "User controls for scanline intensity, bloom glow, and barrel distortion toggle",
+        "Graceful fallback to 2D CSS pixel-perfect rendering if WebGL is unavailable",
+        "Visual test ensuring shader renders without throwing WebGL context errors"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["INTEG-001"],
+      "type": "ui",
+      "passes": false
+    },
+    {
+      "id": "LIB-001",
+      "title": "Persistent Browser Library Shelf & Collection Manager",
+      "description": "Browser IndexedDB library preserving scanned ADFs, profiles, and metadata across sessions with search, filtering by Chipset/Rights Class, and 1-click launch.",
+      "acceptanceCriteria": [
+        "GameLibraryStore in IndexedDB saving user-dropped ADFs and resolved GameProfiles",
+        "Library shelf view in @rgme/web displaying game cards with badges (Rights Class, Chipset, Year)",
+        "Search and filter controls by Title, Rights Status (Cleared vs Local-Only), and Platform",
+        "1-click launch button mounting selected game into Viewport and DF0:",
+        "Full test suite verifying library storage and retrieval"
+      ],
+      "priority": "high",
+      "estimatedEffort": "2",
+      "dependsOn": ["SAVE-001", "LIB-001"],
+      "type": "feature",
+      "passes": false
     }
   ]
 }

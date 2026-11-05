@@ -1,82 +1,61 @@
 # SkillWeave Execution Engine — Assay / Unicorn Execution Guide
 
-This document is the execution specification for running the **Retro Game Modernization Engine (RGME)** Milestone 1 promptchain using an autonomous AI coding agent in **Assay Methodology** with **Unicorn Autonomy Policy** (Maximal Parallelism).
+This document is the execution specification for running the **Retro Game Modernization Engine (RGME)** using an autonomous AI coding agent in **Assay Methodology** with **Unicorn Autonomy Policy** (Maximal Parallelism).
 
 ---
 
 ## 1. Operating Parameters & Posture
 
-- **Methodology:** `assay` (Empirical, test-driven validation; hypothesis testing through rapid parallel implementation and verification)
-- **Autonomy Policy:** `unicorn` (Maximum autonomy, zero-friction optimistic assumptions, never halt on non-blocking ambiguity)
-- **Parallelism:** `maximal` (Concurrent execution across packages with disjoint write scopes)
-- **Current Status:**
-  - `ARCH-001` (Batch 1: Monorepo Scaffold) is **COMPLETED**.
-  - Next: Concurrently execute `CORE-001`, `CORE-002`, `CLI-001`, and `UI-001`.
-
-### Pragmatic Unicorn Decisions (Pre-Approved)
-1. **Rights Matrix Hash Matching:** The Master Rights Matrix (`concept/RGME-Amiga-Master-Rights-Matrix-v0.2.json`) indexes titles by canonical names. Match by normalized title, and use `concept/fixtures/freeware-games.json` as the fixture registry of known SHA-256 hashes.
-2. **Bundled Test Fixtures & Demoscene Intro:**
-   - Real Amiga floppy disk image already generated: `concept/fixtures/rgme-scene-intro.adf` (880 KB, valid Amiga bootblock).
-   - Bundled Freeware Profiles: `concept/fixtures/freeware-games.json` and `concept/fixtures/profiles/` (Flight of the Amazon Queen, Beneath a Steel Sky, Lure of the Temptress, RGME Scene Intro).
-3. **Mock Runtime Adapter & Intro Audio/Visuals:**
-   - Visuals: Canvas renders Amiga Copper raster rainbows, a stylized graffiti "RGME" metallic logo with shine/wobble, and a demoscene sine scroller.
-   - Audio: Web Audio API chiptune synth playing an energetic Chris Huelsbeck / Turrican-inspired 4-channel arpeggio & bassline.
-4. **Emulator Isolation:** Zero direct imports of emulator binaries in `@rgme/web`; all runtime interactions flow through `@rgme/core`'s `RuntimeAdapter`.
+- **Current Milestone:** **Milestone 2 (Hardware Immersion, Filesystem & Runtime Subsystems)**
+- **Methodology:** `assay` (Empirical, test-driven validation; rapid parallel execution)
+- **Autonomy Policy:** `unicorn` (Maximum autonomy, zero pauses, optimistic assumptions, never stop for non-blocking clarifications)
+- **Parallelism:** `maximal` (Execute all parallel lanes concurrently)
+- **Target Budget:** ~$12 Claude Cloud remaining
 
 ---
 
-## 2. Assay / Maximal Parallel Execution Lanes
+## 2. Milestone 2 Implementation Scope
 
-Proceed autonomously across the following parallel lanes:
+Execute the following 6 parallel lanes concurrently:
 
-### Lane A: Core Domain Models & Rights Engine (`CORE-001`)
-* Package: `packages/core`
-* Implement Zod schemas: `GameProfile` (`rgme.game/v0.2`), `MachineConfig`, `RightsRecord`.
-* Implement `RightsPolicyEngine.evaluateAction()`:
-  - *Invariant:* Unknown rights never become permission by inference (`local_only` or `deny`).
-* Vitest suite: `packages/core/src/__tests__/rights.test.ts`.
+1. **`FS-001` (Amiga Floppy Filesystem Engine in `@rgme/core`):**
+   - Implement `AdfParser` in TypeScript to read 880 KB ADF buffers.
+   - Decode bootblock, root block (sector 880), OFS/FFS directory blocks, file entries.
+   - Extract disk volume name and file streams.
+   - Unit tests parsing `concept/fixtures/rgme-scene-intro.adf` and synthetic OFS buffers.
 
-### Lane B: RuntimeAdapter & Mock Demonstrator (`CORE-002`)
-* Package: `packages/core`
-* Define `RuntimeAdapter` interface (`identifyCapabilities`, `loadGame`, `start`, `pause`, `reset`, `saveState`, `loadState`, `setInputMapping`, `setDisplayProfile`, `insertMedia`).
-* Implement `MockRuntimeAdapter` with Canvas raster rendering and in-memory state slots.
-* Vitest suite: `packages/core/src/__tests__/adapter.test.ts`.
+2. **`DRIVE-001` (Virtual Floppy Controller DF0:-DF3: & Step Sound Synth):**
+   - Manage multiple virtual drives (`DF0:` to `DF3:`) with motor state and cylinder position.
+   - Synthesize Amiga floppy drive mechanical head step & click sounds using Web Audio API.
+   - Add drive LEDs and disk swap drawer in `@rgme/web` (enabling multi-disk swapping).
 
-### Lane C: CLI Scanner & Resolver (`CLI-001`)
-* Package: `packages/cli`
-* CLI command: `rgme scan <dir>` discovering `.adf` disk images.
-* Streaming SHA-256 calculation + normalized title resolver against the Master Rights Matrix.
-* Generates `game-profile.yaml`.
-* Vitest suite: `packages/cli/src/__tests__/scan.test.ts`.
+3. **`SAVE-001` (Save State Persistence Engine):**
+   - Implement `SaveStateManager` using browser IndexedDB.
+   - Support slots 1–10 with canvas visual thumbnail snapshots (data URL), disk ID, and timestamp.
+   - UI Save/Load drawer with slot cards, restore button, and `.rgmesave` export/import.
 
-### Lane D: Web UI Shell & Viewport (`UI-001`)
-* Package: `packages/web`
-* Styled with `.skillweave/design/rgme-design-system.md` (Amiga Workbench accents, dark matte canvas).
-* Drag-and-drop ADF zone with client-side SHA-256 calculation.
-* Canvas Viewport with 4:3 PAL aspect-ratio lock and CRT scanline toggle.
-* Virtual Gamepad HUD.
+4. **`INPUT-001` (HTML5 Gamepad API Subsystem):**
+   - Auto-detect physical USB/Bluetooth gamepads (Xbox, PlayStation, 8BitDo).
+   - Map standard gamepad inputs to Amiga Joystick directions and Fire button.
+   - Show live tactile feedback on `ControllerHUD`.
+
+5. **`CRT-001` (High-Fidelity WebGL CRT Shader Pipeline):**
+   - WebGL post-processing shader for the canvas viewport.
+   - Scanlines, shadow mask / aperture grille, curvature, and bloom persistence.
+   - Presets: "Commodore 1084S", "Sony Trinitron", "Clean Pixel", "Arcade CRT".
+   - Fallback to 2D CSS if WebGL is unavailable.
+
+6. **`LIB-001` (Persistent Browser Game Library Shelf):**
+   - Store scanned ADFs, profiles, and metadata in IndexedDB so games persist across reloads.
+   - Library view with game cards, search, Rights Class filtering, and 1-click launch.
 
 ---
 
-## 3. Empirical Verification Gates (Assay)
-
-After concurrent implementation:
-
-1. **Gate 2 (Workspace Build & Test):**
-   ```bash
-   pnpm build && pnpm test
-   ```
-   *Empirically proves that all parallel lanes integrate cleanly without type or schema mismatches.*
-
-2. **Integration & E2E Slice (`INTEG-001`):**
-   - Connect `@rgme/web` to `MockRuntimeAdapter` and sample game profile.
-   - Run end-to-end integration tests.
-
-3. **Gate 3 (Final Verification):**
-   ```bash
-   pnpm test && pnpm build
-   ```
-
-4. **Persistence:**
-   - Mark all tasks `"passes": true` in `.skillweave/prds/prd.json`.
-   - Commit: `git commit -m "feat: complete RGME milestone 1 (assay/unicorn)"`.
+## 3. Verification & Gate Checks
+Run:
+```bash
+pnpm test && pnpm build
+```
+- Ensure 100% test pass rate.
+- Commit all changes with author `typelicious <typelicious@gmail.com>`.
+- Push to GitHub: `git push origin claude/admiring-gauss-f991hx`.
