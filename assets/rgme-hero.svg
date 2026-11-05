@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080a10" />
+      <stop offset="50%" stop-color="#0f121d" />
+      <stop offset="100%" stop-color="#090b12" />
+    </linearGradient>
+
+    <!-- Amiga Copper Rasterbar Gradients -->
+    <linearGradient id="copperGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0055" stop-opacity="0.8" />
+      <stop offset="25%" stop-color="#ff5500" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#ffff00" stop-opacity="0.9" />
+      <stop offset="75%" stop-color="#00ffcc" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0066ff" stop-opacity="0.8" />
+    </linearGradient>
+
+    <linearGradient id="chromeText" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#d0d8f0" />
+      <stop offset="48%" stop-color="#4d5f8c" />
+      <stop offset="52%" stop-color="#0e172a" />
+      <stop offset="55%" stop-color="#e08822" />
+      <stop offset="75%" stop-color="#ffd56b" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- CRT Scanline Pattern -->
+    <pattern id="scanlines" width="100" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="100" y2="0" stroke="#000000" stroke-width="1.2" opacity="0.35" />
+    </pattern>
+
+    <!-- Grid Pattern -->
+    <pattern id="retroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1c2438" stroke-width="0.8" opacity="0.45" />
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="360" fill="url(#bgGrad)" rx="16" />
+  <rect width="1200" height="360" fill="url(#retroGrid)" rx="16" />
+
+  <!-- Amiga Copper Rainbow Horizon -->
+  <g opacity="0.4">
+    <path d="M 0 280 Q 300 250, 600 280 T 1200 280 L 1200 284 L 0 284 Z" fill="url(#copperGrad1)" />
+    <path d="M 0 288 Q 300 260, 600 288 T 1200 288 L 1200 292 L 0 292 Z" fill="url(#copperGrad1)" opacity="0.8" />
+    <path d="M 0 296 Q 300 270, 600 296 T 1200 296 L 1200 300 L 0 300 Z" fill="url(#copperGrad1)" opacity="0.6" />
+  </g>
+
+  <!-- 3D Amiga Boing Ball (Left Accent) -->
+  <g transform="translate(140, 180)">
+    <!-- Shadow -->
+    <ellipse cx="10" cy="95" rx="75" ry="18" fill="#000000" opacity="0.55" filter="url(#neonGlow)" />
+    
+    <!-- Outer Ball Sphere -->
+    <clipPath id="ballClip">
+      <circle cx="0" cy="0" r="85" />
+    </clipPath>
+
+    <g clip-path="url(#ballClip)">
+      <circle cx="0" cy="0" r="85" fill="#ffffff" />
+      
+      <!-- Checkerboard Latitudes & Longitudes -->
+      <!-- Red facets -->
+      <path d="M -85 -30 Q 0 -50 85 -30 L 85 0 Q 0 -20 -85 0 Z" fill="#e60026" />
+      <path d="M -85 30 Q 0 10 85 30 L 85 60 Q 0 40 -85 60 Z" fill="#e60026" />
+      <path d="M -85 -60 Q 0 -80 85 -60 L 85 -85 L -85 -85 Z" fill="#e60026" />
+
+      <!-- Vertical Stripes / Curved Ribs -->
+      <path d="M -60 -85 Q -30 0 -60 85 L -30 85 Q 0 0 -30 -85 Z" fill="#e60026" opacity="0.8" />
+      <path d="M 0 -85 Q 30 0 0 85 L 30 85 Q 60 0 30 -85 Z" fill="#e60026" opacity="0.8" />
+      <path d="M 60 -85 Q 80 0 60 85 L 85 85 L 85 -85 Z" fill="#e60026" opacity="0.8" />
+
+      <!-- Spherical Lighting / Specular Highlight -->
+      <radialGradient id="sphereShade" cx="35%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+        <stop offset="40%" stop-color="#ffffff" stop-opacity="0.1" />
+        <stop offset="80%" stop-color="#000000" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="#000000" stop-opacity="0.9" />
+      </radialGradient>
+      <circle cx="0" cy="0" r="85" fill="url(#sphereShade)" />
+    </g>
+  </g>
+
+  <!-- Typography & Headers -->
+  <g transform="translate(300, 95)">
+    <!-- Subtitle Category Badge -->
+    <rect x="0" y="0" width="185" height="26" rx="4" fill="#0055aa" opacity="0.25" stroke="#3d82f6" stroke-width="1" />
+    <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" fill="#60a5fa" letter-spacing="2">
+      AMIGA &amp; RETRO ENGINE
+    </text>
+
+    <!-- Version Pill -->
+    <rect x="195" y="0" width="80" height="26" rx="4" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="1" />
+    <text x="210" y="18" font-family="monospace" font-size="12" font-weight="700" fill="#34d399">
+      v0.3.0
+    </text>
+
+    <!-- Main Title (Chrome / Graffiti Glow) -->
+    <text x="0" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Arial Black', Impact, sans-serif" font-size="82" font-weight="900" letter-spacing="4" fill="url(#chromeText)" filter="url(#subtleGlow)">
+      RGME
+    </text>
+
+    <!-- Full Name -->
+    <text x="250" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800" fill="#f8fafc" letter-spacing="1.5">
+      Retro Game Modernization Engine
+    </text>
+    <text x="250" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" fill="#94a3b8">
+      Preserve the original. Modernize reproducibly. Respect what we may distribute.
+    </text>
+
+    <!-- Feature Tags -->
+    <g transform="translate(0, 135)">
+      <!-- Tag 1: Pure TS ADF Parser -->
+      <rect x="0" y="0" width="145" height="30" rx="4" fill="#1e2433" stroke="#334155" stroke-width="1" />
+      <circle cx="16" cy="15" r="4" fill="#38bdf8" />
+      <text x="28" y="20" font-family="monospace" font-size="11.5" font-weight="600" fill="#cbd5e1">ADF / OFS / FFS</text>
+
+      <!-- Tag 2: WebGL CRT Shader -->
+      <rect x="155" y="0" width="160" height="30" rx="4" fill="#1e2433" stroke="#334155" stroke-width="1" />
+      <circle cx="171" cy="15" r="4" fill="#a855f7" />
+      <text x="183" y="20" font-family="monospace" font-size="11.5" font-weight="600" fill="#cbd5e1">WebGL CRT Shader</text>
+
+      <!-- Tag 3: Multi-Drive DF0:-DF3: -->
+      <rect x="325" y="0" width="165" height="30" rx="4" fill="#1e2433" stroke="#334155" stroke-width="1" />
+      <circle cx="341" cy="15" r="4" fill="#f59e0b" />
+      <text x="353" y="20" font-family="monospace" font-size="11.5" font-weight="600" fill="#cbd5e1">Virtual Floppy Audio</text>
+
+      <!-- Tag 4: Rights Intelligence -->
+      <rect x="500" y="0" width="155" height="30" rx="4" fill="#1e2433" stroke="#334155" stroke-width="1" />
+      <circle cx="516" cy="15" r="4" fill="#10b981" />
+      <text x="528" y="20" font-family="monospace" font-size="11.5" font-weight="600" fill="#cbd5e1">Rights Intelligence</text>
+
+      <!-- Tag 5: Multi-Platform -->
+      <rect x="665" y="0" width="165" height="30" rx="4" fill="#1e2433" stroke="#334155" stroke-width="1" />
+      <circle cx="681" cy="15" r="4" fill="#ec4899" />
+      <text x="693" y="20" font-family="monospace" font-size="11.5" font-weight="600" fill="#cbd5e1">Amiga • C64 • Sega</text>
+    </g>
+  </g>
+
+  <!-- Top Right Amiga Corner Accent -->
+  <g transform="translate(1120, 25)">
+    <circle cx="30" cy="30" r="14" fill="none" stroke="#ff0055" stroke-width="2.5" opacity="0.8" />
+    <path d="M 20 30 L 40 30 M 30 20 L 30 40" stroke="#ff0055" stroke-width="2" opacity="0.8" />
+  </g>
+
+  <!-- Overlay Scanline Texture -->
+  <rect width="1200" height="360" fill="url(#scanlines)" pointer-events="none" rx="16" />
+</svg>
