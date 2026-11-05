@@ -55,7 +55,10 @@ export function Header({
     status.state === "PAUSED" ? "var(--rgme-accent-phosphor-amber)" : "var(--rgme-fg-muted)";
 
   return (
-    <header className="flex items-center gap-3 px-4 py-2.5 border-b select-none" style={{ borderColor: "var(--rgme-border-subtle)", background: "var(--rgme-bg-surface-base)" }}>
+    <header
+      className="sticky top-0 z-40 flex items-center gap-3 px-4 py-2.5 border-b select-none backdrop-blur-md shadow-md"
+      style={{ borderColor: "var(--rgme-border-subtle)", background: "rgba(17, 20, 29, 0.95)" }}
+    >
       <div className="flex items-center gap-2">
         <BoingBall />
         <h1 className="text-xl font-semibold rgme-mono" style={{ fontSize: "1.25rem" }}>RGME</h1>
