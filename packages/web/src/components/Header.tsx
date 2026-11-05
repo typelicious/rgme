@@ -56,18 +56,6 @@ export function Header({
 
   return (
     <header className="flex items-center gap-3 px-4 py-2.5 border-b select-none" style={{ borderColor: "var(--rgme-border-subtle)", background: "var(--rgme-bg-surface-base)" }}>
-      {onToggleSidebar && (
-        <button
-          onClick={onToggleSidebar}
-          data-testid="sidebar-toggle-btn"
-          className="rgme-btn flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 hover:border-[#38bdf8] text-white"
-          title="Open Drives & System Tools Drawer"
-        >
-          <span>🎛️</span>
-          <span>Drives & Tools</span>
-        </button>
-      )}
-
       <div className="flex items-center gap-2">
         <BoingBall />
         <h1 className="text-xl font-semibold rgme-mono" style={{ fontSize: "1.25rem" }}>RGME</h1>
@@ -75,6 +63,18 @@ export function Header({
       </div>
 
       <span className="flex-1" />
+
+      {onToggleSidebar && (
+        <button
+          onClick={onToggleSidebar}
+          data-testid="sidebar-toggle-btn"
+          className="rgme-btn flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 hover:border-[#38bdf8] text-white cursor-pointer"
+          title="Open Drives & System Tools Drawer"
+        >
+          <span>🎛️</span>
+          <span>Drives & Tools</span>
+        </button>
+      )}
 
       {/* Runtime Dropdown in Header */}
       {onSelectRuntimeKind && (

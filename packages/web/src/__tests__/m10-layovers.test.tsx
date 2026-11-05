@@ -47,7 +47,7 @@ describe("Milestone 10: Layovers, Centered Layout & WASM Core Resilience", () =>
     const drawerContainer = screen.getByTestId("sidebar-drawer-container");
     expect(drawerContainer).toHaveClass("hidden");
 
-    // Click header drawer trigger
+    // Click header drawer trigger (positioned to the left of the WASM Core menu)
     fireEvent.click(screen.getByTestId("sidebar-toggle-btn"));
     expect(drawerContainer).not.toHaveClass("hidden");
 
@@ -55,8 +55,8 @@ describe("Milestone 10: Layovers, Centered Layout & WASM Core Resilience", () =>
     fireEvent.click(screen.getByTestId("close-sidebar-btn"));
     expect(drawerContainer).toHaveClass("hidden");
 
-    // Click floating trigger
-    fireEvent.click(screen.getByTestId("floating-sidebar-toggle-btn"));
+    // Reopen via header drawer trigger
+    fireEvent.click(screen.getByTestId("sidebar-toggle-btn"));
     expect(drawerContainer).not.toHaveClass("hidden");
 
     // Close via backdrop click

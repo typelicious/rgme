@@ -15,20 +15,47 @@ export interface Commodore1084sBezelProps {
   /** Element to put into fullscreen (default: the bezel itself). */
   fullscreenTarget?: FullscreenTarget;
   className?: string;
+  onToggleCrt?: () => void;
+  crt?: boolean;
+  crtMenuContent?: ReactNode;
 }
 
 /**
  * Original, generic "retro 1084-style" beige colour monitor housing. It uses no third-party logos or artwork:
  * the badge reads RGME / STEREO COLOR MONITOR.
  */
-export function Commodore1084sBezel({ children, powered, defaultPowered = true, onPowerChange, fullscreenTarget, className }: Commodore1084sBezelProps) {
+export function Commodore1084sBezel({
+  children,
+  powered,
+  defaultPowered = true,
+  onPowerChange,
+  fullscreenTarget,
+  className,
+  onToggleCrt,
+  crt = false,
+  crtMenuContent
+}: Commodore1084sBezelProps) {
   const root = useRef<HTMLDivElement>(null);
+  const crtMenuRef = useRef<HTMLDivElement>(null);
   const [internalOn, setInternalOn] = useState(defaultPowered);
   const desiredOn = powered ?? internalOn;
   const [state, dispatch] = useReducer(reduce, desiredOn, initialState);
   const reduced = usePrefersReducedMotion();
   const [nativeFs, setNativeFs] = useState(false);
   const [pseudoFs, setPseudoFs] = useState(false);
+  const [crtMenuOpen, setCrtMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (crtMenuRef.current && !crtMenuRef.current.contains(e.target as Node)) {
+        setCrtMenuOpen(false);
+      }
+    };
+    if (crtMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [crtMenuOpen]);
 
   // Follow the desired power (controlled or uncontrolled).
   useEffect(() => {
@@ -139,8 +166,63 @@ export function Commodore1084sBezel({ children, powered, defaultPowered = true, 
             <button type="button" className="rgme-bezel__btn" data-testid="bezel-fullscreen" aria-label="Toggle fullscreen" aria-pressed={fullscreen} onClick={() => void toggleFullscreen()}>
               {fullscreen ? "Exit" : "Fullscreen"}
             </button>
-            <span className="rgme-bezel__knob" aria-hidden="true" title="Brightness (decorative)" />
-            <span className="rgme-bezel__knob" aria-hidden="true" title="Contrast (decorative)" />
+            {/* Interactive CRT Scanlines Knob */}
+            <button
+              type="button"
+              className="rgme-bezel__knob flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              data-testid="crt-corner-trigger"
+              aria-label="CRT scanlines"
+              aria-pressed={crt}
+              onClick={onToggleCrt}
+              title={crt ? "Disable CRT Scanlines" : "Enable CRT Scanlines"}
+              style={{
+                background: crt
+                  ? "radial-gradient(circle at 35% 30%, #4ade80, #15803d)"
+                  : undefined,
+                borderColor: crt ? "#22c55e" : undefined,
+                boxShadow: crt ? "0 0 6px #22c55e" : undefined
+              }}
+            >
+              <span className="text-[9px] select-none pointer-events-none" style={{ filter: crt ? "drop-shadow(0 0 2px #fff)" : "opacity(0.8)" }}>
+                📺
+              </span>
+              <span className="sr-only">CRT scanlines</span>
+            </button>
+
+            {/* Interactive CRT Display Settings Knob with Popover popping up-left */}
+            <div className="relative" ref={crtMenuRef}>
+              <button
+                type="button"
+                className="rgme-bezel__knob flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+                data-testid="crt-menu-toggle-btn"
+                aria-label="CRT Display Settings"
+                onClick={() => setCrtMenuOpen((o) => !o)}
+                title="CRT Display Settings"
+              >
+                <span className="text-[9px] select-none pointer-events-none" style={{ opacity: 0.85 }}>
+                  ⚙️
+                </span>
+              </button>
+
+              {crtMenuOpen && crtMenuContent && (
+                <div
+                  data-testid="crt-layover-panel"
+                  className="absolute bottom-8 right-0 z-50 bg-[#12141f]/95 border border-[#2b2f45] shadow-[0_12px_36px_rgba(0,0,0,0.9)] backdrop-blur-xl p-4 rounded-xl text-xs text-slate-200 w-80 animate-in fade-in zoom-in-95 duration-150"
+                >
+                  <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+                    <span className="font-bold text-white uppercase tracking-wider text-[11px]">📺 CRT Display Settings</span>
+                    <button
+                      onClick={() => setCrtMenuOpen(false)}
+                      data-testid="crt-layover-close-btn"
+                      className="text-slate-400 hover:text-white text-xs cursor-pointer"
+                    >
+                      ✕ Close
+                    </button>
+                  </div>
+                  {crtMenuContent}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
