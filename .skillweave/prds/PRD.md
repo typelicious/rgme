@@ -1,7 +1,7 @@
-# Product Requirements Document (PRD) v0.9.0
-## Retro Game Modernization Engine (RGME) — Milestone 9: WebAssembly Amiga Hardware Core, Kickstart ROM Management & Direct Disk Execution
+# Product Requirements Document (PRD) v0.10.0
+## Retro Game Modernization Engine (RGME) — Milestone 10: Spatial Modernization, Centered Viewport, Layover Drawer & Ambient Controls
 
-- **Version:** 0.9.0
+- **Version:** 0.10.0
 - **Status:** In Progress
 - **Framework:** SkillWeave Blueprint + SkillWeave Design + SkillWeave Discovery
 - **Author:** `typelicious <typelicious@gmail.com>`
@@ -10,52 +10,57 @@
 
 ## 1. Executive Summary & Problem Statements
 
-Milestone 9 brings true native Amiga software execution into RGME:
-1. **The Execution Gap:**
-   - Previous milestones provided floppy drive simulation (DF0–DF3), disk streaming from Archive.org, metadata extraction, and the interactive Boing Brick Buster arcade game.
-   - However, when a user loaded genuine commercial Amiga floppy disks (ADF/IPF/ZIP), the engine did not execute the 68000 binary machine code with full custom chip emulation.
-2. **WebAssembly Amiga Hardware Core Integration:**
-   - RGME requires a production-grade WebAssembly Amiga Core integrated into `WasmAmigaAdapter` adhering strictly to the RGME WASM Core Contract:
-     - 68000 CPU instructions & cycle accounting
-     - OCS/ECS Custom Chips (Copper lists, bitplane DMA blitting, display window clipping)
-     - Paula 4-channel audio DMA generation streamed to Web Audio
-     - Floppy disk track reading and sector decoding directly from mounted memory buffers
-3. **Kickstart ROM Management & Zero-Friction Out-of-the-Box Play:**
-   - Out of the box, RGME must ship with an open-source, legally unencumbered Kickstart ROM replacement (AROS 68k compatibility layer) so users can immediately boot and play without hunting for copyrighted ROM files.
-   - For 100% commercial compatibility, RGME must offer a "BYOR" (Bring Your Own ROM) loader allowing users to drop or select their own Kickstart 1.3 / 2.0 / 3.1 ROM files, with SHA-256 validation and local IndexedDB persistence.
-4. **Unified Control & Diagnostics:**
-   - Real-time core telemetry HUD (FPS, CPU Cycles, Video Line, Audio DMA state).
-   - Instant Master Reset via the floating `↺ Reset` layover button.
+Milestone 10 delivers a comprehensive spatial overhaul of the RGME web interface alongside critical runtime robustness fixes:
+1. **WASM Core Media Resolution Failure:**
+   - In Milestone 9, selecting freeware showcase games (*Beneath a Steel Sky*, *Flight of the Amazon Queen*), built-in demo profiles, or streamed titles while in WASM mode produced `No bytes registered for [file].adf ... Drop or mount the ADF first`.
+   - `MediaRegistry` must be enhanced to pre-register demo bytes, resolve matching hashes, and provide a synthetic bootable ADF fallback for any showcase or unhydrated media entry so the WASM core never halts with an unhandled exception.
+   - WASM Core must become the default runtime mode out-of-the-box (`runtimeKind = "wasm"`).
+2. **Viewport Centering & Sidebar Layover Drawer:**
+   - The fixed left sidebar currently consumes 320px of horizontal real estate, forcing the 1084S monitor off-center and restricting its scaling.
+   - The sidebar is removed from the static flow and converted into an on-demand slide-over drawer triggered via a header icon (`🎛️ System / Drives`).
+   - Inside the drawer, drives, dropzone, profile details, and export tools are arranged in two columns side-by-side (`grid grid-cols-2`).
+   - The monitor viewport becomes fully centered on the page and expands to maximum comfortable width.
+3. **Information Architecture Reordering:**
+   - Reorder lower sections below the monitor to prioritize gaming discovery:
+     1. **Retro Game Library**
+     2. **ProTracker Player**
+     3. **Chain of Title**
+4. **Contextual Controls & Ambient Layovers:**
+   - **CRT Controls:** Relocated to an icon button in the top-right corner of the monitor bezel, opening a downward-left layover panel with CRT preset toggles and sliders.
+   - **Runtime Core Switcher:** Moved to the main header navigation (`⚡ WASM Core ▾`), providing a downward layover menu with telemetry.
+   - **Guru Meditation Error Layover:** Errors appear as an authentic centered Amiga Guru Meditation red blinking modal with failure codes, minimizing on close to a bottom-left alert icon (`bottom-6 left-6`).
+   - **Draggable Compact Remote Control:** Virtual D-Pad and action buttons become a sleek, draggable floating glass controller that can be minimized to a floating icon button next to the Reset button (`bottom-6 right-24`).
 
 ---
 
-## 2. Milestone 9 Task Breakdown
+## 2. Milestone 10 Task Breakdown
 
-### Task 1: `M9-WASM-001` — Production WebAssembly Amiga Hardware Core Engine
-- **Goal:** Implement and integrate a fully featured WebAssembly Amiga hardware core adhering to the RGME WASM Core Contract.
+### Task 1: `M10-MEDIA-001` — Resilient MediaRegistry & Default WASM Core Activation
+- **Goal:** Ensure every disk image, demo profile, freeware classic, and stream loads without "No bytes registered" errors, and make WASM Core default.
 - **Acceptance Criteria:**
-  - Contract implementation: `rgme_init`, `rgme_alloc`, `rgme_load_media`, `rgme_run_frame`, `rgme_framebuffer_ptr`, `rgme_framebuffer_width`, `rgme_framebuffer_height`, `rgme_set_input`, `rgme_reset`, `rgme_cycle_counter`, `rgme_audio_ptr`, `rgme_audio_samples`.
-  - Full 320x256 PAL frame generation with genuine bitplane color rendering and Copper raster synchronization.
-  - Floppy track & sector reader decoding standard Amiga MFM / ADF sectors into Chip RAM.
-  - Full Paula 4-channel audio PCM buffer generation exported to the host.
+  - `MediaRegistry` automatically provides fallback bootable ADF bytes for any requested media entry.
+  - Pre-register bytes for `DEMO_PROFILE`, `SCENE_PROFILE`, `GURU_PROFILE`, and `FREEWARE_CLASSICS`.
+  - Default `runtimeKind` set to `"wasm"` across state, refs, and storage.
 
-### Task 2: `M9-KICKSTART-001` — Kickstart ROM Manager & Open AROS Compatibility Layer
-- **Goal:** Provide seamless Kickstart ROM handling with built-in open-source AROS fallback and BYOR support.
+### Task 2: `M10-SIDEBAR-001` — Slide-Over Layover Drawer & Centered Monitor Viewport
+- **Goal:** Center the 1084S monitor on full screen width and house tools in a 2-column slide-over drawer.
 - **Acceptance Criteria:**
-  - `KickstartRomStore` managing ROM bytes with IndexedDB persistence and SHA-256 identification.
-  - Built-in open-source AROS 68k minimal Kickstart ROM allowing games and bootblocks to execute without third-party files.
-  - Support for drag-and-drop / file picker for Kickstart 1.3 (`0xcd854...`), 2.04, and 3.1 ROM files.
-  - Seamless injection of the active Kickstart ROM into the WASM Core address space (`0xf80000` - `0xffffff`).
+  - Main monitor container centered with `max-w-7xl mx-auto`.
+  - Floating/Header trigger opening an animated left layover drawer over the page.
+  - 2-column layout inside the drawer (`grid grid-cols-2 gap-4`).
+  - Dismissible via button, Escape key, or clicking backdrop.
 
-### Task 3: `M9-AUDIO-001` — Paula DMA Web Audio Streaming & Dynamic Mixing
-- **Goal:** Bridge WASM core Paula audio output into the browser's Web Audio graph.
+### Task 3: `M10-SECTIONS-001` — Re-ordered Lower Content Sections
+- **Goal:** Align page sections with user priority.
 - **Acceptance Criteria:**
-  - `WasmAudioStreamer` capturing PCM samples from `rgme_audio_ptr()` and streaming via `AudioWorklet` / `ScriptProcessorNode` / dynamic buffer queue.
-  - Clean volume control, zero buzzing, no DC offset, automatic pause when inactive, and immediate mute on Reset.
+  - Section 1: Retro Game Library.
+  - Section 2: ProTracker Player.
+  - Section 3: Chain of Title.
 
-### Task 4: `M9-UI-001` — Core Telemetry HUD & ROM Settings Modal
-- **Goal:** Surface hardware core status, active ROM, and diagnostic controls in the RGME web interface.
+### Task 4: `M10-LAYOVERS-001` — Contextual Ambient Layovers (CRT, Header Runtime, Guru Error & Draggable Remote)
+- **Goal:** De-clutter the space beneath the monitor with specialized, contextual layovers.
 - **Acceptance Criteria:**
-  - Hardware Core status bar showing active core ("WASM Native", "AROS 68k", "PAL 50Hz", Cycle count).
-  - ROM configuration modal accessible from the header and runtime switch.
-  - 1-click execution when selecting a game from Library or Archive.org: automatically switches to WASM core if enabled and begins emulation.
+  - CRT trigger icon in monitor's top-right corner with dropdown menu.
+  - Runtime core selector button in Header navigation with drop-down overlay.
+  - Guru Meditation style centered error modal with minimize to bottom-left pill.
+  - Draggable compact remote control with minimize to bottom-right (left of Reset button).

@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.9.0",
-  "status": "completed",
+  "version": "0.10.0",
+  "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "Milestone 9 (WebAssembly Amiga Hardware Core, Kickstart ROM Management & Direct Disk Execution)",
+  "milestone": "Milestone 10 (Spatial Modernization, Centered Viewport, Layover Drawer & Ambient Controls)",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -641,6 +641,62 @@
       "priority": "high",
       "estimatedEffort": "2",
       "dependsOn": ["M9-KICKSTART-001", "M9-AUDIO-001"],
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M10-MEDIA-001",
+      "title": "Resilient MediaRegistry & Default WASM Core Activation",
+      "description": "Auto-synthesis of bootable fallback ADFs for missing media, pre-registration of demo and classic disk bytes, and default WASM activation.",
+      "acceptanceCriteria": [
+        "MediaRegistry provides fallback bootable ADF bytes without throwing unhandled errors",
+        "Pre-register disk bytes for DEMO_PROFILE, SCENE_PROFILE, and Freeware Classics",
+        "Default runtime set to wasm"
+      ],
+      "priority": "critical",
+      "estimatedEffort": "2",
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M10-SIDEBAR-001",
+      "title": "Slide-Over Layover Drawer & Centered Monitor Viewport",
+      "description": "Convert static left sidebar into an animated 2-column slide-over layover drawer and center the monitor on full width.",
+      "acceptanceCriteria": [
+        "Monitor centered in page taking full width",
+        "Slide-over drawer opened via header or floating trigger",
+        "Drives, dropzone, and inspection tools in 2-column grid inside drawer"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M10-SECTIONS-001",
+      "title": "Re-ordered Lower Content Sections",
+      "description": "Reorder sections below monitor to: 1. Retro Game Library, 2. ProTracker Player, 3. Chain of Title.",
+      "acceptanceCriteria": [
+        "Section order: Library -> Player -> Chain of Title"
+      ],
+      "priority": "medium",
+      "estimatedEffort": "1",
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M10-LAYOVERS-001",
+      "title": "Contextual Ambient Layovers (CRT, Header Runtime, Guru Error & Draggable Remote)",
+      "description": "Distribute monitor controls into dedicated layovers: CRT in top-right monitor corner, Runtime in header, Guru Meditation error modal, and draggable remote controller.",
+      "acceptanceCriteria": [
+        "CRT trigger icon in monitor's top-right corner with dropdown",
+        "Runtime selector button in header with dropdown menu",
+        "Guru Meditation centered error box with bottom-left minimize pill",
+        "Draggable compact remote control with bottom-right minimize button next to Reset"
+      ],
+      "priority": "high",
+      "estimatedEffort": "3",
+      "dependsOn": ["M10-SIDEBAR-001"],
       "type": "ui",
       "passes": true
     }

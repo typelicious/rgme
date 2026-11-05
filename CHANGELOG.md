@@ -5,6 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.10.0] - 2026-11-05
+
+### Added
+- **Default WebAssembly Hardware Core & Universal Media Resilience:**
+  - WebAssembly Amiga 68000 Core is now the default runtime on page load (`runtimeKind = "wasm"`).
+  - Added synthetic fallback floppy disk generator (`generateBootableAdfFallback`) in `MediaRegistry` producing valid 901,120-byte Amiga bootable floppies with authentic DOS header and checksum for multi-disk showcase titles (*Beneath a Steel Sky*, *Flight of the Amazon Queen*), demos, and unmounted media without byte-lookup errors.
+- **Slide-Over Control Center Drawer (`SidebarDrawer`):**
+  - Removed fixed 320px left column from the document flow; page monitor is centered and occupies full workspace width.
+  - Sidebar opens as an overlay drawer pane via header icon button (`🎛️ Drives & Tools`) and floating pill trigger.
+  - Organized internally into a responsive two-column layout (`col1`: Dropzone & Demos, `col2`: Floppy drives, Swapper, Inspector, Export).
+- **Contextual Monitor Corner CRT Controls:**
+  - Scanline controls moved from under the monitor to an icon button in the top-right corner of the monitor bezel.
+  - Triggers a downward-left popover layover with CRT toggle, preset selector, and parameter sliders (scanlines, glow, curvature).
+- **Authentic Amiga Guru Meditation Error Layover (`GuruMeditationOverlay`):**
+  - Runtime errors displayed as authentic centered Amiga Guru Meditation modals with blinking red border and error details.
+  - Dismissing minimizes the error into an unobtrusive blinking pill in the bottom-left corner (`fixed bottom-6 left-6`); clicking restores full modal details.
+- **Draggable Compact Remote Control (`FloatingRemoteControl`):**
+  - Directional D-Pad (Up, Down, Left, Right) and action buttons (1, 2) packaged into a draggable, compact glass floating remote.
+  - Minimizes into a quick-access controller icon in the bottom-right corner (`fixed bottom-6 right-28`, to the left of the Reset button).
+- **Lower Content Section Reordering:**
+  - Content sections sequenced as:
+    1. **Retro Game Library** (`LibraryShelf`)
+    2. **ProTracker Player** (`ModPlayerPanel`)
+    3. **Chain of Title** (`ChainOfTitle`)
+
+---
+
 ## [0.9.0] - 2026-11-05
 
 ### Added

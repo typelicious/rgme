@@ -52,6 +52,9 @@ import { ChainOfTitle } from "./components/ChainOfTitle";
 import { ExportPanel } from "./components/ExportPanel";
 import { RuntimeSwitch } from "./components/RuntimeSwitch";
 import { MediaRegistry, createRuntime, disposeRuntime, type RuntimeKind } from "./lib/runtime-factory";
+import { SidebarDrawer } from "./components/SidebarDrawer";
+import { GuruMeditationOverlay } from "./components/GuruMeditationOverlay";
+import { FloatingRemoteControl } from "./components/FloatingRemoteControl";
 import multiplatformData from "../../../concept/fixtures/multiplatform-games.json";
 import c64DemoUrl from "../../../concept/fixtures/rgme-c64-demo.d64?url";
 import mdDemoUrl from "../../../concept/fixtures/rgme-md-demo.md?url";
@@ -108,12 +111,17 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     const off = floppySynth.attach(floppy);
     return () => { off(); floppySynth.dispose(); floppy.dispose(); };
   }, [floppy, floppySynth]);
-  const mediaRegistry = useMemo(() => new MediaRegistry(), []);
+  const isCustomFactory = createAdapter !== defaultFactory;
+  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "wasm";
+  const mediaRegistry = useMemo(() => new MediaRegistry(true), []);
   const bytesBySha = useRef(new Map<string, Uint8Array>());
-  const adapterKey = useRef("amiga:mock");
+  const adapterKey = useRef(initialKind === "wasm" ? "amiga:wasm" : "amiga:mock");
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const runtimeKindRef = useRef<RuntimeKind>("mock");
-  const [runtimeKind, setRuntimeKindState] = useState<RuntimeKind>("mock");
+  const runtimeKindRef = useRef<RuntimeKind>(initialKind);
+  const [runtimeKind, setRuntimeKindState] = useState<RuntimeKind>(initialKind);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [guruMinimized, setGuruMinimized] = useState(false);
+  const [remoteMinimized, setRemoteMinimized] = useState(false);
   const [rightsRecord, setRightsRecord] = useState<RightsRecord>();
   const [runtimeError, setRuntimeError] = useState<string>();
   const [diskIdx, setDiskIdx] = useState(0);
@@ -146,9 +154,12 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       }
       disposeRuntime(adapterRef.current);
       const canvas = canvasRef.current;
-      const a = createAdapter(canvas as unknown as CanvasLike);
+      const a =
+        runtimeKindRef.current === "mock"
+          ? createAdapter(canvas as unknown as CanvasLike)
+          : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
       adapterRef.current = a;
-      adapterKey.current = "amiga:mock";
+      adapterKey.current = runtimeKindRef.current === "wasm" ? "amiga:wasm" : "amiga:mock";
       unsub.current?.();
       unsub.current = a.onStatus(setStatus);
       setAdapter(a);
@@ -177,15 +188,18 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     setRuntimeError(undefined);
     setHasSave(false);
     setActiveDemo(null);
-  }, [createAdapter, floppy]);
+  }, [createAdapter, floppy, mediaRegistry]);
 
   const onCanvas = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (adapterRef.current) return;
-      const a = createAdapter(canvas as unknown as CanvasLike);
-      adapterRef.current = a;
       canvasRef.current = canvas;
       setCanvasEl(canvas);
+      const a =
+        runtimeKindRef.current === "mock"
+          ? createAdapter(canvas as unknown as CanvasLike)
+          : createRuntime(runtimeKindRef.current, canvas, { media: mediaRegistry, kickstartRom: activeRomBytesRef.current });
+      adapterRef.current = a;
       unsub.current = a.onStatus(setStatus);
       setAdapter(a);
 
@@ -197,7 +211,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         }
       });
     },
-    [createAdapter, floppy, unloadGame]
+    [createAdapter, floppy, mediaRegistry, unloadGame]
   );
 
   // Stop the runtime (timers, audio) when the app unmounts.
@@ -755,6 +769,9 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       <Header
         status={status}
         runtimeName={adapter?.identifyCapabilities().name ?? "No runtime"}
+        runtimeKind={runtimeKind}
+        onSelectRuntimeKind={(k) => void switchRuntime(k)}
+        onToggleSidebar={() => setSidebarOpen((o) => !o)}
         onOpenPalette={() => setPaletteOpen(true)}
         onOpenShortcuts={() => setShortcutsOpen(true)}
         onOpenCloudStream={() => setCloudOpen(true)}
@@ -767,124 +784,149 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           });
         }}
       />
-      <main className="grid gap-4 p-4 flex-1 md:grid-cols-[320px_1fr]">
-        <div className="flex flex-col gap-4">
-          <Dropzone info={info} onFile={onFile} />
-          <div className="flex gap-2">
-            <button className="rgme-btn flex-1" onClick={() => void loadDemo()} data-testid="load-demo">
-              {activeDemo === "demo" ? "● Demo Profile" : "Load demo profile"}
-            </button>
-            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-demo" disabled={activeDemo !== "demo"}>
-              Unload
-            </button>
-          </div>
-          <div className="flex gap-2">
-            <button className="rgme-btn flex-1" onClick={() => void loadScene()} data-testid="load-scene">
-              {activeDemo === "scene" ? "● Scene Demo" : "Load Scene Demo"}
-            </button>
-            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-scene" disabled={activeDemo !== "scene"}>
-              Unload
-            </button>
-          </div>
-          <div className="flex gap-2">
-            <button className="rgme-btn flex-1" onClick={() => void loadGuru()} data-testid="load-guru">
-              {activeDemo === "guru" ? "● Guru Meditation" : "Load Guru Meditation"}
-            </button>
-            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-guru" disabled={activeDemo !== "guru"}>
-              Unload
-            </button>
-          </div>
-          <FloppyDrives controller={floppy} discs={profile ? profile.media.map((m) => ({ id: m.id, label: m.label ?? m.filename, sha256: m.sha256 })) : []} onSwap={(drive, discId) => { const m = profile?.media.find((x) => x.id === discId); if (m) adapter?.insertMedia(m); void drive; }} />
-          <div className="flex gap-2">
-            <button className="rgme-btn flex-1" onClick={() => void loadFixture(c64DemoUrl, "rgme-c64-demo.d64", "c64")} data-testid="load-c64">
-              {activeDemo === "c64" ? "● C64 Demo" : "Load C64 Demo"}
-            </button>
-            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-c64" disabled={activeDemo !== "c64"}>
-              Unload
-            </button>
-          </div>
-          <div className="flex gap-2">
-            <button className="rgme-btn flex-1" onClick={() => void loadFixture(mdDemoUrl, "rgme-md-demo.md", "md")} data-testid="load-md">
-              {activeDemo === "md" ? "● Mega Drive Demo" : "Load Mega Drive Demo"}
-            </button>
-            <button className="rgme-btn" onClick={unloadGame} data-testid="unload-md" disabled={activeDemo !== "md"}>
-              Unload
-            </button>
-          </div>
-          {discs.length > 1 && <DiskSwapper swapper={swapper} discs={discs} currentIndex={diskIdx} label={profile?.title} onChange={setDiskIdx} />}
-          <GameProfileInspector profile={profile} decisions={decisions} />
-          <section className="rgme-panel">
+
+      {/* Floating Drawer Trigger Pill for Quick Drive Access */}
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          data-testid="floating-sidebar-toggle-btn"
+          className="fixed top-16 left-4 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#13141c]/90 hover:bg-[#1f2334] border border-[#2b334a] text-slate-300 hover:text-white shadow-lg backdrop-blur-md text-xs font-mono transition-all cursor-pointer hover:scale-105 active:scale-95"
+          title="Open Drives & System Tools Drawer"
+        >
+          <span>🎛️</span>
+          <span className="font-semibold">Drives & Tools</span>
+        </button>
+      )}
+
+      {/* Slide-over Layover Drawer Pane with 2-Column Responsive Layout */}
+      <SidebarDrawer
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        col1={
+          <>
+            <Dropzone info={info} onFile={onFile} />
             <div className="flex gap-2">
-              <button className="rgme-btn" disabled={!canExport} data-testid="export-btn" aria-describedby="export-reason">Export</button>
-              <button className="rgme-btn" disabled={!canExport} data-testid="share-btn" aria-describedby="export-reason">Share</button>
+              <button className="rgme-btn flex-1" onClick={() => void loadDemo()} data-testid="load-demo">
+                {activeDemo === "demo" ? "● Demo Profile" : "Load demo profile"}
+              </button>
+              <button className="rgme-btn" onClick={unloadGame} data-testid="unload-demo" disabled={activeDemo !== "demo"}>
+                Unload
+              </button>
             </div>
-            {profile && rightsRecord && (
-              <div className="mt-3">
-                <ExportPanel profile={profile} rights={rightsRecord} getMedia={async () => bytesBySha.current.get(profile.media[0]!.sha256.toLowerCase())} />
+            <div className="flex gap-2">
+              <button className="rgme-btn flex-1" onClick={() => void loadScene()} data-testid="load-scene">
+                {activeDemo === "scene" ? "● Scene Demo" : "Load Scene Demo"}
+              </button>
+              <button className="rgme-btn" onClick={unloadGame} data-testid="unload-scene" disabled={activeDemo !== "scene"}>
+                Unload
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button className="rgme-btn flex-1" onClick={() => void loadGuru()} data-testid="load-guru">
+                {activeDemo === "guru" ? "● Guru Meditation" : "Load Guru Meditation"}
+              </button>
+              <button className="rgme-btn" onClick={unloadGame} data-testid="unload-guru" disabled={activeDemo !== "guru"}>
+                Unload
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button className="rgme-btn flex-1" onClick={() => void loadFixture(c64DemoUrl, "rgme-c64-demo.d64", "c64")} data-testid="load-c64">
+                {activeDemo === "c64" ? "● C64 Demo" : "Load C64 Demo"}
+              </button>
+              <button className="rgme-btn" onClick={unloadGame} data-testid="unload-c64" disabled={activeDemo !== "c64"}>
+                Unload
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button className="rgme-btn flex-1" onClick={() => void loadFixture(mdDemoUrl, "rgme-md-demo.md", "md")} data-testid="load-md">
+                {activeDemo === "md" ? "● Mega Drive Demo" : "Load Mega Drive Demo"}
+              </button>
+              <button className="rgme-btn" onClick={unloadGame} data-testid="unload-md" disabled={activeDemo !== "md"}>
+                Unload
+              </button>
+            </div>
+          </>
+        }
+        col2={
+          <>
+            <FloppyDrives controller={floppy} discs={profile ? profile.media.map((m) => ({ id: m.id, label: m.label ?? m.filename, sha256: m.sha256 })) : []} onSwap={(drive, discId) => { const m = profile?.media.find((x) => x.id === discId); if (m) adapter?.insertMedia(m); void drive; }} />
+            {discs.length > 1 && <DiskSwapper swapper={swapper} discs={discs} currentIndex={diskIdx} label={profile?.title} onChange={setDiskIdx} />}
+            <GameProfileInspector profile={profile} decisions={decisions} />
+            <section className="rgme-panel">
+              <div className="flex gap-2">
+                <button className="rgme-btn" disabled={!canExport} data-testid="export-btn" aria-describedby="export-reason">Export</button>
+                <button className="rgme-btn" disabled={!canExport} data-testid="share-btn" aria-describedby="export-reason">Share</button>
               </div>
-            )}
-            {exportReason && <p id="export-reason" className="text-sm mt-2" style={{ color: "var(--rgme-fg-secondary)" }} data-testid="export-reason">{exportReason}</p>}
-          </section>
-        </div>
-        <div className="flex flex-col items-center w-full">
-          <Viewport bezel crt={crt} crtParams={crtParams} onToggleCrt={() => setCrt((c) => !c)} onCanvas={onCanvas} />
-          {crt && (
-            <div className="mt-2 w-full rgme-controls-container">
-              <CrtControls presetId={crtId} params={crtParams} onPreset={(id) => { setCrtId(id); setCrtParams(getCrtPreset(id).params); }} onParams={setCrtParams} />
-            </div>
-          )}
-          <div className="mt-2 w-full rgme-controls-container">
-            <RuntimeSwitch kind={runtimeKind} onChange={(k) => void switchRuntime(k)} disabledWasmReason={profile && profile.platform !== "amiga" ? "The WASM core runtime is Amiga-only." : undefined} />
-            <CoreTelemetryHUD
-              runtimeKind={runtimeKind}
-              state={state}
-              frame={frame}
-              activeRomName={activeRomName}
-              onOpenRomSettings={() => setRomModalOpen(true)}
-            />
-          </div>
-          {runtimeError && <p role="alert" className="text-sm mt-2 w-full rgme-controls-container" style={{ color: "var(--rgme-status-restricted-fg)" }} data-testid="runtime-error">{runtimeError}</p>}
-          <div className="flex flex-wrap gap-2 mt-3 w-full rgme-controls-container">
-            <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED" && state !== "STOPPED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
-            <button className="rgme-btn" disabled={state !== "RUNNING"} data-testid="btn-pause" onClick={() => adapter?.pause()}>Pause</button>
-            <button
-              className="rgme-btn"
-              disabled={state !== "RUNNING" && state !== "PAUSED"}
-              data-testid="btn-stop"
-              onClick={() => {
-                adapter?.stop();
-                floppySynth.setMuted(true);
-                setTimeout(() => { if (!muted) floppySynth.setMuted(false); }, 50);
+              {profile && rightsRecord && (
+                <div className="mt-3">
+                  <ExportPanel profile={profile} rights={rightsRecord} getMedia={async () => bytesBySha.current.get(profile.media[0]!.sha256.toLowerCase())} />
+                </div>
+              )}
+              {exportReason && <p id="export-reason" className="text-sm mt-2" style={{ color: "var(--rgme-fg-secondary)" }} data-testid="export-reason">{exportReason}</p>}
+            </section>
+          </>
+        }
+      />
+
+      {/* Main Viewport Centered in Workspace */}
+      <main className="flex-1 flex flex-col items-center w-full max-w-5xl mx-auto px-4 py-4">
+        <Viewport
+          bezel
+          crt={crt}
+          crtParams={crtParams}
+          onToggleCrt={() => setCrt((c) => !c)}
+          onCanvas={onCanvas}
+          crtMenuContent={
+            <CrtControls
+              presetId={crtId}
+              params={crtParams}
+              onPreset={(id) => {
+                setCrtId(id);
+                setCrtParams(getCrtPreset(id).params);
               }}
-              title="Stop emulation loop and silence audio"
-            >
-              ⏹ Stop
-            </button>
-            <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-reset" onClick={() => adapter?.reset()}>Reset</button>
-            <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-unload" onClick={unloadGame} title="Eject media and stop emulation">⏏ Unload</button>
-            <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => { adapter?.saveState(0); setHasSave(true); }}>Save</button>
-            <button className="rgme-btn" disabled={!profile} data-testid="saves-btn" onClick={() => setSavesOpen(true)}>Saves…</button>
-            <button className="rgme-btn" aria-pressed={muted} data-testid="mute-btn" onClick={() => { adapter?.setMuted?.(!muted); floppySynth.setMuted(!muted); setMuted(!muted); }}>{muted ? "Unmute" : "Mute"}</button>
-            <button className="rgme-btn" disabled={!hasSave || state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.loadState(0)}>Load</button>
-          </div>
-          <div className="w-full rgme-controls-container">
-            <ControllerHUD active={inputs} press={press} physical={gp.physical} gamepadName={gp.connected ? gp.name : undefined} />
-            <button className="rgme-btn mt-2" data-testid="remap-btn" onClick={() => setRemapOpen(true)}>Gamepad mapping…</button>
-          </div>
+              onParams={setCrtParams}
+            />
+          }
+        />
+
+        {/* Transport & Control Bar */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mt-4 w-full max-w-2xl rgme-controls-container">
+          <button className="rgme-btn" disabled={state !== "LOADED" && state !== "PAUSED" && state !== "STOPPED"} data-testid="btn-start" onClick={() => adapter?.start()}>Start</button>
+          <button className="rgme-btn" disabled={state !== "RUNNING"} data-testid="btn-pause" onClick={() => adapter?.pause()}>Pause</button>
+          <button
+            className="rgme-btn"
+            disabled={state !== "RUNNING" && state !== "PAUSED"}
+            data-testid="btn-stop"
+            onClick={() => {
+              adapter?.stop();
+              floppySynth.setMuted(true);
+              setTimeout(() => { if (!muted) floppySynth.setMuted(false); }, 50);
+            }}
+            title="Stop emulation loop and silence audio"
+          >
+            ⏹ Stop
+          </button>
+          <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-reset" onClick={() => adapter?.reset()}>Reset</button>
+          <button className="rgme-btn" disabled={state === "UNLOADED"} data-testid="btn-unload" onClick={unloadGame} title="Eject media and stop emulation">⏏ Unload</button>
+          <button className="rgme-btn" disabled={state === "UNLOADED" || state === "STOPPED"} onClick={() => { adapter?.saveState(0); setHasSave(true); }}>Save</button>
+          <button className="rgme-btn" disabled={!profile} data-testid="saves-btn" onClick={() => setSavesOpen(true)}>Saves…</button>
+          <button className="rgme-btn" aria-pressed={muted} data-testid="mute-btn" onClick={() => { adapter?.setMuted?.(!muted); floppySynth.setMuted(!muted); setMuted(!muted); }}>{muted ? "Unmute" : "Mute"}</button>
+          <button className="rgme-btn" disabled={!hasSave || state === "UNLOADED" || state === "STOPPED"} onClick={() => adapter?.loadState(0)}>Load</button>
+        </div>
+
+        {/* Telemetry and Kickstart ROM HUD */}
+        <div className="mt-3 w-full max-w-2xl rgme-controls-container">
+          <CoreTelemetryHUD
+            runtimeKind={runtimeKind}
+            state={state}
+            frame={frame}
+            activeRomName={activeRomName}
+            onOpenRomSettings={() => setRomModalOpen(true)}
+          />
         </div>
       </main>
-      <section className="p-4" aria-label="Tracker player">
-        <h2 className="text-lg mb-2">ProTracker Player</h2>
-        <div className="flex gap-2 mb-2">
-          <button className="rgme-btn" onClick={() => void loadDemoMod()} data-testid="load-mod">Load demo tune</button>
-          <button className="rgme-btn" onClick={() => setModBytes(undefined)} data-testid="unload-mod" disabled={!modBytes}>Unload tune</button>
-        </div>
-        <ModPlayerPanel bytes={modBytes} title={modBytes ? "RGME demo tune" : undefined} />
-      </section>
-      <section className="p-4" aria-label="Chain of title">
-        <h2 className="text-lg mb-2">Chain of Title</h2>
-        <ChainOfTitle title={profile?.title} rights={rightsRecord} />
-      </section>
+
+      {/* Re-ordered Lower Content Sections: 1) Library, 2) Player, 3) Chain */}
       <section className="p-4" aria-label="Game library">
         <LibraryShelf
           store={library}
@@ -894,6 +936,38 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           onStreamGame={onStreamGame}
         />
       </section>
+
+      <section className="p-4" aria-label="Tracker player">
+        <h2 className="text-lg mb-2">ProTracker Player</h2>
+        <div className="flex gap-2 mb-2">
+          <button className="rgme-btn" onClick={() => void loadDemoMod()} data-testid="load-mod">Load demo tune</button>
+          <button className="rgme-btn" onClick={() => setModBytes(undefined)} data-testid="unload-mod" disabled={!modBytes}>Unload tune</button>
+        </div>
+        <ModPlayerPanel bytes={modBytes} title={modBytes ? "RGME demo tune" : undefined} />
+      </section>
+
+      <section className="p-4" aria-label="Chain of title">
+        <h2 className="text-lg mb-2">Chain of Title</h2>
+        <ChainOfTitle title={profile?.title} rights={rightsRecord} />
+      </section>
+
+      {/* Contextual Layovers */}
+      <GuruMeditationOverlay
+        error={runtimeError}
+        minimized={guruMinimized}
+        onDismiss={() => setGuruMinimized(true)}
+        onRestore={() => setGuruMinimized(false)}
+      />
+
+      <FloatingRemoteControl
+        activeInputs={inputs}
+        press={press}
+        minimized={remoteMinimized}
+        onToggleMinimize={() => setRemoteMinimized(!remoteMinimized)}
+        onOpenRemap={() => setRemapOpen(true)}
+      />
+
+      {/* Modals & Dialogs */}
       {profile && adapter && (
         <SaveDrawer manager={saves} adapter={adapter} getCanvas={() => canvasEl} title={profile.title} sha256={profile.media[0]!.sha256} open={savesOpen} onClose={() => setSavesOpen(false)} />
       )}
