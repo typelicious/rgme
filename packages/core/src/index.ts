@@ -12,3 +12,6 @@ export * from "./drive/index.js";
 export * from "./wasm/index.js";
 export * from "./platforms/index.js";
 export * from "./export/index.js";
+export * from "./ipf/index.js";
+export * from "./cpu/index.js";
+export * from "./audio/index.js";
