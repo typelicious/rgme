@@ -1,5 +1,6 @@
 import type { DisplayProfile, GameProfile, InputMapping, Media } from "../profile.js";
 import type { RuntimeAdapter, RuntimeCapabilities, RuntimeState, RuntimeStatus, SaveStateMeta } from "../runtime.js";
+import { ZipParser } from "../zip/zip-parser.js";
 
 /**
  * Shared plumbing for REAL emulator cores that run inside an <iframe> (vAmigaWeb, EmulatorJS/PUAE).
@@ -111,6 +112,30 @@ export function toDiskFileName(media: Media): string {
 }
 
 /**
+ * Ensures media passed to real emulators is guaranteed to be an uncompressed ADF disk image.
+ * If a ZIP archive is provided, the primary disk entry (.adf) is extracted transparently.
+ */
+export async function resolveDiskBytesAndName(
+  media: Media,
+  raw: Uint8Array
+): Promise<{ bytes: Uint8Array; fileName: string }> {
+  let bytes = raw;
+  let fileName = toDiskFileName(media);
+  if (ZipParser.isZip(bytes)) {
+    const zip = new ZipParser(bytes);
+    const mediaEntries = zip.getMediaEntries();
+    const target = mediaEntries.length > 0 ? mediaEntries[0]! : zip.entries[0];
+    if (target) {
+      bytes = await zip.extractEntry(target);
+      const innerName = target.filename.split("/").pop() ?? target.filename;
+      const clean = innerName.replace(/[^A-Za-z0-9._-]/g, "_");
+      fileName = clean.toLowerCase().endsWith(".adf") ? clean : `${clean.replace(/\.[^.]*$/, "")}.adf`;
+    }
+  }
+  return { bytes, fileName };
+}
+
+/**
  * Base class: lifecycle, status, input bookkeeping, timeouts. Subclasses supply the core protocol.
  * `start()` / `pause()` express *intent*; it is applied as soon as the core reports it is ready.
  */
@@ -195,7 +220,8 @@ export abstract class EmbeddedEmulatorAdapter implements RuntimeAdapter {
     }
     const bootMedia = profile.media.find((m) => m.id === profile.launch.bootMediaId) ?? profile.media[0];
     if (!bootMedia) throw new Error("No media defined in GameProfile");
-    const bytes = await this.opts.mediaProvider(bootMedia);
+    const rawBytes = await this.opts.mediaProvider(bootMedia);
+    const { bytes, fileName } = await resolveDiskBytesAndName(bootMedia, rawBytes);
 
     this.teardownFrame();
     this.profile = profile;
@@ -205,7 +231,7 @@ export abstract class EmbeddedEmulatorAdapter implements RuntimeAdapter {
     this.frames = 0;
     this.pressed.clear();
     this.ready = false;
-    this.boot = { media: bootMedia, bytes, fileName: toDiskFileName(bootMedia) };
+    this.boot = { media: bootMedia, bytes, fileName };
     this._state = "LOADED";
     this.phase = "loading";
     this.message = `Loading ${this.coreLabel}…`;
@@ -277,9 +303,10 @@ export abstract class EmbeddedEmulatorAdapter implements RuntimeAdapter {
   insertMedia(media: Media): void {
     this.media = [...this.media.filter((m) => m.id !== media.id), media];
     if (!this.frame) return;
-    void Promise.resolve(this.opts.mediaProvider(media)).then((bytes) => {
+    void Promise.resolve(this.opts.mediaProvider(media)).then(async (rawBytes) => {
       if (!this.frame) return;
-      this.boot = { media, bytes, fileName: toDiskFileName(media) };
+      const { bytes, fileName } = await resolveDiskBytesAndName(media, rawBytes);
+      this.boot = { media, bytes, fileName };
       if (this.ready) this.applyDisk(this.boot);
     });
   }

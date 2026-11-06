@@ -5,6 +5,7 @@ import {
   createStoredZip,
   ZipParser,
   toDiskFileName,
+  resolveDiskBytesAndName,
   type FrameInit,
   type MessageEventLike,
   type FrameWindow
@@ -87,6 +88,21 @@ describe("Milestone 12: Real Amiga Emulation (vAmigaWeb & EmulatorJS)", () => {
   it("formats disk file names reliably with .adf extension", () => {
     expect(toDiskFileName({ id: "1", filename: "Rick Dangerous (Europe).zip", kind: "floppy-adf", sha256: "a" })).toBe("Rick_Dangerous__Europe_.adf");
     expect(toDiskFileName({ id: "2", label: "Wayne Gretzky Hockey", kind: "floppy-adf", sha256: "b" })).toBe("Wayne_Gretzky_Hockey.adf");
+  });
+
+  it("transparently extracts .adf disk image and adopts inner filename when given a ZIP file", async () => {
+    const rawAdf = new Uint8Array([0x44, 0x4f, 0x53, 0x00, 1, 2, 3]);
+    const zipData = createStoredZip([
+      { name: "Rick Dangerous 1.adf", data: rawAdf }
+    ]);
+
+    const result = await resolveDiskBytesAndName(
+      { id: "1", filename: "Rick Dangerous (Europe).zip", kind: "floppy-adf", sha256: "abc" },
+      zipData
+    );
+
+    expect(result.fileName).toBe("Rick_Dangerous_1.adf");
+    expect(result.bytes).toEqual(rawAdf);
   });
 
   describe("vAmigaWebAdapter", () => {
