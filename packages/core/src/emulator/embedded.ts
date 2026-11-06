@@ -142,8 +142,9 @@ export async function resolveDiskBytesAndName(
   }
 
   // If this is an ADF whose bootblock contains non-executable ASCII text at offset 12
-  // (such as the synthetic rgme-scene-intro.adf), patch offset 12 with valid 68000 copper loop
-  // so authentic Amiga CPUs execute it cleanly without Guru Meditation #00000004.
+  // If this is an ADF whose bootblock contains non-executable ASCII text at offset 12
+  // (such as the synthetic rgme-scene-intro.adf), patch offset 12 with valid 68000 machine code
+  // with Paula audio playback and real-time copper raster loop so authentic Amiga CPUs execute it cleanly.
   if (
     bytes.length >= 1024 &&
     bytes[0] === 0x44 &&
@@ -156,16 +157,32 @@ export async function resolveDiskBytesAndName(
   ) {
     const patched = new Uint8Array(bytes);
     const m68kCode = [
-      0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // lea $dff000, a0 (offset 12..17)
-      0x30, 0x28, 0x00, 0x06,             // move.w 6(a0), d0 (offset 18..21)
-      0xe0, 0x48,                         // lsr.w #8, d0 (offset 22..23)
-      0x31, 0x40, 0x01, 0x80,             // move.w d0, $180(a0) (offset 24..27)
-      0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // btst #6, $bfe001 (offset 28..35)
-      0x66, 0xec,                         // bne.s loop -> offset 18 (offset 36..37)
-      0x70, 0x00,                         // moveq #0, d0 (offset 38..39)
-      0x4e, 0x75                          // rts (offset 40..41)
+      0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // 12..17: lea $dff000, a0
+      0x43, 0xfa, 0x00, 0x3c,             // 18..21: lea 60(pc), a1 -> offset 80 (audio sample)
+      0x21, 0x49, 0x00, 0xa0,             // 22..25: move.l a1, $a0(a0) (AUD0LCH)
+      0x31, 0x7c, 0x00, 0x08, 0x00, 0xa4, // 26..31: move.w #8, $a4(a0) (AUD0LEN = 8 words)
+      0x31, 0x7c, 0x01, 0x5e, 0x00, 0xa6, // 32..37: move.w #350, $a6(a0) (AUD0PER = 350)
+      0x31, 0x7c, 0x00, 0x40, 0x00, 0xa8, // 38..43: move.w #64, $a8(a0) (AUD0VOL = 64)
+      0x31, 0x7c, 0x82, 0x01, 0x00, 0x96, // 44..49: move.w #$8201, $96(a0) (DMACON = enable AUD0)
+      0x30, 0x28, 0x00, 0x06,             // 50..53: move.w 6(a0), d0
+      0xe0, 0x48,                         // 54..55: lsr.w #8, d0
+      0x31, 0x40, 0x01, 0x80,             // 56..59: move.w d0, $180(a0)
+      0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // 60..67: btst #6, $bfe001
+      0x66, 0xec,                         // 68..69: bne.s loop -> offset 50
+      0x70, 0x00,                         // 70..71: moveq #0, d0
+      0x4e, 0x75                          // 72..73: rts
     ];
     patched.set(m68kCode, 12);
+    // 16-byte audio sample at offset 80
+    const sample = [120, 100, 70, 30, 0, -30, -70, -100, -120, -100, -70, -30, 0, 30, 70, 100];
+    for (let i = 0; i < 16; i++) {
+      patched[80 + i] = ((sample[i] ?? 0) + 256) & 0xff;
+    }
+    // Safe title banner at offset 96
+    const label = "RGME SCENE INTRO v1.0 - TURRICAN TRIBUTE";
+    for (let i = 0; i < label.length; i++) {
+      patched[96 + i] = label.charCodeAt(i);
+    }
     // Recalculate 32-bit Amiga boot checksum
     const v = new DataView(patched.buffer, patched.byteOffset, 1024);
     v.setUint32(4, 0, false);

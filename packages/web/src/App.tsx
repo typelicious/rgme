@@ -146,7 +146,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       const romBytes = r.meta.builtIn ? undefined : r.bytes;
       activeRomBytesRef.current = romBytes;
       if (
-        (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga") &&
+        (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga" || runtimeKindRef.current === "copperline") &&
         adapterRef.current?.state === "UNLOADED"
       ) {
         const canvas = canvasRef.current;
@@ -1074,7 +1074,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
           void kickstartStore.getActiveRom().then((r) => {
             const romBytes = r.meta.builtIn ? undefined : r.bytes;
             activeRomBytesRef.current = romBytes;
-            if (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga") {
+            if (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga" || runtimeKindRef.current === "copperline") {
               const canvas = canvasRef.current;
               const wasRunning = adapterRef.current?.state === "RUNNING";
               disposeRuntime(adapterRef.current);

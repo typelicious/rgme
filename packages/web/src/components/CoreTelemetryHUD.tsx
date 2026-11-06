@@ -19,7 +19,7 @@ export function CoreTelemetryHUD({
   phase,
   message
 }: CoreTelemetryHUDProps) {
-  const isAmigaCore = runtimeKind === "vamiga" || runtimeKind === "puae" || runtimeKind === "preview" || runtimeKind === "wasm";
+  const isAmigaCore = runtimeKind === "vamiga" || runtimeKind === "puae" || runtimeKind === "copperline" || runtimeKind === "preview" || runtimeKind === "wasm";
 
   return (
     <div
@@ -48,6 +48,8 @@ export function CoreTelemetryHUD({
               ? "VAMIGA AMIGA EMULATOR"
               : runtimeKind === "puae"
               ? "PUAE AMIGA EMULATOR"
+              : runtimeKind === "copperline"
+              ? "COPPERLINE RUST/WASM"
               : runtimeKind === "preview"
               ? "PREVIEW (MOCK)"
               : runtimeKind === "wasm"

@@ -50,9 +50,8 @@ describe("Milestone 13: Real Emulator Core Integration (vAmiga & PUAE)", () => {
         frameFactory: (init) => {
           capturedInit = init;
           return {
-            element: {} as HTMLElement,
             contentWindow: fakeWindow,
-            destroy: () => {}
+            remove: () => {}
           };
         }
       });
@@ -77,12 +76,17 @@ describe("Milestone 13: Real Emulator Core Integration (vAmiga & PUAE)", () => {
       const fakeWindow = new FakeFrameWindow();
       const adapter = new EmulatorJsCoreAdapter({
         mediaProvider: () => new Uint8Array(901120),
+        timers: {
+          setTimeout: () => 1 as unknown as ReturnType<typeof setTimeout>,
+          clearTimeout: () => {},
+          setInterval: () => 2 as unknown as ReturnType<typeof setInterval>,
+          clearInterval: () => {}
+        },
         frameFactory: (init) => {
           capturedInit = init;
           return {
-            element: {} as HTMLElement,
             contentWindow: fakeWindow,
-            destroy: () => {}
+            remove: () => {}
           };
         }
       });
@@ -90,6 +94,7 @@ describe("Milestone 13: Real Emulator Core Integration (vAmiga & PUAE)", () => {
       await adapter.loadGame(makeProfile("Monkey Island"));
       expect(capturedInit?.srcdoc).toContain('window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";');
       expect(capturedInit?.srcdoc).toContain('<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>');
+      adapter.stop();
     });
   });
 
