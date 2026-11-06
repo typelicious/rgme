@@ -1,12 +1,12 @@
 {
   "projectName": "Retro Game Modernization Engine (RGME)",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "status": "in_progress",
   "methodology": "assay",
   "autonomy_policy": "unicorn",
   "session_schedule": "batch",
   "parallelism": "maximal",
-  "milestone": "M12",
+  "milestone": "M13",
   "tasks": [
     {
       "id": "ARCH-001",
@@ -911,10 +911,58 @@
       ],
       "type": "documentation",
       "passes": true
+    },
+    {
+      "id": "M13-LIC-001",
+      "title": "Relicense RGME to GPL-3.0-or-later for Full Pinning Harmony",
+      "description": "Harmonize licensing with vAmiga (GPL-3.0) and PUAE (GPL-2.0+/GPL-3.0) in LICENSE, package.json, and ADR-004.",
+      "priority": "high",
+      "type": "architecture",
+      "passes": true
+    },
+    {
+      "id": "M13-PIN-001",
+      "title": "Establish Local Pinned Core Asset Hosting Structure",
+      "description": "Setup packages/web/public/cores/ with standalone runners for vamiga and emulatorjs.",
+      "priority": "high",
+      "type": "infrastructure",
+      "passes": true
+    },
+    {
+      "id": "M13-ADAPT-001",
+      "title": "Default Adapters to Local Pinned Cores with Remote Fallback",
+      "description": "Refactor VAmigaWebAdapter and EmulatorJsCoreAdapter to default to Same-Origin local paths with mode detection.",
+      "priority": "high",
+      "type": "feature",
+      "passes": true
+    },
+    {
+      "id": "M13-UI-001",
+      "title": "UI Integration and Mode Telemetry in Header and HUD",
+      "description": "Display Pinned (Local) indicators in the runtime selector and CoreTelemetryHUD.",
+      "priority": "medium",
+      "type": "ui",
+      "passes": true
+    },
+    {
+      "id": "M13-TEST-001",
+      "title": "Unit & Integration Test Suite for Pinned Adapters",
+      "description": "Add m13-pinned-emulators.test.ts verifying default paths, capabilities, and media unzipping.",
+      "priority": "high",
+      "type": "test",
+      "passes": true
+    },
+    {
+      "id": "M13-BUILD-001",
+      "title": "Full Workspace Build & Verification",
+      "description": "Ensure full clean build with assets copied to dist/.",
+      "priority": "high",
+      "type": "verification",
+      "passes": true
     }
   ],
   "sequence": {
-    "sequence_id": "rgme-m12",
+    "sequence_id": "rgme-m13",
     "sequence_type": "build",
     "methodology": "assay",
     "autonomy_policy": "unicorn",

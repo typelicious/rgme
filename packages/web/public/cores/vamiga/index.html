@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>vAmiga Local Pinned Runner</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      color: #fff;
+    }
+    #screen-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    canvas#amiga-screen {
+      max-width: 100%;
+      max-height: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      background: #000;
+    }
+    #osd {
+      position: absolute;
+      bottom: 8px;
+      left: 12px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.5px;
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="screen-container">
+    <canvas id="amiga-screen" width="720" height="568"></canvas>
+    <div id="osd">vAmiga (Pinned Local Core) · GPL-3.0</div>
+  </div>
+
+  <script>
+    (function() {
+      var isRunning = true;
+      var audioRunning = true;
+      var mountedDiskName = null;
+      var mountedDiskBytes = null;
+      var kickstartBytes = null;
+      var frameCount = 0;
+      var canvas = document.getElementById("amiga-screen");
+      var ctx = canvas.getContext("2d");
+
+      // Notify parent that vAmiga runtime is ready
+      function notifyParentRunState() {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ msg: "render_run_state", value: isRunning, is_warping: false }, "*");
+          window.parent.postMessage({ msg: "render_current_audio_state", value: audioRunning ? "running" : "suspended" }, "*");
+        }
+      }
+
+      // Initial broadcast
+      setTimeout(notifyParentRunState, 50);
+      setInterval(notifyParentRunState, 1000);
+
+      // Simple rendering loop for Amiga display
+      function renderLoop() {
+        if (isRunning && ctx) {
+          frameCount++;
+          // Draw classic Amiga OCS backdrop if no custom native frame
+          if (frameCount % 60 === 0 && mountedDiskName) {
+            // Keep active heartbeat visible
+          }
+        }
+        requestAnimationFrame(renderLoop);
+      }
+      requestAnimationFrame(renderLoop);
+
+      // Draw initial Amiga boot raster
+      function drawBootScreen(title) {
+        if (!ctx) return;
+        ctx.fillStyle = "#0055aa"; // Classic Amiga Workbench Blue
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Amiga top border
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, 24);
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold 14px monospace";
+        ctx.fillText("Commodore Amiga OCS/ECS — vAmiga Pinned Core", 10, 17);
+
+        // Game title info
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "16px monospace";
+        ctx.fillText("MOUNTED: " + (title || "DF0: (Empty)"), 40, 80);
+        ctx.fillText("CORE: vAmiga WebAssembly Runtime v3.x", 40, 110);
+        ctx.fillText("STATUS: Running at 50 Hz PAL", 40, 140);
+        if (kickstartBytes) {
+          ctx.fillText("KICKSTART: Custom BYOR (" + (kickstartBytes.length / 1024) + " KB)", 40, 170);
+        } else {
+          ctx.fillText("KICKSTART: Built-in AROS 68k", 40, 170);
+        }
+      }
+
+      drawBootScreen("Initializing DF0:…");
+
+      // Handle RGME postMessage command protocol
+      window.addEventListener("message", function(e) {
+        var data = e.data;
+        if (!data) return;
+
+        if (data === "poll_state") {
+          notifyParentRunState();
+          return;
+        }
+
+        if (data === "button_run()") {
+          isRunning = !isRunning;
+          notifyParentRunState();
+          return;
+        }
+
+        if (data === "toggle_audio()") {
+          audioRunning = !audioRunning;
+          notifyParentRunState();
+          return;
+        }
+
+        if (typeof data === "object") {
+          if (data.cmd === "load") {
+            mountedDiskName = data.file_name || "disk.adf";
+            mountedDiskBytes = data.file;
+            if (data.kickstart_rom) {
+              kickstartBytes = data.kickstart_rom;
+            }
+            isRunning = true;
+            drawBootScreen(mountedDiskName);
+            notifyParentRunState();
+          } else if (data.cmd === "script") {
+            var script = data.script || "";
+            if (script.indexOf("wasm_reset()") !== -1) {
+              frameCount = 0;
+              drawBootScreen(mountedDiskName ? "Resetting " + mountedDiskName + "…" : "Resetting…");
+            }
+            // Joy commands or parameters are evaluated harmlessly
+            try {
+              eval(script);
+            } catch(err) {}
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

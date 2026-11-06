@@ -140,7 +140,7 @@ describe("Milestone 12: Real Amiga Emulation (vAmigaWeb & EmulatorJS)", () => {
       });
 
       await adapter.loadGame(TEST_PROFILE);
-      expect(env.frameInit?.src).toContain("https://vamigaweb.github.io/#");
+      expect(env.frameInit?.src).toMatch(/(\/cores\/vamiga\/index\.html|https:\/\/vamigaweb\.github\.io\/)#/);
       expect(env.frameInit?.src).toContain("wait_for_kickstart_injection");
 
       // Core responds with its running state:

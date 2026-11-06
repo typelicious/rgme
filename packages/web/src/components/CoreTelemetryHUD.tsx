@@ -45,9 +45,9 @@ export function CoreTelemetryHUD({
           />
           <span className="font-bold text-white tracking-wider">
             {runtimeKind === "vamiga"
-              ? "VAMIGA AMIGA EMULATOR"
+              ? "VAMIGA AMIGA EMULATOR (PINNED)"
               : runtimeKind === "puae"
-              ? "PUAE AMIGA EMULATOR"
+              ? "PUAE AMIGA EMULATOR (PINNED)"
               : runtimeKind === "preview"
               ? "PREVIEW (MOCK)"
               : runtimeKind === "wasm"

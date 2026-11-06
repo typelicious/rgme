@@ -1,8 +1,8 @@
 {
   "name": "rgme",
   "private": true,
-  "version": "0.11.0",
-  "license": "MIT",
+  "version": "0.13.0",
+  "license": "GPL-3.0-or-later",
   "author": "typelicious",
   "type": "module",
   "packageManager": "pnpm@10.28.0",

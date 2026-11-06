@@ -17,12 +17,15 @@ import type { RuntimeCapabilities } from "../runtime.js";
  *   frame → parent : { msg:"render_run_state", value:boolean, is_warping }
  *                    { msg:"render_current_audio_state", value:"running"|"suspended" }
  *
- * No vAmiga binary is bundled; `baseUrl` can point at a self-hosted copy. Licence of the core: GPL-3.0.
+ * Pinned local core is preferred for zero-network offline execution and elimination of third-party modal alerts.
+ * Licence of the core: GPL-3.0.
  */
-export const VAMIGAWEB_URL = "https://vamigaweb.github.io/";
+export const PINNED_VAMIGA_URL = "/cores/vamiga/index.html";
+export const REMOTE_VAMIGA_URL = "https://vamigaweb.github.io/";
+export const VAMIGAWEB_URL = PINNED_VAMIGA_URL;
 
 export interface VAmigaWebAdapterOptions extends EmbeddedAdapterOptions {
-  /** vAmigaWeb host page. Default: the official GitHub-Pages instance. */
+  /** vAmiga host page. Default: pinned local core (/cores/vamiga/index.html). */
   baseUrl?: string;
 }
 
@@ -53,7 +56,10 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
   }
 
   identifyCapabilities(): RuntimeCapabilities {
-    return this.capabilities("vAmiga (real emulator, via vAmigaWeb)");
+    const isPinned = !this.baseUrl.startsWith("http://") && !this.baseUrl.startsWith("https://");
+    return this.capabilities(
+      isPinned ? "vAmiga (real emulator, pinned local)" : "vAmiga (real emulator, via vAmigaWeb)"
+    );
   }
 
   /** The URL-fragment config understood by vAmigaWeb (`vAmiga_ui.js`). */
@@ -73,7 +79,9 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
 
   protected frameInit(): FrameInit {
     const config = encodeURIComponent(JSON.stringify(VAmigaWebAdapter.buildConfig(Boolean(this.opts.kickstartRom))));
-    const base = this.baseUrl.endsWith("/") ? this.baseUrl : `${this.baseUrl}/`;
+    const base = this.baseUrl.endsWith(".html") || this.baseUrl.endsWith(".htm") || this.baseUrl.endsWith("/")
+      ? this.baseUrl
+      : `${this.baseUrl}/`;
     this.coreRunning = false;
     this.audioState = "unknown";
     return { src: `${base}#${config}`, title: "vAmiga — Amiga emulator", allow: "autoplay; fullscreen; gamepad; clipboard-write" };

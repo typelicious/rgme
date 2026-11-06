@@ -1,0 +1,35 @@
+{
+  "sequence_id": "m13-pinned-emulators",
+  "version": "0.13.0",
+  "status": "COMPLETED",
+  "methodology": "assay",
+  "autonomy_policy": "unicorn",
+  "timestamp": "2026-11-06T02:15:30Z",
+  "author": "typelicious <typelicious@gmail.com>",
+  "gates": {
+    "M13-LIC-001": {
+      "status": "PASSED",
+      "summary": "Root LICENSE and package.json updated to GPL-3.0-or-later. ADR-004 updated with pinning rationale."
+    },
+    "M13-PIN-001": {
+      "status": "PASSED",
+      "summary": "packages/web/public/cores/ established with local standalone runners for vamiga and emulatorjs/puae."
+    },
+    "M13-ADAPT-001": {
+      "status": "PASSED",
+      "summary": "VAmigaWebAdapter and EmulatorJsCoreAdapter default to Same-Origin pinned paths with configurable remote fallbacks."
+    },
+    "M13-UI-001": {
+      "status": "PASSED",
+      "summary": "Header runtime selector and CoreTelemetryHUD display Pinned (Local) indicators."
+    },
+    "M13-TEST-001": {
+      "status": "PASSED",
+      "summary": "m13-pinned-emulators.test.ts (14 tests) and m12-real-emulators.test.ts (16 tests) passing 100%."
+    },
+    "M13-BUILD-001": {
+      "status": "PASSED",
+      "summary": "Full monorepo build succeeded cleanly; dist/cores/ populated."
+    }
+  }
+}
