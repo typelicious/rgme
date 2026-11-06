@@ -160,12 +160,24 @@ export class ZipParser {
     throw new Error(`Unsupported ZIP compression method ${entry.compressionMethod}`);
   }
 
-  /** Finds all disk images in the archive (.adf, .ipf, .d64, .m3u). */
+  /** Finds all disk images in the archive (.adf, .ipf, .d64, .m3u, etc.), prioritizing disk images over playlists. */
   getMediaEntries(): ZipEntry[] {
-    const MEDIA_EXTS = [".adf", ".ipf", ".d64", ".m3u", ".mod", ".md"];
-    return this.entries.filter((e) => {
+    const DISK_EXTS = [".adf", ".adz", ".dms", ".ipf", ".d64", ".md", ".mod"];
+    const valid = this.entries.filter((e) => !e.filename.includes("__MACOSX"));
+    const disks = valid.filter((e) => {
       const lower = e.filename.toLowerCase();
-      return MEDIA_EXTS.some((ext) => lower.endsWith(ext));
+      return DISK_EXTS.some((ext) => lower.endsWith(ext));
     });
+    if (disks.length > 0) {
+      // Prioritize raw disk images (.adf, .adz, .dms) first, then .ipf, then others
+      return disks.sort((a, b) => {
+        const aLow = a.filename.toLowerCase();
+        const bLow = b.filename.toLowerCase();
+        const score = (f: string) =>
+          f.endsWith(".adf") || f.endsWith(".adz") ? 0 : f.endsWith(".dms") ? 1 : f.endsWith(".ipf") ? 2 : 3;
+        return score(aLow) - score(bLow);
+      });
+    }
+    return valid.filter((e) => e.filename.toLowerCase().endsWith(".m3u"));
   }
 }

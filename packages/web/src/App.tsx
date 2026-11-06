@@ -383,8 +383,13 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         }
       }
       if (identifyImage(data) === "ipf") {
-        const { adf } = IpfParser.parse(data).toAdfResult();
-        if (adf) data = new Uint8Array(adf.buffer, adf.byteOffset, adf.byteLength);
+        const { adf, reasons } = IpfParser.parse(data).toAdfResult();
+        if (adf) {
+          data = new Uint8Array(adf.buffer, adf.byteOffset, adf.byteLength);
+        } else {
+          setRuntimeError(`IPF cannot be mounted: ${reasons.slice(0, 2).join("; ") || "undecodable or copy-protected tracks"}.`);
+          return;
+        }
       }
       const m = rec.profile.media[0]!;
       remember(rec.sha256, data);

@@ -1,6 +1,7 @@
 import type { DisplayProfile, GameProfile, InputMapping, Media } from "../profile.js";
 import type { RuntimeAdapter, RuntimeCapabilities, RuntimeState, RuntimeStatus, SaveStateMeta } from "../runtime.js";
 import { ZipParser } from "../zip/zip-parser.js";
+import { IpfParser, identifyImage } from "../ipf/ipf-parser.js";
 
 /**
  * Shared plumbing for REAL emulator cores that run inside an <iframe> (vAmigaWeb, EmulatorJS/PUAE).
@@ -132,6 +133,14 @@ export async function resolveDiskBytesAndName(
       fileName = clean.toLowerCase().endsWith(".adf") ? clean : `${clean.replace(/\.[^.]*$/, "")}.adf`;
     }
   }
+  // If the extracted or provided image is an IPF, attempt to decode standard Amiga tracks
+  if (identifyImage(bytes) === "ipf") {
+    const { adf } = IpfParser.parse(bytes).toAdfResult();
+    if (adf) {
+      bytes = new Uint8Array(adf.buffer, adf.byteOffset, adf.byteLength);
+    }
+  }
+
   // If this is an ADF whose bootblock contains non-executable ASCII text at offset 12
   // (such as the synthetic rgme-scene-intro.adf), patch offset 12 with valid 68000 copper loop
   // so authentic Amiga CPUs execute it cleanly without Guru Meditation #00000004.
@@ -147,14 +156,14 @@ export async function resolveDiskBytesAndName(
   ) {
     const patched = new Uint8Array(bytes);
     const m68kCode = [
-      0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // lea $dff000, a0
-      0x30, 0x28, 0x00, 0x06,             // move.w 6(a0), d0 (read beam pos)
-      0xe1, 0x58,                         // rol.w #8, d0 (vertical beam into low byte)
-      0x02, 0x40, 0x00, 0xff,             // andi.w #$00ff, d0
-      0x31, 0x40, 0x01, 0x80,             // move.w d0, $180(a0) (set COLOR00 background)
-      0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // btst #6, $bfe001 (LMB)
-      0x66, 0xe8,                         // bne.s loop
-      0x4e, 0x75                          // rts
+      0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // lea $dff000, a0 (offset 12..17)
+      0x30, 0x28, 0x00, 0x06,             // move.w 6(a0), d0 (offset 18..21)
+      0xe0, 0x48,                         // lsr.w #8, d0 (offset 22..23)
+      0x31, 0x40, 0x01, 0x80,             // move.w d0, $180(a0) (offset 24..27)
+      0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // btst #6, $bfe001 (offset 28..35)
+      0x66, 0xec,                         // bne.s loop -> offset 18 (offset 36..37)
+      0x70, 0x00,                         // moveq #0, d0 (offset 38..39)
+      0x4e, 0x75                          // rts (offset 40..41)
     ];
     patched.set(m68kCode, 12);
     // Recalculate 32-bit Amiga boot checksum
@@ -199,7 +208,15 @@ export abstract class EmbeddedEmulatorAdapter implements RuntimeAdapter {
   private pollTimer?: unknown;
   private readonly onMessage = (event: MessageEventLike): void => {
     const win = this.frame?.contentWindow;
-    if (!win || event.source !== win) return;
+    if (win && event.source && event.source !== win) {
+      // In cross-origin environments, WindowProxy equality can differ across frames.
+      // Accept messages identified as coming from our cores (vAmigaWeb msg or EmulatorJS rgme).
+      const origin = (event as { origin?: unknown }).origin;
+      const isKnownOrigin = typeof origin === "string" && origin.includes("vamigaweb.github.io");
+      const d = event.data;
+      const isKnownCoreData = Boolean(d && typeof d === "object" && ("msg" in (d as object) || "rgme" in (d as object)));
+      if (!isKnownOrigin && !isKnownCoreData) return;
+    }
     this.handleMessage(event.data);
   };
 

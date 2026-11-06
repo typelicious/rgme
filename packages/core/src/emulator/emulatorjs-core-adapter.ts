@@ -57,37 +57,20 @@ export class EmulatorJsCoreAdapter extends EmbeddedEmulatorAdapter {
   protected frameInit(boot: BootDisk): FrameInit {
     this.revokeBlobs();
 
-    // Create blobs for the game ADF and optional Kickstart ROM
-    let gameBlobUrl = "";
-    try {
-      const gameBlob = new Blob([boot.bytes as unknown as BlobPart], { type: "application/octet-stream" });
-      gameBlobUrl = URL.createObjectURL(gameBlob);
-      this.blobUrls.push(gameBlobUrl);
-    } catch {
-      gameBlobUrl = "";
-    }
+    // Encode game ADF as a Data URL to guarantee immediate access inside srcdoc without cross-origin Blob fetch hurdles
+    const gameBase64 = uint8ArrayToBase64(boot.bytes);
+    const gameDataUrl = `data:application/octet-stream;base64,${gameBase64}`;
 
-    let biosBlobUrl = "";
+    let biosDataUrl = "";
     let biosBase64: string | null = null;
     if (this.opts.kickstartRom) {
       try {
         const romData = this.opts.kickstartRom;
         biosBase64 = uint8ArrayToBase64(romData);
-        // PUAE searches for specific Kickstart names depending on model (A500, A600, A1200, etc.)
-        // By archiving under all canonical names, EmulatorJS extracts all of them into the system folder.
-        const biosZip = createStoredZip([
-          { name: "kick34005.A500", data: romData },
-          { name: "kick40063.A600", data: romData },
-          { name: "kick37175.A500", data: romData },
-          { name: "kick40068.A1200", data: romData },
-          { name: "kick39106.A4000", data: romData },
-          { name: "kick.rom", data: romData }
-        ]);
-        const biosBlob = new Blob([biosZip as unknown as BlobPart], { type: "application/zip" });
-        biosBlobUrl = URL.createObjectURL(biosBlob);
-        this.blobUrls.push(biosBlobUrl);
+        // Direct data URL to raw ROM bytes so EmulatorJS downloads authentic Kickstart without container mismatch
+        biosDataUrl = `data:application/octet-stream;base64,${biosBase64}`;
       } catch {
-        biosBlobUrl = "";
+        biosDataUrl = "";
       }
     }
 
@@ -108,15 +91,18 @@ export class EmulatorJsCoreAdapter extends EmbeddedEmulatorAdapter {
     window.EJS_player = '#game';
     window.EJS_core = 'amiga';
     window.EJS_pathtodata = ${JSON.stringify(this.dataUrl)};
-    window.EJS_gameUrl = ${JSON.stringify(gameBlobUrl)};
+    window.EJS_gameUrl = ${JSON.stringify(gameDataUrl)};
     window.EJS_gameName = ${JSON.stringify(boot.fileName)};
     window.EJS_startOnLoaded = true;
-    ${biosBlobUrl ? `window.EJS_biosUrl = ${JSON.stringify(biosBlobUrl)};` : ""}
+    ${biosDataUrl ? `window.EJS_biosUrl = ${JSON.stringify(biosDataUrl)};` : ""}
+    window.EJS_onReady = function() {
+      window.parent.postMessage({ rgme: "ejs", type: "ready" }, "*");
+    };
     window.EJS_onGameStart = function() {
       window.parent.postMessage({ rgme: "ejs", type: "started" }, "*");
     };
 
-    // Direct FS injection of Kickstart ROM into Emscripten filesystem
+    // Direct FS injection of Kickstart ROM into Emscripten filesystem under all canonical names
     var kickstartBase64 = ${JSON.stringify(biosBase64)};
     if (kickstartBase64) {
       var injectBios = function() {
@@ -173,7 +159,7 @@ export class EmulatorJsCoreAdapter extends EmbeddedEmulatorAdapter {
   protected handleMessage(data: unknown): void {
     if (!data || typeof data !== "object") return;
     const msg = data as { rgme?: string; type?: string };
-    if (msg.rgme === "ejs" && msg.type === "started") {
+    if (msg.rgme === "ejs" && (msg.type === "started" || msg.type === "ready")) {
       this.markReady();
     }
   }

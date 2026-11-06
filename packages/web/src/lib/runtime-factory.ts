@@ -26,10 +26,17 @@ export function generateBootableAdfFallback(media: { filename?: string; label?: 
   // Amiga DOS header ("DOS\0")
   d.set([0x44, 0x4f, 0x53, 0]);
 
-  // Bootblock code at offset 12:
-  // MOVE.W #$0055, $DFF180 (Amiga background color)
-  // loop: BRA.B loop
-  const code = [0x33, 0xfc, 0x00, 0x55, 0x00, 0xdf, 0xf1, 0x80, 0x60, 0xfe];
+  // Bootblock code at offset 12: valid 68000 raster color cycle + mouse button check + clean rts
+  const code = [
+    0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // lea $dff000, a0 (offset 12..17)
+    0x30, 0x28, 0x00, 0x06,             // move.w 6(a0), d0 (offset 18..21)
+    0xe0, 0x48,                         // lsr.w #8, d0 (offset 22..23)
+    0x31, 0x40, 0x01, 0x80,             // move.w d0, $180(a0) (offset 24..27)
+    0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // btst #6, $bfe001 (offset 28..35)
+    0x66, 0xec,                         // bne.s loop -> offset 18 (offset 36..37)
+    0x70, 0x00,                         // moveq #0, d0 (offset 38..39)
+    0x4e, 0x75                          // rts (offset 40..41)
+  ];
   d.set(code, 12);
 
   // Write title/label string into the bootblock

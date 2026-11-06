@@ -46,6 +46,7 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
   private coreRunning = false;
   private audioState: "running" | "suspended" | "unknown" = "unknown";
   private lastToggle = 0;
+  private loadAttempted = false;
   private readonly baseUrl: string;
 
   constructor(opts: VAmigaWebAdapterOptions) {
@@ -79,6 +80,7 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
       : `${this.baseUrl}/`;
     this.coreRunning = false;
     this.audioState = "unknown";
+    this.loadAttempted = false;
     return { src: `${base}#${config}`, title: "vAmiga — Amiga emulator", allow: "autoplay; fullscreen; gamepad; clipboard-write" };
   }
 
@@ -99,6 +101,15 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
     }
   }
 
+  protected override poll(): void {
+    this.postToFrame("poll_state");
+    // Proactively dismiss settings modal and prime drive DF0 after frame mounts
+    if (!this.loadAttempted && this.boot) {
+      this.loadAttempted = true;
+      this.sendLoad(this.boot);
+    }
+  }
+
   private sendLoad(boot: BootDisk | undefined): void {
     if (!boot) return;
     // Prepare frame environment: bypass drive select modal and mount DF0 directly
@@ -108,6 +119,10 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
         try {
           parameter_link_mount_in_df0 = true;
           df_mount_list = [${JSON.stringify(boot.fileName)}];
+          call_param_dialog_on_missing_roms = false;
+          call_param_dialog_on_disk = false;
+          $('#modal_settings').modal('hide');
+          $('#modal_roms').modal('hide');
         } catch(e) {}
       `
     });
@@ -190,10 +205,5 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
     const cmd = JOY[action];
     if (!cmd) return;
     this.postToFrame({ cmd: "script", script: `emit_joystick_cmd('${VAMIGA_PORT}${down ? cmd.down : cmd.up}');` });
-  }
-
-  protected override poll(): void {
-    // ALWAYS poll: before ready to establish connection, and after ready to track running state
-    this.postToFrame("poll_state");
   }
 }
