@@ -94,6 +94,8 @@ export function Header({
                 ? "vAmiga (Real)"
                 : runtimeKind === "puae"
                 ? "PUAE (Real)"
+                : runtimeKind === "copperline"
+                ? "Copperline (Real)"
                 : runtimeKind === "preview"
                 ? "Preview (Mock)"
                 : runtimeKind === "wasm"
@@ -133,6 +135,16 @@ export function Header({
             >
               <span className="font-bold">🕹️ PUAE Emulator (Real)</span>
               <span className="text-[10px] text-[#94a3b8]">EmulatorJS 4.2.3 libretro PUAE core</span>
+            </button>
+            <button
+              data-testid="runtime-copperline"
+              onClick={() => { onSelectRuntimeKind("copperline"); setRuntimeMenuOpen(false); }}
+              className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                runtimeKind === "copperline" ? "bg-orange-950/40 text-orange-300 border border-orange-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
+              }`}
+            >
+              <span className="font-bold">🦀 Copperline (Rust/WASM)</span>
+              <span className="text-[10px] text-[#94a3b8]">Cycle-driven Rust Amiga core (OCS/ECS/AGA)</span>
             </button>
             <button
               data-testid="runtime-preview"
@@ -179,6 +191,8 @@ export function Header({
                 ? "vAmigaWeb cycle-exact Amiga 500/1200 WebAssembly emulator (real OCS/ECS/AGA execution, GPL-3.0)"
                 : runtimeKind === "puae"
                 ? "PUAE libretro Amiga emulator via EmulatorJS 4.2.3 (real 68000 + chipset execution, GPL-2.0+)"
+                : runtimeKind === "copperline"
+                ? "Copperline cycle-driven Amiga emulator written in Rust (real OCS/ECS/AGA WebAssembly execution, GPL-3.0)"
                 : runtimeKind === "preview"
                 ? "Placeholder preview animation — NOT an emulator (for UI testing only)"
                 : runtimeKind === "wasm"

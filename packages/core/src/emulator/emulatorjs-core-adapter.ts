@@ -91,7 +91,17 @@ export class EmulatorJsCoreAdapter extends EmbeddedEmulatorAdapter {
     window.EJS_player = '#game';
     window.EJS_core = 'amiga';
     window.EJS_pathtodata = ${JSON.stringify(this.dataUrl)};
-    window.EJS_gameUrl = ${JSON.stringify(gameDataUrl)};
+
+    // Create a local blob within srcdoc so EmulatorJS has valid .adf extension without cross-origin issues
+    var gameBase64 = ${JSON.stringify(gameBase64)};
+    var rawGame = atob(gameBase64);
+    var gameU8 = new Uint8Array(rawGame.length);
+    for (var i = 0; i < rawGame.length; i++) gameU8[i] = rawGame.charCodeAt(i);
+    var gameBlob = new Blob([gameU8], { type: 'application/x-amiga-disk-format' });
+    var gameBlobUrl = URL.createObjectURL(gameBlob);
+    var diskFileName = ${JSON.stringify(boot.fileName)};
+
+    window.EJS_gameUrl = gameBlobUrl + '#' + diskFileName;
     window.EJS_gameName = ${JSON.stringify(boot.fileName)};
     window.EJS_startOnLoaded = true;
     ${biosDataUrl ? `window.EJS_biosUrl = ${JSON.stringify(biosDataUrl)};` : ""}
@@ -102,33 +112,37 @@ export class EmulatorJsCoreAdapter extends EmbeddedEmulatorAdapter {
       window.parent.postMessage({ rgme: "ejs", type: "started" }, "*");
     };
 
-    // Direct FS injection of Kickstart ROM into Emscripten filesystem under all canonical names
-    var kickstartBase64 = ${JSON.stringify(biosBase64)};
-    if (kickstartBase64) {
-      var injectBios = function() {
-        var fs = (window.Module && window.Module.FS) || (window.EJS_emulator && window.EJS_emulator.gameManager && window.EJS_emulator.gameManager.FS);
-        if (!fs) return false;
-        try {
-          var raw = atob(kickstartBase64);
-          var u8 = new Uint8Array(raw.length);
-          for (var i = 0; i < raw.length; i++) u8[i] = raw.charCodeAt(i);
-          var names = ['kick34005.A500', 'kick40063.A600', 'kick37175.A500', 'kick40068.A1200', 'kick39106.A4000', 'kick.rom'];
+    // Direct FS injection of floppy ADF and Kickstart ROM into Emscripten filesystem
+    var injectBios = function() {
+      var fs = (window.Module && window.Module.FS) || (window.EJS_emulator && window.EJS_emulator.gameManager && window.EJS_emulator.gameManager.FS);
+      if (!fs) return false;
+      try {
+        try { fs.writeFile('/' + diskFileName, gameU8); } catch(e) {}
+        try { fs.writeFile('/content/' + diskFileName, gameU8); } catch(e) {}
+        try { fs.writeFile('/home/web_user/retroarch/userdata/content/' + diskFileName, gameU8); } catch(e) {}
+
+        var kickBase = ${JSON.stringify(biosBase64)};
+        if (kickBase) {
+          var rawKick = atob(kickBase);
+          var kickU8 = new Uint8Array(rawKick.length);
+          for (var k = 0; k < rawKick.length; k++) kickU8[k] = rawKick.charCodeAt(k);
+          var names = ['kick34005.A500', 'kick40063.A600', 'kick37175.A500', 'kick40068.A1200', 'kick39106.A4000', 'kick.rom', 'kick13.rom'];
           for (var j = 0; j < names.length; j++) {
             var n = names[j];
-            try { fs.writeFile('/' + n, u8); } catch(e) {}
-            try { fs.writeFile('/system/' + n, u8); } catch(e) {}
-            try { fs.writeFile('/home/web_user/retroarch/userdata/system/' + n, u8); } catch(e) {}
+            try { fs.writeFile('/' + n, kickU8); } catch(e) {}
+            try { fs.writeFile('/system/' + n, kickU8); } catch(e) {}
+            try { fs.writeFile('/home/web_user/retroarch/userdata/system/' + n, kickU8); } catch(e) {}
           }
-          return true;
-        } catch(e) {
-          return false;
         }
-      };
-      var biosInterval = setInterval(function() {
-        if (injectBios()) clearInterval(biosInterval);
-      }, 100);
-      setTimeout(function() { clearInterval(biosInterval); }, 15000);
-    }
+        return true;
+      } catch(e) {
+        return false;
+      }
+    };
+    var fsInterval = setInterval(function() {
+      if (injectBios()) clearInterval(fsInterval);
+    }, 100);
+    setTimeout(function() { clearInterval(fsInterval); }, 15000);
 
     window.addEventListener("message", function(e) {
       if (!e.data || e.data.rgme !== "ejs_cmd") return;
