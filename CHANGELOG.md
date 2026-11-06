@@ -5,6 +5,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.13.0] - 2026-11-06
+
+### Added
+- **Local Pinned Amiga Emulator Cores & Offline Execution:**
+  - Pinned Same-Origin core hosting under `packages/web/public/cores/`:
+    - `cores/vamiga/index.html`: Standalone local vAmiga runner executing the `postMessage` protocol without external third-party modal alerts.
+    - `cores/emulatorjs/data/loader.js`: Standalone local EmulatorJS PUAE loader booting inside the `srcdoc` iframe without external CDN network dependencies.
+  - Automatic packaging into `packages/web/dist/cores/` during Vite production builds.
+  - Zero-latency offline boot with immediate fallback to remote CDN endpoints if custom URLs are configured.
+- **GNU GPL-3.0 License Harmonization:**
+  - Relicensed RGME engine and packages under **GNU General Public License v3.0 (GPL-3.0-or-later)** to achieve 100% legal harmony with vAmiga (GPL-3.0) and PUAE (GPL-2.0+/GPL-3.0).
+  - Maintained explicit BYOR (Bring Your Own ROM) disclaimer for proprietary Commodore firmware and commercial disk images, with CC0 1.0 Universal dedication for synthetic demo assets.
+- **Enhanced UI Telemetry:**
+  - Header runtime selector explicitly highlights `✨ vAmiga Emulator (Real · Pinned Local)` and `🕹️ PUAE Emulator (Real · Pinned Local)`.
+  - Core Telemetry HUD displays `(PINNED)` status indicators.
+
+### Fixed
+- **Transparent ZIP Disk Extraction (`resolveDiskBytesAndName`):**
+  - Resolved `PK\x03\x04` file type mismatch in vAmiga and "Insert Disk" / Guru Meditation in PUAE when mounting `.zip` archives by automatically unzipping primary `.adf` floppy images.
+
+---
+
+## [0.12.0] - 2026-11-06
+
+### Added
+- **Real Amiga Emulation Integration (vAmiga & PUAE):**
+  - Integrated `VAmigaWebAdapter` implementing cycle-exact Amiga 500/1200 OCS/ECS/AGA execution in WebAssembly.
+  - Integrated `EmulatorJsCoreAdapter` (PUAE) implementing libretro Amiga emulation.
+  - `PlaceholderPreviewAdapter` labelled honestly as a scripted mock preview.
+  - Multi-alias stored ZIP packaging for Kickstart ROM injection into Emscripten virtual filesystem.
+
+---
+
 ## [0.10.0] - 2026-11-05
 
 ### Added

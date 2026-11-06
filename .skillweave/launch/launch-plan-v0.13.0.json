@@ -1,0 +1,27 @@
+{
+  "productName": "RGME",
+  "version": "0.13.0",
+  "releaseTitle": "RGME v0.13.0",
+  "tag": "v0.13.0",
+  "environment": "production",
+  "preLaunchChecklist": {
+    "testsGreen": true,
+    "changelogUpdated": true,
+    "readmeUpdated": true,
+    "namingConventionValid": true,
+    "rollbackPlanDocumented": true,
+    "healthCheckOk": true
+  },
+  "rollbackPlan": {
+    "git_revert_cmd": "git revert HEAD",
+    "backup_strategy": "git-tag-snapshot",
+    "estimated_downtime_sec": 10,
+    "trigger": "runtime_error_rate > 0 || health_check.status != 'ok'"
+  },
+  "metricsBaseline": {
+    "unitTests": 474,
+    "testPassingRate": "100%",
+    "buildDurationSec": 4.3,
+    "bundleGzipKb": 204.97
+  }
+}

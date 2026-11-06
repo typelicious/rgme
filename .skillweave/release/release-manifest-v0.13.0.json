@@ -1,0 +1,39 @@
+{
+  "productName": "RGME",
+  "version": "0.13.0",
+  "releaseTitle": "RGME v0.13.0 — Pinned Local Amiga Emulators & GNU GPL-3.0 License Harmonization",
+  "tag": "v0.13.0",
+  "buildTimestamp": "2026-11-06T02:54:00Z",
+  "artifacts": [
+    {
+      "name": "packages/web/dist",
+      "type": "web-application-bundle",
+      "entry": "packages/web/dist/index.html",
+      "pinnedCores": [
+        "packages/web/dist/cores/vamiga/index.html",
+        "packages/web/dist/cores/emulatorjs/data/loader.js"
+      ]
+    },
+    {
+      "name": "packages/core/dist",
+      "type": "library-distribution",
+      "entry": "packages/core/dist/index.js",
+      "types": "packages/core/dist/index.d.ts"
+    },
+    {
+      "name": "packages/cli/dist",
+      "type": "cli-distribution",
+      "entry": "packages/cli/dist/index.js"
+    }
+  ],
+  "verification": {
+    "totalTests": 474,
+    "passedTests": 474,
+    "failedTests": 0,
+    "gateStatus": "PASSED"
+  },
+  "signing": {
+    "signedBy": "typelicious <typelicious@gmail.com>",
+    "signatureType": "git-annotated-tag"
+  }
+}
