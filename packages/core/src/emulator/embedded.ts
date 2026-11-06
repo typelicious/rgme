@@ -219,6 +219,7 @@ export abstract class EmbeddedEmulatorAdapter implements RuntimeAdapter {
       }
     }, timeout);
     this.pollTimer = this.timers.setInterval(() => this.tick(), POLL_MS);
+    this.poll();
     this.emit();
   }
 

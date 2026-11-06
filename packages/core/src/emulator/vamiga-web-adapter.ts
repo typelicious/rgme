@@ -65,8 +65,9 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
       port2: true,
       dialog_on_missing_roms: false,
       dialog_on_disk: false,
-      // With a user Kickstart we inject it ourselves; otherwise use vAmigaWeb's open-source AROS ROMs.
-      ...(hasBringYourOwnRom ? { wait_for_kickstart_injection: true } : { AROS: true })
+      AROS: !hasBringYourOwnRom,
+      openROMS: !hasBringYourOwnRom,
+      ...(hasBringYourOwnRom ? { wait_for_kickstart_injection: true } : {})
     };
   }
 
@@ -84,9 +85,8 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
     if (msg === "render_run_state") {
       this.coreRunning = Boolean((data as { value?: unknown }).value);
       if (!this.ready) {
-        // First sign of life from the core: hand over the disk (and the user's Kickstart, if any).
-        this.sendLoad(this.boot);
         this.markReady();
+        this.sendLoad(this.boot);
       }
       this.reconcileRun();
     } else if (msg === "render_current_audio_state") {
@@ -98,14 +98,62 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
 
   private sendLoad(boot: BootDisk | undefined): void {
     if (!boot) return;
+    // Prepare frame environment: bypass drive select modal and mount DF0 directly
+    this.postToFrame({
+      cmd: "script",
+      script: `
+        try {
+          parameter_link_mount_in_df0 = true;
+          df_mount_list = [${JSON.stringify(boot.fileName)}];
+        } catch(e) {}
+      `
+    });
+
     const message: Record<string, unknown> = { cmd: "load", file_name: boot.fileName, file: boot.bytes };
     if (this.opts.kickstartRom) message.kickstart_rom = this.opts.kickstartRom;
     this.postToFrame(message);
+
+    // Ensure DF0 insertion, dismiss any open config/rom modals, and start running
+    this.postToFrame({
+      cmd: "script",
+      script: `
+        try {
+          if (typeof insert_file === 'function') insert_file(0);
+          if (typeof show_drive_select === 'function') show_drive_select(false);
+          $('#modal_roms').modal('hide');
+          $('#modal_settings').modal('hide');
+          $('#modal_file_slot').modal('hide');
+          if (!is_running() && typeof app !== 'undefined' && app.button_run_click) {
+            app.button_run_click();
+          }
+        } catch(e) {}
+      `
+    });
   }
 
   protected applyDisk(boot: BootDisk): void {
-    // Disk swap: load message without ROM (the core is already running with its Kickstart).
+    // Disk swap: load message into DF0 and dismiss dialogs
+    this.postToFrame({
+      cmd: "script",
+      script: `
+        try {
+          parameter_link_mount_in_df0 = true;
+          df_mount_list = [${JSON.stringify(boot.fileName)}];
+        } catch(e) {}
+      `
+    });
     this.postToFrame({ cmd: "load", file_name: boot.fileName, file: boot.bytes });
+    this.postToFrame({
+      cmd: "script",
+      script: `
+        try {
+          if (typeof insert_file === 'function') insert_file(0);
+          if (typeof show_drive_select === 'function') show_drive_select(false);
+          $('#modal_roms').modal('hide');
+          $('#modal_file_slot').modal('hide');
+        } catch(e) {}
+      `
+    });
   }
 
   protected applyRun(): void {
@@ -142,6 +190,7 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
   }
 
   protected override poll(): void {
-    if (this.ready) this.postToFrame("poll_state");
+    // ALWAYS poll: before ready to establish connection, and after ready to track running state
+    this.postToFrame("poll_state");
   }
 }

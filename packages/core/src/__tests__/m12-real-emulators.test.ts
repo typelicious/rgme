@@ -2,11 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   VAmigaWebAdapter,
   EmulatorJsCoreAdapter,
+  createStoredZip,
+  ZipParser,
   toDiskFileName,
   type FrameInit,
   type MessageEventLike,
   type FrameWindow
-} from "../emulator/index.js";
+} from "../index.js";
 import type { GameProfile, Media } from "../profile.js";
 
 const TEST_MEDIA: Media = {
@@ -224,6 +226,49 @@ describe("Milestone 12: Real Amiga Emulation (vAmigaWeb & EmulatorJS)", () => {
 
       adapter.dispose();
       expect(env.removed).toBe(true);
+    });
+
+    it("packages Kickstart ROM into multi-alias stored zip so PUAE finds all canonical filenames", async () => {
+      const env = createMockFrameEnv();
+      const fakeRom = new Uint8Array([0x11, 0x14, 0x4e, 0x75, 0x00, 0x20]);
+
+      const adapter = new EmulatorJsCoreAdapter({
+        mediaProvider: () => new Uint8Array(901120),
+        kickstartRom: fakeRom,
+        frameFactory: (init) => {
+          env.frameInit = init;
+          return { contentWindow: env.mockWindow, remove: () => {} };
+        },
+        timers: env.timers
+      });
+
+      await adapter.loadGame(TEST_PROFILE);
+      expect(env.frameInit?.srcdoc).toContain("EJS_biosUrl");
+      expect(env.frameInit?.srcdoc).toContain("kick34005.A500");
+      expect(env.frameInit?.srcdoc).toContain("kick40063.A600");
+      expect(env.frameInit?.srcdoc).toContain("kick.rom");
+      expect(env.frameInit?.srcdoc).toContain("injectBios");
+    });
+  });
+
+  describe("createStoredZip", () => {
+    it("creates standard zip archives with stored files decodable by ZipParser", async () => {
+      const dataA = new Uint8Array([10, 20, 30, 40]);
+      const dataB = new Uint8Array([50, 60, 70]);
+      const zipBytes = createStoredZip([
+        { name: "kick34005.A500", data: dataA },
+        { name: "kick40063.A600", data: dataB }
+      ]);
+
+      expect(ZipParser.isZip(zipBytes)).toBe(true);
+      const parser = new ZipParser(zipBytes);
+      expect(parser.entries.map((e) => e.filename)).toEqual(["kick34005.A500", "kick40063.A600"]);
+
+      const extractedA = await parser.extract("kick34005.A500");
+      expect(extractedA).toEqual(dataA);
+
+      const extractedB = await parser.extract("kick40063.A600");
+      expect(extractedB).toEqual(dataB);
     });
   });
 });
