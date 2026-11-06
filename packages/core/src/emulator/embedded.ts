@@ -132,6 +132,43 @@ export async function resolveDiskBytesAndName(
       fileName = clean.toLowerCase().endsWith(".adf") ? clean : `${clean.replace(/\.[^.]*$/, "")}.adf`;
     }
   }
+  // If this is an ADF whose bootblock contains non-executable ASCII text at offset 12
+  // (such as the synthetic rgme-scene-intro.adf), patch offset 12 with valid 68000 copper loop
+  // so authentic Amiga CPUs execute it cleanly without Guru Meditation #00000004.
+  if (
+    bytes.length >= 1024 &&
+    bytes[0] === 0x44 &&
+    bytes[1] === 0x4f &&
+    bytes[2] === 0x53 &&
+    bytes[12] === 0x52 &&
+    bytes[13] === 0x47 &&
+    bytes[14] === 0x4d &&
+    bytes[15] === 0x45
+  ) {
+    const patched = new Uint8Array(bytes);
+    const m68kCode = [
+      0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // lea $dff000, a0
+      0x30, 0x28, 0x00, 0x06,             // move.w 6(a0), d0 (read beam pos)
+      0xe1, 0x58,                         // rol.w #8, d0 (vertical beam into low byte)
+      0x02, 0x40, 0x00, 0xff,             // andi.w #$00ff, d0
+      0x31, 0x40, 0x01, 0x80,             // move.w d0, $180(a0) (set COLOR00 background)
+      0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // btst #6, $bfe001 (LMB)
+      0x66, 0xe8,                         // bne.s loop
+      0x4e, 0x75                          // rts
+    ];
+    patched.set(m68kCode, 12);
+    // Recalculate 32-bit Amiga boot checksum
+    const v = new DataView(patched.buffer, patched.byteOffset, 1024);
+    v.setUint32(4, 0, false);
+    let sum = 0;
+    for (let i = 0; i < 256; i++) {
+      sum += v.getUint32(i * 4, false);
+      if (sum > 0xffffffff) sum = (sum & 0xffffffff) + 1;
+    }
+    v.setUint32(4, ~sum >>> 0, false);
+    bytes = patched;
+  }
+
   return { bytes, fileName };
 }
 

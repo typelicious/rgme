@@ -27,15 +27,13 @@ function uint8ArrayToBase64(bytes: Uint8Array): string {
  *   - EJS_startOnLoaded = true
  *   - EJS_biosUrl = blob URL to the user Kickstart ROM (if supplied)
  *
- * Pinned local core is preferred for zero-network offline execution and instant boot.
+ * Real PUAE (P-UAE) Amiga emulation via the official EmulatorJS WebAssembly distribution (v4.2.3).
  * Licence of the core: GPL-2.0+ (PUAE) / GPL-3.0 (EmulatorJS).
  */
-export const PINNED_EJS_DATA_URL = "/cores/emulatorjs/data/";
-export const REMOTE_EJS_DATA_URL = "https://cdn.emulatorjs.org/stable/data/";
-export const DEFAULT_EJS_DATA_URL = PINNED_EJS_DATA_URL;
+export const DEFAULT_EJS_DATA_URL = "https://cdn.emulatorjs.org/stable/data/";
 
 export interface EmulatorJsCoreAdapterOptions extends EmbeddedAdapterOptions {
-  /** Directory containing loader.js, emulator.min.js, and cores/. Default: pinned local core (/cores/emulatorjs/data/). */
+  /** CDN or self-hosted directory containing loader.js, emulator.min.js, and cores/. Default: official CDN. */
   dataUrl?: string;
 }
 
@@ -48,15 +46,12 @@ export class EmulatorJsCoreAdapter extends EmbeddedEmulatorAdapter {
 
   constructor(opts: EmulatorJsCoreAdapterOptions) {
     super(opts);
-    const u = opts.dataUrl ?? PINNED_EJS_DATA_URL;
+    const u = opts.dataUrl ?? DEFAULT_EJS_DATA_URL;
     this.dataUrl = u.endsWith("/") ? u : `${u}/`;
   }
 
   identifyCapabilities(): RuntimeCapabilities {
-    const isPinned = !this.dataUrl.startsWith("http://") && !this.dataUrl.startsWith("https://");
-    return this.capabilities(
-      isPinned ? "PUAE Amiga OCS/ECS (real emulator, pinned local)" : "PUAE Amiga OCS/ECS (real emulator, via EmulatorJS)"
-    );
+    return this.capabilities("PUAE Amiga OCS/ECS (real emulator, via EmulatorJS)");
   }
 
   protected frameInit(boot: BootDisk): FrameInit {

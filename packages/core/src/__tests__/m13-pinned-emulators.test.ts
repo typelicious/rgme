@@ -2,10 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   VAmigaWebAdapter,
   EmulatorJsCoreAdapter,
-  PINNED_VAMIGA_URL,
-  REMOTE_VAMIGA_URL,
-  PINNED_EJS_DATA_URL,
-  REMOTE_EJS_DATA_URL,
+  VAMIGAWEB_URL,
+  DEFAULT_EJS_DATA_URL,
   toDiskFileName,
   resolveDiskBytesAndName,
   type FrameInit,
@@ -33,28 +31,18 @@ function makeProfile(label: string, id = "m1"): GameProfile {
   };
 }
 
-describe("Milestone 13: Local Pinned Emulators (vAmiga & PUAE)", () => {
-  describe("vAmiga Pinned Adapter", () => {
-    it("defaults to local pinned URL (/cores/vamiga/index.html)", () => {
+describe("Milestone 13: Real Emulator Core Integration (vAmiga & PUAE)", () => {
+  describe("vAmiga Real Adapter", () => {
+    it("defaults to official vAmigaWeb instance (https://vamigaweb.github.io/)", () => {
       const adapter = new VAmigaWebAdapter({
-        mediaProvider: () => new Uint8Array(901120)
-      });
-      const caps = adapter.identifyCapabilities();
-      expect(caps.name).toBe("vAmiga (real emulator, pinned local)");
-      expect(PINNED_VAMIGA_URL).toBe("/cores/vamiga/index.html");
-      expect(REMOTE_VAMIGA_URL).toBe("https://vamigaweb.github.io/");
-    });
-
-    it("identifies as remote when explicitly configured with remote baseUrl", () => {
-      const adapter = new VAmigaWebAdapter({
-        baseUrl: REMOTE_VAMIGA_URL,
         mediaProvider: () => new Uint8Array(901120)
       });
       const caps = adapter.identifyCapabilities();
       expect(caps.name).toBe("vAmiga (real emulator, via vAmigaWeb)");
+      expect(VAMIGAWEB_URL).toBe("https://vamigaweb.github.io/");
     });
 
-    it("generates frameInit with local pinned src URL", async () => {
+    it("generates frameInit with vAmigaWeb URL and encoded configuration", async () => {
       let capturedInit: FrameInit | undefined;
       const fakeWindow = new FakeFrameWindow();
       const adapter = new VAmigaWebAdapter({
@@ -70,31 +58,21 @@ describe("Milestone 13: Local Pinned Emulators (vAmiga & PUAE)", () => {
       });
 
       await adapter.loadGame(makeProfile("Turrican II"));
-      expect(capturedInit?.src).toContain("/cores/vamiga/index.html#");
+      expect(capturedInit?.src).toContain("https://vamigaweb.github.io/#");
     });
   });
 
-  describe("PUAE (EmulatorJS) Pinned Adapter", () => {
-    it("defaults to local pinned dataUrl (/cores/emulatorjs/data/)", () => {
+  describe("PUAE (EmulatorJS) Real Adapter", () => {
+    it("defaults to official EmulatorJS data CDN", () => {
       const adapter = new EmulatorJsCoreAdapter({
-        mediaProvider: () => new Uint8Array(901120)
-      });
-      const caps = adapter.identifyCapabilities();
-      expect(caps.name).toBe("PUAE Amiga OCS/ECS (real emulator, pinned local)");
-      expect(PINNED_EJS_DATA_URL).toBe("/cores/emulatorjs/data/");
-      expect(REMOTE_EJS_DATA_URL).toBe("https://cdn.emulatorjs.org/stable/data/");
-    });
-
-    it("identifies as remote when explicitly configured with remote dataUrl", () => {
-      const adapter = new EmulatorJsCoreAdapter({
-        dataUrl: REMOTE_EJS_DATA_URL,
         mediaProvider: () => new Uint8Array(901120)
       });
       const caps = adapter.identifyCapabilities();
       expect(caps.name).toBe("PUAE Amiga OCS/ECS (real emulator, via EmulatorJS)");
+      expect(DEFAULT_EJS_DATA_URL).toBe("https://cdn.emulatorjs.org/stable/data/");
     });
 
-    it("generates frameInit with local pinned dataUrl in srcdoc", async () => {
+    it("generates frameInit with dataUrl in srcdoc", async () => {
       let capturedInit: FrameInit | undefined;
       const fakeWindow = new FakeFrameWindow();
       const adapter = new EmulatorJsCoreAdapter({
@@ -110,13 +88,13 @@ describe("Milestone 13: Local Pinned Emulators (vAmiga & PUAE)", () => {
       });
 
       await adapter.loadGame(makeProfile("Monkey Island"));
-      expect(capturedInit?.srcdoc).toContain('window.EJS_pathtodata = "/cores/emulatorjs/data/";');
-      expect(capturedInit?.srcdoc).toContain('<script src="/cores/emulatorjs/data/loader.js"></script>');
+      expect(capturedInit?.srcdoc).toContain('window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";');
+      expect(capturedInit?.srcdoc).toContain('<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>');
     });
   });
 
   describe("Integration & Media Resolution", () => {
-    it("transparently resolves and unzips ADF files for both pinned adapters", async () => {
+    it("transparently resolves and unzips ADF files for real emulators", async () => {
       const adfContent = new Uint8Array([0x44, 0x4f, 0x53, 0x00, 10, 20, 30]);
       const zipBytes = createStoredZip([
         { name: "Rick Dangerous (Disk 1).adf", data: adfContent }
@@ -129,6 +107,24 @@ describe("Milestone 13: Local Pinned Emulators (vAmiga & PUAE)", () => {
 
       expect(res.fileName).toBe("Rick_Dangerous__Disk_1_.adf");
       expect(res.bytes).toEqual(adfContent);
+    });
+
+    it("patches ASCII-only bootblock headers with valid 68000 executable code to avoid Guru Meditation #00000004", async () => {
+      const unbootableAdf = new Uint8Array(901120);
+      unbootableAdf.set([0x44, 0x4f, 0x53, 0x00]);
+      const banner = new TextEncoder().encode("RGME SCENE INTRO v1.0");
+      unbootableAdf.set(banner, 12);
+
+      const res = await resolveDiskBytesAndName(
+        { id: "scene", filename: "rgme-scene-intro.adf", kind: "floppy-adf", sha256: "c".repeat(64) },
+        unbootableAdf
+      );
+
+      // Must have valid 68000 lea $dff000, a0 instruction (0x41, 0xF9, 0x00, 0xDF, 0xF0, 0x00)
+      expect(res.bytes[12]).toBe(0x41);
+      expect(res.bytes[13]).toBe(0xf9);
+      expect(res.bytes[14]).toBe(0x00);
+      expect(res.bytes[15]).toBe(0xdf);
     });
   });
 });

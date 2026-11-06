@@ -17,15 +17,13 @@ import type { RuntimeCapabilities } from "../runtime.js";
  *   frame → parent : { msg:"render_run_state", value:boolean, is_warping }
  *                    { msg:"render_current_audio_state", value:"running"|"suspended" }
  *
- * Pinned local core is preferred for zero-network offline execution and elimination of third-party modal alerts.
+ * Real vAmiga WebAssembly core driven via the documented postMessage protocol.
  * Licence of the core: GPL-3.0.
  */
-export const PINNED_VAMIGA_URL = "/cores/vamiga/index.html";
-export const REMOTE_VAMIGA_URL = "https://vamigaweb.github.io/";
-export const VAMIGAWEB_URL = PINNED_VAMIGA_URL;
+export const VAMIGAWEB_URL = "https://vamigaweb.github.io/";
 
 export interface VAmigaWebAdapterOptions extends EmbeddedAdapterOptions {
-  /** vAmiga host page. Default: pinned local core (/cores/vamiga/index.html). */
+  /** vAmiga host page. Default: official vAmigaWeb instance (https://vamigaweb.github.io/). */
   baseUrl?: string;
 }
 
@@ -56,10 +54,7 @@ export class VAmigaWebAdapter extends EmbeddedEmulatorAdapter {
   }
 
   identifyCapabilities(): RuntimeCapabilities {
-    const isPinned = !this.baseUrl.startsWith("http://") && !this.baseUrl.startsWith("https://");
-    return this.capabilities(
-      isPinned ? "vAmiga (real emulator, pinned local)" : "vAmiga (real emulator, via vAmigaWeb)"
-    );
+    return this.capabilities("vAmiga (real emulator, via vAmigaWeb)");
   }
 
   /** The URL-fragment config understood by vAmigaWeb (`vAmiga_ui.js`). */

@@ -121,8 +121,8 @@ export function Header({
                 runtimeKind === "vamiga" ? "bg-emerald-950/40 text-emerald-300 border border-emerald-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
               }`}
             >
-              <span className="font-bold">✨ vAmiga Emulator (Real · Pinned Local)</span>
-              <span className="text-[10px] text-[#94a3b8]">Cycle-exact OCS/ECS/AGA WebAssembly (Offline)</span>
+              <span className="font-bold">✨ vAmiga Emulator (Real)</span>
+              <span className="text-[10px] text-[#94a3b8]">Cycle-exact OCS/ECS/AGA WebAssembly</span>
             </button>
             <button
               data-testid="runtime-puae"
@@ -131,8 +131,8 @@ export function Header({
                 runtimeKind === "puae" ? "bg-purple-950/40 text-purple-300 border border-purple-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
               }`}
             >
-              <span className="font-bold">🕹️ PUAE Emulator (Real · Pinned Local)</span>
-              <span className="text-[10px] text-[#94a3b8]">EmulatorJS libretro PUAE core (Offline)</span>
+              <span className="font-bold">🕹️ PUAE Emulator (Real)</span>
+              <span className="text-[10px] text-[#94a3b8]">EmulatorJS 4.2.3 libretro PUAE core</span>
             </button>
             <button
               data-testid="runtime-preview"
