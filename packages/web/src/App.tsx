@@ -141,7 +141,10 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
   useEffect(() => {
     void kickstartStore.getActiveRom().then((r) => {
       setActiveRomName(r.meta.name);
-      activeRomBytesRef.current = r.bytes;
+      // Only real user-uploaded Kickstart ROMs should be passed to the cores;
+      // built-in AROS uses the emulator cores' own upstream AROS binaries.
+      const romBytes = r.meta.builtIn ? undefined : r.bytes;
+      activeRomBytesRef.current = romBytes;
       if (
         (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga") &&
         adapterRef.current?.state === "UNLOADED"
@@ -150,7 +153,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         disposeRuntime(adapterRef.current);
         const a = createRuntime(runtimeKindRef.current, canvas, {
           media: mediaRegistry,
-          kickstartRom: r.bytes,
+          kickstartRom: romBytes,
           container: hostContainerRef.current
         });
         adapterRef.current = a;
@@ -1064,14 +1067,15 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         onRomChanged={(meta) => {
           setActiveRomName(meta.name);
           void kickstartStore.getActiveRom().then((r) => {
-            activeRomBytesRef.current = r.bytes;
+            const romBytes = r.meta.builtIn ? undefined : r.bytes;
+            activeRomBytesRef.current = romBytes;
             if (runtimeKindRef.current === "wasm" || runtimeKindRef.current === "puae" || runtimeKindRef.current === "vamiga") {
               const canvas = canvasRef.current;
               const wasRunning = adapterRef.current?.state === "RUNNING";
               disposeRuntime(adapterRef.current);
               const a = createRuntime(runtimeKindRef.current, canvas, {
                 media: mediaRegistry,
-                kickstartRom: r.bytes,
+                kickstartRom: romBytes,
                 container: hostContainerRef.current
               });
               adapterRef.current = a;
