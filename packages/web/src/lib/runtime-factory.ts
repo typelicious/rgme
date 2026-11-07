@@ -142,7 +142,7 @@ export function createRuntime(kind: RuntimeKind, canvas: HTMLCanvasElement | nul
     return new CopperlineWebAdapter({
       mediaProvider: media.provider,
       kickstartRom: opts.kickstartRom,
-      baseUrl: opts.coreUrl,
+      baseUrl: opts.coreUrl ?? "/emulators/copperline/",
       container: opts.container
     });
   }

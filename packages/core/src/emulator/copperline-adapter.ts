@@ -50,7 +50,16 @@ export class CopperlineWebAdapter extends EmbeddedEmulatorAdapter {
     this.coreRunning = false;
     this.loadSent = false;
 
-    // Build self-contained Copperline runner iframe with WebAssembly harness & postMessage bridge
+    // When configured with a local/self-hosted runner (e.g. /emulators/copperline/), mount the real WebAssembly runner
+    if (this.baseUrl && this.baseUrl !== DEFAULT_COPPERLINE_URL) {
+      return {
+        src: `${this.baseUrl}runner.html`,
+        title: "Copperline — Amiga Rust/WASM Emulator",
+        allow: "autoplay; fullscreen; gamepad"
+      };
+    }
+
+    // Build self-contained Copperline runner iframe with WebAssembly harness & postMessage bridge (mock test fallback)
     const diskBase64 = boot ? this.uint8ArrayToBase64(boot.bytes) : "";
     const diskName = boot ? boot.fileName : "disk.adf";
     const biosBase64 = this.opts.kickstartRom ? this.uint8ArrayToBase64(this.opts.kickstartRom) : null;
@@ -169,6 +178,13 @@ export class CopperlineWebAdapter extends EmbeddedEmulatorAdapter {
 
     if (msg.type === "ready") {
       this.markReady();
+      if (this.opts.kickstartRom) {
+        this.postToFrame({
+          rgme: "copperline_cmd",
+          cmd: "load_rom",
+          bytes: this.opts.kickstartRom
+        });
+      }
       if (!this.loadSent && this.boot) {
         this.loadSent = true;
         this.postToFrame({
@@ -200,6 +216,7 @@ export class CopperlineWebAdapter extends EmbeddedEmulatorAdapter {
       rgme: "copperline_cmd",
       cmd: "input",
       action,
+      down,
       pressed: down
     });
   }

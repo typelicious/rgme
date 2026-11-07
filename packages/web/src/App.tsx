@@ -112,7 +112,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     return () => { off(); floppySynth.dispose(); floppy.dispose(); };
   }, [floppy, floppySynth]);
   const isCustomFactory = createAdapter !== defaultFactory;
-  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "vamiga";
+  const initialKind: RuntimeKind = isCustomFactory ? "mock" : "copperline";
   const mediaRegistry = useMemo(() => new MediaRegistry(true), []);
   const bytesBySha = useRef(new Map<string, Uint8Array>());
   const adapterKey = useRef(initialKind === "mock" ? "amiga:mock" : `amiga:${initialKind}`);

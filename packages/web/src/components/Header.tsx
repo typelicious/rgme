@@ -90,12 +90,12 @@ export function Header({
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-mono font-bold text-white">
-              {runtimeKind === "vamiga"
+              {runtimeKind === "copperline"
+                ? "Copperline (Real)"
+                : runtimeKind === "vamiga"
                 ? "vAmiga (Real)"
                 : runtimeKind === "puae"
                 ? "PUAE (Real)"
-                : runtimeKind === "copperline"
-                ? "Copperline (Real)"
                 : runtimeKind === "preview"
                 ? "Preview (Mock)"
                 : runtimeKind === "wasm"
@@ -117,6 +117,16 @@ export function Header({
           >
             <div className="text-[10px] uppercase font-mono px-2 py-1 text-[#64748b]">Select Runtime Engine</div>
             <button
+              data-testid="runtime-copperline"
+              onClick={() => { onSelectRuntimeKind("copperline"); setRuntimeMenuOpen(false); }}
+              className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                runtimeKind === "copperline" ? "bg-orange-950/40 text-orange-300 border border-orange-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
+              }`}
+            >
+              <span className="font-bold">🦀 Copperline (Rust/WASM)</span>
+              <span className="text-[10px] text-[#94a3b8]">Cycle-driven Rust Amiga core (OCS/ECS/AGA) — Local & Pinned</span>
+            </button>
+            <button
               data-testid="runtime-vamiga"
               onClick={() => { onSelectRuntimeKind("vamiga"); setRuntimeMenuOpen(false); }}
               className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
@@ -135,16 +145,6 @@ export function Header({
             >
               <span className="font-bold">🕹️ PUAE Emulator (Real)</span>
               <span className="text-[10px] text-[#94a3b8]">EmulatorJS 4.2.3 libretro PUAE core</span>
-            </button>
-            <button
-              data-testid="runtime-copperline"
-              onClick={() => { onSelectRuntimeKind("copperline"); setRuntimeMenuOpen(false); }}
-              className={`flex flex-col text-left px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
-                runtimeKind === "copperline" ? "bg-orange-950/40 text-orange-300 border border-orange-600/50" : "text-[#cbd5e1] hover:bg-[#1e2332]"
-              }`}
-            >
-              <span className="font-bold">🦀 Copperline (Rust/WASM)</span>
-              <span className="text-[10px] text-[#94a3b8]">Cycle-driven Rust Amiga core (OCS/ECS/AGA)</span>
             </button>
             <button
               data-testid="runtime-preview"

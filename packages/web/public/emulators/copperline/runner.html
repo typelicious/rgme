@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Copperline Amiga WebAssembly Core</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      display: block;
+      cursor: crosshair;
+    }
+    #loading {
+      position: absolute;
+      color: #55ff55;
+      font-family: monospace;
+      font-size: 16px;
+      text-align: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">Initializing Copperline (Rust/WASM)…</div>
+  <canvas id="screen" width="720" height="568"></canvas>
+
+  <script type="module">
+    import init, { WebEmu } from './pkg/copperline_web.js';
+
+    (async function() {
+      const loadingEl = document.getElementById('loading');
+      const canvas = document.getElementById('screen');
+      const ctx = canvas.getContext('2d');
+
+      let wasm = null;
+      let emu = null;
+      let running = true;
+      let muted = false;
+      let frameCount = 0;
+      let audioCtx = null;
+      let audioNode = null;
+      let pendingDisk = null;
+      let pendingRom = null;
+      const joyState = { up: false, down: false, left: false, right: false, fire: false, fire2: false };
+
+      // Audio setup (Paula 4-channel output via AudioWorklet)
+      async function initAudio() {
+        if (audioCtx) {
+          if (audioCtx.state === 'suspended') {
+            try { await audioCtx.resume(); } catch(e) {}
+          }
+          return;
+        }
+        try {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          audioCtx = new AC({ sampleRate: 44100 });
+          try {
+            await audioCtx.audioWorklet.addModule('./audio-worklet.js');
+            audioNode = new AudioWorkletNode(audioCtx, 'copperline-audio', {
+              outputChannelCount: [2]
+            });
+            audioNode.connect(audioCtx.destination);
+          } catch(e) {
+            console.warn("AudioWorklet unavailable:", e);
+          }
+        } catch(err) {
+          console.warn("Could not start audio context", err);
+        }
+      }
+
+      // Early message listener so no parent commands are missed during WASM init
+      window.addEventListener("message", function(e) {
+        if (!e.data || e.data.rgme !== "copperline_cmd") return;
+        const cmd = e.data.cmd;
+
+        if (cmd === "load") {
+          const bytes = e.data.bytes instanceof Uint8Array ? e.data.bytes : new Uint8Array(e.data.bytes);
+          const fileName = e.data.fileName || "disk.adf";
+          if (emu) {
+            try {
+              emu.insert_floppy(0, bytes, fileName);
+            } catch(err) {
+              console.error("Floppy insertion error:", err);
+            }
+          } else {
+            pendingDisk = { bytes, fileName };
+          }
+        } else if (cmd === "load_rom") {
+          if (e.data.bytes) {
+            const rom = e.data.bytes instanceof Uint8Array ? e.data.bytes : new Uint8Array(e.data.bytes);
+            if (emu) {
+              try {
+                emu.load_rom(rom, null);
+              } catch(err) {
+                console.error("ROM load error:", err);
+              }
+            } else {
+              pendingRom = rom;
+            }
+          }
+        } else if (cmd === "play" || cmd === "start") {
+          running = true;
+          initAudio();
+        } else if (cmd === "pause") {
+          running = false;
+          if (audioCtx && audioCtx.state === 'running') audioCtx.suspend();
+        } else if (cmd === "reset") {
+          if (emu) emu.reset();
+        } else if (cmd === "setMuted") {
+          muted = Boolean(e.data.muted);
+        } else if (cmd === "input") {
+          const action = e.data.action;
+          const down = Boolean(e.data.pressed !== undefined ? e.data.pressed : e.data.down);
+          if (action in joyState) {
+            joyState[action] = down;
+            if (emu) {
+              emu.set_joystick_port(2, joyState.up, joyState.down, joyState.left, joyState.right, joyState.fire, joyState.fire2);
+            }
+          }
+        }
+      });
+
+      // Load WASM and ROMs
+      try {
+        loadingEl.textContent = "Loading Copperline WASM…";
+        wasm = await init('./pkg/copperline_web_bg.wasm');
+
+        loadingEl.textContent = "Loading bundled AROS Kickstart…";
+        const [romRes, extRes] = await Promise.all([
+          fetch('./aros/aros-amiga-m68k-rom.bin'),
+          fetch('./aros/aros-amiga-m68k-ext.bin')
+        ]);
+        const romBytes = new Uint8Array(await romRes.arrayBuffer());
+        const extBytes = new Uint8Array(await extRes.arrayBuffer());
+
+        emu = new WebEmu('A500', 'PAL', 2);
+        if (pendingRom) {
+          emu.load_rom(pendingRom, null);
+        } else {
+          emu.load_rom(romBytes, extBytes);
+        }
+
+        if (pendingDisk) {
+          try {
+            emu.insert_floppy(0, pendingDisk.bytes, pendingDisk.fileName);
+          } catch(err) {
+            console.error("Floppy insertion error:", err);
+          }
+        }
+
+        loadingEl.style.display = 'none';
+
+        // Notify parent RGME adapter that the emulator is loaded and ready
+        window.parent.postMessage({ rgme: "copperline", type: "ready", model: "A500" }, "*");
+      } catch (err) {
+        console.error("Failed to load Copperline:", err);
+        loadingEl.textContent = "Failed to load Copperline: " + (err.message || err);
+        loadingEl.style.color = "#ff5555";
+        return;
+      }
+
+      // Render loop
+      function loop() {
+        if (emu && running) {
+          try {
+            frameCount++;
+            emu.run(performance.now(), 5);
+
+            const ptr = emu.present_ptr();
+            const width = emu.present_width();
+            const rows = emu.present_rows();
+
+            if (ptr && width > 0 && rows > 0) {
+              if (canvas.width !== width || canvas.height !== rows) {
+                canvas.width = width;
+                canvas.height = rows;
+              }
+              const view = new Uint8ClampedArray(wasm.memory.buffer, ptr, width * rows * 4);
+              ctx.putImageData(new ImageData(view, width, rows), 0, 0);
+            }
+
+            // Audio output (always drain take_audio to prevent internal backlog)
+            const audio = emu.take_audio();
+            if (!muted && audio && audio.length > 0 && audioNode) {
+              audioNode.port.postMessage(audio, [audio.buffer]);
+            }
+
+            if (frameCount % 50 === 0) {
+              window.parent.postMessage({ rgme: "copperline", type: "frame", frame: frameCount, fps: 50 }, "*");
+            }
+          } catch(err) {
+            console.error("Copperline execution error:", err);
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+
+      // User gesture unlock for audio and mouse pointer lock
+      canvas.addEventListener("click", function() {
+        initAudio();
+        try { canvas.requestPointerLock?.(); } catch(e) {}
+      });
+      window.addEventListener("click", function() {
+        initAudio();
+      });
+
+      // Mouse input to Amiga
+      canvas.addEventListener("mousemove", function(e) {
+        if (emu && document.pointerLockElement === canvas) {
+          emu.mouse_delta(e.movementX, e.movementY);
+        }
+      });
+      canvas.addEventListener("mousedown", function(e) {
+        if (emu) emu.mouse_button(e.button, true);
+      });
+      canvas.addEventListener("mouseup", function(e) {
+        if (emu) emu.mouse_button(e.button, false);
+      });
+
+      // Keyboard input to Amiga
+      window.addEventListener("keydown", function(e) {
+        if (emu) {
+          const handled = emu.key_event(e.code, true);
+          if (handled) e.preventDefault();
+        }
+      });
+      window.addEventListener("keyup", function(e) {
+        if (emu) {
+          const handled = emu.key_event(e.code, false);
+          if (handled) e.preventDefault();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
