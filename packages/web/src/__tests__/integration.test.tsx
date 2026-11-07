@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { MockRuntimeAdapter } from "@rgme/core";
@@ -42,7 +42,9 @@ describe("INTEG-001 web demonstrator", () => {
 });
 
 describe("Scene demo (rgme-scene-intro.adf)", () => {
-  const adfPath = resolve(process.cwd(), "../../concept/fixtures/rgme-scene-intro.adf"); // vitest runs with cwd = packages/web
+  const adfPath = existsSync(resolve(process.cwd(), "concept/fixtures/rgme-scene-intro.adf"))
+    ? resolve(process.cwd(), "concept/fixtures/rgme-scene-intro.adf")
+    : resolve(process.cwd(), "../../concept/fixtures/rgme-scene-intro.adf");
 
   it("Load Scene Demo identifies the real ADF by hash (Class A / public domain), launches the intro scene with audio sink", async () => {
     const bytes = readFileSync(adfPath);
@@ -56,7 +58,7 @@ describe("Scene demo (rgme-scene-intro.adf)", () => {
     fireEvent.click(screen.getByTestId("load-scene"));
     await waitFor(() => expect(adapter.state).toBe("RUNNING"), { timeout: 5000 });
     expect(screen.getByTestId("drop-status")).toHaveTextContent("Identified");
-    expect(screen.getByTestId("drop-hash")).toHaveTextContent("71731f46d9a4");
+    expect(screen.getByTestId("drop-hash")).toHaveTextContent("16e02d77f501");
     expect(screen.getByTestId("badge-private_execution")).toHaveAttribute("data-tone", "cleared");
     expect(screen.getByTestId("badge-binary_redistribution")).toHaveAttribute("data-tone", "cleared");
     expect(screen.getByTestId("export-btn")).toBeEnabled();

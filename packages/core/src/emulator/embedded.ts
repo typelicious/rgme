@@ -148,9 +148,8 @@ export async function resolveDiskBytesAndName(
   }
 
   // If this is an ADF whose bootblock contains non-executable ASCII text at offset 12
-  // If this is an ADF whose bootblock contains non-executable ASCII text at offset 12
-  // (such as the synthetic rgme-scene-intro.adf), patch offset 12 with valid 68000 machine code
-  // with Paula audio playback and real-time copper raster loop so authentic Amiga CPUs execute it cleanly.
+  // (such as older synthetic rgme-scene-intro stubs), patch offset 12 with authentic 68000 machine code
+  // featuring a real Copper sunset gradient and 2-channel Paula stereo arpeggio synth.
   if (
     bytes.length >= 1024 &&
     bytes[0] === 0x44 &&
@@ -162,42 +161,131 @@ export async function resolveDiskBytesAndName(
     bytes[15] === 0x45
   ) {
     const patched = new Uint8Array(bytes);
-    const m68kCode = [
-      0x41, 0xf9, 0x00, 0xdf, 0xf0, 0x00, // 12..17: lea $dff000, a0
-      0x43, 0xfa, 0x00, 0x3c,             // 18..21: lea 60(pc), a1 -> offset 80 (audio sample)
-      0x21, 0x49, 0x00, 0xa0,             // 22..25: move.l a1, $a0(a0) (AUD0LCH)
-      0x31, 0x7c, 0x00, 0x08, 0x00, 0xa4, // 26..31: move.w #8, $a4(a0) (AUD0LEN = 8 words)
-      0x31, 0x7c, 0x01, 0x5e, 0x00, 0xa6, // 32..37: move.w #350, $a6(a0) (AUD0PER = 350)
-      0x31, 0x7c, 0x00, 0x40, 0x00, 0xa8, // 38..43: move.w #64, $a8(a0) (AUD0VOL = 64)
-      0x31, 0x7c, 0x82, 0x01, 0x00, 0x96, // 44..49: move.w #$8201, $96(a0) (DMACON = enable AUD0)
-      0x30, 0x28, 0x00, 0x06,             // 50..53: move.w 6(a0), d0
-      0xe0, 0x48,                         // 54..55: lsr.w #8, d0
-      0x31, 0x40, 0x01, 0x80,             // 56..59: move.w d0, $180(a0)
-      0x08, 0x39, 0x00, 0x06, 0x00, 0xbf, 0xe0, 0x01, // 60..67: btst #6, $bfe001
-      0x66, 0xec,                         // 68..69: bne.s loop -> offset 50
-      0x70, 0x00,                         // 70..71: moveq #0, d0
-      0x4e, 0x75                          // 72..73: rts
+    const dv = new DataView(patched.buffer, patched.byteOffset, 1024);
+
+    let pc = 12;
+    const emit16 = (w: number) => { dv.setUint16(pc, w, false); pc += 2; };
+    const emit32 = (l: number) => { dv.setUint32(pc, l, false); pc += 4; };
+
+    // lea $dff000, a6
+    emit16(0x4DF9); emit32(0x00DFF000);
+
+    // lea copper_list(pc), a0 (copper_list at offset 180)
+    emit16(0x41FA); emit16(180 - (pc + 2));
+    emit16(0x2D48); emit16(0x0080); // move.l a0, $80(a6) (COP1LCH)
+    emit16(0x3D7C); emit16(0x0000); emit16(0x0088); // move.w #0, $88(a6) (COPJMP1)
+
+    // lea audio_sample(pc), a1 (audio_sample at offset 400)
+    emit16(0x43FA); emit16(400 - (pc + 2));
+
+    // Channel 0 (Melody/Arpeggio)
+    emit16(0x2D49); emit16(0x00A0); // AUD0LCH
+    emit16(0x3D7C); emit16(0x0008); emit16(0x00A4); // AUD0LEN = 8 words = 16 bytes
+    emit16(0x3D7C); emit16(424); emit16(0x00A6);    // AUD0PER = 424 (C-4)
+    emit16(0x3D7C); emit16(64); emit16(0x00A8);     // AUD0VOL = 64
+
+    // Channel 1 (Bass)
+    emit16(0x2D49); emit16(0x00B0); // AUD1LCH
+    emit16(0x3D7C); emit16(0x0008); emit16(0x00B4); // AUD1LEN = 8 words
+    emit16(0x3D7C); emit16(848); emit16(0x00B6);    // AUD1PER = 848 (C-3)
+    emit16(0x3D7C); emit16(48); emit16(0x00B8);     // AUD1VOL = 48
+
+    // Enable DMA: $8283 (DMAEN | COPEN | AUD0EN | AUD1EN)
+    emit16(0x3D7C); emit16(0x8283); emit16(0x0096);
+
+    // d2 = frame counter, d3 = note counter
+    emit16(0x7400); // moveq #0, d2
+    emit16(0x7600); // moveq #0, d3
+
+    const loop_label = pc;
+    const wait_vbl_label = pc;
+    emit16(0x202E); emit16(0x0004); // move.l 4(a6), d0
+    emit16(0x0280); emit32(0x0001FF00); // and.l #$0001ff00, d0
+    emit16(0x0C80); emit32(0x00013000); // cmp.l #$00013000, d0
+    emit16(0x6600 | ((wait_vbl_label - (pc + 2)) & 0xFF)); // bne.s wait_vbl
+
+    emit16(0x5282); // addq.l #1, d2
+    emit16(0x2002); // move.l d2, d0
+    emit16(0x0280); emit32(0x00000007); // andi.l #7, d0
+    const bne_note_pc = pc;
+    emit16(0x6600); // placeholder bne.s skip_note
+
+    emit16(0x5243); // addq.w #1, d3
+    emit16(0x0243); emit16(0x0007); // andi.w #7, d3
+    emit16(0x3203); // move.w d3, d1
+    emit16(0xD241); // add.w d1, d1
+    emit16(0x45FA); emit16(450 - (pc + 2)); // lea note_table(pc), a2 (offset 450)
+    emit16(0x3D72); emit16(0x1000); emit16(0x00A6); // move.w 0(a2, d1.w), $a6(a6) (AUD0PER)
+
+    // skip_note
+    const skip_note_label = pc;
+    dv.setUint8(bne_note_pc + 1, (skip_note_label - (bne_note_pc + 2)) & 0xFF);
+
+    // btst #6, $bfe001 (left mouse button)
+    emit16(0x0839); emit16(0x0006); emit32(0x00BFE001);
+    emit16(0x6600 | ((loop_label - (pc + 2)) & 0xFF)); // bne.s loop
+
+    // On exit: disable DMA and return
+    emit16(0x3D7C); emit16(0x7FFF); emit16(0x0096);
+    emit16(0x7000); // moveq #0, d0
+    emit16(0x4E75); // rts
+
+    // Copper list at offset 180
+    pc = 180;
+    const cl_data = [
+      0x2807, 0xFFFE, 0x0180, 0x0001,
+      0x3807, 0xFFFE, 0x0180, 0x0002,
+      0x4807, 0xFFFE, 0x0180, 0x0004,
+      0x5807, 0xFFFE, 0x0180, 0x0016,
+      0x6807, 0xFFFE, 0x0180, 0x0029,
+      0x7807, 0xFFFE, 0x0180, 0x003C,
+      0x8807, 0xFFFE, 0x0180, 0x004E,
+      // Sunset golden horizon band
+      0x9807, 0xFFFE, 0x0180, 0x0620,
+      0x9A07, 0xFFFE, 0x0180, 0x0A40,
+      0x9C07, 0xFFFE, 0x0180, 0x0F80,
+      0x9E07, 0xFFFE, 0x0180, 0x0FC0,
+      0xA007, 0xFFFE, 0x0180, 0x0FF2,
+      0xA207, 0xFFFE, 0x0180, 0x0FC0,
+      0xA407, 0xFFFE, 0x0180, 0x0F80,
+      0xA607, 0xFFFE, 0x0180, 0x0A40,
+      0xA807, 0xFFFE, 0x0180, 0x0620,
+      // Blue band down to deep night
+      0xB807, 0xFFFE, 0x0180, 0x004E,
+      0xC807, 0xFFFE, 0x0180, 0x0029,
+      0xD807, 0xFFFE, 0x0180, 0x0016,
+      0xE807, 0xFFFE, 0x0180, 0x0004,
+      0xF807, 0xFFFE, 0x0180, 0x0001,
+      0xFFFF, 0xFFFE
     ];
-    patched.set(m68kCode, 12);
-    // 16-byte audio sample at offset 80
+    for (const w of cl_data) emit16(w);
+
+    // Audio sample at offset 400 (16-byte single cycle waveform)
+    pc = 400;
     const sample = [120, 100, 70, 30, 0, -30, -70, -100, -120, -100, -70, -30, 0, 30, 70, 100];
     for (let i = 0; i < 16; i++) {
-      patched[80 + i] = ((sample[i] ?? 0) + 256) & 0xff;
+      patched[pc++] = ((sample[i] ?? 0) + 256) & 0xFF;
     }
-    // Safe title banner at offset 96
-    const label = "RGME SCENE INTRO v1.0 - TURRICAN TRIBUTE";
-    for (let i = 0; i < label.length; i++) {
-      patched[96 + i] = label.charCodeAt(i);
+
+    // Note table at offset 450 (C-4, Eb-4, G-4, Bb-4, C-5, Bb-4, G-4, Eb-4)
+    pc = 450;
+    const notes = [424, 356, 282, 238, 212, 238, 282, 356];
+    for (const n of notes) emit16(n);
+
+    // Banner at offset 500
+    const banner = "RGME SCENE INTRO: TURRICAN TRIBUTE (AMIGA 500 OCS 50Hz)";
+    for (let i = 0; i < banner.length; i++) {
+      patched[500 + i] = banner.charCodeAt(i);
     }
+
     // Recalculate 32-bit Amiga boot checksum
-    const v = new DataView(patched.buffer, patched.byteOffset, 1024);
-    v.setUint32(4, 0, false);
+    dv.setUint32(4, 0, false);
     let sum = 0;
     for (let i = 0; i < 256; i++) {
-      sum += v.getUint32(i * 4, false);
-      if (sum > 0xffffffff) sum = (sum & 0xffffffff) + 1;
+      sum += dv.getUint32(i * 4, false);
+      if (sum > 0xFFFFFFFF) sum = (sum & 0xFFFFFFFF) + 1;
     }
-    v.setUint32(4, ~sum >>> 0, false);
+    dv.setUint32(4, ~sum >>> 0, false);
     bytes = patched;
   }
 

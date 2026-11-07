@@ -164,26 +164,14 @@ describe("running bootblocks", () => {
 });
 
 describe("the real fixture: concept/fixtures/rgme-scene-intro.adf", () => {
-  /**
-   * Observed behaviour (asserted so it cannot silently change): the fixture's bootblock is a valid DOS
-   * bootblock (magic + checksum) but its "code" at offset 12 is the ASCII banner text "RGME SCENE INTRO ...".
-   * The first two bytes "RG" decode as ADDQ.W #1,D7 (0x5247); the next word "ME" (0x4D45) is CHK, which
-   * this partial core does not implement, so execution stops there with an explicit error.
-   */
-  it("executes ADDQ.W #1,D7 and then halts at the CHK opcode taken from the ASCII banner", () => {
+  it("executes valid 68000 machine code starting with lea $dff000, a6", () => {
     const m = new AmigaBootMachine();
     m.loadBootblock(fixtureBytes);
-    expect(m.bus.read16(BOOT_ADDRESS + 12)).toBe(0x5247);
+    expect(m.bus.read16(BOOT_ADDRESS + 12)).toBe(0x4df9);
     const r = m.runFrame();
-    expect(r.halted).toBe(true);
-    expect(r.haltReason).toBe("error");
-    expect(r.error).toBeInstanceOf(UnsupportedInstructionError);
-    const e = r.error as UnsupportedInstructionError;
-    expect(e.opcode).toBe(0x4d45);
-    expect(e.pc).toBe(BOOT_ADDRESS + 14);
-    expect(m.cpu.d[7]).toBe(1); // ADDQ.W #1,D7 really ran
-    expect(m.stepsExecuted).toBe(1);
-    expect(m.instructionTrace[0]).toEqual({ pc: BOOT_ADDRESS + 12, opcode: 0x5247 });
+    expect(r.halted).toBe(false);
+    expect(r.error).toBeUndefined();
+    expect(m.stepsExecuted).toBeGreaterThan(100);
   });
 });
 
@@ -235,7 +223,7 @@ describe("M68kBootAdapter", () => {
   });
   it("shows a HALTED overlay with PC and error when the program stops", async () => {
     const { canvas, texts } = recordingCanvas();
-    const a = new M68kBootAdapter({ mediaProvider: provider(fixtureBytes), canvas });
+    const a = new M68kBootAdapter({ mediaProvider: provider(bootAdf([0x4d45])), canvas });
     await a.loadGame(profile);
     a.start();
     a.stepFrame();

@@ -56,7 +56,7 @@ export function bootChecksumValid(bytes: Uint8Array): boolean {
   let sum = 0;
   for (let i = 0; i < 256; i++) {
     sum += v.getUint32(i * 4, false);
-    if (sum > 0xffffffff) sum = (sum & 0xffffffff) + 1;
+    if (sum > 0xffffffff) sum = ((sum & 0xffffffff) >>> 0) + 1;
   }
   return sum >>> 0 === 0xffffffff;
 }

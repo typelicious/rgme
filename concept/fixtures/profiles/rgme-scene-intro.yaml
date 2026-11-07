@@ -7,7 +7,7 @@ game:
 identity:
   hashes:
     - algorithm: sha256
-      value: "71731f46d9a41d9ac0999d15e41ac7b94826a867e1c7b3640aabe5c10a172409"
+      value: "16e02d77f501bd9abd56bc09bc6f53301205b44f82d0805f8aa65db44e360004"
   filenames:
     - "rgme-scene-intro.adf"
 

@@ -125,8 +125,8 @@ describe("Milestone 13: Real Emulator Core Integration (vAmiga & PUAE)", () => {
         unbootableAdf
       );
 
-      // Must have valid 68000 lea $dff000, a0 instruction (0x41, 0xF9, 0x00, 0xDF, 0xF0, 0x00)
-      expect(res.bytes[12]).toBe(0x41);
+      // Must have valid 68000 lea $dff000, a6 instruction (0x4D, 0xF9, 0x00, 0xDF, 0xF0, 0x00)
+      expect(res.bytes[12]).toBe(0x4d);
       expect(res.bytes[13]).toBe(0xf9);
       expect(res.bytes[14]).toBe(0x00);
       expect(res.bytes[15]).toBe(0xdf);

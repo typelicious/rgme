@@ -23,7 +23,7 @@ describe("concept/fixtures", () => {
     const entries = await scanDirectory(fixtures);
     expect(entries).toHaveLength(1);
     const e = entries[0]!;
-    expect(e.sha256).toBe("71731f46d9a41d9ac0999d15e41ac7b94826a867e1c7b3640aabe5c10a172409");
+    expect(e.sha256).toBe("16e02d77f501bd9abd56bc09bc6f53301205b44f82d0805f8aa65db44e360004");
     expect(e.matchedBy).toBe("hash");
     expect(e.identified).toBe(true);
     expect(e.title).toBe("RGME Scene Intro: Turrican Tribute");
