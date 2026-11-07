@@ -130,7 +130,9 @@ export async function resolveDiskBytesAndName(
       bytes = await zip.extractEntry(target);
       const innerName = target.filename.split("/").pop() ?? target.filename;
       const clean = innerName.replace(/[^A-Za-z0-9._-]/g, "_");
-      fileName = clean.toLowerCase().endsWith(".adf") ? clean : `${clean.replace(/\.[^.]*$/, "")}.adf`;
+      fileName = clean.toLowerCase().endsWith(".adf") || clean.toLowerCase().endsWith(".ipf")
+        ? clean
+        : `${clean.replace(/\.[^.]*$/, "")}.${identifyImage(bytes) === "ipf" ? "ipf" : "adf"}`;
     }
   }
   // If the extracted or provided image is an IPF, attempt to decode standard Amiga tracks
@@ -138,6 +140,10 @@ export async function resolveDiskBytesAndName(
     const { adf } = IpfParser.parse(bytes).toAdfResult();
     if (adf) {
       bytes = new Uint8Array(adf.buffer, adf.byteOffset, adf.byteLength);
+    } else {
+      if (!fileName.toLowerCase().endsWith(".ipf")) {
+        fileName = `${fileName.replace(/\.[^.]*$/, "")}.ipf`;
+      }
     }
   }
 

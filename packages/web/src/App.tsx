@@ -386,7 +386,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         const { adf, reasons } = IpfParser.parse(data).toAdfResult();
         if (adf) {
           data = new Uint8Array(adf.buffer, adf.byteOffset, adf.byteLength);
-        } else {
+        } else if (runtimeKindRef.current !== "copperline") {
           setRuntimeError(`IPF cannot be mounted: ${reasons.slice(0, 2).join("; ") || "undecodable or copy-protected tracks"}.`);
           return;
         }
@@ -458,12 +458,13 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       if (identifyImage(bytes) === "ipf") {
         // IPF: decode standard Amiga MFM tracks to an ADF. Copy-protected tracks are NOT emulated and never faked.
         const { adf, reasons } = IpfParser.parse(bytes).toAdfResult();
-        if (!adf) {
+        if (adf) {
+          bytes = adf;
+        } else if (runtimeKindRef.current !== "copperline") {
           setInfo({ name: file.name, size: file.size, sha256, status: "Unknown" });
           setRuntimeError(`IPF cannot be mounted: ${reasons.slice(0, 2).join("; ") || "undecodable or copy-protected tracks"}.`);
           return undefined;
         }
-        bytes = adf;
       }
       remember(sha256, bytes);
       // Identity comes from the exact SHA-256 only; anything unrecognized stays Unknown (local play only).
