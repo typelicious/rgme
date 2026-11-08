@@ -9,7 +9,7 @@
 // reported back every ~10 quanta so the pacer can trim drift.
 
 const MAX_QUEUE_FRAMES = 11025; // ~250 ms at 44.1 kHz
-const PREBUFFER_FRAMES = 2646; // ~60 ms: gate playback until this much queued
+const PREBUFFER_FRAMES = 1764; // ~40 ms (2 PAL frames): smooth startup cushion without latency
 
 class CopperlineAudio extends AudioWorkletProcessor {
   constructor() {
@@ -36,7 +36,7 @@ class CopperlineAudio extends AudioWorkletProcessor {
   process(inputs, outputs) {
     const left = outputs[0][0];
     const right = outputs[0].length > 1 ? outputs[0][1] : outputs[0][0];
-    // After a start or a hard drain, hold silence until a small cushion is
+    // After initial start or a complete hard drain, hold silence until a small cushion is
     // queued so playback does not stutter through the refill.
     if (this.prebuffering) {
       if (this.queuedFrames < PREBUFFER_FRAMES) return true;
@@ -59,7 +59,11 @@ class CopperlineAudio extends AudioWorkletProcessor {
     }
     if (i < left.length) {
       this.underruns++;
-      this.prebuffering = true;
+      // Only re-enter prebuffering if the buffer was completely starved (0 frames left)
+      // If chunks are still arriving, pad missing samples with silence so audio resumes immediately
+      if (this.queuedFrames <= 0 && this.chunks.length === 0) {
+        this.prebuffering = true;
+      }
       for (; i < left.length; i++) {
         left[i] = 0;
         right[i] = 0;

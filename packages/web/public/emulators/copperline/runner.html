@@ -87,6 +87,22 @@
         return "A500";
       }
 
+      // Audio pacing & queue backpressure
+      const AUDIO_GATE_CLOSE_MS = 150;
+      const AUDIO_GATE_OPEN_MS = 90;
+      let audioGateClosed = false;
+      let queuedMs = 0;
+
+      function maxFramesForQueue() {
+        const limit = audioGateClosed ? AUDIO_GATE_OPEN_MS : AUDIO_GATE_CLOSE_MS;
+        audioGateClosed = queuedMs > limit;
+        if (audioGateClosed) {
+          if (emu && typeof emu.resync_clock === 'function') emu.resync_clock();
+          return 0;
+        }
+        return 5;
+      }
+
       function setupEmulator(targetModel, rom, ext) {
         if (emu) {
           try { emu.free(); } catch(e) {}
@@ -94,6 +110,10 @@
         }
         currentModel = targetModel;
         emu = new WebEmu(currentModel, 'PAL', 2);
+        queuedMs = 0;
+        audioGateClosed = false;
+        if (typeof emu.resync_clock === 'function') emu.resync_clock();
+
         if (rom) {
           emu.load_rom(rom, ext || null);
         } else if (defaultRomBytes) {
@@ -103,6 +123,7 @@
           try {
             emu.insert_floppy(0, lastFloppy.bytes, lastFloppy.fileName);
             emu.reset();
+            if (typeof emu.resync_clock === 'function') emu.resync_clock();
           } catch(e) {
             console.error("Floppy insertion error in setupEmulator:", e);
           }
@@ -127,6 +148,11 @@
             audioNode = new AudioWorkletNode(audioCtx, 'copperline-audio', {
               outputChannelCount: [2]
             });
+            audioNode.port.onmessage = function(e) {
+              if (typeof e.data?.queuedMs === 'number') {
+                queuedMs = e.data.queuedMs;
+              }
+            };
             audioNode.connect(audioCtx.destination);
           } catch(e) {
             console.warn("AudioWorklet unavailable:", e);
@@ -154,6 +180,9 @@
             try {
               emu.insert_floppy(0, bytes, fileName);
               emu.reset(); // Crucial! Cold boots the newly inserted media
+              queuedMs = 0;
+              audioGateClosed = false;
+              if (typeof emu.resync_clock === 'function') emu.resync_clock();
             } catch(err) {
               console.error("Floppy insertion error:", err);
             }
@@ -175,6 +204,9 @@
                     emu.insert_floppy(0, lastFloppy.bytes, lastFloppy.fileName);
                   }
                   emu.reset();
+                  queuedMs = 0;
+                  audioGateClosed = false;
+                  if (typeof emu.resync_clock === 'function') emu.resync_clock();
                 } catch(err) {
                   console.error("ROM load error:", err);
                 }
@@ -186,11 +218,19 @@
         } else if (cmd === "play" || cmd === "start") {
           running = true;
           initAudio();
+          queuedMs = 0;
+          audioGateClosed = false;
+          if (emu && typeof emu.resync_clock === 'function') emu.resync_clock();
         } else if (cmd === "pause") {
           running = false;
           if (audioCtx && audioCtx.state === 'running') audioCtx.suspend();
         } else if (cmd === "reset") {
-          if (emu) emu.reset();
+          if (emu) {
+            emu.reset();
+            queuedMs = 0;
+            audioGateClosed = false;
+            if (typeof emu.resync_clock === 'function') emu.resync_clock();
+          }
         } else if (cmd === "setMuted") {
           muted = Boolean(e.data.muted);
         } else if (cmd === "input") {
@@ -233,6 +273,9 @@
           try {
             emu.insert_floppy(0, pendingDisk.bytes, pendingDisk.fileName);
             emu.reset();
+            queuedMs = 0;
+            audioGateClosed = false;
+            if (typeof emu.resync_clock === 'function') emu.resync_clock();
           } catch(err) {
             console.error("Floppy insertion error:", err);
           }
@@ -249,34 +292,56 @@
         return;
       }
 
-      // Render loop
+      // Render loop with audio-gate pacing, presentation revision checks & zero-GC canvas blitting
+      let cachedImgData = null;
+      let lastRevision = null;
+      let lastReportedFrame = 0;
+
       function loop() {
         if (emu && running) {
           try {
-            frameCount++;
-            emu.run(performance.now(), 5);
+            const max = maxFramesForQueue();
+            const stepped = emu.run(performance.now(), max);
 
-            const ptr = emu.present_ptr();
-            const width = emu.present_width();
-            const rows = emu.present_rows();
+            if (stepped > 0) {
+              frameCount += stepped;
 
-            if (ptr && width > 0 && rows > 0) {
-              if (canvas.width !== width || canvas.height !== rows) {
-                canvas.width = width;
-                canvas.height = rows;
+              // Audio output (drain Paula audio produced by emulated step)
+              const audio = emu.take_audio();
+              if (!muted && audio && audio.length > 0 && audioNode) {
+                audioNode.port.postMessage(audio, [audio.buffer]);
               }
-              const view = new Uint8ClampedArray(wasm.memory.buffer, ptr, width * rows * 4);
-              ctx.putImageData(new ImageData(view, width, rows), 0, 0);
+
+              if (frameCount - lastReportedFrame >= 50) {
+                lastReportedFrame = frameCount;
+                window.parent.postMessage({ rgme: "copperline", type: "frame", frame: frameCount, fps: 50 }, "*");
+              }
             }
 
-            // Audio output (always drain take_audio to prevent internal backlog)
-            const audio = emu.take_audio();
-            if (!muted && audio && audio.length > 0 && audioNode) {
-              audioNode.port.postMessage(audio, [audio.buffer]);
-            }
+            // Only repaint if the emulator produced a new presentation revision
+            const hasRevision = typeof emu.presentation_revision === 'function';
+            const revision = hasRevision ? emu.presentation_revision() : null;
+            const changed = hasRevision ? (revision !== lastRevision) : (stepped > 0);
 
-            if (frameCount % 50 === 0) {
-              window.parent.postMessage({ rgme: "copperline", type: "frame", frame: frameCount, fps: 50 }, "*");
+            if (changed) {
+              if (hasRevision) lastRevision = revision;
+              const ptr = emu.present_ptr();
+              const width = emu.present_width();
+              const rows = emu.present_rows();
+
+              if (ptr && width > 0 && rows > 0) {
+                if (canvas.width !== width || canvas.height !== rows) {
+                  canvas.width = width;
+                  canvas.height = rows;
+                  cachedImgData = null;
+                }
+                if (!cachedImgData || cachedImgData.width !== width || cachedImgData.height !== rows) {
+                  cachedImgData = ctx.createImageData(width, rows);
+                }
+                const view = new Uint8ClampedArray(wasm.memory.buffer, ptr, width * rows * 4);
+                cachedImgData.data.set(view);
+                ctx.putImageData(cachedImgData, 0, 0);
+              }
             }
           } catch(err) {
             console.error("Copperline execution error:", err);
