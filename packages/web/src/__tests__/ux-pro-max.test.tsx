@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import { CommandPalette, type PaletteAction } from "../components/CommandPalette";
 import { KeyboardShortcutsModal } from "../components/KeyboardShortcutsModal";
 import { AudioVisualizer } from "../components/AudioVisualizer";
@@ -79,7 +79,8 @@ describe("Lane 5 (UX-PRO-MAX-001) Usability & Experience Overhaul", () => {
     expect(screen.getByText("Lure of the Temptress")).toBeInTheDocument();
 
     // 1-click launch button
-    const launchButtons = screen.getAllByText("1-Click Mount & Load");
+    const showcase = screen.getByTestId("freeware-classics-showcase");
+    const launchButtons = within(showcase).getAllByRole("button", { name: "1-Click Mount & Load" });
     expect(launchButtons.length).toBe(FREEWARE_CLASSICS.length);
     fireEvent.click(launchButtons[0]!);
     expect(handleLaunch).toHaveBeenCalledWith(FREEWARE_CLASSICS[0]);

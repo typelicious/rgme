@@ -51,7 +51,7 @@ export function GameCard({
               title={isBookmarked ? "Remove from My Library" : "Bookmark into My Library"}
               aria-label={isBookmarked ? "Remove bookmark" : "Bookmark"}
             >
-              {isBookmarked ? "★ Saved" : "☆ Save"}
+              {isBookmarked ? "★" : "☆"}
             </button>
           )}
         </div>
@@ -90,13 +90,14 @@ export function GameCard({
         )}
 
         <button
-          className="rgme-btn flex items-center justify-center gap-1.5 w-full text-xs py-1.5 font-medium"
-          style={{ fontSize: "11px" }}
+          className="rgme-btn flex items-center justify-center gap-1 w-full text-[11px] py-1 font-medium"
           onClick={() => onStreamAndMount(game, selectedVersion)}
           disabled={isStreaming}
+          title="Stream & Mount DF0:"
+          aria-label="Stream & Mount DF0:"
         >
-          <span>💾</span>
-          <span>{isStreaming ? "Streaming..." : "Stream & Mount DF0:"}</span>
+          <span>▶</span>
+          <span>{isStreaming ? "Loading..." : "Play"}</span>
         </button>
       </div>
     </div>

@@ -204,30 +204,34 @@ export function LibraryShelf({
               <span>★</span>
               <span>Freeware Classics (Multi-Disk Showcase)</span>
             </h3>
-            <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))" }}>
+            <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))" }}>
               {FREEWARE_CLASSICS.map((classic) => (
                 <div
                   key={classic.id}
-                  className="rgme-panel p-3 rounded border border-slate-800 bg-[#0e1017] hover:border-slate-700 transition-colors"
+                  className="rgme-panel p-2.5 rounded border border-slate-800 bg-[#0e1017] hover:border-slate-700 transition-colors flex flex-col justify-between"
                   data-testid={`classic-${classic.id}`}
                 >
-                  <div className="font-semibold text-sm text-slate-100">{classic.title}</div>
-                  <div className="text-xs text-slate-400 mb-2">
-                    {classic.developer} ({classic.year})
-                  </div>
-                  <div className="flex gap-1 mb-3 flex-wrap">
-                    <span className="rgme-badge" data-tone="cleared">
-                      Class C: Authorized
-                    </span>
-                    <span className="rgme-badge text-sky-400 border-sky-600/40">{classic.totalDisks} Disks</span>
+                  <div>
+                    <div className="font-semibold text-xs text-slate-100 truncate" title={classic.title}>{classic.title}</div>
+                    <div className="text-[11px] text-slate-400 mb-1.5 truncate">
+                      {classic.developer} ({classic.year})
+                    </div>
+                    <div className="flex gap-1 mb-2 flex-wrap">
+                      <span className="rgme-badge text-[10px] py-0 px-1.5" data-tone="cleared">
+                        Class C
+                      </span>
+                      <span className="rgme-badge text-[10px] py-0 px-1.5 text-sky-400 border-sky-600/40">{classic.totalDisks} Disks</span>
+                    </div>
                   </div>
                   <button
-                    className="rgme-btn w-full text-xs py-1.5 font-medium"
+                    className="rgme-btn w-full text-[11px] py-1 font-medium flex items-center justify-center gap-1"
                     data-testid={`launch-${classic.id}`}
                     onClick={() => onLaunchClassic?.(classic)}
-                    style={{ fontSize: "11px", padding: "4px 8px" }}
+                    title="1-Click Mount all disks & Load"
+                    aria-label="1-Click Mount & Load"
                   >
-                    1-Click Mount &amp; Load
+                    <span>▶</span>
+                    <span>Play</span>
                   </button>
                 </div>
               ))}
@@ -306,37 +310,47 @@ export function LibraryShelf({
               </p>
             )}
 
-            <ul className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", listStyle: "none", padding: 0 }}>
+            <ul className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", listStyle: "none", padding: 0 }}>
               {shownLocal.map((r) => (
-                <li key={r.id} className="rgme-panel p-3 rounded border border-slate-800 bg-[#0e1017]" data-testid={`card-${r.id.slice(0, 8)}`}>
-                  <div className="text-sm font-semibold text-slate-100">{r.title}</div>
-                  <div className="flex gap-1 my-2 flex-wrap">
-                    <span className="rgme-badge" data-tone="cleared">
-                      {r.chipset}
-                    </span>
-                    <span className="rgme-badge" data-tone={isCleared(r) ? "cleared" : "local-only"} data-testid="class-badge">
-                      Class {r.rightsClass}
-                      {isCleared(r) ? "" : " · local only"}
-                    </span>
-                    {r.year !== undefined && <span className="rgme-badge">{r.year}</span>}
+                <li key={r.id} className="rgme-panel p-2.5 rounded border border-slate-800 bg-[#0e1017] flex flex-col justify-between" data-testid={`card-${r.id.slice(0, 8)}`}>
+                  <div>
+                    <div className="text-xs font-semibold text-slate-100 truncate" title={r.title}>{r.title}</div>
+                    <div className="flex gap-1 my-1.5 flex-wrap">
+                      <span className="rgme-badge text-[10px] py-0 px-1.5" data-tone="cleared">
+                        {r.chipset}
+                      </span>
+                      <span className="rgme-badge text-[10px] py-0 px-1.5" data-tone={isCleared(r) ? "cleared" : "local-only"} data-testid="class-badge">
+                        Class {r.rightsClass}
+                        {isCleared(r) ? "" : " · local only"}
+                      </span>
+                      {r.year !== undefined && <span className="rgme-badge text-[10px] py-0 px-1.5">{r.year}</span>}
+                    </div>
+                    <div className="text-[11px] mb-2 text-slate-400 truncate" title={r.filename}>
+                      {(r.size / 1024).toFixed(0)} KB · {r.filename}
+                    </div>
                   </div>
-                  <div className="text-xs mb-2 text-slate-400">
-                    {(r.size / 1024).toFixed(0)} KB · {r.filename}
-                  </div>
-                  <div className="flex gap-2">
-                    <button className="rgme-btn flex-1 text-xs py-1" onClick={() => onMount(r)}>
-                      Mount in DF0: & Play
+                  <div className="flex gap-1.5 items-center">
+                    <button
+                      className="rgme-btn flex-1 text-[11px] py-1 px-2 flex items-center justify-center gap-1 font-medium whitespace-nowrap"
+                      title="Mount in DF0: & Play"
+                      aria-label={`Play ${r.title}`}
+                      onClick={() => onMount(r)}
+                    >
+                      <span>▶</span>
+                      <span>Play</span>
                     </button>
                     <button
-                      className="rgme-btn text-xs px-2 py-1 text-slate-300 hover:text-white"
+                      className="rgme-btn text-xs px-2 py-1 text-slate-300 hover:text-white flex items-center justify-center"
                       title="Inspect & Edit config.yaml"
+                      aria-label={`Config for ${r.title}`}
                       onClick={() => setConfigRecord(r)}
                       data-testid={`config-btn-${r.id}`}
                     >
-                      ⚙️ Config
+                      ⚙️
                     </button>
                     <button
-                      className="rgme-btn text-xs px-2 py-1 text-slate-400 hover:text-red-300"
+                      className="rgme-btn text-xs px-2 py-1 text-slate-400 hover:text-red-300 flex items-center justify-center"
+                      title="Remove from library"
                       aria-label={`Remove ${r.title}`}
                       onClick={() => void store.remove(r.id).then(() => setVersion((v) => v + 1))}
                     >
@@ -386,7 +400,9 @@ export function LibraryShelf({
                     </div>
                   </div>
                   <button
-                    className="rgme-btn text-xs whitespace-nowrap px-2.5 py-1"
+                    className="rgme-btn text-[11px] whitespace-nowrap px-2 py-1 font-medium flex items-center gap-1"
+                    title="Re-Mount & Play"
+                    aria-label={`Re-mount and play ${item.title}`}
                     onClick={() => {
                       // Trigger re-mount
                       const syntheticGame: RetroGameMetadata = {
@@ -403,7 +419,8 @@ export function LibraryShelf({
                     }}
                     disabled={streamingGameId !== null}
                   >
-                    Re-Mount
+                    <span>▶</span>
+                    <span>Play</span>
                   </button>
                 </div>
               ))}

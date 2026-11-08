@@ -94,7 +94,7 @@ describe("LibraryShelf", () => {
     fireEvent.click(screen.getByTestId("filter-all"));
     fireEvent.change(screen.getByLabelText("Search library"), { target: { value: "scene" } });
     expect(screen.getAllByTestId("class-badge")).toHaveLength(1);
-    fireEvent.click(screen.getByText(/Mount in DF0/));
+    fireEvent.click(screen.getByTitle("Mount in DF0: & Play"));
     expect(mounted).toEqual(["RGME Scene Intro: Turrican Tribute"]);
     fireEvent.click(screen.getByLabelText(/^Remove RGME Scene/));
     await waitFor(() => expect(screen.getByTestId("library-empty")).toBeInTheDocument());
