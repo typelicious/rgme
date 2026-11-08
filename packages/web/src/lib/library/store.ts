@@ -138,6 +138,19 @@ export class GameLibraryStore {
   async count() { return (await this.list()).length; }
   remove(id: string) { return this.backend.delete(id); }
   clear() { return this.backend.clear(); }
+
+  async updateProfile(id: string, profile: GameProfile): Promise<LibraryRecord | undefined> {
+    const rec = await this.get(id);
+    if (!rec) return undefined;
+    const updated: LibraryRecord = {
+      ...rec,
+      profile,
+      title: profile.title,
+      chipset: profile.machine.chipset ?? rec.chipset
+    };
+    await this.backend.put(updated);
+    return updated;
+  }
 }
 
 /** Realm-safe check (jsdom / structured clone produce foreign ArrayBuffer instances). */

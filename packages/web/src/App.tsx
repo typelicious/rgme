@@ -310,11 +310,23 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     // Mount the boot disk in DF0: and spin up the drive (head recalibration + first read).
     const boot = p.media.find((m) => m.id === p.launch.bootMediaId) ?? p.media[0]!;
     if (p.platform === "amiga") {
-    floppy.insertDisk(0, { id: boot.id, label: boot.label ?? p.title, sha256: boot.sha256 });
-    floppy.setMotor(0, true);
-    floppy.recalibrate(0);
-    floppy.seek(0, 40);
-    floppy.pulseActivity(0, "read", 400);
+      floppy.insertDisk(0, { id: boot.id, label: boot.label ?? p.title, sha256: boot.sha256 });
+      floppy.setMotor(0, true);
+      floppy.recalibrate(0);
+      floppy.seek(0, 40);
+      floppy.pulseActivity(0, "read", 400);
+
+      // Resolve matching Kickstart ROM from deposited pool for this game profile
+      try {
+        const resolvedRom = await kickstartStore.resolveRomForProfile(p);
+        const romBytes = resolvedRom.meta.builtIn ? undefined : resolvedRom.bytes;
+        activeRomBytesRef.current = romBytes;
+        setActiveRomName(resolvedRom.meta.name);
+        const embedded = adapterRef.current as unknown as { setKickstartRom?: (rom: Uint8Array | undefined) => void };
+        embedded.setKickstartRom?.(romBytes);
+      } catch (e) {
+        console.warn("Could not resolve Kickstart ROM for profile:", e);
+      }
     }
     ensureAdapter(p, runtimeKindRef.current);
     const bytes = bytesBySha.current.get(boot.sha256.toLowerCase());

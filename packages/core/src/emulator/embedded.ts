@@ -464,6 +464,9 @@ export abstract class EmbeddedEmulatorAdapter implements RuntimeAdapter {
   setDisplayProfile(profile: DisplayProfile): void {
     this.display = profile;
   }
+  setKickstartRom(rom: Uint8Array | undefined): void {
+    this.opts.kickstartRom = rom;
+  }
 
   insertMedia(media: Media): void {
     this.media = [...this.media.filter((m) => m.id !== media.id), media];

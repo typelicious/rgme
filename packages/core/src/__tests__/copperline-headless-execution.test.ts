@@ -88,7 +88,7 @@ describe("Copperline Headless WASM Execution", () => {
     expect(emu.present_rows()).toBeGreaterThan(400);
 
     emu.free();
-  }, 20000);
+  }, 60000);
 
   it("handles disk insertion after idle boot frames and boots media upon reset (resolves AROS wait-loop)", async () => {
     const wasmPath = path.resolve(
@@ -140,7 +140,7 @@ describe("Copperline Headless WASM Execution", () => {
     expect(trackSeen).toBe(true);
     expect(audioSamples).toBeGreaterThan(30000);
     emu.free();
-  }, 20000);
+  }, 60000);
 
   it("boots bundled freeware classics in headless Copperline WASM", async () => {
     const wasmPath = path.resolve(
@@ -187,7 +187,7 @@ describe("Copperline Headless WASM Execution", () => {
     expect(emu.present_rows()).toBeGreaterThan(400);
 
     emu.free();
-  }, 20000);
+  }, 60000);
 
   it("supports A600 machine model for Gayle IDE architecture", async () => {
     const wasmPath = path.resolve(

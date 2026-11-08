@@ -15,6 +15,7 @@ import {
 } from "@rgme/core";
 import { GameCard } from "./GameCard";
 import { SourceManagerModal } from "./SourceManagerModal";
+import { GameConfigModal } from "./GameConfigModal";
 
 type Group = "all" | "cleared" | "local-only";
 type LibraryTab = "my-library" | "recent" | "discover";
@@ -52,6 +53,7 @@ export function LibraryShelf({
   const [query, setQuery] = useState("");
   const [group, setGroup] = useState<Group>("all");
   const [version, setVersion] = useState(0);
+  const [configRecord, setConfigRecord] = useState<LibraryRecord | null>(null);
 
   // Discover tab states
   const [sources, setSources] = useState(() => sourceStore.getSources());
@@ -326,6 +328,14 @@ export function LibraryShelf({
                       Mount in DF0: & Play
                     </button>
                     <button
+                      className="rgme-btn text-xs px-2 py-1 text-slate-300 hover:text-white"
+                      title="Inspect & Edit config.yaml"
+                      onClick={() => setConfigRecord(r)}
+                      data-testid={`config-btn-${r.id}`}
+                    >
+                      ⚙️ Config
+                    </button>
+                    <button
                       className="rgme-btn text-xs px-2 py-1 text-slate-400 hover:text-red-300"
                       aria-label={`Remove ${r.title}`}
                       onClick={() => void store.remove(r.id).then(() => setVersion((v) => v + 1))}
@@ -511,6 +521,16 @@ export function LibraryShelf({
         connector={connector}
         onSourcesChanged={() => {
           setSources(sourceStore.getSources());
+        }}
+      />
+
+      {/* Game Hardware Profile & config.yaml Editor */}
+      <GameConfigModal
+        record={configRecord}
+        onClose={() => setConfigRecord(null)}
+        onSave={async (id, updatedProfile) => {
+          await store.updateProfile(id, updatedProfile);
+          setVersion((v) => v + 1);
         }}
       />
     </section>
