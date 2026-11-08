@@ -56,7 +56,58 @@
       let audioNode = null;
       let pendingDisk = null;
       let pendingRom = null;
+      let activeRom = null;
+      let defaultRomBytes = null;
+      let defaultExtBytes = null;
+      let lastFloppy = null;
+      let currentModel = "A500";
       const joyState = { up: false, down: false, left: false, right: false, fire: false, fire2: false };
+
+      function detectMachineModel(romBytes, requestedModel) {
+        if (requestedModel) {
+          const m = requestedModel.toUpperCase();
+          if (m.includes("1200")) return "A1200";
+          if (m.includes("600")) return "A600";
+          if (m.includes("1000")) return "A1000";
+          if (m.includes("3000")) return "A3000";
+          if (m.includes("4000")) return "A4000";
+          if (m.includes("CD32")) return "CD32";
+        }
+        if (romBytes && romBytes.length >= 524288) {
+          let hay = "";
+          try {
+            const head = new TextDecoder('latin1').decode(romBytes.subarray(0, 8192));
+            const tail = new TextDecoder('latin1').decode(romBytes.subarray(romBytes.length - 8192));
+            hay = head + tail;
+          } catch(e) {}
+          if (hay.includes("A600") || hay.includes("Gayle")) return "A600";
+          if (hay.includes("A1200") || hay.includes("AGA")) return "A1200";
+        }
+        return "A500";
+      }
+
+      function setupEmulator(targetModel, rom, ext) {
+        if (emu) {
+          try { emu.free(); } catch(e) {}
+          emu = null;
+        }
+        currentModel = targetModel;
+        emu = new WebEmu(currentModel, 'PAL', 2);
+        if (rom) {
+          emu.load_rom(rom, ext || null);
+        } else if (defaultRomBytes) {
+          emu.load_rom(defaultRomBytes, defaultExtBytes);
+        }
+        if (lastFloppy) {
+          try {
+            emu.insert_floppy(0, lastFloppy.bytes, lastFloppy.fileName);
+            emu.reset();
+          } catch(e) {
+            console.error("Floppy insertion error in setupEmulator:", e);
+          }
+        }
+        window.parent.postMessage({ rgme: "copperline", type: "ready", model: currentModel }, "*");
+      }
 
       // Audio setup (Paula 4-channel output via AudioWorklet)
       async function initAudio() {
@@ -92,9 +143,16 @@
         if (cmd === "load") {
           const bytes = e.data.bytes instanceof Uint8Array ? e.data.bytes : new Uint8Array(e.data.bytes);
           const fileName = e.data.fileName || "disk.adf";
+          lastFloppy = { bytes, fileName };
+          const requestedModel = e.data.model;
+          if (requestedModel && requestedModel !== currentModel && wasm) {
+            setupEmulator(requestedModel, activeRom, activeRom ? null : defaultExtBytes);
+            return;
+          }
           if (emu) {
             try {
               emu.insert_floppy(0, bytes, fileName);
+              emu.reset(); // Crucial! Cold boots the newly inserted media
             } catch(err) {
               console.error("Floppy insertion error:", err);
             }
@@ -104,11 +162,21 @@
         } else if (cmd === "load_rom") {
           if (e.data.bytes) {
             const rom = e.data.bytes instanceof Uint8Array ? e.data.bytes : new Uint8Array(e.data.bytes);
+            activeRom = rom;
+            const targetModel = detectMachineModel(rom, e.data.model);
             if (emu) {
-              try {
-                emu.load_rom(rom, null);
-              } catch(err) {
-                console.error("ROM load error:", err);
+              if (targetModel !== currentModel) {
+                setupEmulator(targetModel, rom, null);
+              } else {
+                try {
+                  emu.load_rom(rom, null);
+                  if (lastFloppy) {
+                    emu.insert_floppy(0, lastFloppy.bytes, lastFloppy.fileName);
+                  }
+                  emu.reset();
+                } catch(err) {
+                  console.error("ROM load error:", err);
+                }
               }
             } else {
               pendingRom = rom;
@@ -146,19 +214,24 @@
           fetch('./aros/aros-amiga-m68k-rom.bin'),
           fetch('./aros/aros-amiga-m68k-ext.bin')
         ]);
-        const romBytes = new Uint8Array(await romRes.arrayBuffer());
-        const extBytes = new Uint8Array(await extRes.arrayBuffer());
+        defaultRomBytes = new Uint8Array(await romRes.arrayBuffer());
+        defaultExtBytes = new Uint8Array(await extRes.arrayBuffer());
 
-        emu = new WebEmu('A500', 'PAL', 2);
+        const targetModel = detectMachineModel(pendingRom, null);
+        currentModel = targetModel;
+        emu = new WebEmu(currentModel, 'PAL', 2);
         if (pendingRom) {
+          activeRom = pendingRom;
           emu.load_rom(pendingRom, null);
         } else {
-          emu.load_rom(romBytes, extBytes);
+          emu.load_rom(defaultRomBytes, defaultExtBytes);
         }
 
         if (pendingDisk) {
+          lastFloppy = pendingDisk;
           try {
             emu.insert_floppy(0, pendingDisk.bytes, pendingDisk.fileName);
+            emu.reset();
           } catch(err) {
             console.error("Floppy insertion error:", err);
           }
@@ -167,7 +240,7 @@
         loadingEl.style.display = 'none';
 
         // Notify parent RGME adapter that the emulator is loaded and ready
-        window.parent.postMessage({ rgme: "copperline", type: "ready", model: "A500" }, "*");
+        window.parent.postMessage({ rgme: "copperline", type: "ready", model: currentModel }, "*");
       } catch (err) {
         console.error("Failed to load Copperline:", err);
         loadingEl.textContent = "Failed to load Copperline: " + (err.message || err);

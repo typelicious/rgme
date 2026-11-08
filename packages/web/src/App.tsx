@@ -327,9 +327,29 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     }
   }, [floppy, ensureAdapter]);
 
+  const remember = useCallback(
+    (sha256: string, bytes: Uint8Array) => {
+      bytesBySha.current.set(sha256.toLowerCase(), bytes);
+      mediaRegistry.register(sha256, bytes);
+    },
+    [mediaRegistry]
+  );
+
   const loadDemo = useCallback(async () => {
     setActiveDemo("demo");
-    setInfo({ name: DEMO_PROFILE.media[0]!.filename, size: 0, sha256: DEMO_PROFILE.media[0]!.sha256, status: "Identified" });
+    const m = DEMO_PROFILE.media[0]!;
+    if (typeof window !== "undefined" && !mediaRegistry.has(m.sha256)) {
+      try {
+        const res = await fetch(`/media/demos/${m.filename}`);
+        if (res.ok) {
+          const buf = new Uint8Array(await res.arrayBuffer());
+          remember(m.sha256, buf);
+        }
+      } catch (e) {
+        console.warn("Could not fetch demo ADF:", m.filename, e);
+      }
+    }
+    setInfo({ name: m.filename, size: 901120, sha256: m.sha256, status: "Identified" });
     await activate(DEMO_PROFILE, DEMO_RIGHTS);
     if (adapterRef.current && adapterRef.current.state !== "RUNNING" && adapterRef.current.state !== "UNLOADED") {
       adapterRef.current.start();
@@ -337,7 +357,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [activate]);
+  }, [activate, mediaRegistry, remember]);
 
   const loadGuru = useCallback(async () => {
     setActiveDemo("guru");
@@ -350,14 +370,6 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [activate]);
-
-  const remember = useCallback(
-    (sha256: string, bytes: Uint8Array) => {
-      bytesBySha.current.set(sha256.toLowerCase(), bytes);
-      mediaRegistry.register(sha256, bytes);
-    },
-    [mediaRegistry]
-  );
 
   const addToLibrary = useCallback(
     async (file: File, sha256: string, resolved: Parameters<GameLibraryStore["add"]>[3]) => {
@@ -528,7 +540,21 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
       });
       for (const disk of p.media) {
         if (!mediaRegistry.has(disk.sha256)) {
-          mediaRegistry.provider(disk);
+          if (typeof window !== "undefined") {
+            try {
+              const res = await fetch(`/media/freeware/${classic.id}/${disk.filename}`);
+              if (res.ok) {
+                const buf = new Uint8Array(await res.arrayBuffer());
+                mediaRegistry.register(disk.sha256, buf);
+                remember(disk.sha256, buf);
+              }
+            } catch (e) {
+              console.warn("Could not fetch freeware classic disk:", disk.filename, e);
+            }
+          }
+          if (!mediaRegistry.has(disk.sha256)) {
+            mediaRegistry.provider(disk);
+          }
         }
       }
       await activate(p, undefined);
@@ -539,7 +565,7 @@ export function App({ createAdapter = defaultFactory }: { createAdapter?: Adapte
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
-    [activate, mediaRegistry]
+    [activate, mediaRegistry, remember]
   );
 
   const onStreamMedia = useCallback(

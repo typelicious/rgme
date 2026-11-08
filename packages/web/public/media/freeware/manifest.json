@@ -1,0 +1,218 @@
+{
+  "flight-of-the-amazon-queen": [
+    {
+      "id": "disk-1",
+      "label": "Disk 1 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 1 of 11).adf",
+      "sha256": "3f0063719d4f2ce7bd4204ad1e573e1af52688539a280a032e5d485e27f42cbf",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-2",
+      "label": "Disk 2 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 2 of 11).adf",
+      "sha256": "4421dd21c99189ab6b9d0c13ca415e142bf8f345b9fd5bd87b9c277014683b1e",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-3",
+      "label": "Disk 3 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 3 of 11).adf",
+      "sha256": "69e96b75026d8e0c084f3fcbd7ad882b56a9cf7973b541e70f6e2295d5da827e",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-4",
+      "label": "Disk 4 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 4 of 11).adf",
+      "sha256": "81ac34b42b0be5e86e17af7102aaae6f3d1150fe0fa4880b9477bf7b9959522c",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-5",
+      "label": "Disk 5 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 5 of 11).adf",
+      "sha256": "7631bd7e084b1472ee85fa5f8994d43f40d0010d3a3ba7b9cb20d22b614a4618",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-6",
+      "label": "Disk 6 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 6 of 11).adf",
+      "sha256": "fee57bf2e941bf2aab9657aed57666b344c1cf0561726ed0e94e7f84c9ac7b30",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-7",
+      "label": "Disk 7 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 7 of 11).adf",
+      "sha256": "617395f36628f56412554ca3e174c95e0a737ef0229275573e53c6257715cc23",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-8",
+      "label": "Disk 8 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 8 of 11).adf",
+      "sha256": "b4a2622ab77ae7c3b1fb5d854ad04ff36620f672183210f45b69ae4f509bd811",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-9",
+      "label": "Disk 9 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 9 of 11).adf",
+      "sha256": "c6b1114ec6fb63b1c0b1fdf838cd3f1a3e21c3f5b7f6f6cba9ed0fc604f790ee",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-10",
+      "label": "Disk 10 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 10 of 11).adf",
+      "sha256": "5d7d8668520cef5d24c19783d4f4cf5371a587b3eae03dd5510b5494a9f957c2",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-11",
+      "label": "Disk 11 of 11",
+      "filename": "Flight of the Amazon Queen (Disk 11 of 11).adf",
+      "sha256": "61d60e4eb792e5113292a80301781f458bf48c9e903ea87af862575c32d62145",
+      "tracksOk": 160
+    }
+  ],
+  "beneath-a-steel-sky": [
+    {
+      "id": "disk-1",
+      "label": "Disk 1 of 15",
+      "filename": "Beneath a Steel Sky (Disk 1 of 15).adf",
+      "sha256": "40d6ac0cf39b7afda40f9932beaf4fac5c408bd0f3b7124ebf509771c2399372",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-2",
+      "label": "Disk 2 of 15",
+      "filename": "Beneath a Steel Sky (Disk 2 of 15).adf",
+      "sha256": "ae58bc8aab612c0415d98f5c3c75503f099be7cf2a2d35b208d565059d7cfcaa",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-3",
+      "label": "Disk 3 of 15",
+      "filename": "Beneath a Steel Sky (Disk 3 of 15).adf",
+      "sha256": "778d1c893efa057cdea3eab5ec74e46c8dc5afe5932690d9c4456ef66e423c4b",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-4",
+      "label": "Disk 4 of 15",
+      "filename": "Beneath a Steel Sky (Disk 4 of 15).adf",
+      "sha256": "a979c0b5ddbadc6ed506f0f8574ef7bef2a5bff892a77c74aa7b840fd77a1034",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-5",
+      "label": "Disk 5 of 15",
+      "filename": "Beneath a Steel Sky (Disk 5 of 15).adf",
+      "sha256": "ba274bdcd499d99bf42079ab0285d7f876a12a5f18ec3313ffdb6969b8de76b9",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-6",
+      "label": "Disk 6 of 15",
+      "filename": "Beneath a Steel Sky (Disk 6 of 15).adf",
+      "sha256": "8c7936b26b9cb6565c2ed70940da8bac29bbcd76c365bfd39878ac26ae6ca285",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-7",
+      "label": "Disk 7 of 15",
+      "filename": "Beneath a Steel Sky (Disk 7 of 15).adf",
+      "sha256": "bf9a029db3c25aea5549b16234c491bf46d4c097d240601ce5433a2547b0658c",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-8",
+      "label": "Disk 8 of 15",
+      "filename": "Beneath a Steel Sky (Disk 8 of 15).adf",
+      "sha256": "cefaaa2872de133199345713c9245254b7cdd0240c8337ce77721467d301b53c",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-9",
+      "label": "Disk 9 of 15",
+      "filename": "Beneath a Steel Sky (Disk 9 of 15).adf",
+      "sha256": "01d9850bbb5aa15eec27f7f2432d6e85e0514306f8f2399c1492e1b329f17830",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-10",
+      "label": "Disk 10 of 15",
+      "filename": "Beneath a Steel Sky (Disk 10 of 15).adf",
+      "sha256": "e8a738949562854eed571a0686f719216184dacedfdde33ef5a29587e9a171ad",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-11",
+      "label": "Disk 11 of 15",
+      "filename": "Beneath a Steel Sky (Disk 11 of 15).adf",
+      "sha256": "57954ffa19f4d49801574ad1c8a2196c7d2d49d5ce613d132d9f960b2c4dd64f",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-12",
+      "label": "Disk 12 of 15",
+      "filename": "Beneath a Steel Sky (Disk 12 of 15).adf",
+      "sha256": "902a0e6c593c72f714e7910b66c1bc8ec039e95681f7591a44783f64681cb48d",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-13",
+      "label": "Disk 13 of 15",
+      "filename": "Beneath a Steel Sky (Disk 13 of 15).adf",
+      "sha256": "c58e1aa10f84a38b759979ec97b09af00e72a328c3f5cea00891f68905acf248",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-14",
+      "label": "Disk 14 of 15",
+      "filename": "Beneath a Steel Sky (Disk 14 of 15).adf",
+      "sha256": "4052807ef8f7fa7c38bee74e17bb62cb6cb976afc0665bf2f7ccb77156ea34b0",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-15",
+      "label": "Disk 15 of 15",
+      "filename": "Beneath a Steel Sky (Disk 15 of 15).adf",
+      "sha256": "6668477b1432d9b524ef9018ce66301ab6cca3cfe0b433e954f3cc19e701c573",
+      "tracksOk": 160
+    }
+  ],
+  "lure-of-the-temptress": [
+    {
+      "id": "disk-1",
+      "label": "Disk 1 of 4",
+      "filename": "Lure of the Temptress (Disk 1 of 4).adf",
+      "sha256": "6e7ac7d58057b2c2b07afcabb3fd94ed30fb6b58c876fe417c975d5450fbf21a",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-2",
+      "label": "Disk 2 of 4",
+      "filename": "Lure of the Temptress (Disk 2 of 4).adf",
+      "sha256": "df62f37da18a38aea318c9312b32b445901c0f16934f25259f758a50277bf7f0",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-3",
+      "label": "Disk 3 of 4",
+      "filename": "Lure of the Temptress (Disk 3 of 4).adf",
+      "sha256": "df62f37da18a38aea318c9312b32b445901c0f16934f25259f758a50277bf7f0",
+      "tracksOk": 160
+    },
+    {
+      "id": "disk-4",
+      "label": "Disk 4 of 4",
+      "filename": "Lure of the Temptress (Disk 4 of 4).adf",
+      "sha256": "df62f37da18a38aea318c9312b32b445901c0f16934f25259f758a50277bf7f0",
+      "tracksOk": 160
+    }
+  ]
+}

@@ -33,7 +33,7 @@
     "id": "flight-of-the-amazon-queen",
     "canonical_title": "Flight of the Amazon Queen",
     "filename": "Flight of the Amazon Queen (Disk 1 of 11).adf",
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256": "3f0063719d4f2ce7bd4204ad1e573e1af52688539a280a032e5d485e27f42cbf",
     "platform": "amiga",
     "machine": {
       "model": "A500",
@@ -63,7 +63,7 @@
     "id": "beneath-a-steel-sky",
     "canonical_title": "Beneath a Steel Sky",
     "filename": "Beneath a Steel Sky (Disk 1 of 15).adf",
-    "sha256": "8a7c2957bcf9435b02138efbe765890e0c0df4a78bc535e656d78216c02ef499",
+    "sha256": "40d6ac0cf39b7afda40f9932beaf4fac5c408bd0f3b7124ebf509771c2399372",
     "platform": "amiga",
     "machine": {
       "model": "A500",
@@ -93,7 +93,7 @@
     "id": "lure-of-the-temptress",
     "canonical_title": "Lure of the Temptress",
     "filename": "Lure of the Temptress (Disk 1 of 4).adf",
-    "sha256": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "sha256": "6e7ac7d58057b2c2b07afcabb3fd94ed30fb6b58c876fe417c975d5450fbf21a",
     "platform": "amiga",
     "machine": {
       "model": "A500",

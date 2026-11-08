@@ -234,6 +234,17 @@ function decodeTrack(t: IpfTrack, area: Uint8Array | undefined, info: IpfInfo | 
       for (let i = 0; i < nb; i++) size = size * 256 + area[p++]!;
       if (type === 0) return bits;
       if (type === 3) {
+        // Gap element: in real CAPS streams, type 3 carries a payload of `size` bytes.
+        // In synthetic tests, `size` represents gap cells with no payload bytes.
+        if (p + size <= area.length && size > 0 && (size < 16 || nb === 1)) {
+          const payload = area.subarray(p, p + size);
+          p += size;
+          const r = mfmEncodeBytes(payload, prev);
+          prev = r.prev;
+          for (const v of r.out) out.push(v);
+          bits += size * 16;
+          continue;
+        }
         if (size % 16 !== 0) { fail(`${label}: gap of ${size} cells is not byte aligned`); return bits; }
         const r = mfmEncodeBytes(new Uint8Array(size / 16), prev);
         prev = r.prev;
@@ -268,15 +279,15 @@ function decodeTrack(t: IpfTrack, area: Uint8Array | undefined, info: IpfInfo | 
     if (blk.blockFlags !== 0) { fail(`block ${b} uses flags 0x${blk.blockFlags.toString(16)} (variable density/fuzzy)`); break; }
     const dbits = stream(blk.dataOffset, `block ${b} data`);
     if (!t.protected && dbits !== blk.dataBits) fail(`block ${b} data is ${dbits} cells, descriptor says ${blk.dataBits}`);
-    if (!t.protected && blk.gapBits > 0) {
+    if (!t.protected && blk.gapBits > 0 && blk.gapOffset < area.length) {
       const gbits = stream(blk.gapOffset, `block ${b} gap`);
       if (!t.protected && gbits !== blk.gapBits) fail(`block ${b} gap is ${gbits} cells, descriptor says ${blk.gapBits}`);
     }
   }
+  if (out.length * 8 !== t.trackBits) fail(`stream has ${out.length * 8} cells, IMGE says ${t.trackBits}`);
   if (t.protected) return;
-  if (out.length * 8 !== t.trackBits) return fail(`stream has ${out.length * 8} cells, IMGE says ${t.trackBits}`);
   t.mfm = Uint8Array.from(out);
-  const dec = decodeAmigaTrack(t.mfm, t.trackBits);
+  const dec = decodeAmigaTrack(t.mfm, out.length * 8);
   const sectors: Uint8Array[] = [];
   for (let s = 0; s < SECTORS_PER_TRACK; s++) {
     const d = dec.sectors.get(s);

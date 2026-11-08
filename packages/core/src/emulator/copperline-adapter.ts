@@ -178,11 +178,13 @@ export class CopperlineWebAdapter extends EmbeddedEmulatorAdapter {
 
     if (msg.type === "ready") {
       this.markReady();
+      const model = this.profile?.machine?.model;
       if (this.opts.kickstartRom) {
         this.postToFrame({
           rgme: "copperline_cmd",
           cmd: "load_rom",
-          bytes: this.opts.kickstartRom
+          bytes: this.opts.kickstartRom,
+          model
         });
       }
       if (!this.loadSent && this.boot) {
@@ -191,7 +193,8 @@ export class CopperlineWebAdapter extends EmbeddedEmulatorAdapter {
           rgme: "copperline_cmd",
           cmd: "load",
           fileName: this.boot.fileName,
-          bytes: this.boot.bytes
+          bytes: this.boot.bytes,
+          model
         });
       }
     } else if (msg.type === "frame") {
@@ -226,7 +229,8 @@ export class CopperlineWebAdapter extends EmbeddedEmulatorAdapter {
       rgme: "copperline_cmd",
       cmd: "load",
       fileName: boot.fileName,
-      bytes: boot.bytes
+      bytes: boot.bytes,
+      model: this.profile?.machine?.model
     });
   }
 
