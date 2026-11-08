@@ -344,16 +344,17 @@ export const FREEWARE_CLASSICS: readonly FreewareClassic[] = [
 ];
 
 export function createClassicMultiDiskProfile(classic: FreewareClassic): GameProfile {
+  const needsMoreRam = classic.id === "beneath-a-steel-sky" || classic.id === "flight-of-the-amazon-queen";
   return parseGameProfile({
     schema: "rgme.game/v0.2",
     id: classic.id,
     title: classic.title,
     platform: "amiga",
     machine: {
-      model: "A500",
-      chipset: "OCS",
+      model: needsMoreRam ? "A500Plus" : "A500",
+      chipset: needsMoreRam ? "ECS" : "OCS",
       video: "PAL",
-      ram: { chipKb: 1024, fastKb: 0 }
+      ram: needsMoreRam ? { chipKb: 1024, fastKb: 1024 } : { chipKb: 1024, fastKb: 0 }
     },
     media: classic.disks.map((d) => ({
       id: d.id,

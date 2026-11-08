@@ -67,6 +67,7 @@
         if (requestedModel) {
           const m = requestedModel.toUpperCase();
           if (m.includes("1200")) return "A1200";
+          if (m.includes("PLUS")) return "A500Plus";
           if (m.includes("600")) return "A600";
           if (m.includes("1000")) return "A1000";
           if (m.includes("3000")) return "A3000";

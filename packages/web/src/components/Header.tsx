@@ -91,11 +91,11 @@ export function Header({
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-mono font-bold text-white">
               {runtimeKind === "copperline"
-                ? "Copperline (Real)"
+                ? "Copperline"
                 : runtimeKind === "vamiga"
-                ? "vAmiga (Real)"
+                ? "vAmiga"
                 : runtimeKind === "puae"
-                ? "PUAE (Real)"
+                ? "PUAE"
                 : runtimeKind === "preview"
                 ? "Preview (Mock)"
                 : runtimeKind === "wasm"
@@ -258,7 +258,13 @@ export function Header({
         className="rgme-badge rgme-mono"
         style={{ color, borderColor: color }}
       >
-        {runtimeName} · {status.state}
+        {runtimeKind === "copperline" || runtimeName.toLowerCase().includes("copperline")
+          ? `copperline (${status.state.toLowerCase()})`
+          : runtimeKind === "vamiga" || runtimeName.toLowerCase().includes("vamiga")
+          ? `vamiga (${status.state.toLowerCase()})`
+          : runtimeKind === "puae" || runtimeName.toLowerCase().includes("puae")
+          ? `puae (${status.state.toLowerCase()})`
+          : `${runtimeName} · ${status.state}`}
         {status.diskActivity ? " · DF0 ●" : ""}
       </span>
     </header>
